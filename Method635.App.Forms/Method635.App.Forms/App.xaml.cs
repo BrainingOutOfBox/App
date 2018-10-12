@@ -1,19 +1,33 @@
-﻿using Microsoft.AppCenter;
+﻿using Method635.App.Forms.ViewModels;
+using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
+using Prism;
+using Prism.DryIoc;
+using Prism.Ioc;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace Method635.App.Forms
 {
-    public partial class App : Application
+    public partial class App : PrismApplication
     {
-        public App()
+        public App() : this(null) { }
+
+        public App(IPlatformInitializer initializer) : base(initializer) { }
+
+        protected override async void OnInitialized()
         {
             InitializeComponent();
+            await NavigationService.NavigateAsync("NavigationPage/MainPage");
+        }
 
-            MainPage = new MainPage();
+        protected override void RegisterTypes(IContainerRegistry containerRegistry)
+        {
+            containerRegistry.RegisterForNavigation<NavigationPage>();
+            
+            containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
         }
 
         protected override void OnStart()
