@@ -1,6 +1,7 @@
 ﻿using Method635.App.Forms.RestAccess;
 using Prism.Commands;
 using Prism.Mvvm;
+using Prism.Navigation;
 using System;
 using System.Threading;
 using System.Timers;
@@ -9,10 +10,15 @@ namespace Method635.App.Forms.ViewModels
 {
     public class MainPageViewModel : BindableBase
     {
-        public MainPageViewModel()
+        private bool timerStarted = false;
+        private readonly INavigationService _navigationService;
+
+        public MainPageViewModel(INavigationService navigationService)
         {
+            this._navigationService = navigationService;
             GetTimeCommand = new DelegateCommand(GetTime);
             StartTimeCommand = new DelegateCommand(StartTime);
+            TapCommand = new DelegateCommand(StartBrainstorming);
         }
 
         public DelegateCommand StartTimeCommand { get; set; }
@@ -27,9 +33,8 @@ namespace Method635.App.Forms.ViewModels
                 Console.WriteLine(ex);
             }
             Console.WriteLine("Time started");
-
         }
-        private bool timerStarted = false;
+        
         public DelegateCommand GetTimeCommand { get; set; }
         private void GetTime()
         {
@@ -46,6 +51,13 @@ namespace Method635.App.Forms.ViewModels
         {
             RemainingTime = new RestResolver().GetTime();
         }
+
+        public DelegateCommand TapCommand { get; set; }
+        private void StartBrainstorming()
+        {
+            this._navigationService.NavigateAsync("BrainstormingPage");
+        }
+
         private string _remainingTime;
         public string RemainingTime
         {
@@ -75,5 +87,17 @@ namespace Method635.App.Forms.ViewModels
                 SetProperty(ref _getTimeText, value);
             }
         }
+
+        private string _clickOnTextToStartBrainstorming = "Click on the icon to start Brainstorming";
+        public string ClickOnTextToStartBrainstorming
+        {
+            get => _clickOnTextToStartBrainstorming;
+            set
+            {
+                SetProperty(ref _clickOnTextToStartBrainstorming, value);
+            }
+        }
+
+
     }
 }

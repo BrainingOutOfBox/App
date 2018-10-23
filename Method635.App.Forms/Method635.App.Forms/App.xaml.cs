@@ -1,4 +1,5 @@
 ﻿using Method635.App.Forms.ViewModels;
+using Method635.App.Forms.Views.Brainstorming;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
@@ -28,6 +29,7 @@ namespace Method635.App.Forms
             containerRegistry.RegisterForNavigation<NavigationPage>();
             
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
+            containerRegistry.RegisterForNavigation<BrainstormingPage, BrainstormingPageViewModel>();
         }
 
         protected override void OnStart()
