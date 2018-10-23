@@ -8,7 +8,7 @@ namespace Method635.App.Forms.RestAccess
 {
     public class RestResolver
     {
-        private const string URL = "http://sinv-56079.edu.hsr.ch";
+        private const string URL = "https://sinv-56079.edu.hsr.ch";
         private const int PORT = 40000;
         private const string TIMING_ENDPOINT_DIFF = "/timing/diff";
         private const string TIMING_ENDPOINT_NEW = "/timing/new";
