@@ -55,6 +55,7 @@ namespace Method635.App.Forms.ViewModels
         public DelegateCommand TapCommand { get; set; }
         private void StartBrainstorming()
         {
+            new RestResolver().StartBrainstorming();
             this._navigationService.NavigateAsync("BrainstormingPage");
         }
 

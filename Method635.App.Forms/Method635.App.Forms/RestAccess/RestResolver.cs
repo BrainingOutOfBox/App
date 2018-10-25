@@ -8,10 +8,11 @@ namespace Method635.App.Forms.RestAccess
 {
     public class RestResolver
     {
-        private const string URL = "http://sinv-56079.edu.hsr.ch";
+        private const string URL = "https://sinv-56079.edu.hsr.ch";
         private const int PORT = 40000;
         private const string TIMING_ENDPOINT_DIFF = "/timing/diff";
         private const string TIMING_ENDPOINT_NEW = "/timing/new";
+        private const string BRAINSTORMING_ENDPOINT_NEW = "/createBrainstormingFinding";
         
 
 
@@ -44,6 +45,18 @@ namespace Method635.App.Forms.RestAccess
         public void StartTimer()
         {
             HttpResponseMessage response = PlaceCall(TIMING_ENDPOINT_NEW);// Blocking call! Program will wait here until a response is received or a timeout occurs.
+            if (response.IsSuccessStatusCode)
+            {
+                Console.WriteLine("Call successfully placed");
+            }
+            else
+            {
+                throw new RestEndpointException($"Couldn't place call to {TIMING_ENDPOINT_NEW}.");
+            }
+        }
+        public void StartBrainstorming(string brainstormingTeam = "DemoTeam")
+        {
+            HttpResponseMessage response = PlaceCall($"/{brainstormingTeam}{BRAINSTORMING_ENDPOINT_NEW}");// Blocking call! Program will wait here until a response is received or a timeout occurs.
             if (response.IsSuccessStatusCode)
             {
                 Console.WriteLine("Call successfully placed");
