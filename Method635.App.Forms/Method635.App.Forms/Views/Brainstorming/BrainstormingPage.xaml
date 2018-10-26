@@ -19,10 +19,21 @@
 
 
         <!-- CENTER -->
-
+        <StackLayout Orientation="Vertical" VerticalOptions="CenterAndExpand">
+            
+        </StackLayout>
 
 
         <!-- FOOTER -->
+        <StackLayout Orientation="Vertical" VerticalOptions="End" HorizontalOptions="CenterAndExpand">
+            <StackLayout Orientation="Horizontal" VerticalOptions="Start">
+                <Label Text="Idea Description" />
+            </StackLayout>
+            <StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand">
+                <Editor />
+                <Button Text="Commit" />
+            </StackLayout>
+        </StackLayout>
         
     </StackLayout>
 </ContentPage>

@@ -1,12 +1,9 @@
 ﻿using Method635.App.Forms.RestAccess;
 using Prism.Commands;
-using Prism.Ioc;
 using Prism.Mvvm;
 using Prism.Navigation;
+
 using System;
-using System.Threading;
-using System.Timers;
-using Xamarin.Forms;
 
 namespace Method635.App.Forms.ViewModels
 {
@@ -25,7 +22,7 @@ namespace Method635.App.Forms.ViewModels
         {
             try
             {
-                new RestResolver().StartBrainstorming();
+                new BrainstormingFindingRestResolver().CreateBrainstormingFinding();
                 this._navigationService.NavigateAsync("BrainstormingPage");
             }
             catch(RestEndpointException ex)
@@ -55,6 +52,6 @@ namespace Method635.App.Forms.ViewModels
             }
         }
 
-
+        
     }
 }
