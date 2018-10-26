@@ -9,14 +9,14 @@ namespace Method635.App.Forms.RestAccess
     public class BrainstormingFindingRestResolver : RestResolverBase
     {
         private const string CREATE_FINDING_ENDPOINT = "createBrainstormingFinding";
-        private const string TIMING_ENDPOINT_DIFF = "525cb90d-b0c9-40ba-a741-f19d1e79fec0/43a7608e-1862-482b-93a0-dc48c8efc631/remainingTime";
+        private const string TIMING_ENDPOINT_DIFF = "remainingTime";
 
-        public string GetRemainingTime(string teamId = null, string findingId = null)
+        public string GetRemainingTime(string teamId = "525cb90d-b0c9-40ba-a741-f19d1e79fec0", string findingId = "43a7608e-1862-482b-93a0-dc48c8efc631")
         {
             try
             {
                 Console.WriteLine("Getting remaining time..");
-                HttpResponseMessage response = GetRemainingTimeCall();
+                HttpResponseMessage response = GetRemainingTimeCall(teamId, findingId);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -37,11 +37,11 @@ namespace Method635.App.Forms.RestAccess
             return string.Empty;
         }
 
-        private static HttpResponseMessage GetRemainingTimeCall()
+        private static HttpResponseMessage GetRemainingTimeCall(string teamId, string findingId)
         {
             var client = RestClient();
 
-            var response = client.GetAsync(TIMING_ENDPOINT_DIFF).Result;
+            var response = client.GetAsync($"{teamId}/{findingId}/{TIMING_ENDPOINT_DIFF}").Result;
             return response;
         }
 
