@@ -13,10 +13,5 @@ namespace Method635.App.Forms
         {
             InitializeComponent();
         }
-
-        private void TapGestureRecognizer_Tapped(object sender, EventArgs e)
-        {
-
-        }
     }
 }

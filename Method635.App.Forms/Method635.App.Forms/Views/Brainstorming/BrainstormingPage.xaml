@@ -4,5 +4,25 @@
              xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="Method635.App.Forms.Views.Brainstorming.BrainstormingPage">
-    <Label Text="Here come the brainwaves..." />
+    <StackLayout Orientation="Vertical">
+        <!-- HEADER -->
+        <StackLayout Orientation="Horizontal" HeightRequest="50" Margin="0,0,50,0">
+            <Image Source="start_brainstorming.PNG" Aspect="AspectFit" >
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding OpenNavigationMenuCommand}" />
+                </Image.GestureRecognizers>
+            </Image>
+            <Label Text="{Binding RemainingTime}"
+           HorizontalOptions="CenterAndExpand"
+           VerticalOptions="Center" />
+        </StackLayout>
+
+
+        <!-- CENTER -->
+
+
+
+        <!-- FOOTER -->
+        
+    </StackLayout>
 </ContentPage>

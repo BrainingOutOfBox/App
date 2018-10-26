@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Method635.App.Forms.Models;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -16,7 +18,7 @@ namespace Method635.App.Forms.RestAccess
         
 
 
-        private HttpResponseMessage PlaceCall(string endpoint)
+        private HttpResponseMessage PlaceGetCall(string endpoint)
         {
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri($"{URL}:{PORT}");
@@ -26,10 +28,29 @@ namespace Method635.App.Forms.RestAccess
             return client.GetAsync(endpoint).Result;
         }
 
+        private HttpResponseMessage PlaceDefaultFindingPostCall(string endpoint)
+        {
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri($"{URL}:{PORT}");
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            var finding = new BrainstormingFinding()
+            {
+                Name = "TestBrainstormingFinding",
+                ProblemDescription = "This finding serves as a test or dummy object to check our implementation",
+                BaseRoundTime = 5,
+                NrOfIdeas = 3
+            };
+
+            var content = new StringContent(JsonConvert.SerializeObject(finding), Encoding.UTF8, "application/json");
+            Console.WriteLine(JsonConvert.SerializeObject(finding));
+            Console.WriteLine(content.Headers);
+            return client.PostAsync(endpoint, content).Result;
+        }
+
         public string GetTime()
         {
             // List data response.
-            HttpResponseMessage response = PlaceCall(TIMING_ENDPOINT_DIFF);  // Blocking call! Program will wait here until a response is received or a timeout occurs.
+            HttpResponseMessage response = PlaceGetCall(TIMING_ENDPOINT_DIFF);  // Blocking call! Program will wait here until a response is received or a timeout occurs.
             if (response.IsSuccessStatusCode)
             {
                 var remainingTimeInMs = response.Content.ReadAsAsync<long>().Result; 
@@ -44,7 +65,7 @@ namespace Method635.App.Forms.RestAccess
         }
         public void StartTimer()
         {
-            HttpResponseMessage response = PlaceCall(TIMING_ENDPOINT_NEW);// Blocking call! Program will wait here until a response is received or a timeout occurs.
+            HttpResponseMessage response = PlaceGetCall(TIMING_ENDPOINT_NEW);// Blocking call! Program will wait here until a response is received or a timeout occurs.
             if (response.IsSuccessStatusCode)
             {
                 Console.WriteLine("Call successfully placed");
@@ -56,14 +77,14 @@ namespace Method635.App.Forms.RestAccess
         }
         public void StartBrainstorming(string brainstormingTeam = "DemoTeam")
         {
-            HttpResponseMessage response = PlaceCall($"/{brainstormingTeam}{BRAINSTORMING_ENDPOINT_NEW}");// Blocking call! Program will wait here until a response is received or a timeout occurs.
+            HttpResponseMessage response = PlaceDefaultFindingPostCall($"{brainstormingTeam}{BRAINSTORMING_ENDPOINT_NEW}");// Blocking call! Program will wait here until a response is received or a timeout occurs.
             if (response.IsSuccessStatusCode)
             {
-                Console.WriteLine("Call successfully placed");
+                Console.WriteLine("Call successfully placed");  
             }
             else
             {
-                throw new RestEndpointException($"Couldn't place call to {TIMING_ENDPOINT_NEW}.");
+                throw new RestEndpointException($"Couldn't place call to {TIMING_ENDPOINT_NEW}. Reason: {response.ReasonPhrase}");
             }
         }
     }
