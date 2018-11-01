@@ -7,7 +7,7 @@ using Xamarin.Forms;
 
 namespace Method635.App.Forms
 {
-    public partial class MainPage : ContentPage
+    public partial class MainPage : MasterDetailPage
     {
         public MainPage()
         {

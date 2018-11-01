@@ -1,9 +1,9 @@
-﻿using Method635.App.Forms.RestAccess;
+﻿using System;
+using Method635.App.Forms.Views;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
-
-using System;
+using Xamarin.Forms;
 
 namespace Method635.App.Forms.ViewModels
 {
@@ -14,44 +14,18 @@ namespace Method635.App.Forms.ViewModels
         public MainPageViewModel(INavigationService navigationService)
         {
             this._navigationService = navigationService;
-            TapCommand = new DelegateCommand(StartBrainstorming);
-        }
-       
-        public DelegateCommand TapCommand { get; set; }
-        private void StartBrainstorming()
-        {
-            try
-            {
-                new BrainstormingFindingRestResolver().CreateBrainstormingFinding(finding: null);
-                this._navigationService.NavigateAsync("BrainstormingPage", animated: true);
-            }
-            catch(RestEndpointException ex)
-            {
-                Console.WriteLine("Error starting brainstorming: ", ex);
-                ConnectionErrorText = "There was an error connecting to the server..";
-            }
-        }
-        
-        private string _connectionErrorText;
-        public string ConnectionErrorText
-        {
-            get => _connectionErrorText;
-            set
-            {
-                SetProperty(ref _connectionErrorText, value);
-            }
+            this.NavigateCommand = new DelegateCommand<string>(OnNavigateCommandExecuted);
         }
 
-        private string _clickOnTextToStartBrainstorming = "Click on the icon to start Brainstorming";
-        public string ClickOnTextToStartBrainstorming
+        private async void OnNavigateCommandExecuted(string path)
         {
-            get => _clickOnTextToStartBrainstorming;
-            set
-            {
-                SetProperty(ref _clickOnTextToStartBrainstorming, value);
-            }
+            await this._navigationService.NavigateAsync(path);
         }
 
-        
+        public DelegateCommand<string> NavigateCommand { get; }
+
+        private ContentPage _masterPage = new MasterPage();
+        public ContentPage MasterPage { get; set; }
+
     }
 }

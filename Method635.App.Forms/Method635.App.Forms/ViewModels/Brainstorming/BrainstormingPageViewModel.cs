@@ -3,13 +3,11 @@ using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Timers;
 
 namespace Method635.App.Forms.ViewModels
 {
-	public class BrainstormingPageViewModel : BindableBase
+    public class BrainstormingPageViewModel : BindableBase
     {
         private bool _timerStarted;
         private readonly INavigationService _navigationService;
