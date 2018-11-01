@@ -22,8 +22,8 @@ namespace Method635.App.Forms.ViewModels
         {
             try
             {
-                new BrainstormingFindingRestResolver().CreateBrainstormingFinding();
-                this._navigationService.NavigateAsync("BrainstormingPage");
+                new BrainstormingFindingRestResolver().CreateBrainstormingFinding(finding: null);
+                this._navigationService.NavigateAsync("BrainstormingPage", animated: true);
             }
             catch(RestEndpointException ex)
             {

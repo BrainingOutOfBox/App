@@ -11,12 +11,14 @@ namespace Method635.App.Forms.ViewModels
 {
 	public class BrainstormingPageViewModel : BindableBase
     {
-        private bool timerStarted;
+        private bool _timerStarted;
         private readonly INavigationService _navigationService;
+        private readonly BrainstormingFindingRestResolver _brainstormingFindingRestResolver;
 
         public BrainstormingPageViewModel(INavigationService navigationService)
         {
             this._navigationService = navigationService;
+            this._brainstormingFindingRestResolver = new BrainstormingFindingRestResolver();
             this.OpenNavigationMenuCommand = new DelegateCommand(OpenNavigationMenu);
             GetTime();
         }
@@ -29,9 +31,9 @@ namespace Method635.App.Forms.ViewModels
 
         private void GetTime()
         {
-            if (!timerStarted)
+            if (!_timerStarted)
             {
-                timerStarted = true;
+                _timerStarted = true;
                 var timer = new Timer(1000);
                 timer.Elapsed += UpdateRoundTime;
                 timer.Start();
@@ -42,7 +44,7 @@ namespace Method635.App.Forms.ViewModels
         {
             try
             {
-                RemainingTime = new BrainstormingFindingRestResolver().GetRemainingTime();
+                RemainingTime = _brainstormingFindingRestResolver.GetRemainingTime();
             }
             catch(RestEndpointException ex)
             {

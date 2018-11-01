@@ -39,35 +39,38 @@ namespace Method635.App.Forms.RestAccess
 
         private static HttpResponseMessage GetRemainingTimeCall(string teamId, string findingId)
         {
-            var client = RestClient();
-
-            var response = client.GetAsync($"{teamId}/{findingId}/{TIMING_ENDPOINT_DIFF}").Result;
-            return response;
-        }
-
-        private HttpResponseMessage CreateBrainstormingFindingCall(string teamId)
-        {
-            HttpClient client = RestClient();
-            var finding = new BrainstormingFinding()
+            using (var client = RestClient())
             {
-                Name = "TestBrainstormingFinding",
-                ProblemDescription = "This finding serves as a test or dummy object to check our implementation",
-                BaseRoundTime = 5,
-                NrOfIdeas = 3
-            };
-            var findingJson = JsonConvert.SerializeObject(finding);
-            var content = new StringContent(findingJson,Encoding.UTF8, "application/json");
-            Console.WriteLine(findingJson);
-            Console.WriteLine(content.Headers);
-            return client.PostAsync($"{teamId}/{CREATE_FINDING_ENDPOINT}", content).Result;
+                var response = client.GetAsync($"{teamId}/{findingId}/{TIMING_ENDPOINT_DIFF}").Result;
+                return response;
+            }
         }
 
-        public string CreateBrainstormingFinding(string brainstormingTeamId = "525cb90d-b0c9-40ba-a741-f19d1e79fec0")
+        private HttpResponseMessage CreateBrainstormingFindingCall(string teamId, BrainstormingFinding finding)
+        {
+            using (var client = RestClient())
+            {
+                finding = new BrainstormingFinding()
+                {
+                    Name = "TestBrainstormingFinding",
+                    ProblemDescription = "This finding serves as a test or dummy object to check our implementation",
+                    BaseRoundTime = 5,
+                    NrOfIdeas = 3
+                };
+                var findingJson = JsonConvert.SerializeObject(finding);
+                var content = new StringContent(findingJson, Encoding.UTF8, "application/json");
+                Console.WriteLine(findingJson);
+                Console.WriteLine(content.Headers);
+                return client.PostAsync($"{teamId}/{CREATE_FINDING_ENDPOINT}", content).Result;
+            }
+        }
+
+        public string CreateBrainstormingFinding(string brainstormingTeamId = "525cb90d-b0c9-40ba-a741-f19d1e79fec0", BrainstormingFinding finding)
         {
             try
             {
                 Console.WriteLine("Creating brainstorming finding..");
-                var res = CreateBrainstormingFindingCall(brainstormingTeamId);
+                var res = CreateBrainstormingFindingCall(brainstormingTeamId, finding);
                 if (res.IsSuccessStatusCode)
                 {
                     Console.WriteLine("Created brainstorming finding. Content: ", res.Content);

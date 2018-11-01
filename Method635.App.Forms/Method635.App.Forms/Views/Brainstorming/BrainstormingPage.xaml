@@ -19,17 +19,19 @@
 
 
         <!-- CENTER -->
-        <StackLayout Orientation="Vertical" VerticalOptions="CenterAndExpand">
-            
+        <StackLayout Orientation="Vertical" VerticalOptions="CenterAndExpand" >
+            <Frame>
+                <Label Text="Here Come All the Brainwaves for the Finding X"  />
+            </Frame>
         </StackLayout>
 
 
         <!-- FOOTER -->
-        <StackLayout Orientation="Vertical" VerticalOptions="End" HorizontalOptions="CenterAndExpand">
+        <StackLayout Orientation="Vertical" VerticalOptions="End" HorizontalOptions="Fill">
             <StackLayout Orientation="Horizontal" VerticalOptions="Start">
-                <Label Text="Idea Description" />
+                <Label Text="Idea Description:" />
             </StackLayout>
-            <StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand">
+            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
                 <Editor />
                 <Button Text="Commit" />
             </StackLayout>
