@@ -1,4 +1,5 @@
 ﻿using Method635.App.Forms.ViewModels;
+using Method635.App.Forms.Views.Brainstorming;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
@@ -28,13 +29,14 @@ namespace Method635.App.Forms
             containerRegistry.RegisterForNavigation<NavigationPage>();
             
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
+            containerRegistry.RegisterForNavigation<BrainstormingPage, BrainstormingPageViewModel>();
         }
 
         protected override void OnStart()
         {
             AppCenter.Start("android=99ec95ab-f8c7-42ab-91b4-46af3874744f;" +
                      "uwp={Your UWP App secret here};" +
-                     "ios={Your iOS App secret here}",
+                     "ios=dca97776-7990-4b5a-9674-ecc97cfcb787;",
                      typeof(Analytics), typeof(Crashes));
         }
 

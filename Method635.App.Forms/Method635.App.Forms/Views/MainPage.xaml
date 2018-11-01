@@ -7,19 +7,13 @@
              x:Class="Method635.App.Forms.MainPage">
 
     <StackLayout Orientation="Vertical">
-        <Label Text="{Binding RemainingTime}"
-           HorizontalOptions="Center"
-           VerticalOptions="CenterAndExpand" />
-        <Button HorizontalOptions ="Center"
-                VerticalOptions="Center"
-                Text="{Binding GetTimeText}" 
-                Command="{Binding GetTimeCommand}"
-                />
-
-        <Button HorizontalOptions ="Center"
-                VerticalOptions="Center"
-                Text="{Binding StartTimeText}" 
-                Command="{Binding StartTimeCommand}" />
+        <Image Source="start_brainstorming.PNG" Aspect="AspectFit">
+            <Image.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding TapCommand}" />
+            </Image.GestureRecognizers>
+        </Image>
+        <Label Text="{Binding ClickOnTextToStartBrainstorming}" HorizontalOptions="Center" />
+        <Label Text="{Binding ConnectionErrorText}" x:Name="connectionErrorLabel" IsVisible="False" TextColor="Red"/>
     </StackLayout>
 
 </ContentPage>
