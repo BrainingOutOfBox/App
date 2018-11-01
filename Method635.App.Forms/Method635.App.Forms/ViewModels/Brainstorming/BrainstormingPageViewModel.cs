@@ -1,4 +1,5 @@
-﻿using Method635.App.Forms.RestAccess;
+﻿using Method635.App.Forms.Context;
+using Method635.App.Forms.RestAccess;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
@@ -11,11 +12,13 @@ namespace Method635.App.Forms.ViewModels
     {
         private bool _timerStarted;
         private readonly INavigationService _navigationService;
+        private readonly BrainstormingContext _brainstormingContext;
         private readonly BrainstormingFindingRestResolver _brainstormingFindingRestResolver;
 
-        public BrainstormingPageViewModel(INavigationService navigationService)
+        public BrainstormingPageViewModel(INavigationService navigationService, BrainstormingContext brainstormingContext)
         {
             this._navigationService = navigationService;
+            this._brainstormingContext = brainstormingContext;
             this._brainstormingFindingRestResolver = new BrainstormingFindingRestResolver();
             this.OpenNavigationMenuCommand = new DelegateCommand(OpenNavigationMenu);
             GetTime();

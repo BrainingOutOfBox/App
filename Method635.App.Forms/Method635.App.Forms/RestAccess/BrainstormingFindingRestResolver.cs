@@ -34,7 +34,7 @@ namespace Method635.App.Forms.RestAccess
             }
             catch (RestEndpointException ex)
             {
-                Console.WriteLine("Error getting remaining time: ", ex);
+                Console.WriteLine($"Error getting remaining time: {ex}");
             }
             return string.Empty;
         }
@@ -47,7 +47,7 @@ namespace Method635.App.Forms.RestAccess
                 var res = GetAllFindingsCall(teamId);
                 if (res.IsSuccessStatusCode)
                 {
-                    Console.WriteLine("Got all Brainstorminginfindgss finding. Content: ", res.Content);
+                    Console.WriteLine($"Got all Brainstorminginfindgss finding. Content: {res.Content}");
                     var brainstormingFindings = res.Content.ReadAsAsync<List<BrainstormingFinding>>().Result;
                     Console.WriteLine("got findings: ");
                     brainstormingFindings.ForEach(finding => Console.WriteLine(finding.Name));
@@ -56,7 +56,7 @@ namespace Method635.App.Forms.RestAccess
             }
             catch (RestEndpointException ex)
             {
-                Console.WriteLine("Failed to create brainstorming finding: ", ex.Message);
+                Console.WriteLine($"Failed to create brainstorming finding: {ex.Message}");
             }
             Console.WriteLine($"No brainstorming findings found for team {teamId}");
             return new List<BrainstormingFinding>();
@@ -107,13 +107,13 @@ namespace Method635.App.Forms.RestAccess
                 var res = CreateBrainstormingFindingCall(brainstormingTeamId, finding);
                 if (res.IsSuccessStatusCode)
                 {
-                    Console.WriteLine("Created brainstorming finding. Content: ", res.Content);
+                    Console.WriteLine($"Created brainstorming finding. Content: {res.Content}");
                     return res.Content.ToString();
                 }
             }
             catch (RestEndpointException ex)
             {
-                Console.WriteLine("Failed to create brainstorming finding: ", ex.Message);
+                Console.WriteLine($"Failed to create brainstorming finding: {ex.Message}");
             }
             return string.Empty;
         }

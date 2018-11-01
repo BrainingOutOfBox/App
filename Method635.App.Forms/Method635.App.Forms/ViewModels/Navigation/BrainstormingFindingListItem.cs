@@ -7,13 +7,13 @@ namespace Method635.App.Forms.ViewModels.Navigation
 {
     public class BrainstormingFindingListItem
     {
-        private BrainstormingFinding _finding;
+        public readonly BrainstormingFinding Finding;
         public BrainstormingFindingListItem(BrainstormingFinding finding)
         {
-            this._finding = finding;
+            this.Finding = finding;
         }
 
-        public string Title { get => _finding.Name; }
-
+        public string Title { get => Finding.Name; }
+        
     }
 }

@@ -1,4 +1,5 @@
-﻿using Method635.App.Forms.ViewModels;
+﻿using Method635.App.Forms.Context;
+using Method635.App.Forms.ViewModels;
 using Method635.App.Forms.ViewModels.Brainstorming;
 using Method635.App.Forms.Views;
 using Method635.App.Forms.Views.Brainstorming;
@@ -35,6 +36,9 @@ namespace Method635.App.Forms
             containerRegistry.RegisterForNavigation<StartBrainstormingPage, StartBrainstormingPageViewModel>();
             containerRegistry.RegisterForNavigation<NewProblemPage, NewProblemPageViewModel>();
             containerRegistry.RegisterForNavigation<MasterPage, MasterPageViewModel>();
+
+
+            containerRegistry.Register<BrainstormingContext>();
         }
 
         protected override void OnStart()
