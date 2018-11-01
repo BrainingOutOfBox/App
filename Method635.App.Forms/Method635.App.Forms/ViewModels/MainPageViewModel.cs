@@ -1,79 +1,57 @@
 ﻿using Method635.App.Forms.RestAccess;
 using Prism.Commands;
 using Prism.Mvvm;
+using Prism.Navigation;
+
 using System;
-using System.Threading;
-using System.Timers;
 
 namespace Method635.App.Forms.ViewModels
 {
     public class MainPageViewModel : BindableBase
     {
-        public MainPageViewModel()
-        {
-            GetTimeCommand = new DelegateCommand(GetTime);
-            StartTimeCommand = new DelegateCommand(StartTime);
-        }
+        private readonly INavigationService _navigationService;
 
-        public DelegateCommand StartTimeCommand { get; set; }
-        private void StartTime()
+        public MainPageViewModel(INavigationService navigationService)
+        {
+            this._navigationService = navigationService;
+            TapCommand = new DelegateCommand(StartBrainstorming);
+        }
+       
+        public DelegateCommand TapCommand { get; set; }
+        private void StartBrainstorming()
         {
             try
             {
-                new RestResolver().StartTimer();
+                new BrainstormingFindingRestResolver().CreateBrainstormingFinding(finding: null);
+                this._navigationService.NavigateAsync("BrainstormingPage", animated: true);
             }
             catch(RestEndpointException ex)
             {
-                Console.WriteLine(ex);
+                Console.WriteLine("Error starting brainstorming: ", ex);
+                ConnectionErrorText = "There was an error connecting to the server..";
             }
-            Console.WriteLine("Time started");
-
         }
-        private bool timerStarted = false;
-        public DelegateCommand GetTimeCommand { get; set; }
-        private void GetTime()
+        
+        private string _connectionErrorText;
+        public string ConnectionErrorText
         {
-            if (!timerStarted)
-            {
-                timerStarted = true;
-                var timer = new System.Timers.Timer(1000);
-                timer.Elapsed += UpdateRoundTime;
-                timer.Start();
-            }
-            Console.WriteLine("Getting Time..");
-        }
-        private void UpdateRoundTime(object sender, ElapsedEventArgs e)
-        {
-            RemainingTime = new RestResolver().GetTime();
-        }
-        private string _remainingTime;
-        public string RemainingTime
-        {
-            get => _remainingTime;
+            get => _connectionErrorText;
             set
             {
-                SetProperty(ref _remainingTime, value);
+                SetProperty(ref _connectionErrorText, value);
             }
         }
 
-        private string _startTimeText = "Start Server Timer";
-        public string StartTimeText
+        private string _clickOnTextToStartBrainstorming = "Click on the icon to start Brainstorming";
+        public string ClickOnTextToStartBrainstorming
         {
-            get => _startTimeText;
+            get => _clickOnTextToStartBrainstorming;
             set
             {
-                SetProperty(ref _startTimeText, value);
+                SetProperty(ref _clickOnTextToStartBrainstorming, value);
             }
         }
 
-        private string _getTimeText = "Get Time";
-        public string GetTimeText
-        {
-            get => _getTimeText;
-            set
-            {
-                SetProperty(ref _getTimeText, value);
-            }
-        }
+        
     }
 }

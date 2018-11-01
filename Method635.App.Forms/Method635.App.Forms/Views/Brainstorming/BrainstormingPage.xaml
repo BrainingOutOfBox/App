@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="Method635.App.Forms.Views.Brainstorming.BrainstormingPage">
+    <StackLayout Orientation="Vertical">
+        <!-- HEADER -->
+        <StackLayout Orientation="Horizontal" HeightRequest="50" Margin="0,0,50,0">
+            <Image Source="start_brainstorming.PNG" Aspect="AspectFit" >
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding OpenNavigationMenuCommand}" />
+                </Image.GestureRecognizers>
+            </Image>
+            <Label Text="{Binding RemainingTime}"
+           HorizontalOptions="CenterAndExpand"
+           VerticalOptions="Center" />
+        </StackLayout>
+
+
+        <!-- CENTER -->
+        <StackLayout Orientation="Vertical" VerticalOptions="CenterAndExpand" >
+            <Frame>
+                <Label Text="Here Come All the Brainwaves for the Finding X"  />
+            </Frame>
+        </StackLayout>
+
+
+        <!-- FOOTER -->
+        <StackLayout Orientation="Vertical" VerticalOptions="End" HorizontalOptions="Fill">
+            <StackLayout Orientation="Horizontal" VerticalOptions="Start">
+                <Label Text="Idea Description:" />
+            </StackLayout>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                <Editor />
+                <Button Text="Commit" />
+            </StackLayout>
+        </StackLayout>
+        
+    </StackLayout>
+</ContentPage>
