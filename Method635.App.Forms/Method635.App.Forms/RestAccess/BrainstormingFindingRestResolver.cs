@@ -1,6 +1,7 @@
 ﻿using Method635.App.Forms.Models;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 
@@ -10,6 +11,7 @@ namespace Method635.App.Forms.RestAccess
     {
         private const string CREATE_FINDING_ENDPOINT = "createBrainstormingFinding";
         private const string TIMING_ENDPOINT_DIFF = "remainingTime";
+        private const string GET_FINDINGS_ENDPOINT = "getBrainstormingFindings";
 
         public string GetRemainingTime(string teamId = "525cb90d-b0c9-40ba-a741-f19d1e79fec0", string findingId = "43a7608e-1862-482b-93a0-dc48c8efc631")
         {
@@ -37,7 +39,39 @@ namespace Method635.App.Forms.RestAccess
             return string.Empty;
         }
 
-        private static HttpResponseMessage GetRemainingTimeCall(string teamId, string findingId)
+        public List<BrainstormingFinding> GetAllFindingsForTeam(string teamId = "525cb90d-b0c9-40ba-a741-f19d1e79fec0")
+        {
+            try
+            {
+                Console.WriteLine($"Getting all brainstorming findings for team {teamId}..");
+                var res = GetAllFindingsCall(teamId);
+                if (res.IsSuccessStatusCode)
+                {
+                    Console.WriteLine("Got all Brainstorminginfindgss finding. Content: ", res.Content);
+                    var brainstormingFindings = res.Content.ReadAsAsync<List<BrainstormingFinding>>().Result;
+                    Console.WriteLine("got findings: ");
+                    brainstormingFindings.ForEach(finding => Console.WriteLine(finding.Name));
+                    return brainstormingFindings;
+                }
+            }
+            catch (RestEndpointException ex)
+            {
+                Console.WriteLine("Failed to create brainstorming finding: ", ex.Message);
+            }
+            Console.WriteLine($"No brainstorming findings found for team {teamId}");
+            return new List<BrainstormingFinding>();
+        }
+
+        private HttpResponseMessage GetAllFindingsCall(string teamId)
+        {
+            using (var client = RestClient())
+            {
+                var response = client.GetAsync($"{teamId}/{GET_FINDINGS_ENDPOINT}").Result;
+                return response;
+            }
+        }
+
+        private HttpResponseMessage GetRemainingTimeCall(string teamId, string findingId)
         {
             using (var client = RestClient())
             {
