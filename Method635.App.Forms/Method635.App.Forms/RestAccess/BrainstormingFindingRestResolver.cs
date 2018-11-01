@@ -65,7 +65,7 @@ namespace Method635.App.Forms.RestAccess
             }
         }
 
-        public string CreateBrainstormingFinding(string brainstormingTeamId = "525cb90d-b0c9-40ba-a741-f19d1e79fec0", BrainstormingFinding finding)
+        public string CreateBrainstormingFinding(BrainstormingFinding finding, string brainstormingTeamId = "525cb90d-b0c9-40ba-a741-f19d1e79fec0")
         {
             try
             {
