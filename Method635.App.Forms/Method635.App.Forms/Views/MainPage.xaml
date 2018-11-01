@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <MasterDetailPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:Method635.App.Forms"
-             xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
-             prism:ViewModelLocator.AutowireViewModel="True"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                  xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+                  xmlns:local="clr-namespace:Method635.App.Forms.Views"
+                  prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="Method635.App.Forms.MainPage">
     <MasterDetailPage.Master>
         <NavigationPage Title="Required Foo" Icon="start_brainstorming.PNG">
             <x:Arguments>
-                <ContentPage BindingContext="{Binding MasterPage}" />
+                <local:MasterPage />
             </x:Arguments>
         </NavigationPage>
     </MasterDetailPage.Master>
