@@ -95,7 +95,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Method635.App.Forms\Method635.App.Forms.csproj">
-      <Project>{E3F95C63-5CA2-45F4-AFB4-7D681238432E}</Project>
+      <Project>{92FACFB9-CC8A-4D87-BDB8-D22EF5E95B9A}</Project>
       <Name>Method635.App.Forms</Name>
     </ProjectReference>
   </ItemGroup>
