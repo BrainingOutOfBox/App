@@ -1,7 +1,9 @@
 ﻿using Method635.App.Forms.Context;
+using Method635.App.Forms.PrismEvents;
 using Method635.App.Forms.RestAccess;
 using Method635.App.Forms.ViewModels.Navigation;
 using Prism.Commands;
+using Prism.Events;
 using Prism.Mvvm;
 using Prism.Navigation;
 using System.Collections.Generic;
@@ -12,12 +14,17 @@ namespace Method635.App.Forms.ViewModels
     public class MasterPageViewModel : BindableBase
     {
         private readonly INavigationService _navigationService;
+        private readonly IEventAggregator _eventAggregator;
         private readonly BrainstormingContext _brainstormingContext;
 
-        public MasterPageViewModel(INavigationService navigationService, BrainstormingContext brainstormingContext)
+        public MasterPageViewModel(INavigationService navigationService,
+            IEventAggregator eventAggregator,
+            BrainstormingContext brainstormingContext)
         {
             this._navigationService = navigationService;
+            this._eventAggregator = eventAggregator;
             this._brainstormingContext = brainstormingContext;
+
             List<BrainstormingFindingListItem> findingsList = FillFindingListItems();
             FindingList = findingsList;
             this.SelectFindingCommand = new DelegateCommand(SelectFinding);
@@ -35,6 +42,7 @@ namespace Method635.App.Forms.ViewModels
         private void SelectFinding()
         {
             _brainstormingContext.CurrentFinding = SelectedFinding.Finding;
+            this._eventAggregator.GetEvent<RenderBrainstormingEvent>().Publish();
         }
 
         public BrainstormingFindingListItem SelectedFinding { get; set; }
