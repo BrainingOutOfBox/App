@@ -1,13 +1,11 @@
 ﻿using Method635.App.Forms.Context;
 using Method635.App.Forms.RestAccess;
 using Method635.App.Forms.ViewModels.Navigation;
-using Method635.App.Forms.Views.Brainstorming;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
 using System.Collections.Generic;
 using System.Linq;
-using Xamarin.Forms;
 
 namespace Method635.App.Forms.ViewModels
 {
