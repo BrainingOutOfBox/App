@@ -1,4 +1,5 @@
 ﻿using Method635.App.Forms.Context;
+using Method635.App.Forms.Models;
 using Method635.App.Forms.RestAccess;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -8,17 +9,20 @@ using System.Timers;
 
 namespace Method635.App.Forms.ViewModels
 {
-    public class BrainstormingPageViewModel : BindableBase
+    public class BrainstormingPageViewModel : BindableBase, INavigatedAware
     {
         private bool _timerStarted;
         private readonly INavigationService _navigationService;
-        private readonly BrainstormingContext _brainstormingContext;
+        private readonly BrainstormingContext _context;
         private readonly BrainstormingFindingRestResolver _brainstormingFindingRestResolver;
 
         public BrainstormingPageViewModel(INavigationService navigationService, BrainstormingContext brainstormingContext)
         {
             this._navigationService = navigationService;
-            this._brainstormingContext = brainstormingContext;
+            this._context = brainstormingContext;
+
+            this._findingTitle = _context.CurrentFinding.Name;
+
             this._brainstormingFindingRestResolver = new BrainstormingFindingRestResolver();
             this.OpenNavigationMenuCommand = new DelegateCommand(OpenNavigationMenu);
             GetTime();
@@ -45,14 +49,40 @@ namespace Method635.App.Forms.ViewModels
         {
             try
             {
-                RemainingTime = _brainstormingFindingRestResolver.GetRemainingTime();
+                RemainingTime = _brainstormingFindingRestResolver.GetRemainingTime(
+                    _context.CurrentFinding.TeamId,
+                    _context.CurrentFinding.Id);
             }
             catch(RestEndpointException ex)
             {
-                Console.WriteLine("Couldn't get updated round time from backend", ex);
+                Console.WriteLine($"Couldn't get updated round time from backend {ex}");
             }
         }
 
+        public void OnNavigatedFrom(NavigationParameters parameters)
+        {
+            // Navigation away from current page
+        }
+
+        public void OnNavigatedTo(NavigationParameters parameters)
+        {
+            if (this._context.CurrentFinding.CurrentRound > 0)
+            {
+                // Brainstorming has already started
+                return;
+            }
+            var moderatorOfCurrentFinding = GetModeratorOfTeam(_context.CurrentFinding.TeamId);
+            if (this._context.CurrentParticipant.UserName.Equals(moderatorOfCurrentFinding.UserName))
+            {
+                // Brainstorming is not yet started and current user is the moderator -> Display StartBrainstorming
+                this._navigationService.NavigateAsync("StartBrainstormingPage");
+            }
+        }
+
+        private Moderator GetModeratorOfTeam(string teamId)
+        {
+            return new TeamRestResolver().GetModeratorByTeamId(teamId);
+        }
 
         private string _remainingTime;
         public string RemainingTime
@@ -61,6 +91,14 @@ namespace Method635.App.Forms.ViewModels
             set
             {
                 SetProperty(ref _remainingTime, value);
+            }
+        }
+        private string _findingTitle;
+        public string FindingTitle {
+            get => _findingTitle;
+            set
+            {
+                SetProperty(ref _findingTitle, value);
             }
         }
     }

@@ -38,7 +38,7 @@ namespace Method635.App.Forms
             containerRegistry.RegisterForNavigation<MasterPage, MasterPageViewModel>();
 
 
-            containerRegistry.Register<BrainstormingContext>();
+            containerRegistry.RegisterSingleton<BrainstormingContext>();
         }
 
         protected override void OnStart()

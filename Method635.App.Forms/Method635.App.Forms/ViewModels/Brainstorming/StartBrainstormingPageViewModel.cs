@@ -3,6 +3,7 @@ using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
 using System;
+using System.Threading.Tasks;
 
 namespace Method635.App.Forms.ViewModels.Brainstorming
 {
@@ -21,11 +22,11 @@ namespace Method635.App.Forms.ViewModels.Brainstorming
             try
             {
                 new BrainstormingFindingRestResolver().CreateBrainstormingFinding(finding: null);
-                await this._navigationService.NavigateAsync("BrainstormingPage", animated: true);
+                await this._navigationService.NavigateAsync("BrainstormingPage");
             }
             catch (RestEndpointException ex)
             {
-                Console.WriteLine("Error starting brainstorming: ", ex);
+                Console.WriteLine($"Error starting brainstorming: {ex}");
                 ConnectionErrorText = "There was an error connecting to the server..";
             }
         }

@@ -38,8 +38,5 @@ namespace Method635.App.Forms.ViewModels
 
         public DelegateCommand<string> NavigateCommand { get; }
 
-        private ContentPage _masterPage = new MasterPage();
-        public ContentPage MasterPage { get; set; }
-
     }
 }

@@ -21,7 +21,7 @@
         <!-- CENTER -->
         <StackLayout Orientation="Vertical" VerticalOptions="CenterAndExpand" >
             <Frame>
-                <Label Text="Here Come All the Brainwaves for the Finding X"  />
+                <Label Text="{Binding FindingTitle}"  />
             </Frame>
         </StackLayout>
 

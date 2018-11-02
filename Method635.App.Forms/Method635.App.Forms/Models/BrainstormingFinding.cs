@@ -6,7 +6,10 @@ namespace Method635.App.Forms.Models
     public class BrainstormingFinding
     {
         [JsonProperty("identifier")]
-        public string ID { get; set; }
+        public string Id { get; set; }
+
+        [JsonProperty("brainstormingTeam")]
+        public string TeamId { get; set; }
 
         [JsonProperty("name")]
         public string Name { get; set; }
