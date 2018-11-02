@@ -4,5 +4,17 @@
              xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="Method635.App.Forms.Views.Brainstorming.NewProblemPage">
-  
+    <StackLayout Orientation="Vertical">
+        <Label Text="Problem Name" />
+        <Entry Placeholder="Name" Text="{Binding FindingName}" />
+        <Label FontSize="Small" Text="Names must be lowercase, without spaces or periods, and shorter than 22 characters" />
+        <Label Text="Number of Ideas" />
+        <Entry Placeholder="# Ideas" Text="{Binding NrOfIdeas}" />
+        <Label FontSize="Small" Text="Choose how many ideas you want to have in one round" />
+        <Label Text="Round Time" />
+        <Entry Placeholder="Base Round Time in min" Text="{Binding BaseRoundTime}"/>
+        <Label FontSize="Small" Text="Choose what your base round time will be. This will be incremented by 1 min every round" />
+        <Label Text="Description" />
+        <Editor Placeholder="Short Description of the Problem" Text="{Binding Description}" />
+    </StackLayout>
 </ContentPage>

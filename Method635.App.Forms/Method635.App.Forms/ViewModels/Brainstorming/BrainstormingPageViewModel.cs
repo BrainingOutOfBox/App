@@ -12,6 +12,7 @@ namespace Method635.App.Forms.ViewModels
     public class BrainstormingPageViewModel : BindableBase, INavigatedAware
     {
         private bool _timerStarted;
+        private Timer _timer;
         private readonly INavigationService _navigationService;
         private readonly BrainstormingContext _context;
         private readonly BrainstormingFindingRestResolver _brainstormingFindingRestResolver;
@@ -39,9 +40,9 @@ namespace Method635.App.Forms.ViewModels
             if (!_timerStarted)
             {
                 _timerStarted = true;
-                var timer = new Timer(1000);
-                timer.Elapsed += UpdateRoundTime;
-                timer.Start();
+                this._timer = new Timer(1000);
+                _timer.Elapsed += UpdateRoundTime;
+                _timer.Start();
             }
             Console.WriteLine("Getting Time..");
         }
@@ -62,6 +63,7 @@ namespace Method635.App.Forms.ViewModels
         public void OnNavigatedFrom(NavigationParameters parameters)
         {
             // Navigation away from current page
+            _timer.Stop();
         }
 
         public void OnNavigatedTo(NavigationParameters parameters)

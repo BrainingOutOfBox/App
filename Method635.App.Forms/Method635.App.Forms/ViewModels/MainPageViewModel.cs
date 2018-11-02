@@ -1,11 +1,9 @@
 ﻿using System;
 using Method635.App.Forms.PrismEvents;
-using Method635.App.Forms.Views;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
 using Prism.Navigation;
-using Xamarin.Forms;
 
 namespace Method635.App.Forms.ViewModels
 {
@@ -25,10 +23,15 @@ namespace Method635.App.Forms.ViewModels
 
         private void SubscribeToEvents()
         {
-            this._eventAggregator.GetEvent<RenderBrainstormingEvent>().Subscribe(() =>
+            this._eventAggregator.GetEvent<RenderBrainstormingEvent>().Subscribe(async () =>
             {
-                this._navigationService.NavigateAsync("BrainstormingPage");
-            }, ThreadOption.UIThread);
+               await this._navigationService.NavigateAsync("BrainstormingPage");
+            });
+
+            this._eventAggregator.GetEvent<RenderNewProblemEvent>().Subscribe(async () =>
+            {
+                await this._navigationService.NavigateAsync("NewProblemPage");
+            });
         }
 
         private async void OnNavigateCommandExecuted(string path)
@@ -37,6 +40,5 @@ namespace Method635.App.Forms.ViewModels
         }
 
         public DelegateCommand<string> NavigateCommand { get; }
-
     }
 }

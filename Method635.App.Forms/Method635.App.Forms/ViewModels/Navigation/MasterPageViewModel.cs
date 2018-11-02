@@ -6,6 +6,7 @@ using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
 using Prism.Navigation;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -28,6 +29,12 @@ namespace Method635.App.Forms.ViewModels
             List<BrainstormingFindingListItem> findingsList = FillFindingListItems();
             FindingList = findingsList;
             this.SelectFindingCommand = new DelegateCommand(SelectFinding);
+            this.CreateFindingCommand = new DelegateCommand(CreateBrainstormingFinding);
+        }
+
+        private void CreateBrainstormingFinding()
+        {
+            this._eventAggregator.GetEvent<RenderNewProblemEvent>().Publish();
         }
 
         private List<BrainstormingFindingListItem> FillFindingListItems()
@@ -38,7 +45,8 @@ namespace Method635.App.Forms.ViewModels
         }
 
         public DelegateCommand SelectFindingCommand { get; set; }
-        
+        public DelegateCommand CreateFindingCommand { get; }
+
         private void SelectFinding()
         {
             _brainstormingContext.CurrentFinding = SelectedFinding.Finding;

@@ -22,10 +22,10 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
             <ListView.Behaviors>
-                <b:EventToCommandBehavior EventName="ItemTapped" 
-                                      Command="{Binding SelectFindingCommand}"
-                                      CommandParameter="MyParameter" />
+                <b:EventToCommandBehavior EventName="ItemTapped"
+                                      Command="{Binding SelectFindingCommand}"/>
             </ListView.Behaviors>
         </ListView>
+        <Button Command="{Binding CreateFindingCommand}" Text="Add Problem"/>
     </StackLayout>
 </ContentPage>
