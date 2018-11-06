@@ -2,9 +2,9 @@
 
 namespace Method635.App.Forms.Views.Brainstorming
 {
-    public partial class NewProblemPage : ContentPage
+    public partial class NewBrainstormingPage : ContentPage
     {
-        public NewProblemPage()
+        public NewBrainstormingPage()
         {
             InitializeComponent();
         }

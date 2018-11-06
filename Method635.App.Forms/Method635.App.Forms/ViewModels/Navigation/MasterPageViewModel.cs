@@ -26,22 +26,32 @@ namespace Method635.App.Forms.ViewModels
             this._eventAggregator = eventAggregator;
             this._brainstormingContext = brainstormingContext;
 
-            List<BrainstormingFindingListItem> findingsList = FillFindingListItems();
-            FindingList = findingsList;
+            FillFindingListItems();
+
+            SubscribeToEvents();
+
             this.SelectFindingCommand = new DelegateCommand(SelectFinding);
             this.CreateFindingCommand = new DelegateCommand(CreateBrainstormingFinding);
         }
 
-        private void CreateBrainstormingFinding()
+        private void SubscribeToEvents()
         {
-            this._eventAggregator.GetEvent<RenderNewProblemEvent>().Publish();
+            this._eventAggregator.GetEvent<RefreshFindingListEvent>().Subscribe(() =>
+            {
+                FillFindingListItems();
+            });
         }
 
-        private List<BrainstormingFindingListItem> FillFindingListItems()
+        private void CreateBrainstormingFinding()
+        {
+            this._eventAggregator.GetEvent<RenderNewBrainstormingEvent>().Publish();
+        }
+
+        private void FillFindingListItems()
         {
             var findingItems = new BrainstormingFindingRestResolver().GetAllFindingsForTeam();
             // Encapsulate findings from model into findings to be displayed in listview
-            return findingItems.Select(finding => new BrainstormingFindingListItem(finding)).ToList();
+            FindingList = findingItems.Select(finding => new BrainstormingFindingListItem(finding)).ToList();
         }
 
         public DelegateCommand SelectFindingCommand { get; set; }
@@ -57,7 +67,6 @@ namespace Method635.App.Forms.ViewModels
 
 
         private List<BrainstormingFindingListItem> _findingList;
-
         public List<BrainstormingFindingListItem> FindingList
         {
             get

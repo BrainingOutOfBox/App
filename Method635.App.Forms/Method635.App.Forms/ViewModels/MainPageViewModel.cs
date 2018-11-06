@@ -28,9 +28,9 @@ namespace Method635.App.Forms.ViewModels
                await this._navigationService.NavigateAsync("BrainstormingPage");
             });
 
-            this._eventAggregator.GetEvent<RenderNewProblemEvent>().Subscribe(async () =>
+            this._eventAggregator.GetEvent<RenderNewBrainstormingEvent>().Subscribe(async () =>
             {
-                await this._navigationService.NavigateAsync("NewProblemPage");
+                await this._navigationService.NavigateAsync("NewBrainstormingPage");
             });
         }
 

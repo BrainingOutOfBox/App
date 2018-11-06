@@ -26,6 +26,6 @@
                                       Command="{Binding SelectFindingCommand}"/>
             </ListView.Behaviors>
         </ListView>
-        <Button Command="{Binding CreateFindingCommand}" Text="Add Problem"/>
+        <Button Command="{Binding CreateFindingCommand}" Text="Add Brainstorming Finding"/>
     </StackLayout>
 </ContentPage>

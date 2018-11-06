@@ -17,12 +17,15 @@
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.6" />
     <PackageReference Include="Prism.DryIoc.Forms" Version="7.0.0.396" />
     <PackageReference Include="Prism.Forms" Version="7.0.0.396" />
-    <PackageReference Include="Xamarin.Forms" Version="3.3.0.967583" />
+    <PackageReference Include="Xamarin.Forms" Version="3.3.0.912540" />
   </ItemGroup>
 
   <ItemGroup>
     <Compile Update="Views\Brainstorming\BrainstormingPage.xaml.cs">
       <DependentUpon>BrainstormingPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Brainstorming\NewBrainstormingPage.xaml.cs">
+      <DependentUpon>NewBrainstormingPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\Brainstorming\StartBrainstormingPage.xaml.cs">
       <DependentUpon>StartBrainstormingPage.xaml</DependentUpon>
@@ -33,7 +36,7 @@
     <EmbeddedResource Update="Views\Brainstorming\BrainstormingPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Brainstorming\NewProblemPage.xaml">
+    <EmbeddedResource Update="Views\Brainstorming\NewBrainstormingPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Brainstorming\StartBrainstormingPage.xaml">

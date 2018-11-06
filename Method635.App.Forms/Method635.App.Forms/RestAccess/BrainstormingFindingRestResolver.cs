@@ -9,6 +9,7 @@ namespace Method635.App.Forms.RestAccess
 {
     public class BrainstormingFindingRestResolver : RestResolverBase
     {
+        private const string FINDINGS_ENDPOINT = "Finding";
         private const string CREATE_FINDING_ENDPOINT = "createBrainstormingFinding";
         private const string TIMING_ENDPOINT_DIFF = "remainingTime";
         private const string GET_FINDINGS_ENDPOINT = "getBrainstormingFindings";
@@ -66,7 +67,7 @@ namespace Method635.App.Forms.RestAccess
         {
             using (var client = RestClient())
             {
-                var response = client.GetAsync($"{teamId}/{GET_FINDINGS_ENDPOINT}").Result;
+                var response = client.GetAsync($"{FINDINGS_ENDPOINT}/{teamId}/{GET_FINDINGS_ENDPOINT}").Result;
                 return response;
             }
         }
@@ -75,7 +76,7 @@ namespace Method635.App.Forms.RestAccess
         {
             using (var client = RestClient())
             {
-                var response = client.GetAsync($"{teamId}/{findingId}/{TIMING_ENDPOINT_DIFF}").Result;
+                var response = client.GetAsync($"{FINDINGS_ENDPOINT}/{teamId}/{findingId}/{TIMING_ENDPOINT_DIFF}").Result;
                 return response;
             }
         }
@@ -84,13 +85,6 @@ namespace Method635.App.Forms.RestAccess
         {
             using (var client = RestClient())
             {
-                finding = new BrainstormingFinding()
-                {
-                    Name = "TestBrainstormingFinding",
-                    ProblemDescription = "This finding serves as a test or dummy object to check our implementation",
-                    BaseRoundTime = 5,
-                    NrOfIdeas = 3
-                };
                 var findingJson = JsonConvert.SerializeObject(finding);
                 var content = new StringContent(findingJson, Encoding.UTF8, "application/json");
                 Console.WriteLine(findingJson);

@@ -34,7 +34,7 @@ namespace Method635.App.Forms
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
             containerRegistry.RegisterForNavigation<BrainstormingPage, BrainstormingPageViewModel>();
             containerRegistry.RegisterForNavigation<StartBrainstormingPage, StartBrainstormingPageViewModel>();
-            containerRegistry.RegisterForNavigation<NewProblemPage, NewProblemPageViewModel>();
+            containerRegistry.RegisterForNavigation<NewBrainstormingPage, NewBrainstormingPageViewModel>();
             containerRegistry.RegisterForNavigation<MasterPage, MasterPageViewModel>();
 
 

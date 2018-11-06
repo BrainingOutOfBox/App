@@ -2,7 +2,7 @@
 
 namespace Method635.App.Forms.PrismEvents
 {
-    public class RenderNewProblemEvent : PubSubEvent
+    public class RenderNewBrainstormingEvent : PubSubEvent
     {
     }
 }

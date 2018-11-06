@@ -60,9 +60,9 @@ namespace Method635.App.Forms.ViewModels
             }
         }
 
+        // Navigation away from current page
         public void OnNavigatedFrom(NavigationParameters parameters)
         {
-            // Navigation away from current page
             _timer.Stop();
         }
 
@@ -73,12 +73,13 @@ namespace Method635.App.Forms.ViewModels
                 // Brainstorming has already started
                 return;
             }
-            var moderatorOfCurrentFinding = GetModeratorOfTeam(_context.CurrentFinding.TeamId);
-            if (this._context.CurrentParticipant.UserName.Equals(moderatorOfCurrentFinding.UserName))
-            {
-                // Brainstorming is not yet started and current user is the moderator -> Display StartBrainstorming
-                this._navigationService.NavigateAsync("StartBrainstormingPage");
-            }
+            // TODO: Comment out once backend supports GetTeamById
+            //var moderatorOfCurrentFinding = GetModeratorOfTeam(_context.CurrentFinding.TeamId);
+            //if (this._context.CurrentParticipant.UserName.Equals(moderatorOfCurrentFinding.UserName))
+            //{
+            //    // Brainstorming is not yet started and current user is the moderator -> Display StartBrainstorming
+            //    this._navigationService.NavigateAsync("StartBrainstormingPage");
+            //}
         }
 
         private Moderator GetModeratorOfTeam(string teamId)

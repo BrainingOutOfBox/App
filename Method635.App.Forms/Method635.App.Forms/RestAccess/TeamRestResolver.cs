@@ -30,6 +30,10 @@ namespace Method635.App.Forms.RestAccess
             {
                 Console.WriteLine($"Error getting Team: {ex}");
             }
+            catch(UnsupportedMediaTypeException ex)
+            {
+                Console.WriteLine($"Error getting Team (unsupported media type in response): {ex}");
+            }
             return null;
         }
 
