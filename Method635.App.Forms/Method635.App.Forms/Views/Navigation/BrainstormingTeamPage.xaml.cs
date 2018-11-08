@@ -2,9 +2,9 @@
 
 namespace Method635.App.Forms.Views.Navigation
 {
-    public partial class BrainstormingFindingListPage : ContentPage
+    public partial class BrainstormingTeamPage : ContentPage
     {
-        public BrainstormingFindingListPage()
+        public BrainstormingTeamPage()
         {
             InitializeComponent();
         }

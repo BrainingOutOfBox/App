@@ -25,7 +25,7 @@ namespace Method635.App.Forms.ViewModels
         {
             this._eventAggregator.GetEvent<RenderBrainstormingEvent>().Subscribe(async () =>
             {
-            await this._navigationService.NavigateAsync("MainPage?selectedTab=BrainstormingPage", useModalNavigation: true);
+                await this._navigationService.NavigateAsync("app:///NavigationPage/MainPage?selectedTab=BrainstormingPage", useModalNavigation: true);
             });
 
             this._eventAggregator.GetEvent<RenderNewBrainstormingEvent>().Subscribe(async () =>

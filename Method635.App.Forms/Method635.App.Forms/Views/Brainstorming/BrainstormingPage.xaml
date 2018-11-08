@@ -5,13 +5,11 @@
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="Method635.App.Forms.Views.Brainstorming.BrainstormingPage"
              Title="{Binding Title}">
+
     <StackLayout Orientation="Vertical">
         <!-- HEADER -->
         <StackLayout Orientation="Horizontal" HeightRequest="50" Margin="0,0,50,0">
             <Image Source="start_brainstorming.PNG" Aspect="AspectFit" >
-                <Image.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding OpenNavigationMenuCommand}" />
-                </Image.GestureRecognizers>
             </Image>
             <Label Text="{Binding RemainingTime}"
            HorizontalOptions="CenterAndExpand"
@@ -22,6 +20,10 @@
         <!-- CENTER -->
         <StackLayout Orientation="Vertical" VerticalOptions="CenterAndExpand" >
             <Frame>
+                <Frame.GestureRecognizers>
+                    <SwipeGestureRecognizer Direction="Right" Command="{Binding SwipeRightCommand}" />
+                    <SwipeGestureRecognizer Direction="Left" Command="{Binding SwipeLeftCommand}" />
+                </Frame.GestureRecognizers>
                 <Label Text="{Binding FindingTitle}"  />
             </Frame>
         </StackLayout>
@@ -37,6 +39,6 @@
                 <Button Text="Commit" />
             </StackLayout>
         </StackLayout>
-        
+
     </StackLayout>
 </ContentPage>

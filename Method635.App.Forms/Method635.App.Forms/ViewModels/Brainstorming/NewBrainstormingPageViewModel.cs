@@ -42,7 +42,7 @@ namespace Method635.App.Forms.ViewModels.Brainstorming
                 new BrainstormingFindingRestResolver().CreateBrainstormingFinding(finding);
                 _context.CurrentFinding = finding;
                 this._eventAggregator.GetEvent<RenderBrainstormingEvent>().Publish();
-                this._eventAggregator.GetEvent<RefreshFindingListEvent>().Publish();
+                //this._eventAggregator.GetEvent<RefreshFindingListEvent>().Publish();
             }
             catch (RestEndpointException ex)
             {

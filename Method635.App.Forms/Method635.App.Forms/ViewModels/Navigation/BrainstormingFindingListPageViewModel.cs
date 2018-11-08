@@ -32,19 +32,8 @@ namespace Method635.App.Forms.ViewModels
 
             this.SelectFindingCommand = new DelegateCommand(SelectFinding);
             this.CreateFindingCommand = new DelegateCommand(CreateBrainstormingFinding);
-            this.SwipeLeftGestureCommand = new DelegateCommand(SwipeLeft);
-            this.SwipeRightGestureCommand = new DelegateCommand(SwipeRight);
         }
-
-        private void SwipeRight()
-        {
-        }
-
-        private void SwipeLeft()
-        {
-
-        }
-
+        
         private void SubscribeToEvents()
         {
             this._eventAggregator.GetEvent<RefreshFindingListEvent>().Subscribe(() =>

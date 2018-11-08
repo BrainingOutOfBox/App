@@ -1,6 +1,7 @@
 ﻿using Method635.App.Forms.Context;
 using Method635.App.Forms.Models;
 using Method635.App.Forms.RestAccess;
+using Prism;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
@@ -9,9 +10,8 @@ using System.Timers;
 
 namespace Method635.App.Forms.ViewModels
 {
-    public class BrainstormingPageViewModel : BindableBase, INavigatedAware
+    public class BrainstormingPageViewModel : BindableBase, INavigatedAware, IActiveAware
     {
-        private bool _timerStarted;
         private Timer _timer;
         private readonly INavigationService _navigationService;
         private readonly BrainstormingContext _context;
@@ -25,25 +25,45 @@ namespace Method635.App.Forms.ViewModels
             this._findingTitle = _context.CurrentFinding?.Name;
 
             this._brainstormingFindingRestResolver = new BrainstormingFindingRestResolver();
-            this.OpenNavigationMenuCommand = new DelegateCommand(OpenNavigationMenu);
-            GetTime();
-        }
-        
-        public DelegateCommand OpenNavigationMenuCommand { get; }
-        private void OpenNavigationMenu()
-        {
-            Console.WriteLine("Opening navigation menu...");
+            this.SwipeRightCommand = new DelegateCommand(SwipeRight);
+            this.SwipeLeftCommand = new DelegateCommand(SwipeLeft);
+
+            TimerSetup();
+
+            IsActiveChanged += ActiveChanged;
         }
 
-        private void GetTime()
+        private void ActiveChanged(object sender, EventArgs e)
         {
-            if (!_timerStarted)
+            System.Diagnostics.Debug.WriteLine($"{Title} IsActive: {IsActive}");
+            if (IsActive)
             {
-                _timerStarted = true;
-                this._timer = new Timer(1000);
-                _timer.Elapsed += UpdateRoundTime;
-                _timer.Start();
+                this._timer.Start();
             }
+            else
+            {
+                this._timer.Stop();
+            }
+        }
+
+        private void SwipeRight()
+        {
+            // TODO: Swipe sheet to the right
+        }
+
+        private void SwipeLeft()
+        {
+            // TODO: Swipe sheet to the left
+        }
+        
+        public DelegateCommand SwipeRightCommand { get; }
+        public DelegateCommand SwipeLeftCommand { get; }
+        
+        private void TimerSetup()
+        {
+            this._timer = new Timer(1000);
+            _timer.Elapsed += UpdateRoundTime;
+            _timer.Start();
             Console.WriteLine("Getting Time..");
         }
         private void UpdateRoundTime(object sender, ElapsedEventArgs e)
@@ -99,12 +119,22 @@ namespace Method635.App.Forms.ViewModels
 
         public string Title => "Brainstorming";
         private string _findingTitle;
+
+        public event EventHandler IsActiveChanged;
+
         public string FindingTitle {
             get => _findingTitle;
             set
             {
                 SetProperty(ref _findingTitle, value);
             }
+        }
+
+        private bool _isActive;
+        public bool IsActive
+        {
+            get { return _isActive; }
+            set { SetProperty(ref _isActive, value, () => System.Diagnostics.Debug.WriteLine($"{Title} IsActive Changed: {value}")); }
         }
     }
 }

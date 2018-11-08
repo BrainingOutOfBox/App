@@ -3,6 +3,7 @@ using Method635.App.Forms.ViewModels;
 using Method635.App.Forms.ViewModels.Brainstorming;
 using Method635.App.Forms.Views;
 using Method635.App.Forms.Views.Brainstorming;
+using Method635.App.Forms.Views.Navigation;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
@@ -36,6 +37,7 @@ namespace Method635.App.Forms
             containerRegistry.RegisterForNavigation<StartBrainstormingPage, StartBrainstormingPageViewModel>();
             containerRegistry.RegisterForNavigation<NewBrainstormingPage, NewBrainstormingPageViewModel>();
             containerRegistry.RegisterForNavigation<BrainstormingFindingListPage, BrainstormingFindingListPageViewModel>();
+            containerRegistry.RegisterForNavigation<BrainstormingTeamPage, BrainstormingTeamPageViewModel>();
 
 
             containerRegistry.RegisterSingleton<BrainstormingContext>();
