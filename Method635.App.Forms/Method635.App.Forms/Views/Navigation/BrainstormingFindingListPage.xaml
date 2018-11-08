@@ -4,8 +4,14 @@
              xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
              prism:ViewModelLocator.AutowireViewModel="True"
              xmlns:b="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
-             x:Class="Method635.App.Forms.Views.MasterPage">
+             x:Class="Method635.App.Forms.Views.BrainstormingFindingListPage"
+             Title="{Binding Title}"
+             >
     <StackLayout>
+        <StackLayout.GestureRecognizers>
+            <SwipeGestureRecognizer Command="{Binding SwipeLeftGestureCommand}" Direction="Left"/>
+            <SwipeGestureRecognizer Command="{Binding SwipeRightGestureCommand}" Direction="Right"/>
+        </StackLayout.GestureRecognizers>
         <ListView ItemsSource="{Binding FindingList}" SelectedItem="{Binding SelectedFinding}">
             <ListView.ItemTemplate>
                 <DataTemplate>

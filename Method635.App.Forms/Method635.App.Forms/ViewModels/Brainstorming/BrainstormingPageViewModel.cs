@@ -22,7 +22,7 @@ namespace Method635.App.Forms.ViewModels
             this._navigationService = navigationService;
             this._context = brainstormingContext;
 
-            this._findingTitle = _context.CurrentFinding.Name;
+            this._findingTitle = _context.CurrentFinding?.Name;
 
             this._brainstormingFindingRestResolver = new BrainstormingFindingRestResolver();
             this.OpenNavigationMenuCommand = new DelegateCommand(OpenNavigationMenu);
@@ -96,6 +96,8 @@ namespace Method635.App.Forms.ViewModels
                 SetProperty(ref _remainingTime, value);
             }
         }
+
+        public string Title => "Brainstorming";
         private string _findingTitle;
         public string FindingTitle {
             get => _findingTitle;

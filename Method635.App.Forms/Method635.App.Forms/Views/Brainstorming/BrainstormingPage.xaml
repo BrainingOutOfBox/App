@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
              prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="Method635.App.Forms.Views.Brainstorming.BrainstormingPage">
+             x:Class="Method635.App.Forms.Views.Brainstorming.BrainstormingPage"
+             Title="{Binding Title}">
     <StackLayout Orientation="Vertical">
         <!-- HEADER -->
         <StackLayout Orientation="Horizontal" HeightRequest="50" Margin="0,0,50,0">

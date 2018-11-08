@@ -30,6 +30,9 @@
     <Compile Update="Views\Brainstorming\StartBrainstormingPage.xaml.cs">
       <DependentUpon>StartBrainstormingPage.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\Navigation\BrainstormingFindingListPage.xaml.cs">
+      <DependentUpon>BrainstormingFindingListPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -42,7 +45,7 @@
     <EmbeddedResource Update="Views\Brainstorming\StartBrainstormingPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Navigation\MasterPage.xaml">
+    <EmbeddedResource Update="Views\Navigation\BrainstormingFindingListPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

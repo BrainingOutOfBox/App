@@ -2,9 +2,9 @@
 
 namespace Method635.App.Forms.Views
 {
-    public partial class MasterPage : ContentPage
+    public partial class BrainstormingFindingListPage : ContentPage
     {
-        public MasterPage()
+        public BrainstormingFindingListPage()
         {
             InitializeComponent();
         }

@@ -12,13 +12,13 @@ using System.Linq;
 
 namespace Method635.App.Forms.ViewModels
 {
-    public class MasterPageViewModel : BindableBase
+    public class BrainstormingFindingListPageViewModel : BindableBase
     {
         private readonly INavigationService _navigationService;
         private readonly IEventAggregator _eventAggregator;
         private readonly BrainstormingContext _brainstormingContext;
 
-        public MasterPageViewModel(INavigationService navigationService,
+        public BrainstormingFindingListPageViewModel(INavigationService navigationService,
             IEventAggregator eventAggregator,
             BrainstormingContext brainstormingContext)
         {
@@ -32,6 +32,17 @@ namespace Method635.App.Forms.ViewModels
 
             this.SelectFindingCommand = new DelegateCommand(SelectFinding);
             this.CreateFindingCommand = new DelegateCommand(CreateBrainstormingFinding);
+            this.SwipeLeftGestureCommand = new DelegateCommand(SwipeLeft);
+            this.SwipeRightGestureCommand = new DelegateCommand(SwipeRight);
+        }
+
+        private void SwipeRight()
+        {
+        }
+
+        private void SwipeLeft()
+        {
+
         }
 
         private void SubscribeToEvents()
@@ -42,6 +53,7 @@ namespace Method635.App.Forms.ViewModels
             });
         }
 
+        
         private void CreateBrainstormingFinding()
         {
             this._eventAggregator.GetEvent<RenderNewBrainstormingEvent>().Publish();
@@ -56,6 +68,8 @@ namespace Method635.App.Forms.ViewModels
 
         public DelegateCommand SelectFindingCommand { get; set; }
         public DelegateCommand CreateFindingCommand { get; }
+        public DelegateCommand SwipeLeftGestureCommand { get; }
+        public DelegateCommand SwipeRightGestureCommand { get; }
 
         private void SelectFinding()
         {
@@ -65,7 +79,7 @@ namespace Method635.App.Forms.ViewModels
 
         public BrainstormingFindingListItem SelectedFinding { get; set; }
 
-
+        public string Title => "Brainstorming Findings";
         private List<BrainstormingFindingListItem> _findingList;
         public List<BrainstormingFindingListItem> FindingList
         {
