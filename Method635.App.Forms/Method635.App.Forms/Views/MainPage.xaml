@@ -1,19 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:Method635.App.Forms"
-             xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
-             prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="Method635.App.Forms.MainPage">
-
-    <StackLayout Orientation="Vertical">
-        <Image Source="start_brainstorming.PNG" Aspect="AspectFit">
-            <Image.GestureRecognizers>
-                <TapGestureRecognizer Command="{Binding TapCommand}" />
-            </Image.GestureRecognizers>
-        </Image>
-        <Label Text="{Binding ClickOnTextToStartBrainstorming}" HorizontalOptions="Center" />
-        <Label Text="{Binding ConnectionErrorText}" x:Name="connectionErrorLabel" IsVisible="False" TextColor="Red"/>
-    </StackLayout>
-
-</ContentPage>
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
+                  xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                  xmlns:local="clr-namespace:Method635.App.Forms.Views.Navigation"
+                  xmlns:local1="clr-namespace:Method635.App.Forms.Views.Brainstorming"
+                  prism:ViewModelLocator.AutowireViewModel="True"
+                  x:Class="Method635.App.Forms.MainPage">
+    <TabbedPage.Children>
+        <local:BrainstormingTeamPage />
+        <local:BrainstormingFindingListPage />
+        <local1:BrainstormingPage />
+    </TabbedPage.Children>
+</TabbedPage>

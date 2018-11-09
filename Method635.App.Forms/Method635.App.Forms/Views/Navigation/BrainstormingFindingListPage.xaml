@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             xmlns:b="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
+             x:Class="Method635.App.Forms.Views.Navigation.BrainstormingFindingListPage"
+             Title="{Binding Title}"
+             >
+    <StackLayout>
+        <ListView ItemsSource="{Binding FindingList}" SelectedItem="{Binding SelectedFinding}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Grid Padding="5,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="30"/>
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <!--<Image Source="{Binding IconSource}" />-->
+                            <Label Grid.Column="1" Text="{Binding Title}" />
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            <ListView.Behaviors>
+                <b:EventToCommandBehavior EventName="ItemTapped"
+                                      Command="{Binding SelectFindingCommand}"/>
+            </ListView.Behaviors>
+        </ListView>
+        <Button Command="{Binding CreateFindingCommand}" Text="Add Brainstorming Finding"/>
+    </StackLayout>
+</ContentPage>

@@ -1,57 +1,43 @@
-﻿using Method635.App.Forms.RestAccess;
+﻿using Method635.App.Forms.PrismEvents;
 using Prism.Commands;
+using Prism.Events;
 using Prism.Mvvm;
 using Prism.Navigation;
-
-using System;
 
 namespace Method635.App.Forms.ViewModels
 {
     public class MainPageViewModel : BindableBase
     {
         private readonly INavigationService _navigationService;
+        private readonly IEventAggregator _eventAggregator;
 
-        public MainPageViewModel(INavigationService navigationService)
+        public MainPageViewModel(INavigationService navigationService, IEventAggregator eventAggregator)
         {
             this._navigationService = navigationService;
-            TapCommand = new DelegateCommand(StartBrainstorming);
-        }
-       
-        public DelegateCommand TapCommand { get; set; }
-        private void StartBrainstorming()
-        {
-            try
-            {
-                new BrainstormingFindingRestResolver().CreateBrainstormingFinding(finding: null);
-                this._navigationService.NavigateAsync("BrainstormingPage", animated: true);
-            }
-            catch(RestEndpointException ex)
-            {
-                Console.WriteLine("Error starting brainstorming: ", ex);
-                ConnectionErrorText = "There was an error connecting to the server..";
-            }
-        }
-        
-        private string _connectionErrorText;
-        public string ConnectionErrorText
-        {
-            get => _connectionErrorText;
-            set
-            {
-                SetProperty(ref _connectionErrorText, value);
-            }
+            this._eventAggregator = eventAggregator;
+            SubscribeToEvents();
+
+            this.NavigateCommand = new DelegateCommand<string>(OnNavigateCommandExecuted);
         }
 
-        private string _clickOnTextToStartBrainstorming = "Click on the icon to start Brainstorming";
-        public string ClickOnTextToStartBrainstorming
+        private void SubscribeToEvents()
         {
-            get => _clickOnTextToStartBrainstorming;
-            set
+            this._eventAggregator.GetEvent<RenderBrainstormingEvent>().Subscribe(async () =>
             {
-                SetProperty(ref _clickOnTextToStartBrainstorming, value);
-            }
+                await this._navigationService.NavigateAsync("app:///NavigationPage/MainPage?selectedTab=BrainstormingPage");
+            });
+
+            this._eventAggregator.GetEvent<RenderNewBrainstormingEvent>().Subscribe(async () =>
+            {
+                await this._navigationService.NavigateAsync("NewBrainstormingPage");
+            });
         }
 
-        
+        private async void OnNavigateCommandExecuted(string path)
+        {
+            await this._navigationService.NavigateAsync(path);
+        }
+
+        public DelegateCommand<string> NavigateCommand { get; }
     }
 }
