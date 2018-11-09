@@ -39,7 +39,7 @@
     <EmbeddedResource Update="Views\Brainstorming\BrainstormingPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Navigation\BrainstormingTeamPage.xaml">
+    <EmbeddedResource Update="Views\Team\BrainstormingTeamPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Brainstorming\NewBrainstormingPage.xaml">
@@ -49,6 +49,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Navigation\BrainstormingFindingListPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Team\NewTeamPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

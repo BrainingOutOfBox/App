@@ -1,4 +1,5 @@
 ﻿using Method635.App.Forms.Models;
+using Method635.App.Forms.RestAccess.ResponseModel;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -93,7 +94,7 @@ namespace Method635.App.Forms.RestAccess
             }
         }
 
-        public string CreateBrainstormingFinding(BrainstormingFinding finding, string brainstormingTeamId = "525cb90d-b0c9-40ba-a741-f19d1e79fec0")
+        public BrainstormingFinding CreateBrainstormingFinding(BrainstormingFinding finding, string brainstormingTeamId = "525cb90d-b0c9-40ba-a741-f19d1e79fec0")
         {
             try
             {
@@ -102,14 +103,16 @@ namespace Method635.App.Forms.RestAccess
                 if (res.IsSuccessStatusCode)
                 {
                     Console.WriteLine($"Created brainstorming finding. Content: {res.Content}");
-                    return res.Content.ToString();
+                    var parsedResponseMessage = res.Content.ReadAsAsync<RestResponseMessage>().Result;
+                    finding.Id = parsedResponseMessage.Text;
+                    return finding;
                 }
             }
             catch (RestEndpointException ex)
             {
                 Console.WriteLine($"Failed to create brainstorming finding: {ex.Message}");
             }
-            return string.Empty;
+            return finding;
         }
     }
 }

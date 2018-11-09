@@ -7,9 +7,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Method635.App.Forms.Android
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Method635.App.Forms.iOS", "Method635.App.Forms\Method635.App.Forms.iOS\Method635.App.Forms.iOS.csproj", "{2370BCFD-E68B-4A6F-B66C-89D5FDA84952}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Method635.App.Forms", "Method635.App.Forms\Method635.App.Forms\Method635.App.Forms.csproj", "{92FACFB9-CC8A-4D87-BDB8-D22EF5E95B9A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Method635.App.Forms", "Method635.App.Forms\Method635.App.Forms\Method635.App.Forms.csproj", "{92FACFB9-CC8A-4D87-BDB8-D22EF5E95B9A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Methode635.App.Tests", "Methode635.App.Tests\Methode635.App.Tests.csproj", "{C499A22B-DC5C-47A6-B68F-E3BAA53865AC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Method635.App.Tests", "Method635.App.Tests\Method635.App.Tests.csproj", "{C499A22B-DC5C-47A6-B68F-E3BAA53865AC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

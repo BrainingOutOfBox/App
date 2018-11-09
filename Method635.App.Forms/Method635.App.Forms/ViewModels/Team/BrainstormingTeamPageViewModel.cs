@@ -3,13 +3,11 @@ using Method635.App.Forms.Models;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 
-namespace Method635.App.Forms.ViewModels
+namespace Method635.App.Forms.ViewModels.Team
 {
-	public class BrainstormingTeamPageViewModel : BindableBase
+    public class BrainstormingTeamPageViewModel : BindableBase
 	{
         private readonly INavigationService _navigationService;
         private readonly BrainstormingContext _context;
@@ -34,7 +32,7 @@ namespace Method635.App.Forms.ViewModels
 
         private void CreateTeam()
         {
-            //TODO Call CreateTeam Page
+            this._navigationService.NavigateAsync("NewTeamPage");
         }
 
         private void SelectTeam()

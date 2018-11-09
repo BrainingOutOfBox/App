@@ -1,11 +1,11 @@
 ﻿using NUnit.Framework;
 using System;
-namespace Methode635.App.Tests
+namespace Method635.App.Tests
 {
-    [TestFixture()]
+    [TestFixture]
     public class Test
     {
-        [Test()]
+        [Test]
         public void TestCase()
         {
             Assert.True(true);

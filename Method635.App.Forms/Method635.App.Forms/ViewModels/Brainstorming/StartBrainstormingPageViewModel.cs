@@ -20,7 +20,7 @@ namespace Method635.App.Forms.ViewModels.Brainstorming
         {
             try
             {
-                new BrainstormingFindingRestResolver().CreateBrainstormingFinding(finding: null);
+                // Start brainstorming on backend
                 await this._navigationService.NavigateAsync("BrainstormingPage");
             }
             catch (RestEndpointException ex)
