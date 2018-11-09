@@ -14,7 +14,7 @@ namespace Method635.App.Forms.RestAccess
         private const string TIMING_ENDPOINT_DIFF = "remainingTime";
         private const string GET_FINDINGS_ENDPOINT = "getBrainstormingFindings";
 
-        public string GetRemainingTime(string teamId = "525cb90d-b0c9-40ba-a741-f19d1e79fec0", string findingId = "43a7608e-1862-482b-93a0-dc48c8efc631")
+        public string GetRemainingTime(string findingId, string teamId = "525cb90d-b0c9-40ba-a741-f19d1e79fec0")
         {
             try
             {
@@ -89,7 +89,7 @@ namespace Method635.App.Forms.RestAccess
                 var content = new StringContent(findingJson, Encoding.UTF8, "application/json");
                 Console.WriteLine(findingJson);
                 Console.WriteLine(content.Headers);
-                return client.PostAsync($"{teamId}/{CREATE_FINDING_ENDPOINT}", content).Result;
+                return client.PostAsync($"{FINDINGS_ENDPOINT}/{teamId}/{CREATE_FINDING_ENDPOINT}", content).Result;
             }
         }
 

@@ -6,7 +6,6 @@ using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
 using Prism.Navigation;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -28,18 +27,8 @@ namespace Method635.App.Forms.ViewModels
 
             FillFindingListItems();
 
-            SubscribeToEvents();
-
             this.SelectFindingCommand = new DelegateCommand(SelectFinding);
             this.CreateFindingCommand = new DelegateCommand(CreateBrainstormingFinding);
-        }
-        
-        private void SubscribeToEvents()
-        {
-            this._eventAggregator.GetEvent<RefreshFindingListEvent>().Subscribe(() =>
-            {
-                FillFindingListItems();
-            });
         }
 
         

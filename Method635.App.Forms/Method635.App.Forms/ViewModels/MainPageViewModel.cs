@@ -1,5 +1,4 @@
-﻿using System;
-using Method635.App.Forms.PrismEvents;
+﻿using Method635.App.Forms.PrismEvents;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
@@ -25,7 +24,7 @@ namespace Method635.App.Forms.ViewModels
         {
             this._eventAggregator.GetEvent<RenderBrainstormingEvent>().Subscribe(async () =>
             {
-                await this._navigationService.NavigateAsync("app:///NavigationPage/MainPage?selectedTab=BrainstormingPage", useModalNavigation: true);
+                await this._navigationService.NavigateAsync("app:///NavigationPage/MainPage?selectedTab=BrainstormingPage");
             });
 
             this._eventAggregator.GetEvent<RenderNewBrainstormingEvent>().Subscribe(async () =>

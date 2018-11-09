@@ -1,7 +1,6 @@
 ﻿using Method635.App.Forms.Context;
 using Method635.App.Forms.ViewModels;
 using Method635.App.Forms.ViewModels.Brainstorming;
-using Method635.App.Forms.Views;
 using Method635.App.Forms.Views.Brainstorming;
 using Method635.App.Forms.Views.Navigation;
 using Microsoft.AppCenter;

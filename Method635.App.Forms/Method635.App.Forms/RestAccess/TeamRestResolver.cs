@@ -1,13 +1,12 @@
 ﻿using Method635.App.Forms.Models;
 using System;
-using System.Collections.Generic;
 using System.Net.Http;
-using System.Text;
 
 namespace Method635.App.Forms.RestAccess
 {
     public class TeamRestResolver : RestResolverBase
     {
+        private const string TEAM_ENDPOINT = "Team";
         public Moderator GetModeratorByTeamId(string teamId)
         {
             try
@@ -41,7 +40,7 @@ namespace Method635.App.Forms.RestAccess
         {
             using (var client = RestClient())
             {
-                var response = client.GetAsync($"{teamId}").Result;
+                var response = client.GetAsync($"{TEAM_ENDPOINT}/{teamId}").Result;
                 return response;
             }
         }
