@@ -12,6 +12,36 @@ namespace Method635.App.Forms.RestAccess
     {
         private const string TEAM_ENDPOINT = "Team";
         private const string CREATE_ENDPOINT = "createBrainstormingTeam";
+        private const string GET_TEAM = "getBrainstormingTeam";
+
+        public BrainstormingTeam GetTeamById(string teamId)
+        {
+            try
+            {
+                Console.WriteLine($"Getting team {teamId}");
+                HttpResponseMessage response = GetTeamCall(teamId).Result;
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var team = response.Content.ReadAsAsync<BrainstormingTeam>().Result;
+                    Console.WriteLine($"Got team {team.Name}");
+                    return team;
+                }
+                else
+                {
+                    Console.WriteLine($"Response Code from GetTeam unsuccessful: {(int)response.StatusCode} ({response.ReasonPhrase})");
+                }
+            }
+            catch (RestEndpointException ex)
+            {
+                Console.WriteLine($"Error getting Team: {ex}");
+            }
+            catch (UnsupportedMediaTypeException ex)
+            {
+                Console.WriteLine($"Error getting Team (unsupported media type in response): {ex}");
+            }
+            return null;
+        }
         public Moderator GetModeratorByTeamId(string teamId)
         {
             try
@@ -45,7 +75,7 @@ namespace Method635.App.Forms.RestAccess
         {
             using (var client = RestClient())
             {
-                return await client.GetAsync($"{TEAM_ENDPOINT}/{teamId}");
+                return await client.GetAsync($"{TEAM_ENDPOINT}/{teamId}/{GET_TEAM}");
             }
         }
 

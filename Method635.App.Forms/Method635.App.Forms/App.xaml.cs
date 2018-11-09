@@ -40,6 +40,7 @@ namespace Method635.App.Forms
             containerRegistry.RegisterForNavigation<BrainstormingFindingListPage, BrainstormingFindingListPageViewModel>();
             containerRegistry.RegisterForNavigation<BrainstormingTeamPage, BrainstormingTeamPageViewModel>();
             containerRegistry.RegisterForNavigation<NewTeamPage, NewTeamPageViewModel>();
+            containerRegistry.RegisterForNavigation<InviteTeamPage, InviteTeamPageViewModel>();
 
 
             containerRegistry.RegisterSingleton<BrainstormingContext>();
