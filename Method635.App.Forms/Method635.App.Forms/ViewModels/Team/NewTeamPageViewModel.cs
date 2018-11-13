@@ -32,7 +32,7 @@ namespace Method635.App.Forms.ViewModels.Team
                 Console.WriteLine("There was an error creating the new brainstorming team.. No Id returned");
             }
             this._context.CurrentBrainstormingTeam = newTeamWithId;
-            this._navigationService.NavigateAsync("app:///NavigationPage/MainPage/InviteTeamPage");
+            this._navigationService.NavigateAsync("MainPage/NavigationPage/InviteTeamPage");
         }
 
         public string TeamName { get; set; } = string.Empty;

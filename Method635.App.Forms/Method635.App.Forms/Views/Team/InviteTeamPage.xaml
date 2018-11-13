@@ -8,6 +8,6 @@
     <StackLayout Orientation="Vertical" >
         <Label Margin="20" Text="Tell your team members to scan the QR-Code to join the team" FontSize="Small" HorizontalTextAlignment="Center"/>
         <forms:ZXingBarcodeImageView BarcodeValue="{Binding TeamId}" BarcodeOptions="{Binding BarcodeOptions}" BarcodeFormat="QR_CODE" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />
-        <Label Text="{Binding MemberCountString}" VerticalOptions="Center" HorizontalOptions="Center"/>
+        <Label Text="{Binding MemberCountString}" HorizontalOptions="Center"/>
     </StackLayout>
 </ContentPage>

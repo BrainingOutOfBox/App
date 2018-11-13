@@ -25,7 +25,6 @@ namespace Method635.App.Forms.ViewModels.Team
             TeamId = _context.CurrentBrainstormingTeam.Id;
             SetUpBarcodeOptions();
             InitiateMemberCountTimer();
-
         }
 
         private void InitiateMemberCountTimer()
@@ -69,17 +68,25 @@ namespace Method635.App.Forms.ViewModels.Team
             }
         }
 
-        public string MemberCountString=> $"{_memberCount} of {_teamCapacity} Members joined";
-
-        private int _backendNrCount;
+        private string _memberCountString;
+        public string MemberCountString
+        {
+            get => _memberCountString;
+            set
+            {
+                SetProperty(ref _memberCountString, value);
+            }
+        }
         private Timer _timer;
 
+        private int _backendNrCount;
         private int _memberCount
         {
             get => _backendNrCount;
             set
             {
                 SetProperty(ref _backendNrCount, value);
+                MemberCountString = $"{_memberCount} of {_teamCapacity} Members joined";
             }
         }
 
