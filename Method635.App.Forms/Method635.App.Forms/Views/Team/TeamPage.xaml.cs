@@ -2,9 +2,9 @@
 
 namespace Method635.App.Forms.Views.Team
 {
-    public partial class BrainstormingTeamPage : ContentPage
+    public partial class TeamPage : ContentPage
     {
-        public BrainstormingTeamPage()
+        public TeamPage()
         {
             InitializeComponent();
         }

@@ -38,12 +38,13 @@ namespace Method635.App.Forms
             containerRegistry.RegisterForNavigation<StartBrainstormingPage, StartBrainstormingPageViewModel>();
             containerRegistry.RegisterForNavigation<NewBrainstormingPage, NewBrainstormingPageViewModel>();
             containerRegistry.RegisterForNavigation<BrainstormingFindingListPage, BrainstormingFindingListPageViewModel>();
-            containerRegistry.RegisterForNavigation<BrainstormingTeamPage, BrainstormingTeamPageViewModel>();
+            containerRegistry.RegisterForNavigation<TeamPage, TeamPageViewModel>();
             containerRegistry.RegisterForNavigation<NewTeamPage, NewTeamPageViewModel>();
             containerRegistry.RegisterForNavigation<InviteTeamPage, InviteTeamPageViewModel>();
 
 
             containerRegistry.RegisterSingleton<BrainstormingContext>();
+            containerRegistry.RegisterForNavigation<JoinTeamPage, JoinTeamPageViewModel>();
         }
 
         protected override void OnStart()
