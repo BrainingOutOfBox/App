@@ -7,13 +7,13 @@ using System.Collections.Generic;
 
 namespace Method635.App.Forms.ViewModels.Team
 {
-    public class BrainstormingTeamPageViewModel : BindableBase
+    public class TeamPageViewModel : BindableBase
 	{
         private readonly INavigationService _navigationService;
         private readonly BrainstormingContext _context;
 
 
-        public BrainstormingTeamPageViewModel(INavigationService navigationService, BrainstormingContext context)
+        public TeamPageViewModel(INavigationService navigationService, BrainstormingContext context)
         {
             this._navigationService = navigationService;
             this._context = context;
@@ -27,7 +27,7 @@ namespace Method635.App.Forms.ViewModels.Team
 
         private void JoinTeam()
         {
-            //TODO Call JoinTeam Page
+            this._navigationService.NavigateAsync("JoinTeamPage");
         }
 
         private void CreateTeam()

@@ -34,5 +34,11 @@
     <string>Method635.App.Forms</string>
     <key>XSAppIconAssets</key>
     <string>Assets.xcassets/AppIcon.appiconset</string>
+
+
+  <!-- Permissions -->
+    <key>NSCameraUsageDescription</key>
+    <string>Please allow access to the camera to scan barcodes</string>
+  <!-- ___________ -->
 </dict>
 </plist>

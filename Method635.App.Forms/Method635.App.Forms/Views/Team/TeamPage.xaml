@@ -4,7 +4,7 @@
              xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
              xmlns:b="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
              prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="Method635.App.Forms.Views.Team.BrainstormingTeamPage"
+             x:Class="Method635.App.Forms.Views.Team.TeamPage"
              Title="{Binding Title}" >
 
     <StackLayout>
