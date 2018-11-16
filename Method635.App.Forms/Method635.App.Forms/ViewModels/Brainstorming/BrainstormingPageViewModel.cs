@@ -25,25 +25,9 @@ namespace Method635.App.Forms.ViewModels
             this._findingTitle = _context.CurrentFinding?.Name;
 
             this._brainstormingFindingRestResolver = new BrainstormingFindingRestResolver();
-            this.SwipeRightCommand = new DelegateCommand(SwipeRight);
-            this.SwipeLeftCommand = new DelegateCommand(SwipeLeft);
 
             TimerSetup();
         }
-        
-
-        private void SwipeRight()
-        {
-            // TODO: Swipe sheet to the right
-        }
-
-        private void SwipeLeft()
-        {
-            // TODO: Swipe sheet to the left
-        }
-        
-        public DelegateCommand SwipeRightCommand { get; }
-        public DelegateCommand SwipeLeftCommand { get; }
         
         private void TimerSetup()
         {
@@ -52,16 +36,9 @@ namespace Method635.App.Forms.ViewModels
         }
         private void UpdateRoundTime(object sender, ElapsedEventArgs e)
         {
-            try
-            {
-                RemainingTime = _brainstormingFindingRestResolver.GetRemainingTime(
-                    _context.CurrentFinding.Id,
-                    _context.CurrentFinding.TeamId);
-            }
-            catch(RestEndpointException ex)
-            {
-                Console.WriteLine($"Couldn't get updated round time from backend {ex}");
-            }
+            RemainingTime = _brainstormingFindingRestResolver.GetRemainingTime(
+                _context.CurrentFinding.Id,
+                _context.CurrentFinding.TeamId);
         }
 
         // Navigation away from current page

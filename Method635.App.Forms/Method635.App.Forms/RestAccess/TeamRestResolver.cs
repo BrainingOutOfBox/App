@@ -1,10 +1,8 @@
 ﻿using Method635.App.Forms.Models;
 using Method635.App.Forms.RestAccess.ResponseModel;
-using Newtonsoft.Json;
+using Method635.App.Forms.RestAccess.RestExceptions;
 using System;
 using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Method635.App.Forms.RestAccess
 {
@@ -20,7 +18,7 @@ namespace Method635.App.Forms.RestAccess
             try
             {
                 Console.WriteLine($"Getting team {teamId}");
-                HttpResponseMessage response = GetTeamCall(teamId).Result;
+                HttpResponseMessage response = GetCall($"{TEAM_ENDPOINT}/{teamId}/{GET_TEAM}");
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -49,7 +47,7 @@ namespace Method635.App.Forms.RestAccess
             try
             {
                 Console.WriteLine($"Joining team {teamId}");
-                HttpResponseMessage response = JoinTeamCall(teamId, participant);
+                HttpResponseMessage response = PutCall(participant, $"{TEAM_ENDPOINT}/{teamId}/{JOIN_ENDPOINT}");
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -73,22 +71,12 @@ namespace Method635.App.Forms.RestAccess
             return false;
         }
 
-        private HttpResponseMessage JoinTeamCall(string teamId, Participant participant)
-        {
-            using (var client = RestClient())
-            {
-                var participantJson = JsonConvert.SerializeObject(participant);
-                var content = new StringContent(participantJson, Encoding.UTF8, "application/json");
-                return client.PutAsync($"{TEAM_ENDPOINT}/{teamId}/{JOIN_ENDPOINT}", content).Result;
-            }
-        }
-
         public Moderator GetModeratorByTeamId(string teamId)
         {
             try
             {
                 Console.WriteLine($"Resolving Moderator for team {teamId}");
-                HttpResponseMessage response = GetTeamCall(teamId).Result;
+                HttpResponseMessage response = GetCall($"{TEAM_ENDPOINT}/{teamId}/{GET_TEAM}");
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -110,14 +98,6 @@ namespace Method635.App.Forms.RestAccess
                 Console.WriteLine($"Error getting Team (unsupported media type in response): {ex}");
             }
             return null;
-        }
-
-        private async Task<HttpResponseMessage> GetTeamCall(string teamId)
-        {
-            using (var client = RestClient())
-            {
-                return await client.GetAsync($"{TEAM_ENDPOINT}/{teamId}/{GET_TEAM}");
-            }
         }
 
         public BrainstormingTeam CreateBrainstormingTeam(BrainstormingTeam brainstormingTeam)
@@ -150,12 +130,7 @@ namespace Method635.App.Forms.RestAccess
         private HttpResponseMessage CreateBrainstormingTeamCall(BrainstormingTeam brainstormingTeam)
         {
             brainstormingTeam.Moderator = new Moderator() { FirstName = "Lolo", LastName = "Langfuss", UserName = "LLFF", Password = "pwllff" };
-            using (var client = RestClient())
-            {
-                var teamJson = JsonConvert.SerializeObject(brainstormingTeam);
-                var content = new StringContent(teamJson, Encoding.UTF8, "application/json");
-                return client.PostAsync($"{TEAM_ENDPOINT}/{CREATE_ENDPOINT}", content).Result;
-            }
+            return PostCall(brainstormingTeam, $"{TEAM_ENDPOINT}/{CREATE_ENDPOINT}");
         }
     }
 }
