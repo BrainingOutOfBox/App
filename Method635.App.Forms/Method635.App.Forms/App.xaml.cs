@@ -1,7 +1,10 @@
 ﻿using Method635.App.Forms.Context;
 using Method635.App.Forms.ViewModels;
+using Method635.App.Forms.ViewModels.Account;
 using Method635.App.Forms.ViewModels.Brainstorming;
 using Method635.App.Forms.ViewModels.Team;
+using Method635.App.Forms.Views;
+using Method635.App.Forms.Views.Account;
 using Method635.App.Forms.Views.Brainstorming;
 using Method635.App.Forms.Views.Navigation;
 using Method635.App.Forms.Views.Team;
@@ -26,7 +29,7 @@ namespace Method635.App.Forms
         protected override async void OnInitialized()
         {
             InitializeComponent();
-            await NavigationService.NavigateAsync("NavigationPage/MainPage");
+            await NavigationService.NavigateAsync("NavigationPage/LoginPage");
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
@@ -34,10 +37,16 @@ namespace Method635.App.Forms
             containerRegistry.RegisterForNavigation<NavigationPage>();
             
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
+
+            containerRegistry.RegisterForNavigation<LoginPage, LoginPageViewModel>();
+            containerRegistry.RegisterForNavigation<CreateAccountPage, CreateAccountPageViewModel>();
+
+
             containerRegistry.RegisterForNavigation<BrainstormingPage, BrainstormingPageViewModel>();
             containerRegistry.RegisterForNavigation<StartBrainstormingPage, StartBrainstormingPageViewModel>();
             containerRegistry.RegisterForNavigation<NewBrainstormingPage, NewBrainstormingPageViewModel>();
             containerRegistry.RegisterForNavigation<BrainstormingFindingListPage, BrainstormingFindingListPageViewModel>();
+
             containerRegistry.RegisterForNavigation<TeamPage, TeamPageViewModel>();
             containerRegistry.RegisterForNavigation<NewTeamPage, NewTeamPageViewModel>();
             containerRegistry.RegisterForNavigation<InviteTeamPage, InviteTeamPageViewModel>();
