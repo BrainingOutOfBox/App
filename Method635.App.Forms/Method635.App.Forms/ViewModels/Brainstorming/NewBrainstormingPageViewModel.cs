@@ -6,7 +6,6 @@ using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
 using Prism.Navigation;
-using System;
 
 namespace Method635.App.Forms.ViewModels.Brainstorming
 {
@@ -28,7 +27,7 @@ namespace Method635.App.Forms.ViewModels.Brainstorming
             this.CreateFindingCommand = new DelegateCommand(CreateFinding);
         }
 
-        private async void CreateFinding()
+        private void CreateFinding()
         {
             var finding = new BrainstormingFinding()
             {
@@ -37,16 +36,9 @@ namespace Method635.App.Forms.ViewModels.Brainstorming
                 BaseRoundTime = this.BaseRoundTime,
                 ProblemDescription = this.Description
             };
-            try
-            {
-                new BrainstormingFindingRestResolver().CreateBrainstormingFinding(finding);
-                _context.CurrentFinding = finding;
-                this._eventAggregator.GetEvent<RenderBrainstormingEvent>().Publish();
-            }
-            catch (RestEndpointException ex)
-            {
-                Console.WriteLine($"Error starting brainstorming: {ex}");
-            }
+            new BrainstormingFindingRestResolver().CreateBrainstormingFinding(finding);
+            _context.CurrentFinding = finding;
+            this._eventAggregator.GetEvent<RenderBrainstormingEvent>().Publish();
         }
 
         public string FindingName { get; set; }

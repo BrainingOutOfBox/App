@@ -4,7 +4,7 @@
              xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
              xmlns:b="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
              prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="Method635.App.Forms.Views.Team.BrainstormingTeamPage"
+             x:Class="Method635.App.Forms.Views.Team.TeamPage"
              Title="{Binding Title}" >
 
     <StackLayout>
@@ -12,6 +12,9 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
+                        <ViewCell.ContextActions>
+                            <MenuItem Command="{Binding LeaveTeamCommand}" Text="Leave Team" CommandParameter="{Binding .}" />
+                        </ViewCell.ContextActions>
                         <Grid Padding="5,10">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="30"/>

@@ -1,4 +1,5 @@
 ﻿using Method635.App.Forms.RestAccess;
+using Method635.App.Forms.RestAccess.RestExceptions;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
@@ -18,16 +19,7 @@ namespace Method635.App.Forms.ViewModels.Brainstorming
         public DelegateCommand TapCommand { get; set; }
         private async void StartBrainstorming()
         {
-            try
-            {
-                // Start brainstorming on backend
-                await this._navigationService.NavigateAsync("BrainstormingPage");
-            }
-            catch (RestEndpointException ex)
-            {
-                Console.WriteLine($"Error starting brainstorming: {ex}");
-                ConnectionErrorText = "There was an error connecting to the server..";
-            }
+            await this._navigationService.NavigateAsync("BrainstormingPage");
         }
 
         private string _connectionErrorText;

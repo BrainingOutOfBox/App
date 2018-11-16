@@ -1,10 +1,8 @@
 ﻿using Method635.App.Forms.Models;
 using Method635.App.Forms.RestAccess.ResponseModel;
-using Newtonsoft.Json;
+using Method635.App.Forms.RestAccess.RestExceptions;
 using System;
 using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Method635.App.Forms.RestAccess
 {
@@ -12,6 +10,7 @@ namespace Method635.App.Forms.RestAccess
     {
         private const string TEAM_ENDPOINT = "Team";
         private const string CREATE_ENDPOINT = "createBrainstormingTeam";
+        private const string JOIN_ENDPOINT = "joinTeam";
         private const string GET_TEAM = "getBrainstormingTeam";
 
         public BrainstormingTeam GetTeamById(string teamId)
@@ -19,7 +18,7 @@ namespace Method635.App.Forms.RestAccess
             try
             {
                 Console.WriteLine($"Getting team {teamId}");
-                HttpResponseMessage response = GetTeamCall(teamId).Result;
+                HttpResponseMessage response = GetCall($"{TEAM_ENDPOINT}/{teamId}/{GET_TEAM}");
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -42,12 +41,42 @@ namespace Method635.App.Forms.RestAccess
             }
             return null;
         }
+
+        internal bool JoinTeam(string teamId, Participant participant)
+        {
+            try
+            {
+                Console.WriteLine($"Joining team {teamId}");
+                HttpResponseMessage response = PutCall(participant, $"{TEAM_ENDPOINT}/{teamId}/{JOIN_ENDPOINT}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    Console.WriteLine($"Successfully joined team {teamId}");
+                    return true;
+                }
+                else
+                {
+                    Console.WriteLine($"Response Code from JoinTeam unsuccessful: {(int)response.StatusCode} ({response.ReasonPhrase})");
+                    
+                }
+            }
+            catch (RestEndpointException ex)
+            {
+                Console.WriteLine($"Error joining Team: {ex}");
+            }
+            catch (UnsupportedMediaTypeException ex)
+            {
+                Console.WriteLine($"Error joining Team (unsupported media type in response): {ex}");
+            }
+            return false;
+        }
+
         public Moderator GetModeratorByTeamId(string teamId)
         {
             try
             {
                 Console.WriteLine($"Resolving Moderator for team {teamId}");
-                HttpResponseMessage response = GetTeamCall(teamId).Result;
+                HttpResponseMessage response = GetCall($"{TEAM_ENDPOINT}/{teamId}/{GET_TEAM}");
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -69,14 +98,6 @@ namespace Method635.App.Forms.RestAccess
                 Console.WriteLine($"Error getting Team (unsupported media type in response): {ex}");
             }
             return null;
-        }
-
-        private async Task<HttpResponseMessage> GetTeamCall(string teamId)
-        {
-            using (var client = RestClient())
-            {
-                return await client.GetAsync($"{TEAM_ENDPOINT}/{teamId}/{GET_TEAM}");
-            }
         }
 
         public BrainstormingTeam CreateBrainstormingTeam(BrainstormingTeam brainstormingTeam)
@@ -109,12 +130,7 @@ namespace Method635.App.Forms.RestAccess
         private HttpResponseMessage CreateBrainstormingTeamCall(BrainstormingTeam brainstormingTeam)
         {
             brainstormingTeam.Moderator = new Moderator() { FirstName = "Lolo", LastName = "Langfuss", UserName = "LLFF", Password = "pwllff" };
-            using (var client = RestClient())
-            {
-                var teamJson = JsonConvert.SerializeObject(brainstormingTeam);
-                var content = new StringContent(teamJson, Encoding.UTF8, "application/json");
-                return client.PostAsync($"{TEAM_ENDPOINT}/{CREATE_ENDPOINT}", content).Result;
-            }
+            return PostCall(brainstormingTeam, $"{TEAM_ENDPOINT}/{CREATE_ENDPOINT}");
         }
     }
 }

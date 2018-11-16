@@ -32,14 +32,14 @@ namespace Method635.App.Forms.ViewModels
         }
 
         
-        private void CreateBrainstormingFinding()
+        private async void CreateBrainstormingFinding()
         {
-            this._eventAggregator.GetEvent<RenderNewBrainstormingEvent>().Publish();
+            await this._navigationService.NavigateAsync("NewBrainstormingPage");
         }
 
         private void FillFindingListItems()
         {
-            var findingItems = new BrainstormingFindingRestResolver().GetAllFindingsForTeam();
+            var findingItems = new BrainstormingFindingRestResolver().GetAllFindingsForTeam(_brainstormingContext.CurrentBrainstormingTeam?.Id);
             // Encapsulate findings from model into findings to be displayed in listview
             FindingList = findingItems.Select(finding => new BrainstormingFindingListItem(finding)).ToList();
         }
