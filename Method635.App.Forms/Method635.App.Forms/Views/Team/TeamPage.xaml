@@ -12,6 +12,9 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
+                        <ViewCell.ContextActions>
+                            <MenuItem Command="{Binding LeaveTeamCommand}" Text="Leave Team" CommandParameter="{Binding .}" />
+                        </ViewCell.ContextActions>
                         <Grid Padding="5,10">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="30"/>
