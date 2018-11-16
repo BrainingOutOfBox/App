@@ -32,5 +32,24 @@ namespace Method635.App.Forms.RestAccess
             }
             return false;
         }
+
+        internal RestLoginResponse Login(Participant loginParticipant)
+        {
+            try
+            {
+                Console.WriteLine("Calling backend to login..");
+                var res = PostCall(loginParticipant, $"{PARTICIPANT_ENDPOINT}/{LOGIN_ENDPOINT}");
+                if (res.IsSuccessStatusCode)
+                {
+                    Console.WriteLine($"Participant {loginParticipant.UserName} successfully logged in.");
+                    return res.Content.ReadAsAsync<RestLoginResponse>().Result;
+                }
+            }
+            catch (RestEndpointException ex)
+            {
+                Console.WriteLine($"Failed to login: {ex.Message}");
+            }
+            return null; 
+        }
     }
 }

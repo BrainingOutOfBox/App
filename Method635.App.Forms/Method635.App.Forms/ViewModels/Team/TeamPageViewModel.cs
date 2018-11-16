@@ -1,5 +1,6 @@
 ﻿using Method635.App.Forms.Context;
 using Method635.App.Forms.Models;
+using Method635.App.Forms.RestAccess;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
@@ -49,9 +50,7 @@ namespace Method635.App.Forms.ViewModels.Team
 
         private List<BrainstormingTeam> FillTeamList()
         {
-            return new List<BrainstormingTeam>(){
-                new BrainstormingTeam(){
-                    Name="A-Team" } };
+            return new TeamRestResolver().GetMyBrainstormingTeams(_context.CurrentParticipant.UserName);
         }
 
         private List<BrainstormingTeam> _teamList;

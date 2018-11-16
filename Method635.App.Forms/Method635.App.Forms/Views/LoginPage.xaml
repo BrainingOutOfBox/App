@@ -4,7 +4,16 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="Method635.App.Forms.Views.LoginPage">
-    <StackLayout>
-        <Button Command="{Binding ShowRegisterCommand}" Text="Register" />
-    </StackLayout>
+    <ScrollView>
+        <StackLayout Orientation="Vertical">
+            <Label Text="Username" />
+            <Entry Text="{Binding Username}" Placeholder="Username" IsTabStop="True" TabIndex="0"/>
+            <Label Text="Password" />
+            <Entry Text="{Binding Password}" Placeholder="Password" IsTabStop="True" TabIndex="1" IsPassword="True" />
+
+            <Label Text="{Binding ErrorText}" TextColor="Red" IsEnabled="{Binding HasError}" />
+            <Button Command="{Binding LoginCommand}" Text="Login" />
+            <Button Command="{Binding ShowRegisterCommand}" Text="Register" />
+        </StackLayout>
+    </ScrollView>
 </ContentPage>
