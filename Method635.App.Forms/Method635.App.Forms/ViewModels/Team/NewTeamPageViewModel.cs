@@ -9,7 +9,9 @@ using System;
 namespace Method635.App.Forms.ViewModels.Team
 {
     public class NewTeamPageViewModel : BindableBase
-	{
+    {
+        private readonly INavigationService _navigationService;
+        private readonly BrainstormingContext _context;
         public NewTeamPageViewModel(INavigationService navigationService, BrainstormingContext context)
         {
             this._navigationService = navigationService;
@@ -24,7 +26,7 @@ namespace Method635.App.Forms.ViewModels.Team
                 Name = TeamName,
                 NrOfParticipants = TeamSize,
                 Purpose = Purpose,
-                Moderator = (Moderator)_context.CurrentParticipant
+                Moderator = new Moderator(_context.CurrentParticipant)
             };
             var newTeamWithId = new TeamRestResolver().CreateBrainstormingTeam(newTeam);
             if (string.IsNullOrEmpty(newTeamWithId.Id))
@@ -39,8 +41,6 @@ namespace Method635.App.Forms.ViewModels.Team
         public int TeamSize { get; set; }
         public string Purpose { get; set; } = string.Empty;
 
-        private INavigationService _navigationService;
-        private BrainstormingContext _context;
 
         public DelegateCommand CreateTeamCommand { get; }
     }

@@ -41,10 +41,10 @@ namespace Method635.App.Forms
             containerRegistry.RegisterForNavigation<TeamPage, TeamPageViewModel>();
             containerRegistry.RegisterForNavigation<NewTeamPage, NewTeamPageViewModel>();
             containerRegistry.RegisterForNavigation<InviteTeamPage, InviteTeamPageViewModel>();
+            containerRegistry.RegisterForNavigation<JoinTeamPage, JoinTeamPageViewModel>();
 
 
             containerRegistry.RegisterSingleton<BrainstormingContext>();
-            containerRegistry.RegisterForNavigation<JoinTeamPage, JoinTeamPageViewModel>();
         }
 
         protected override void OnStart()

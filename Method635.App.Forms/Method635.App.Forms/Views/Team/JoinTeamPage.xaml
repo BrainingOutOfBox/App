@@ -10,9 +10,8 @@
         <Grid.RowDefinitions>
             <RowDefinition />
         </Grid.RowDefinitions>
-        <zxing:ZXingScannerView Grid.Row="0" Result="{Binding Result}" IsScanning="true" Options="{Binding BarcodeOptions}" OnScanResult="ZXingScannerView_OnScanResult"
-                                WidthRequest="200" HeightRequest="200" />
-        <zxing:ZXingDefaultOverlay Grid.Row="0" TopText="Place the code inside the area" Opacity="0.9" ></zxing:ZXingDefaultOverlay>
-
+        <zxing:ZXingScannerView Grid.Row="0" IsScanning="true" Options="{Binding BarcodeOptions}" 
+                                WidthRequest="200" HeightRequest="200" ScanResultCommand="{Binding FoundTeamIdCommand}" />
+        <zxing:ZXingDefaultOverlay Grid.Row="0" TopText="Place the code inside the area" Opacity="0.9" BottomText="{Binding BottomOverlayText}" />
     </Grid>
 </ContentPage>

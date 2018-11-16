@@ -22,15 +22,15 @@ namespace Method635.App.Forms.ViewModels
 
         private void SubscribeToEvents()
         {
+            this._eventAggregator.GetEvent<RenderBrainstormingListEvent>().Subscribe(async () =>
+            {
+                await this._navigationService.NavigateAsync("app:///NavigationPage/MainPage?selectedTab=BrainstormingFindingListPage");
+            }, ThreadOption.UIThread);
+
             this._eventAggregator.GetEvent<RenderBrainstormingEvent>().Subscribe(async () =>
             {
                 await this._navigationService.NavigateAsync("app:///NavigationPage/MainPage?selectedTab=BrainstormingPage");
-            });
-
-            this._eventAggregator.GetEvent<RenderNewBrainstormingEvent>().Subscribe(async () =>
-            {
-                await this._navigationService.NavigateAsync("NewBrainstormingPage");
-            });
+            }, ThreadOption.UIThread);
         }
 
         private async void OnNavigateCommandExecuted(string path)

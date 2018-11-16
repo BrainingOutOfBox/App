@@ -12,6 +12,7 @@ namespace Method635.App.Forms.RestAccess
     {
         private const string TEAM_ENDPOINT = "Team";
         private const string CREATE_ENDPOINT = "createBrainstormingTeam";
+        private const string JOIN_ENDPOINT = "joinTeam";
         private const string GET_TEAM = "getBrainstormingTeam";
 
         public BrainstormingTeam GetTeamById(string teamId)
@@ -42,6 +43,46 @@ namespace Method635.App.Forms.RestAccess
             }
             return null;
         }
+
+        internal bool JoinTeam(string teamId, Participant participant)
+        {
+            try
+            {
+                Console.WriteLine($"Joining team {teamId}");
+                HttpResponseMessage response = JoinTeamCall(teamId, participant);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    Console.WriteLine($"Successfully joined team {teamId}");
+                    return true;
+                }
+                else
+                {
+                    Console.WriteLine($"Response Code from JoinTeam unsuccessful: {(int)response.StatusCode} ({response.ReasonPhrase})");
+                    
+                }
+            }
+            catch (RestEndpointException ex)
+            {
+                Console.WriteLine($"Error joining Team: {ex}");
+            }
+            catch (UnsupportedMediaTypeException ex)
+            {
+                Console.WriteLine($"Error joining Team (unsupported media type in response): {ex}");
+            }
+            return false;
+        }
+
+        private HttpResponseMessage JoinTeamCall(string teamId, Participant participant)
+        {
+            using (var client = RestClient())
+            {
+                var participantJson = JsonConvert.SerializeObject(participant);
+                var content = new StringContent(participantJson, Encoding.UTF8, "application/json");
+                return client.PutAsync($"{TEAM_ENDPOINT}/{teamId}/{JOIN_ENDPOINT}", content).Result;
+            }
+        }
+
         public Moderator GetModeratorByTeamId(string teamId)
         {
             try

@@ -1,4 +1,4 @@
-﻿using Xamarin.Forms;
+﻿    using Xamarin.Forms;
 
 namespace Method635.App.Forms.Views.Team
 {
@@ -7,11 +7,6 @@ namespace Method635.App.Forms.Views.Team
         public JoinTeamPage()
         {
             InitializeComponent();
-        }
-
-        private void ZXingScannerView_OnScanResult(ZXing.Result result)
-        {
-
         }
     }
 }
