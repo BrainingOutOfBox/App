@@ -135,8 +135,8 @@ namespace Method635.App.Forms.RestAccess
             try
             {
                 Console.WriteLine("Creating brainstorming team..");
-                var res = CreateBrainstormingTeamCall(brainstormingTeam);
-                
+                var res = PostCall(brainstormingTeam, $"{TEAM_ENDPOINT}/{CREATE_ENDPOINT}");
+
                 if (res.IsSuccessStatusCode)
                 {
                     Console.WriteLine($"Created brainstorming team. Content: {res.Content}");
@@ -155,12 +155,6 @@ namespace Method635.App.Forms.RestAccess
                 Console.WriteLine($"Failed to create brainstorming finding: {ex.Message}");
             }
             return brainstormingTeam;
-        }
-
-        private HttpResponseMessage CreateBrainstormingTeamCall(BrainstormingTeam brainstormingTeam)
-        {
-            brainstormingTeam.Moderator = new Moderator() { FirstName = "Lolo", LastName = "Langfuss", UserName = "LLFF", Password = "pwllff" };
-            return PostCall(brainstormingTeam, $"{TEAM_ENDPOINT}/{CREATE_ENDPOINT}");
         }
     }
 }

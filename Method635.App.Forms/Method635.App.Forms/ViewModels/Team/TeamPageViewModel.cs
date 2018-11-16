@@ -1,7 +1,9 @@
 ﻿using Method635.App.Forms.Context;
 using Method635.App.Forms.Models;
+using Method635.App.Forms.PrismEvents;
 using Method635.App.Forms.RestAccess;
 using Prism.Commands;
+using Prism.Events;
 using Prism.Mvvm;
 using Prism.Navigation;
 using System;
@@ -12,12 +14,14 @@ namespace Method635.App.Forms.ViewModels.Team
     public class TeamPageViewModel : BindableBase
 	{
         private readonly INavigationService _navigationService;
+        private readonly IEventAggregator _eventAggregator;
         private readonly BrainstormingContext _context;
 
 
-        public TeamPageViewModel(INavigationService navigationService, BrainstormingContext context)
+        public TeamPageViewModel(INavigationService navigationService, IEventAggregator eventAggregator, BrainstormingContext context)
         {
             this._navigationService = navigationService;
+            this._eventAggregator = eventAggregator;
             this._context = context;
 
             this.TeamList = FillTeamList();
@@ -46,6 +50,7 @@ namespace Method635.App.Forms.ViewModels.Team
         private void SelectTeam()
         {
             _context.CurrentBrainstormingTeam = SelectedTeam;
+            this._eventAggregator.GetEvent<RenderBrainstormingListEvent>().Publish();
         }
 
         private List<BrainstormingTeam> FillTeamList()

@@ -14,7 +14,7 @@ namespace Method635.App.Forms.RestAccess
         private const string TIMING_ENDPOINT_DIFF = "remainingTime";
         private const string GET_FINDINGS_ENDPOINT = "getBrainstormingFindings";
 
-        public string GetRemainingTime(string findingId, string teamId = "525cb90d-b0c9-40ba-a741-f19d1e79fec0")
+        public string GetRemainingTime(string findingId, string teamId)
         {
             try
             {
