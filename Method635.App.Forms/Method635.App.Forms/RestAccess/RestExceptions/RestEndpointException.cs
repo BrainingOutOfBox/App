@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace Method635.App.Forms.RestAccess
+namespace Method635.App.Forms.RestAccess.RestExceptions
 {
     [Serializable]
     internal class RestEndpointException : Exception

@@ -1,10 +1,9 @@
 ﻿using Method635.App.Forms.Models;
 using Method635.App.Forms.RestAccess.ResponseModel;
-using Newtonsoft.Json;
+using Method635.App.Forms.RestAccess.RestExceptions;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Text;
 
 namespace Method635.App.Forms.RestAccess
 {
@@ -20,7 +19,7 @@ namespace Method635.App.Forms.RestAccess
             try
             {
                 Console.WriteLine("Getting remaining time..");
-                HttpResponseMessage response = GetRemainingTimeCall(teamId, findingId);
+                HttpResponseMessage response = GetCall($"{FINDINGS_ENDPOINT}/{teamId}/{findingId}/{TIMING_ENDPOINT_DIFF}");
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -46,7 +45,7 @@ namespace Method635.App.Forms.RestAccess
             try
             {
                 Console.WriteLine($"Getting all brainstorming findings for team {teamId}..");
-                var res = GetAllFindingsCall(teamId);
+                var res = GetCall($"{FINDINGS_ENDPOINT}/{teamId}/{GET_FINDINGS_ENDPOINT}");
                 if (res.IsSuccessStatusCode)
                 {
                     Console.WriteLine($"Got all Brainstorminginfindgss finding. Content: {res.Content}");
@@ -64,42 +63,12 @@ namespace Method635.App.Forms.RestAccess
             return new List<BrainstormingFinding>();
         }
 
-        private HttpResponseMessage GetAllFindingsCall(string teamId)
-        {
-            using (var client = RestClient())
-            {
-                var response = client.GetAsync($"{FINDINGS_ENDPOINT}/{teamId}/{GET_FINDINGS_ENDPOINT}").Result;
-                return response;
-            }
-        }
-
-        private HttpResponseMessage GetRemainingTimeCall(string teamId, string findingId)
-        {
-            using (var client = RestClient())
-            {
-                var response = client.GetAsync($"{FINDINGS_ENDPOINT}/{teamId}/{findingId}/{TIMING_ENDPOINT_DIFF}").Result;
-                return response;
-            }
-        }
-
-        private HttpResponseMessage CreateBrainstormingFindingCall(string teamId, BrainstormingFinding finding)
-        {
-            using (var client = RestClient())
-            {
-                var findingJson = JsonConvert.SerializeObject(finding);
-                var content = new StringContent(findingJson, Encoding.UTF8, "application/json");
-                Console.WriteLine(findingJson);
-                Console.WriteLine(content.Headers);
-                return client.PostAsync($"{FINDINGS_ENDPOINT}/{teamId}/{CREATE_FINDING_ENDPOINT}", content).Result;
-            }
-        }
-
         public BrainstormingFinding CreateBrainstormingFinding(BrainstormingFinding finding, string brainstormingTeamId = "525cb90d-b0c9-40ba-a741-f19d1e79fec0")
         {
             try
             {
                 Console.WriteLine("Creating brainstorming finding..");
-                var res = CreateBrainstormingFindingCall(brainstormingTeamId, finding);
+                var res = PostCall(finding, $"{FINDINGS_ENDPOINT}/{brainstormingTeamId}/{CREATE_FINDING_ENDPOINT}");
                 if (res.IsSuccessStatusCode)
                 {
                     Console.WriteLine($"Created brainstorming finding. Content: {res.Content}");

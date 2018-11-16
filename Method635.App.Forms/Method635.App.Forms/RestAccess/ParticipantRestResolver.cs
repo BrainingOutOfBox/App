@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net.Http;
-using System.Text;
 using Method635.App.Forms.Models;
 using Method635.App.Forms.RestAccess.ResponseModel;
-using Newtonsoft.Json;
+using Method635.App.Forms.RestAccess.RestExceptions;
 
 namespace Method635.App.Forms.RestAccess
 {
@@ -19,7 +17,7 @@ namespace Method635.App.Forms.RestAccess
             try
             {
                 Console.WriteLine("Calling backend to create participant..");
-                var res = CreateParticipantCall(newParticipant);
+                var res = PostCall(newParticipant, $"{PARTICIPANT_ENDPOINT}/{REGISTER_ENDPOINT}");
                 if (res.IsSuccessStatusCode)
                 {
                     Console.WriteLine($"Created participant. Content: {res.Content}");
@@ -33,18 +31,6 @@ namespace Method635.App.Forms.RestAccess
                 Console.WriteLine($"Failed to create participant: {ex.Message}");
             }
             return false;
-        }
-
-        private HttpResponseMessage CreateParticipantCall(Participant newParticipant)
-        {
-            using (var client = RestClient())
-            {
-                var participantJson = JsonConvert.SerializeObject(newParticipant);
-                var content = new StringContent(participantJson, Encoding.UTF8, "application/json");
-                Console.WriteLine(participantJson);
-                Console.WriteLine(content.Headers);
-                return client.PostAsync($"{PARTICIPANT_ENDPOINT}/{REGISTER_ENDPOINT}", content).Result;
-            }
         }
     }
 }
