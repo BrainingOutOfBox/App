@@ -1,4 +1,6 @@
 ﻿using System;
+using Method635.App.Forms.Models;
+using Method635.App.Forms.RestAccess;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
@@ -18,14 +20,28 @@ namespace Method635.App.Forms.ViewModels.Account
             this.RegisterCommand = new DelegateCommand(Register);
         }
 
-        private void Register()
+        private async void Register()
         {
             if (!CheckInput())
             {
                 Console.WriteLine("Input validation failed");
                 return;
             }
-            //TODO Registercall at backend
+
+            var newParticipant = new Participant()
+            {
+                FirstName = this.FirstName,
+                LastName = this.LastName,
+                UserName = this.UserName,
+                Password = this.Password
+            };
+            if(!new ParticipantRestResolver().CreateParticipant(newParticipant))
+            {
+                ErrorMessage = "There was an error registering your user.";
+                RegisterFailed = true;
+                return;
+            }
+            await _navigationService.NavigateAsync("app:///NavigationPage/LoginPage");
         }
 
         private bool CheckInput()
