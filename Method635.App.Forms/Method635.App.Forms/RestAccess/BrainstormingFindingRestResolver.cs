@@ -40,7 +40,7 @@ namespace Method635.App.Forms.RestAccess
             return string.Empty;
         }
 
-        public List<BrainstormingFinding> GetAllFindingsForTeam(string teamId = "525cb90d-b0c9-40ba-a741-f19d1e79fec0")
+        public List<BrainstormingFinding> GetAllFindingsForTeam(string teamId)
         {
             try
             {
@@ -63,18 +63,25 @@ namespace Method635.App.Forms.RestAccess
             return new List<BrainstormingFinding>();
         }
 
-        public BrainstormingFinding CreateBrainstormingFinding(BrainstormingFinding finding, string brainstormingTeamId = "525cb90d-b0c9-40ba-a741-f19d1e79fec0")
+        public BrainstormingFinding CreateBrainstormingFinding(BrainstormingFinding finding)
         {
             try
             {
                 Console.WriteLine("Creating brainstorming finding..");
-                var res = PostCall(finding, $"{FINDINGS_ENDPOINT}/{brainstormingTeamId}/{CREATE_FINDING_ENDPOINT}");
+                var res = PostCall(finding, $"{FINDINGS_ENDPOINT}/{finding.TeamId}/{CREATE_FINDING_ENDPOINT}");
                 if (res.IsSuccessStatusCode)
                 {
                     Console.WriteLine($"Created brainstorming finding. Content: {res.Content}");
                     var parsedResponseMessage = res.Content.ReadAsAsync<RestResponseMessage>().Result;
                     finding.Id = parsedResponseMessage.Text;
                     return finding;
+                }
+                else
+                {
+                    Console.WriteLine("The brainstorming finding couldn't be created.");
+                    var parsedResponseMessage = res.Content.ReadAsAsync<RestResponseMessage>().Result;
+                    Console.WriteLine(parsedResponseMessage.Title);
+                    Console.WriteLine(parsedResponseMessage.Text);
                 }
             }
             catch (RestEndpointException ex)

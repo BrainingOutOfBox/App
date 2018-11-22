@@ -40,17 +40,25 @@ namespace Method635.App.Forms.ViewModels.Brainstorming
                 Console.WriteLine("Invalid input to create finding..");
                 return;
             }
-            var finding = new BrainstormingFinding()
+            try
             {
-                TeamId = _context.CurrentBrainstormingTeam.Id,
-                Name = this.FindingName,
-                NrOfIdeas = this.nrOfIdeas,
-                BaseRoundTime = this.baseRoundTime,
-                ProblemDescription = this.Description
-            };
-            new BrainstormingFindingRestResolver().CreateBrainstormingFinding(finding);
-            _context.CurrentFinding = finding;
-            this._eventAggregator.GetEvent<RenderBrainstormingEvent>().Publish();
+                var finding = new BrainstormingFinding()
+                {
+                    TeamId = _context.CurrentBrainstormingTeam.Id,
+                    Name = this.FindingName,
+                    NrOfIdeas = this.nrOfIdeas,
+                    BaseRoundTime = this.baseRoundTime,
+                    ProblemDescription = this.Description
+                };
+                finding = new BrainstormingFindingRestResolver().CreateBrainstormingFinding(finding);
+                _context.CurrentFinding = finding;
+                this._eventAggregator.GetEvent<RenderBrainstormingEvent>().Publish();
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+            
         }
 
         private bool CheckInput()

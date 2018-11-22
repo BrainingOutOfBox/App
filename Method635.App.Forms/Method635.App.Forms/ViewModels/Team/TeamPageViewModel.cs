@@ -25,7 +25,11 @@ namespace Method635.App.Forms.ViewModels.Team
             this._context = context;
 
             this.TeamList = FillTeamList();
-
+            if (this.TeamList.Count > 0 && _context.CurrentBrainstormingTeam == null)
+            {
+                SelectedTeam = this.TeamList[0];
+                _context.CurrentBrainstormingTeam = this.SelectedTeam;
+            }
             this.SelectTeamCommand = new DelegateCommand(SelectTeam);
             this.CreateTeamCommand = new DelegateCommand(CreateTeam);
             this.JoinTeamCommand = new DelegateCommand(JoinTeam);
@@ -49,13 +53,15 @@ namespace Method635.App.Forms.ViewModels.Team
 
         private void SelectTeam()
         {
-            _context.CurrentBrainstormingTeam = SelectedTeam;
+            _context.CurrentBrainstormingTeam = _selectedTeam;
             this._eventAggregator.GetEvent<RenderBrainstormingListEvent>().Publish();
         }
 
         private List<BrainstormingTeam> FillTeamList()
         {
-            return new TeamRestResolver().GetMyBrainstormingTeams(_context.CurrentParticipant.UserName);
+            var teamList = new TeamRestResolver().GetMyBrainstormingTeams(_context.CurrentParticipant.UserName);
+            HasTeam = teamList.Count > 0;
+            return teamList;
         }
 
         private List<BrainstormingTeam> _teamList;
@@ -78,6 +84,15 @@ namespace Method635.App.Forms.ViewModels.Team
                 SetProperty(ref _selectedTeam, value);
             }
         }
+
+        private bool _hasTeam;
+        public bool HasTeam
+        {
+            get => _hasTeam;
+            set => SetProperty(ref _hasTeam, value);
+        }
+        public bool HasNoTeam => !HasTeam;
+
         public string Title => "My Teams";
 	}
 }

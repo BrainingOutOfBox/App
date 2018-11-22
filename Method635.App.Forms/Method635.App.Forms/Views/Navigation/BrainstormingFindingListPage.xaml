@@ -8,7 +8,7 @@
              Title="{Binding Title}"
              >
     <StackLayout>
-        <ListView ItemsSource="{Binding FindingList}" SelectedItem="{Binding SelectedFinding}">
+        <ListView ItemsSource="{Binding FindingList}" SelectedItem="{Binding SelectedFinding}" IsVisible="{Binding HasFindings}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
@@ -28,6 +28,13 @@
                                       Command="{Binding SelectFindingCommand}"/>
             </ListView.Behaviors>
         </ListView>
+        <Label IsEnabled="False" IsVisible="{Binding HasNoFindings}" HorizontalTextAlignment="Center"
+               VerticalTextAlignment="Center" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+            <Label.Text>
+There are no brainstorming findings for this team yet.. 
+Add a brainstorming finding below or wait till another team member creates one.
+            </Label.Text>
+        </Label>
         <Button Command="{Binding CreateFindingCommand}" Text="Add Brainstorming Finding"/>
     </StackLayout>
 </ContentPage>

@@ -2,16 +2,18 @@
 using Method635.App.Forms.PrismEvents;
 using Method635.App.Forms.RestAccess;
 using Method635.App.Forms.ViewModels.Navigation;
+using Prism;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
 using Prism.Navigation;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Method635.App.Forms.ViewModels
 {
-    public class BrainstormingFindingListPageViewModel : BindableBase
+    public class BrainstormingFindingListPageViewModel : BindableBase, INavigatedAware
     {
         private readonly INavigationService _navigationService;
         private readonly IEventAggregator _eventAggregator;
@@ -40,6 +42,7 @@ namespace Method635.App.Forms.ViewModels
         private void FillFindingListItems()
         {
             var findingItems = new BrainstormingFindingRestResolver().GetAllFindingsForTeam(_brainstormingContext.CurrentBrainstormingTeam?.Id);
+            HasFindings = findingItems.Count > 0;
             // Encapsulate findings from model into findings to be displayed in listview
             FindingList = findingItems.Select(finding => new BrainstormingFindingListItem(finding)).ToList();
         }
@@ -55,9 +58,19 @@ namespace Method635.App.Forms.ViewModels
             this._eventAggregator.GetEvent<RenderBrainstormingEvent>().Publish();
         }
 
+        public void OnNavigatedFrom(NavigationParameters parameters)
+        {
+        }
+
+        public void OnNavigatedTo(NavigationParameters parameters)
+        {
+            FillFindingListItems();
+        }
+
         public BrainstormingFindingListItem SelectedFinding { get; set; }
 
         public string Title => "Brainstorming Findings";
+
         private List<BrainstormingFindingListItem> _findingList;
         public List<BrainstormingFindingListItem> FindingList
         {
@@ -70,5 +83,13 @@ namespace Method635.App.Forms.ViewModels
                 SetProperty(ref _findingList, value);
             }
         }
+        private bool _hasFindings;
+        public bool HasFindings
+        {
+            get => _hasFindings;
+            set => SetProperty(ref _hasFindings, value);
+        }
+        public bool HasNoFindings => !HasFindings;
+        
     }
 }

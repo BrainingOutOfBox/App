@@ -8,7 +8,7 @@
              Title="{Binding Title}" >
 
     <StackLayout>
-        <ListView ItemsSource="{Binding TeamList}" SelectedItem="{Binding SelectedTeam}">
+        <ListView ItemsSource="{Binding TeamList}" SelectedItem="{Binding SelectedTeam}" IsVisible="{Binding HasTeam}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
@@ -31,6 +31,13 @@
                                       Command="{Binding SelectTeamCommand}"/>
             </ListView.Behaviors>
         </ListView>
+        <Label IsEnabled="False" IsVisible="{Binding HasNoTeam}" HorizontalTextAlignment="Center"
+               VerticalTextAlignment="Center" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+            <Label.Text>
+You don't belong to a team yet.. 
+Join or add a team below
+            </Label.Text>
+        </Label>
         <Button Command="{Binding JoinTeamCommand}" Text="Join Brainstorming Team"/>
 
         <Button Command="{Binding CreateTeamCommand}" Text="Add Brainstorming Team"/>
