@@ -11,8 +11,10 @@ namespace Method635.App.Forms.RestAccess
     {
         private const string FINDINGS_ENDPOINT = "Finding";
         private const string CREATE_FINDING_ENDPOINT = "createBrainstormingFinding";
+        private const string START_FINDING_ENDPOINT = "startBrainstorming";
         private const string TIMING_ENDPOINT_DIFF = "remainingTime";
         private const string GET_FINDINGS_ENDPOINT = "getBrainstormingFindings";
+        private const string GET_FINDING_ENDPOINT = "getBrainstormingFinding";
 
         public string GetRemainingTime(string findingId, string teamId)
         {
@@ -63,6 +65,32 @@ namespace Method635.App.Forms.RestAccess
             return new List<BrainstormingFinding>();
         }
 
+        internal BrainstormingFinding GetFinding(BrainstormingFinding finding)
+        {
+            try
+            {
+                Console.WriteLine("Getting brainstorming finding..");
+                var res = GetCall($"{FINDINGS_ENDPOINT}/{finding.Id}/{GET_FINDING_ENDPOINT}");
+                var parsedResponseMessage = res.Content.ReadAsAsync<RestResponseMessage>().Result;
+                Console.WriteLine(parsedResponseMessage.Title);
+                Console.WriteLine(parsedResponseMessage.Text);
+                if (res.IsSuccessStatusCode)
+                {
+                    Console.WriteLine($"Started brainstorming finding. Content: {res.Content}");
+                    return res.Content.ReadAsAsync<BrainstormingFinding>().Result;
+                }
+                else
+                {
+                    Console.WriteLine("The brainstorming finding couldn't be started.");
+                }
+            }
+            catch(RestEndpointException ex)
+            {
+                Console.WriteLine($"There was an error getting the finding {finding.Id}");
+            }
+            return finding;
+        }
+
         public BrainstormingFinding CreateBrainstormingFinding(BrainstormingFinding finding)
         {
             try
@@ -89,6 +117,32 @@ namespace Method635.App.Forms.RestAccess
                 Console.WriteLine($"Failed to create brainstorming finding: {ex.Message}");
             }
             return finding;
+        }
+        public bool StartBrainstormingFinding(string findingId)
+        {
+            try
+            {
+                Console.WriteLine("Starting brainstorming finding..");
+                var res = GetCall($"{FINDINGS_ENDPOINT}/{findingId}/{START_FINDING_ENDPOINT}");
+                var parsedResponseMessage = res.Content.ReadAsAsync<RestResponseMessage>().Result;
+                Console.WriteLine(parsedResponseMessage.Title);
+                Console.WriteLine(parsedResponseMessage.Text);
+                if (res.IsSuccessStatusCode)
+                {
+                    Console.WriteLine($"Started brainstorming finding. Content: {res.Content}");
+                    return true;
+                }
+                else
+                {
+                    Console.WriteLine("The brainstorming finding couldn't be started.");
+                }
+            }
+            catch (RestEndpointException ex)
+            {
+                Console.WriteLine($"Failed to create brainstorming finding: {ex.Message}");
+            }
+            return false;
+
         }
     }
 }

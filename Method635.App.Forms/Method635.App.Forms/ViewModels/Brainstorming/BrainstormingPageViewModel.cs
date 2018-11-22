@@ -49,18 +49,19 @@ namespace Method635.App.Forms.ViewModels
 
         public void OnNavigatedTo(NavigationParameters parameters)
         {
+            _context.CurrentFinding = this._brainstormingFindingRestResolver.GetFinding(_context.CurrentFinding);
             if (this._context.CurrentFinding.CurrentRound > 0)
             {
                 // Brainstorming has already started
                 return;
             }
             // TODO: Comment out once Participant/Team-Logic is implemented 
-            //var moderatorOfCurrentFinding = GetModeratorOfTeam(_context.CurrentFinding.TeamId);
-            //if (this._context.CurrentParticipant.UserName.Equals(moderatorOfCurrentFinding.UserName))
-            //{
-            //    // Brainstorming is not yet started and current user is the moderator -> Display StartBrainstorming
-            //    this._navigationService.NavigateAsync("StartBrainstormingPage");
-            //}
+            var moderatorOfCurrentFinding = GetModeratorOfTeam(_context.CurrentFinding.TeamId);
+            if (this._context.CurrentParticipant.UserName.Equals(moderatorOfCurrentFinding.UserName))
+            {
+                // Brainstorming is not yet started and current user is the moderator -> Display StartBrainstorming
+                this._navigationService.NavigateAsync("StartBrainstormingPage");
+            }
         }
 
         private Moderator GetModeratorOfTeam(string teamId)

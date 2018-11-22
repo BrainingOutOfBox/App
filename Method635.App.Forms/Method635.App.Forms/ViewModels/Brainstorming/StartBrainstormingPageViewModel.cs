@@ -1,4 +1,5 @@
-﻿using Method635.App.Forms.RestAccess;
+﻿using Method635.App.Forms.Context;
+using Method635.App.Forms.RestAccess;
 using Method635.App.Forms.RestAccess.RestExceptions;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -10,15 +11,19 @@ namespace Method635.App.Forms.ViewModels.Brainstorming
     public class StartBrainstormingPageViewModel : BindableBase
 	{
         private readonly INavigationService _navigationService;
-        public StartBrainstormingPageViewModel(INavigationService navigationService)
+        private readonly BrainstormingContext _context;
+
+        public StartBrainstormingPageViewModel(INavigationService navigationService, BrainstormingContext context)
         {
             this._navigationService = navigationService;
+            this._context = context;
             TapCommand = new DelegateCommand(StartBrainstorming);
         }
 
         public DelegateCommand TapCommand { get; set; }
         private async void StartBrainstorming()
         {
+            new BrainstormingFindingRestResolver().StartBrainstormingFinding(this._context.CurrentFinding.Id);
             await this._navigationService.NavigateAsync("BrainstormingPage");
         }
 
