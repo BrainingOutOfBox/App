@@ -17,6 +17,7 @@ namespace Method635.App.Forms.RestAccess
             {
                 BaseAddress = new Uri($"{URL}:{PORT}")
             };
+            
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             return client;
         }

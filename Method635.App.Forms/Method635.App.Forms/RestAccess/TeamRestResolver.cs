@@ -2,6 +2,7 @@
 using Method635.App.Forms.RestAccess.ResponseModel;
 using Method635.App.Forms.RestAccess.RestExceptions;
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 
 namespace Method635.App.Forms.RestAccess
@@ -12,6 +13,7 @@ namespace Method635.App.Forms.RestAccess
         private const string CREATE_ENDPOINT = "createBrainstormingTeam";
         private const string JOIN_ENDPOINT = "joinTeam";
         private const string GET_TEAM = "getBrainstormingTeam";
+        private const string GET_MY_TEAMS = "getMyBrainstormingTeams";
 
         public BrainstormingTeam GetTeamById(string teamId)
         {
@@ -42,6 +44,35 @@ namespace Method635.App.Forms.RestAccess
             return null;
         }
 
+        internal List<BrainstormingTeam> GetMyBrainstormingTeams(string userName)
+        {
+            try
+            {
+                Console.WriteLine($"Getting all teams for {userName}");
+                HttpResponseMessage response = GetCall($"{TEAM_ENDPOINT}/{userName}/{GET_MY_TEAMS}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var teams = response.Content.ReadAsAsync<List<BrainstormingTeam>>().Result;
+                    Console.WriteLine($"Got {teams.Count} teams for {userName}.");
+                    return teams;
+                }
+                else
+                {
+                    Console.WriteLine($"Response Code from GetMyTeams unsuccessful: {(int)response.StatusCode} ({response.ReasonPhrase})");
+                }
+            }
+            catch (RestEndpointException ex)
+            {
+                Console.WriteLine($"Error getting Team: {ex}");
+            }
+            catch (UnsupportedMediaTypeException ex)
+            {
+                Console.WriteLine($"Error getting Team (unsupported media type in response): {ex}");
+            }
+            return new List<BrainstormingTeam>();
+        }
+
         internal bool JoinTeam(string teamId, Participant participant)
         {
             try
@@ -57,7 +88,6 @@ namespace Method635.App.Forms.RestAccess
                 else
                 {
                     Console.WriteLine($"Response Code from JoinTeam unsuccessful: {(int)response.StatusCode} ({response.ReasonPhrase})");
-                    
                 }
             }
             catch (RestEndpointException ex)
@@ -105,8 +135,8 @@ namespace Method635.App.Forms.RestAccess
             try
             {
                 Console.WriteLine("Creating brainstorming team..");
-                var res = CreateBrainstormingTeamCall(brainstormingTeam);
-                
+                var res = PostCall(brainstormingTeam, $"{TEAM_ENDPOINT}/{CREATE_ENDPOINT}");
+
                 if (res.IsSuccessStatusCode)
                 {
                     Console.WriteLine($"Created brainstorming team. Content: {res.Content}");
@@ -125,12 +155,6 @@ namespace Method635.App.Forms.RestAccess
                 Console.WriteLine($"Failed to create brainstorming finding: {ex.Message}");
             }
             return brainstormingTeam;
-        }
-
-        private HttpResponseMessage CreateBrainstormingTeamCall(BrainstormingTeam brainstormingTeam)
-        {
-            brainstormingTeam.Moderator = new Moderator() { FirstName = "Lolo", LastName = "Langfuss", UserName = "LLFF", Password = "pwllff" };
-            return PostCall(brainstormingTeam, $"{TEAM_ENDPOINT}/{CREATE_ENDPOINT}");
         }
     }
 }

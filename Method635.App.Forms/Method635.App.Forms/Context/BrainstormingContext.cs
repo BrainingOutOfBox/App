@@ -6,6 +6,7 @@ namespace Method635.App.Forms.Context
     {
         public BrainstormingTeam CurrentBrainstormingTeam { get; set; }
         public Participant CurrentParticipant { get; set; }
+        public string JwtToken { get; set; }
         public BrainstormingFinding CurrentFinding { get; set; }
     }
 }
