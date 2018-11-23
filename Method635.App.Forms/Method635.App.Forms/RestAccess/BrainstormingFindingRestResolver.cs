@@ -50,7 +50,7 @@ namespace Method635.App.Forms.RestAccess
                 var res = GetCall($"{FINDINGS_ENDPOINT}/{teamId}/{GET_FINDINGS_ENDPOINT}");
                 if (res.IsSuccessStatusCode)
                 {
-                    Console.WriteLine($"Got all Brainstorminginfindgss finding. Content: {res.Content}");
+                    Console.WriteLine($"Got all Brainstormingfindings finding. Content: {res.Content}");
                     var brainstormingFindings = res.Content.ReadAsAsync<List<BrainstormingFinding>>().Result;
                     Console.WriteLine("got findings: ");
                     brainstormingFindings.ForEach(finding => Console.WriteLine(finding.Name));

@@ -6,6 +6,7 @@ using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
 using System;
+using System.Collections.Generic;
 using System.Timers;
 
 namespace Method635.App.Forms.ViewModels
@@ -17,18 +18,53 @@ namespace Method635.App.Forms.ViewModels
         private readonly BrainstormingContext _context;
         private readonly BrainstormingFindingRestResolver _brainstormingFindingRestResolver;
 
+        public DelegateCommand CommitCommand { get; }
+
         public BrainstormingPageViewModel(INavigationService navigationService, BrainstormingContext brainstormingContext)
         {
             this._navigationService = navigationService;
             this._context = brainstormingContext;
 
             this._findingTitle = _context.CurrentFinding?.Name;
-
+            EvaluateDisplayingIdeas();
             this._brainstormingFindingRestResolver = new BrainstormingFindingRestResolver();
+
+            this.CommitCommand = new DelegateCommand(CommitIdea);
 
             TimerSetup();
         }
-        
+
+        private void CommitIdea()
+        {
+            this.BrainWaves[_context.CurrentFinding.CurrentRound-1].Ideas[0].Description = IdeaText;
+            IdeaText = string.Empty;
+        }
+
+        private void EvaluateDisplayingIdeas()
+        {
+            if(_context.CurrentBrainstormingTeam==null || _context.CurrentFinding == null || !IsBrainstormingRunning())
+            {
+                return;
+            }
+            var teamParticipants = _context.CurrentBrainstormingTeam.Participants;
+            var positionInTeam = teamParticipants.IndexOf(teamParticipants.Find(p=>p.UserName.Equals(_context.CurrentParticipant.UserName)));
+            var currentRound = _context.CurrentFinding.CurrentRound;
+            var nrOfBrainsheets = _context.CurrentFinding.BrainSheets.Count;
+            //this.IdeaList = _context.CurrentFinding.BrainSheets[(currentRound + positionInTeam - 1) % nrOfBrainsheets].BrainWaves[currentRound-1].Ideas;
+
+            BrainWaves = _context.CurrentFinding.BrainSheets[(currentRound + positionInTeam - 1) % nrOfBrainsheets].BrainWaves;
+
+        }
+
+        private bool IsBrainstormingRunning()
+        {
+            return _context.CurrentFinding?.CurrentRound > 0;
+        }
+        private bool HasBrainstormingEnded()
+        {
+            return _context.CurrentFinding?.CurrentRound == -1;
+        }
+
         private void TimerSetup()
         {
             this._timer = new Timer(1000);
@@ -41,6 +77,8 @@ namespace Method635.App.Forms.ViewModels
                 _context.CurrentFinding.TeamId);
         }
 
+        public List<BrainWave> BrainWaves { get; private set; }
+
         // Navigation away from current page
         public void OnNavigatedFrom(NavigationParameters parameters)
         {
@@ -50,12 +88,14 @@ namespace Method635.App.Forms.ViewModels
         public void OnNavigatedTo(NavigationParameters parameters)
         {
             _context.CurrentFinding = this._brainstormingFindingRestResolver.GetFinding(_context.CurrentFinding);
-            if (this._context.CurrentFinding.CurrentRound > 0)
+            if (IsBrainstormingRunning() || HasBrainstormingEnded())
             {
                 // Brainstorming has already started
+                CurrentSheetText = $"Sheet {_context.CurrentFinding.CurrentRound} of {_context.CurrentBrainstormingTeam.NrOfParticipants}";
+                EvaluateDisplayingIdeas();
                 return;
             }
-            // TODO: Comment out once Participant/Team-Logic is implemented 
+
             var moderatorOfCurrentFinding = GetModeratorOfTeam(_context.CurrentFinding.TeamId);
             if (this._context.CurrentParticipant.UserName.Equals(moderatorOfCurrentFinding.UserName))
             {
@@ -85,17 +125,32 @@ namespace Method635.App.Forms.ViewModels
             }
         }
 
+
+        private string _ideaText;
+        public string IdeaText
+        {
+            get => _ideaText;
+            set => SetProperty(ref _ideaText, value);
+        }
+
         public string Title => "Brainstorming";
         private string _findingTitle;
 
         public event EventHandler IsActiveChanged;
 
-        public string FindingTitle {
+        public string FindingTitle
+        {
             get => _findingTitle;
             set
             {
                 SetProperty(ref _findingTitle, value);
             }
+        }
+        private string _currentSheetText;
+        public string CurrentSheetText
+        {
+            get => _currentSheetText;
+            set => SetProperty(ref _currentSheetText, value);
         }
 
         private bool _isActive;

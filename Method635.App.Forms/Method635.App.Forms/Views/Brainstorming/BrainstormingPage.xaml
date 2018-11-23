@@ -11,21 +11,46 @@
         <StackLayout Orientation="Horizontal" HeightRequest="50" Margin="0,0,50,0">
             <Image Source="start_brainstorming.PNG" Aspect="AspectFit" >
             </Image>
-            <Label Text="{Binding RemainingTime}"
+            <Label Text="{Binding CurrentSheet}" />
+            <Label Text="{Binding RemainingTime}" 
            HorizontalOptions="CenterAndExpand"
-           VerticalOptions="Center" />
+           VerticalOptions="Center" >
+               <!-- TODO animate with attached behaviors as soon as remainingTime < 10s -->
+            </Label>
         </StackLayout>
 
 
         <!-- CENTER -->
         <StackLayout Orientation="Vertical" VerticalOptions="CenterAndExpand" >
-            <Frame>
-                <Frame.GestureRecognizers>
-                    <SwipeGestureRecognizer Direction="Right" Command="{Binding SwipeRightCommand}" />
-                    <SwipeGestureRecognizer Direction="Left" Command="{Binding SwipeLeftCommand}" />
-                </Frame.GestureRecognizers>
-                <Label Text="{Binding FindingTitle}"  />
-            </Frame>
+            <ScrollView>
+                <Frame>
+                    <Frame.GestureRecognizers>
+                        <SwipeGestureRecognizer Direction="Right" Command="{Binding SwipeRightCommand}" />
+                        <SwipeGestureRecognizer Direction="Left" Command="{Binding SwipeLeftCommand}" />
+                    </Frame.GestureRecognizers>
+                    <ListView ItemsSource="{Binding BrainWaves}" >
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <StackLayout Orientation="Vertical" BackgroundColor="LightBlue">
+                                        <ListView ItemsSource="{Binding Ideas}">
+                                            <ListView.ItemTemplate>
+                                                <DataTemplate>
+                                                    <ViewCell>
+                                                        <Label Grid.Column="0" Text="{Binding Description}" />
+                                                    </ViewCell>
+                                                </DataTemplate>
+                                            </ListView.ItemTemplate>
+                                        </ListView>
+                                    </StackLayout>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                       
+                    </ListView>
+                    
+                </Frame>
+            </ScrollView>
         </StackLayout>
 
 
@@ -40,9 +65,9 @@
                     <ColumnDefinition Width="1*" />
                 </Grid.ColumnDefinitions>
                 <Frame>
-                    <Editor Grid.Column="0" HeightRequest="100" />
+                    <Editor Grid.Column="0" HeightRequest="100" Text="{Binding IdeaText}"/>
                 </Frame>
-                <Button Text="Commit" Grid.Column="1" VerticalOptions="Center"/>
+                <Button Text="Commit" Grid.Column="1" VerticalOptions="Center" Command="{Binding CommitCommand}"/>
             </Grid>
         </StackLayout>
 
