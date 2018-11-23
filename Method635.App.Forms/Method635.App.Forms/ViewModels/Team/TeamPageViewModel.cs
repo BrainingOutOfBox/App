@@ -1,5 +1,5 @@
-﻿using Method635.App.Forms.Context;
-using Method635.App.Forms.Models;
+﻿using Method635.App.Forms.BusinessModels;
+using Method635.App.Forms.Context;
 using Method635.App.Forms.PrismEvents;
 using Method635.App.Forms.RestAccess;
 using Prism.Commands;

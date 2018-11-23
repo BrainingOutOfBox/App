@@ -1,13 +1,10 @@
-﻿using Method635.App.Forms.Context;
-using Method635.App.Forms.Models;
-using Method635.App.Forms.Resources;
+﻿using Method635.App.Forms.BusinessModels;
+using Method635.App.Forms.Context;
 using Method635.App.Forms.RestAccess;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Method635.App.Forms.ViewModels
 {

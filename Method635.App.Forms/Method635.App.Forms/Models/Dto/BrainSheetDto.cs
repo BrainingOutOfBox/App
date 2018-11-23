@@ -1,16 +1,14 @@
 ﻿using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace Method635.App.Forms.Models
+namespace Method635.App.Forms.Dto
 {
-    public class BrainSheet
+    public class BrainSheetDto
     {
         [JsonProperty("nrOfSheet")]
         public int NrOfSheet { get; set; }
 
         [JsonProperty("brainwaves")]
-        public List<BrainWave> BrainWaves { get; set; }
+        public List<BrainWaveDto> BrainWaves { get; set; }
     }
 }

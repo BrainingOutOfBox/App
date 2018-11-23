@@ -1,4 +1,9 @@
-﻿using Method635.App.Forms.Context;
+﻿using System;
+using AutoMapper;
+using Method635.App.Forms.BusinessModels;
+using Method635.App.Forms.Context;
+using Method635.App.Forms.Dto;
+using Method635.App.Forms.RestAccess.ResponseModel;
 using Method635.App.Forms.ViewModels;
 using Method635.App.Forms.ViewModels.Account;
 using Method635.App.Forms.ViewModels.Brainstorming;
@@ -29,7 +34,25 @@ namespace Method635.App.Forms
         protected override async void OnInitialized()
         {
             InitializeComponent();
+            ConfigureMapping();
+
             await NavigationService.NavigateAsync("NavigationPage/LoginPage");
+        }
+
+        private void ConfigureMapping()
+        {
+            Mapper.Initialize(cfg =>
+            {
+                cfg.CreateMap<BrainSheetDto, BrainSheet>();
+                cfg.CreateMap<BrainstormingFindingDto, BrainstormingFinding>();
+                cfg.CreateMap<BrainstormingTeamDto, BrainstormingTeam>();
+                cfg.CreateMap<BrainWaveDto, BrainWave>();
+                cfg.CreateMap<ModeratorDto, Moderator>();
+                cfg.CreateMap<ParticipantDto, Participant>()
+                        .Include<ModeratorDto, Moderator>();
+                cfg.CreateMap<TextIdeaDto, TextIdea>();
+                cfg.CreateMap<RestLoginResponseDto, RestLoginResponse>();
+            });
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)

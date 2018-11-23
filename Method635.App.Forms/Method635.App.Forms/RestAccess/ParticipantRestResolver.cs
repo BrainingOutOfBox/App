@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Net.Http;
-using Method635.App.Forms.Models;
+using AutoMapper;
+using Method635.App.Forms.BusinessModels;
+using Method635.App.Forms.Dto;
 using Method635.App.Forms.RestAccess.ResponseModel;
 using Method635.App.Forms.RestAccess.RestExceptions;
 
@@ -17,7 +19,9 @@ namespace Method635.App.Forms.RestAccess
             try
             {
                 Console.WriteLine("Calling backend to create participant..");
-                var res = PostCall(newParticipant, $"{PARTICIPANT_ENDPOINT}/{REGISTER_ENDPOINT}");
+                var participantDto = Mapper.Map<ParticipantDto>(newParticipant);
+                
+                var res = PostCall(participantDto, $"{PARTICIPANT_ENDPOINT}/{REGISTER_ENDPOINT}");
                 if (res.IsSuccessStatusCode)
                 {
                     Console.WriteLine($"Created participant. Content: {res.Content}");
@@ -42,11 +46,15 @@ namespace Method635.App.Forms.RestAccess
             try
             {
                 Console.WriteLine("Calling backend to login..");
-                var res = PostCall(loginParticipant, $"{PARTICIPANT_ENDPOINT}/{LOGIN_ENDPOINT}");
+
+                var loginParticipantDto = Mapper.Map<ParticipantDto>(loginParticipant);
+                var res = PostCall(loginParticipantDto, $"{PARTICIPANT_ENDPOINT}/{LOGIN_ENDPOINT}");
+
                 if (res.IsSuccessStatusCode)
                 {
                     Console.WriteLine($"Participant {loginParticipant.UserName} successfully logged in.");
-                    return res.Content.ReadAsAsync<RestLoginResponse>().Result;
+                    var responseDto = res.Content.ReadAsAsync<RestLoginResponseDto>().Result;
+                    return Mapper.Map<RestLoginResponse>(responseDto);
                 }
             }
             catch (RestEndpointException ex)

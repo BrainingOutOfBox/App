@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 
-namespace Method635.App.Forms.Models
+namespace Method635.App.Forms.Dto
 {
-    public class Participant
+    public class ParticipantDto
     {
         [JsonProperty("username")]
         public string UserName { get; set; }

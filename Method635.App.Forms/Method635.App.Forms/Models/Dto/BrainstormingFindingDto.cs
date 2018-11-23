@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace Method635.App.Forms.Models
+namespace Method635.App.Forms.Dto
 {
-    public class BrainstormingFinding
+    public class BrainstormingFindingDto
     {
         [JsonProperty("identifier")]
         public string Id { get; set; }
@@ -27,6 +27,6 @@ namespace Method635.App.Forms.Models
         public int CurrentRound { get; set; }
 
         [JsonProperty("brainsheets")]
-        public List<BrainSheet> BrainSheets { get; set; }
+        public List<BrainSheetDto> BrainSheets { get; set; }
     }
 }

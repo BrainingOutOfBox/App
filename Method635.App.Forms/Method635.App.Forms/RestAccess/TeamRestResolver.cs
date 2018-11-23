@@ -1,8 +1,11 @@
-﻿using Method635.App.Forms.Models;
+﻿using AutoMapper;
+using Method635.App.Forms.BusinessModels;
+using Method635.App.Forms.Dto;
 using Method635.App.Forms.RestAccess.ResponseModel;
 using Method635.App.Forms.RestAccess.RestExceptions;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 
 namespace Method635.App.Forms.RestAccess
@@ -24,7 +27,8 @@ namespace Method635.App.Forms.RestAccess
 
                 if (response.IsSuccessStatusCode)
                 {
-                    var team = response.Content.ReadAsAsync<BrainstormingTeam>().Result;
+                    var teamDto = response.Content.ReadAsAsync<BrainstormingTeamDto>().Result;
+                    var team = Mapper.Map<BrainstormingTeam>(teamDto);
                     Console.WriteLine($"Got team {team.Name}");
                     return team;
                 }
@@ -53,7 +57,8 @@ namespace Method635.App.Forms.RestAccess
 
                 if (response.IsSuccessStatusCode)
                 {
-                    var teams = response.Content.ReadAsAsync<List<BrainstormingTeam>>().Result;
+                    var teamsDto = response.Content.ReadAsAsync<List<BrainstormingTeamDto>>().Result;
+                    var teams = teamsDto.Select(t => Mapper.Map<BrainstormingTeam>(t)).ToList();
                     Console.WriteLine($"Got {teams.Count} teams for {userName}.");
                     return teams;
                 }
@@ -78,7 +83,10 @@ namespace Method635.App.Forms.RestAccess
             try
             {
                 Console.WriteLine($"Joining team {teamId}");
-                HttpResponseMessage response = PutCall(participant, $"{TEAM_ENDPOINT}/{teamId}/{JOIN_ENDPOINT}");
+
+                var participantDto = Mapper.Map<ParticipantDto>(participant);
+
+                HttpResponseMessage response = PutCall(participantDto, $"{TEAM_ENDPOINT}/{teamId}/{JOIN_ENDPOINT}");
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -110,7 +118,10 @@ namespace Method635.App.Forms.RestAccess
 
                 if (response.IsSuccessStatusCode)
                 {
-                    var team = response.Content.ReadAsAsync<BrainstormingTeam>().Result;
+                    var teamDto = response.Content.ReadAsAsync<BrainstormingTeamDto>().Result;
+
+                    var team = Mapper.Map<BrainstormingTeam>(teamDto);
+
                     Console.WriteLine($"Got team {team.Name}");
                     return team.Moderator ?? null;
                 }
@@ -135,7 +146,10 @@ namespace Method635.App.Forms.RestAccess
             try
             {
                 Console.WriteLine("Creating brainstorming team..");
-                var res = PostCall(brainstormingTeam, $"{TEAM_ENDPOINT}/{CREATE_ENDPOINT}");
+
+                var teamDto = Mapper.Map<BrainstormingTeamDto>(brainstormingTeam);
+
+                var res = PostCall(teamDto, $"{TEAM_ENDPOINT}/{CREATE_ENDPOINT}");
 
                 if (res.IsSuccessStatusCode)
                 {

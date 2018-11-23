@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 
-namespace Method635.App.Forms.Models
+namespace Method635.App.Forms.Dto
 {
-    public class TextIdea : IIdea
+    public class TextIdeaDto : IIdea
     {
         [JsonProperty("description")]
         public string Description { get; set; }

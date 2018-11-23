@@ -1,7 +1,4 @@
-﻿using Method635.App.Forms.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Method635.App.Forms.BusinessModels;
 
 namespace Method635.App.Forms.ViewModels.Navigation
 {

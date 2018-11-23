@@ -1,8 +1,11 @@
-﻿using Method635.App.Forms.Models;
+﻿using AutoMapper;
+using Method635.App.Forms.BusinessModels;
+using Method635.App.Forms.Dto;
 using Method635.App.Forms.RestAccess.ResponseModel;
 using Method635.App.Forms.RestAccess.RestExceptions;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 
 namespace Method635.App.Forms.RestAccess
@@ -51,10 +54,13 @@ namespace Method635.App.Forms.RestAccess
                 if (res.IsSuccessStatusCode)
                 {
                     Console.WriteLine($"Got all Brainstormingfindings finding. Content: {res.Content}");
-                    var brainstormingFindings = res.Content.ReadAsAsync<List<BrainstormingFinding>>().Result;
+                    var brainstormingFindings = res.Content.ReadAsAsync<List<BrainstormingFindingDto>>().Result;
+
+                    var mappedFindings = brainstormingFindings.Select(f => Mapper.Map<BrainstormingFinding>(f)).ToList();
+
                     Console.WriteLine("got findings: ");
-                    brainstormingFindings.ForEach(finding => Console.WriteLine(finding.Name));
-                    return brainstormingFindings;
+                    mappedFindings.ForEach(finding => Console.WriteLine(finding.Name));
+                    return mappedFindings;
                 }
             }
             catch (RestEndpointException ex)
@@ -77,7 +83,8 @@ namespace Method635.App.Forms.RestAccess
                 if (res.IsSuccessStatusCode)
                 {
                     Console.WriteLine($"Started brainstorming finding. Content: {res.Content}");
-                    return res.Content.ReadAsAsync<BrainstormingFinding>().Result;
+                    var findingDto = res.Content.ReadAsAsync<BrainstormingFindingDto>().Result;
+                    return Mapper.Map<BrainstormingFinding>(findingDto);
                 }
                 else
                 {
@@ -96,7 +103,10 @@ namespace Method635.App.Forms.RestAccess
             try
             {
                 Console.WriteLine("Creating brainstorming finding..");
-                var res = PostCall(finding, $"{FINDINGS_ENDPOINT}/{finding.TeamId}/{CREATE_FINDING_ENDPOINT}");
+
+                var findingDto = Mapper.Map<BrainstormingFindingDto>(finding);
+
+                var res = PostCall(findingDto, $"{FINDINGS_ENDPOINT}/{finding.TeamId}/{CREATE_FINDING_ENDPOINT}");
                 if (res.IsSuccessStatusCode)
                 {
                     Console.WriteLine($"Created brainstorming finding. Content: {res.Content}");

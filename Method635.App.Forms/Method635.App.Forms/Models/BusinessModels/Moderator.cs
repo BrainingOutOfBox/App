@@ -1,4 +1,4 @@
-﻿namespace Method635.App.Forms.Models
+﻿namespace Method635.App.Forms.BusinessModels
 {
     public class Moderator : Participant
     {
