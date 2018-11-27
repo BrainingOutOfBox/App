@@ -15,6 +15,7 @@ namespace Method635.App.Forms.RestAccess
         private const string TIMING_ENDPOINT_DIFF = "remainingTime";
         private const string GET_FINDINGS_ENDPOINT = "getBrainstormingFindings";
         private const string GET_FINDING_ENDPOINT = "getBrainstormingFinding";
+        private const string BRAINSHEET_UPDATE_ENDPOINT = "putBrainsheet";
 
         public string GetRemainingTime(string findingId, string teamId)
         {
@@ -63,6 +64,28 @@ namespace Method635.App.Forms.RestAccess
             }
             Console.WriteLine($"No brainstorming findings found for team {teamId}");
             return new List<BrainstormingFinding>();
+        }
+
+        internal bool UpdateSheet(string findingId, BrainSheet brainSheet)
+        {
+            try
+            {
+                Console.WriteLine("Updating brainsheet..");
+                var res = PutCall(brainSheet, $"{FINDINGS_ENDPOINT}/{findingId}/{BRAINSHEET_UPDATE_ENDPOINT}");
+                var parsedResponseMessage = res.Content.ReadAsAsync<RestResponseMessage>().Result;
+                Console.WriteLine(parsedResponseMessage.Title);
+                Console.WriteLine(parsedResponseMessage.Text);
+                if (res.IsSuccessStatusCode)
+                {
+                    Console.WriteLine($"Updated finding. Content: {res.Content}");
+                    return true;
+                }
+            }
+            catch(RestEndpointException ex)
+            {
+                Console.WriteLine($"There was an error updating the brainsheet: {ex.Message}");
+            }
+            return false;
         }
 
         internal BrainstormingFinding GetFinding(BrainstormingFinding finding)

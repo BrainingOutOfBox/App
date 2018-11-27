@@ -17,6 +17,7 @@
            VerticalOptions="Center" >
                <!-- TODO animate with attached behaviors as soon as remainingTime < 10s -->
             </Label>
+            <Button Text="Send" Command="{Binding SendBrainwaveCommand}" HorizontalOptions="End"/>
         </StackLayout>
 
 
@@ -28,20 +29,20 @@
                         <SwipeGestureRecognizer Direction="Right" Command="{Binding SwipeRightCommand}" />
                         <SwipeGestureRecognizer Direction="Left" Command="{Binding SwipeLeftCommand}" />
                     </Frame.GestureRecognizers>
-                    <ListView ItemsSource="{Binding BrainWaves}" >
+                    <ListView ItemsSource="{Binding BrainWaves}" HasUnevenRows="True" BackgroundColor="LightCoral" Margin="10">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <ViewCell>
-                                    <StackLayout Orientation="Vertical" BackgroundColor="LightBlue">
-                                        <ListView ItemsSource="{Binding Ideas}">
-                                            <ListView.ItemTemplate>
-                                                <DataTemplate>
-                                                    <ViewCell>
-                                                        <Label Grid.Column="0" Text="{Binding Description}" />
-                                                    </ViewCell>
-                                                </DataTemplate>
-                                            </ListView.ItemTemplate>
-                                        </ListView>
+                                    <StackLayout Orientation="Vertical" BackgroundColor="LightBlue" Margin="0,20" >
+                                            <ListView ItemsSource="{Binding Ideas}" HasUnevenRows="True">
+                                                <ListView.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <ViewCell>
+                                                            <Label Grid.Column="0" Text="{Binding Description}" HeightRequest="80" Margin="5" VerticalTextAlignment="Start" HorizontalTextAlignment="Start"/>
+                                                        </ViewCell>
+                                                    </DataTemplate>
+                                                </ListView.ItemTemplate>
+                                            </ListView>
                                     </StackLayout>
                                 </ViewCell>
                             </DataTemplate>
@@ -67,7 +68,7 @@
                 <Frame>
                     <Editor Grid.Column="0" HeightRequest="100" Text="{Binding IdeaText}"/>
                 </Frame>
-                <Button Text="Commit" Grid.Column="1" VerticalOptions="Center" Command="{Binding CommitCommand}"/>
+                <Button Text="Commit" Grid.Column="1" VerticalOptions="Center" Command="{Binding CommitCommand}" IsEnabled="{Binding CommitEnabled}"/>
             </Grid>
         </StackLayout>
 

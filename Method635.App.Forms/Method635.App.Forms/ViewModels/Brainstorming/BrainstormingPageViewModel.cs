@@ -19,6 +19,8 @@ namespace Method635.App.Forms.ViewModels
         private readonly BrainstormingFindingRestResolver _brainstormingFindingRestResolver;
 
         public DelegateCommand CommitCommand { get; }
+        public DelegateCommand SendBrainwaveCommand { get; }
+        public DelegateCommand SwipeRightCommand { get; }
 
         public BrainstormingPageViewModel(INavigationService navigationService, BrainstormingContext brainstormingContext)
         {
@@ -30,13 +32,24 @@ namespace Method635.App.Forms.ViewModels
             this._brainstormingFindingRestResolver = new BrainstormingFindingRestResolver();
 
             this.CommitCommand = new DelegateCommand(CommitIdea);
-
+            this.SendBrainwaveCommand = new DelegateCommand(SendBrainWave);
             TimerSetup();
+        }
+        
+        private void SendBrainWave()
+        {
+            var nrOfBrainsheets = _context.CurrentFinding.BrainSheets.Count;
+            var currentSheet = _context.CurrentFinding.BrainSheets[(_context.CurrentFinding.CurrentRound + _positionInTeam - 1) % nrOfBrainsheets];
+            if(!_brainstormingFindingRestResolver.UpdateSheet(_context.CurrentFinding.Id, currentSheet))
+            {
+                Console.WriteLine("Couldn't place brainsheet");
+            }
         }
 
         private void CommitIdea()
         {
-            this.BrainWaves[_context.CurrentFinding.CurrentRound-1].Ideas[0].Description = IdeaText;
+            this.BrainWaves[_context.CurrentFinding.CurrentRound - 1].Ideas[commitIdeaIndex%(_context.CurrentFinding.NrOfIdeas)].Description = IdeaText;
+            commitIdeaIndex++;
             IdeaText = string.Empty;
         }
 
@@ -46,15 +59,15 @@ namespace Method635.App.Forms.ViewModels
             {
                 return;
             }
-            var teamParticipants = _context.CurrentBrainstormingTeam.Participants;
-            var positionInTeam = teamParticipants.IndexOf(teamParticipants.Find(p=>p.UserName.Equals(_context.CurrentParticipant.UserName)));
             var currentRound = _context.CurrentFinding.CurrentRound;
             var nrOfBrainsheets = _context.CurrentFinding.BrainSheets.Count;
             //this.IdeaList = _context.CurrentFinding.BrainSheets[(currentRound + positionInTeam - 1) % nrOfBrainsheets].BrainWaves[currentRound-1].Ideas;
 
-            BrainWaves = _context.CurrentFinding.BrainSheets[(currentRound + positionInTeam - 1) % nrOfBrainsheets].BrainWaves;
+            BrainWaves = _context.CurrentFinding.BrainSheets[(currentRound + _positionInTeam - 1) % nrOfBrainsheets].BrainWaves;
 
         }
+        private int _positionInTeam => _teamParticipants.IndexOf(_teamParticipants.Find(p => p.UserName.Equals(_context.CurrentParticipant.UserName)));
+        private List<Participant> _teamParticipants  => _context.CurrentBrainstormingTeam.Participants;
 
         private bool IsBrainstormingRunning()
         {
@@ -77,7 +90,6 @@ namespace Method635.App.Forms.ViewModels
                 _context.CurrentFinding.TeamId);
         }
 
-        public List<BrainWave> BrainWaves { get; private set; }
 
         // Navigation away from current page
         public void OnNavigatedFrom(NavigationParameters parameters)
@@ -115,6 +127,8 @@ namespace Method635.App.Forms.ViewModels
             this._timer.Dispose();
         }
 
+        private List<BrainWave> _brainWaves;
+        public List<BrainWave> BrainWaves { get => _brainWaves; private set => SetProperty(ref _brainWaves, value); }
         private string _remainingTime;
         public string RemainingTime
         {
@@ -124,6 +138,8 @@ namespace Method635.App.Forms.ViewModels
                 SetProperty(ref _remainingTime, value);
             }
         }
+
+        public bool CommitEnabled => BrainWaves != null;
 
 
         private string _ideaText;
@@ -154,6 +170,8 @@ namespace Method635.App.Forms.ViewModels
         }
 
         private bool _isActive;
+        private int commitIdeaIndex = 0;
+
         public bool IsActive
         {
             get { return _isActive; }
