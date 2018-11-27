@@ -99,12 +99,12 @@ namespace Method635.App.Forms.RestAccess
                 Console.WriteLine(parsedResponseMessage.Text);
                 if (res.IsSuccessStatusCode)
                 {
-                    Console.WriteLine($"Started brainstorming finding. Content: {res.Content}");
+                    Console.WriteLine($"Getting brainstorming finding. Content: {res.Content}");
                     return res.Content.ReadAsAsync<BrainstormingFinding>().Result;
                 }
                 else
                 {
-                    Console.WriteLine("The brainstorming finding couldn't be started.");
+                    Console.WriteLine($"Couldn't get finding {finding.Id}.");
                 }
             }
             catch(RestEndpointException ex)

@@ -25,10 +25,6 @@
         <StackLayout Orientation="Vertical" VerticalOptions="CenterAndExpand" >
             <ScrollView>
                 <Frame>
-                    <Frame.GestureRecognizers>
-                        <SwipeGestureRecognizer Direction="Right" Command="{Binding SwipeRightCommand}" />
-                        <SwipeGestureRecognizer Direction="Left" Command="{Binding SwipeLeftCommand}" />
-                    </Frame.GestureRecognizers>
                     <ListView ItemsSource="{Binding BrainWaves}" HasUnevenRows="True" BackgroundColor="LightCoral" Margin="10">
                         <ListView.ItemTemplate>
                             <DataTemplate>

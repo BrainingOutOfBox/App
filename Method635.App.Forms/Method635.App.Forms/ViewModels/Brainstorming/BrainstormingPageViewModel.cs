@@ -20,7 +20,6 @@ namespace Method635.App.Forms.ViewModels
 
         public DelegateCommand CommitCommand { get; }
         public DelegateCommand SendBrainwaveCommand { get; }
-        public DelegateCommand SwipeRightCommand { get; }
 
         public BrainstormingPageViewModel(INavigationService navigationService, BrainstormingContext brainstormingContext)
         {
@@ -44,6 +43,9 @@ namespace Method635.App.Forms.ViewModels
             {
                 Console.WriteLine("Couldn't place brainsheet");
             }
+            _context.CurrentFinding = _brainstormingFindingRestResolver.GetFinding(_context.CurrentFinding);
+            commitIdeaIndex = 0;
+            EvaluateDisplayingIdeas();
         }
 
         private void CommitIdea()
@@ -83,6 +85,7 @@ namespace Method635.App.Forms.ViewModels
             this._timer = new Timer(1000);
             _timer.Elapsed += UpdateRoundTime;
         }
+
         private void UpdateRoundTime(object sender, ElapsedEventArgs e)
         {
             RemainingTime = _brainstormingFindingRestResolver.GetRemainingTime(
@@ -128,7 +131,12 @@ namespace Method635.App.Forms.ViewModels
         }
 
         private List<BrainWave> _brainWaves;
-        public List<BrainWave> BrainWaves { get => _brainWaves; private set => SetProperty(ref _brainWaves, value); }
+        public List<BrainWave> BrainWaves
+        {
+            get => _brainWaves;
+            private set => SetProperty(ref _brainWaves, value);
+        }
+
         private string _remainingTime;
         public string RemainingTime
         {
