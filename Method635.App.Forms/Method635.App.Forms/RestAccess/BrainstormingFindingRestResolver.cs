@@ -17,7 +17,7 @@ namespace Method635.App.Forms.RestAccess
         private const string GET_FINDING_ENDPOINT = "getBrainstormingFinding";
         private const string BRAINSHEET_UPDATE_ENDPOINT = "putBrainsheet";
 
-        public string GetRemainingTime(string findingId, string teamId)
+        public TimeSpan GetRemainingTime(string findingId, string teamId)
         {
             try
             {
@@ -27,20 +27,19 @@ namespace Method635.App.Forms.RestAccess
                 if (response.IsSuccessStatusCode)
                 {
                     var remainingTimeInMs = response.Content.ReadAsAsync<long>().Result;
-                    var timeRemaining = TimeSpan.FromMilliseconds(remainingTimeInMs);
-                    return ($"{timeRemaining.Minutes:D2}m:{timeRemaining.Seconds:D2}s");
+                    return TimeSpan.FromMilliseconds(remainingTimeInMs);
                 }
                 else
                 {
                     Console.WriteLine($"{(int)response.StatusCode} ({response.ReasonPhrase})");
-                    return string.Empty;
+                    return TimeSpan.Zero;
                 }
             }
             catch (RestEndpointException ex)
             {
                 Console.WriteLine($"Error getting remaining time: {ex}");
             }
-            return string.Empty;
+            return TimeSpan.Zero;
         }
 
         public List<BrainstormingFinding> GetAllFindingsForTeam(string teamId)

@@ -39,10 +39,17 @@ namespace Method635.App.Forms.ViewModels
         {
             var nrOfBrainsheets = _context.CurrentFinding.BrainSheets.Count;
             var currentSheet = _context.CurrentFinding.BrainSheets[(_context.CurrentFinding.CurrentRound + _positionInTeam - 1) % nrOfBrainsheets];
-            if(!_brainstormingFindingRestResolver.UpdateSheet(_context.CurrentFinding.Id, currentSheet))
+            if (!_brainstormingFindingRestResolver.UpdateSheet(_context.CurrentFinding.Id, currentSheet))
             {
                 Console.WriteLine("Couldn't place brainsheet");
             }
+            brainWaveSent = true;
+            //TODO start timer to get brainsheet in 5s interval
+            NextRound();
+        }
+
+        private void NextRound()
+        {
             _context.CurrentFinding = _brainstormingFindingRestResolver.GetFinding(_context.CurrentFinding);
             commitIdeaIndex = 0;
             EvaluateDisplayingIdeas();
@@ -88,9 +95,15 @@ namespace Method635.App.Forms.ViewModels
 
         private void UpdateRoundTime(object sender, ElapsedEventArgs e)
         {
-            RemainingTime = _brainstormingFindingRestResolver.GetRemainingTime(
+            var remainingTime = _brainstormingFindingRestResolver.GetRemainingTime(
                 _context.CurrentFinding.Id,
                 _context.CurrentFinding.TeamId);
+            if (remainingTime < TimeSpan.FromSeconds(1) && !brainWaveSent)
+            {
+                SendBrainWave();
+                return;
+            }
+            RemainingTime = ($"{remainingTime.Minutes:D2}m:{remainingTime.Seconds:D2}s");
         }
 
 
@@ -179,6 +192,7 @@ namespace Method635.App.Forms.ViewModels
 
         private bool _isActive;
         private int commitIdeaIndex = 0;
+        private bool brainWaveSent;
 
         public bool IsActive
         {
