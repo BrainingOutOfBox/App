@@ -84,6 +84,10 @@ namespace Method635.App.Forms.RestAccess
             {
                 Console.WriteLine($"There was an error updating the brainsheet: {ex.Message}");
             }
+            catch(UnsupportedMediaTypeException ex)
+            {
+                Console.WriteLine($"There was an error updating the brainsheet (Unsupported media response): {ex.Message}");
+            }
             return false;
         }
 

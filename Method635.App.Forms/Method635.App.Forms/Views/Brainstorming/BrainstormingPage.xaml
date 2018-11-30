@@ -13,21 +13,20 @@
         <local:BrainstormingHeaderView />
         <!-- CENTER -->
         <StackLayout Orientation="Vertical" VerticalOptions="CenterAndExpand" >
-            <ScrollView>
-                <controls:CarouselViewControl ItemsSource="{Binding BrainSheets}" HeightRequest="1500" InterPageSpacing="50" Margin="15" Position="{Binding CurrentSheetNr}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                <controls:CarouselViewControl ItemsSource="{Binding BrainSheets}" MinimumHeightRequest="200" HeightRequest="400" InterPageSpacing="50" Margin="15" Position="{Binding CurrentSheetNr}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                     <controls:CarouselViewControl.ItemTemplate>
                         <DataTemplate>
                             <Frame BorderColor="LightGray">
-                                <ListView ItemsSource="{Binding BrainWaves}" HasUnevenRows="True">
+                                <ListView ItemsSource="{Binding BrainWaves}" HasUnevenRows="True" >
                                     <ListView.ItemTemplate>
                                         <DataTemplate>
                                             <ViewCell>
                                                 <StackLayout Orientation="Vertical" BackgroundColor="#F9F9F9" Margin="0,20">
-                                                    <ListView ItemsSource="{Binding Ideas}" HasUnevenRows="True">
+                                                    <ListView ItemsSource="{Binding Ideas}" HasUnevenRows="False" RowHeight="100" SelectionMode="None">
                                                         <ListView.ItemTemplate>
                                                             <DataTemplate>
                                                                 <ViewCell>
-                                                                    <Label Grid.Column="0" Text="{Binding Description}" HeightRequest="80" Margin="5" VerticalTextAlignment="Start" HorizontalTextAlignment="Start"/>
+                                                                    <Label Text="{Binding Description}" Margin="5" VerticalTextAlignment="Start" HorizontalTextAlignment="Start"/>
                                                                 </ViewCell>
                                                             </DataTemplate>
                                                         </ListView.ItemTemplate>
@@ -41,7 +40,6 @@
                         </DataTemplate>
                     </controls:CarouselViewControl.ItemTemplate>
                 </controls:CarouselViewControl>
-            </ScrollView>
         </StackLayout>
 
 
