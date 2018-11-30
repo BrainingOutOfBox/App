@@ -7,7 +7,7 @@
              x:Class="Method635.App.Forms.Views.Navigation.BrainstormingFindingListPage"
              Title="{Binding Title}">
     <StackLayout>
-        <ListView ItemsSource="{Binding FindingList}" SelectedItem="{Binding SelectedFinding}" IsVisible="{Binding HasFindings}">
+        <ListView ItemsSource="{Binding FindingList}" SelectedItem="{Binding SelectedFinding}" IsVisible="{Binding HasFindings}" IsPullToRefreshEnabled="True" RefreshCommand="{Binding RefreshFindingListCommand}" IsRefreshing="{Binding IsRefreshing}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
