@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Method635.App.Forms.Views.Brainstorming.BrainstormingHeaderView">
+  <ContentView.Content>
+        <StackLayout Orientation="Horizontal" HeightRequest="50" Margin="0,0,50,0" HorizontalOptions="FillAndExpand">
+            <Image Source="start_brainstorming.PNG" Aspect="AspectFit" >
+            </Image>
+            <Label Text="{Binding CurrentSheet}" IsVisible="{Binding HasBrainstormingNotEnded}"/>
+            <Label Text="{Binding RemainingTime}"  
+           HorizontalOptions="CenterAndExpand"
+           VerticalOptions="Center" IsVisible="{Binding HasBrainstormingNotEnded}">
+                <!-- TODO animate with attached behaviors as soon as remainingTime < 10s  -->
+            </Label>
+            <Label Text="Completed" TextColor="Green" IsVisible="{Binding IsBrainstormingFinished}" FontSize="Medium" VerticalOptions="Center" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
+            <Button Text="Send" Command="{Binding SendBrainwaveCommand}" IsVisible="{Binding HasBrainstormingNotEnded}" HorizontalOptions="End" />
+        </StackLayout>
+    </ContentView.Content>
+</ContentView>

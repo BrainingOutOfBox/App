@@ -2,67 +2,61 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+             xmlns:local="clr-namespace:Method635.App.Forms.Views.Brainstorming"
+             xmlns:controls="clr-namespace:CarouselView.FormsPlugin.Abstractions;assembly=CarouselView.FormsPlugin.Abstractions"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="Method635.App.Forms.Views.Brainstorming.BrainstormingPage"
              Title="{Binding Title}">
 
     <StackLayout Orientation="Vertical">
         <!-- HEADER -->
-        <StackLayout Orientation="Horizontal" HeightRequest="50" Margin="0,0,50,0">
-            <Image Source="start_brainstorming.PNG" Aspect="AspectFit" >
-            </Image>
-            <Label Text="{Binding CurrentSheet}" />
-            <Label Text="{Binding RemainingTime}" 
-           HorizontalOptions="CenterAndExpand"
-           VerticalOptions="Center" >
-               <!-- TODO animate with attached behaviors as soon as remainingTime < 10s -->
-            </Label>
-            <Button Text="Send" Command="{Binding SendBrainwaveCommand}" HorizontalOptions="End"/>
-        </StackLayout>
-
-
+        <local:BrainstormingHeaderView />
         <!-- CENTER -->
         <StackLayout Orientation="Vertical" VerticalOptions="CenterAndExpand" >
             <ScrollView>
-                <Frame>
-                    <ListView ItemsSource="{Binding BrainWaves}" HasUnevenRows="True" BackgroundColor="LightCoral" Margin="10">
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <ViewCell>
-                                    <StackLayout Orientation="Vertical" BackgroundColor="LightBlue" Margin="0,20" >
-                                            <ListView ItemsSource="{Binding Ideas}" HasUnevenRows="True">
-                                                <ListView.ItemTemplate>
-                                                    <DataTemplate>
-                                                        <ViewCell>
-                                                            <Label Grid.Column="0" Text="{Binding Description}" HeightRequest="80" Margin="5" VerticalTextAlignment="Start" HorizontalTextAlignment="Start"/>
-                                                        </ViewCell>
-                                                    </DataTemplate>
-                                                </ListView.ItemTemplate>
-                                            </ListView>
-                                    </StackLayout>
-                                </ViewCell>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                       
-                    </ListView>
-                    
-                </Frame>
+                <controls:CarouselViewControl ItemsSource="{Binding BrainSheets}" HeightRequest="1500" InterPageSpacing="50" Margin="15" Position="{Binding CurrentSheetNr}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                    <controls:CarouselViewControl.ItemTemplate>
+                        <DataTemplate>
+                            <Frame BorderColor="LightGray">
+                                <ListView ItemsSource="{Binding BrainWaves}" HasUnevenRows="True">
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <ViewCell>
+                                                <StackLayout Orientation="Vertical" BackgroundColor="#F9F9F9" Margin="0,20">
+                                                    <ListView ItemsSource="{Binding Ideas}" HasUnevenRows="True">
+                                                        <ListView.ItemTemplate>
+                                                            <DataTemplate>
+                                                                <ViewCell>
+                                                                    <Label Grid.Column="0" Text="{Binding Description}" HeightRequest="80" Margin="5" VerticalTextAlignment="Start" HorizontalTextAlignment="Start"/>
+                                                                </ViewCell>
+                                                            </DataTemplate>
+                                                        </ListView.ItemTemplate>
+                                                    </ListView>
+                                                </StackLayout>
+                                            </ViewCell>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                            </Frame>
+                        </DataTemplate>
+                    </controls:CarouselViewControl.ItemTemplate>
+                </controls:CarouselViewControl>
             </ScrollView>
         </StackLayout>
 
 
         <!-- FOOTER -->
-        <StackLayout Orientation="Vertical" VerticalOptions="End" HorizontalOptions="Fill" Margin="10">
+        <StackLayout Orientation="Vertical" VerticalOptions="End" HorizontalOptions="Fill" Margin="10" IsVisible="{Binding HasBrainstormingNotEnded}">
             <StackLayout Orientation="Horizontal" VerticalOptions="Start">
                 <Label Text="Idea Description:" />
             </StackLayout>
-            <Grid HorizontalOptions="FillAndExpand" >
+            <Grid HorizontalOptions="FillAndExpand" MinimumHeightRequest="100">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="3*" />
                     <ColumnDefinition Width="1*" />
                 </Grid.ColumnDefinitions>
                 <Frame>
-                    <Editor Grid.Column="0" HeightRequest="100" Text="{Binding IdeaText}"/>
+                    <Editor Grid.Column="0" HeightRequest="100" Text="{Binding IdeaText}" />
                 </Frame>
                 <Button Text="Commit" Grid.Column="1" VerticalOptions="Center" Command="{Binding CommitCommand}" IsEnabled="{Binding CommitEnabled}"/>
             </Grid>
