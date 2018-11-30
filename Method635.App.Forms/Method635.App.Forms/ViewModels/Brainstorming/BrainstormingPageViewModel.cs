@@ -90,8 +90,13 @@ namespace Method635.App.Forms.ViewModels
 
         private void EvaluateDisplayedBrainWaves()
         {
-            if (_context.CurrentBrainstormingTeam == null || _context.CurrentFinding == null || IsWaiting())
+            if (_context.CurrentBrainstormingTeam == null || _context.CurrentFinding == null)
             {
+                return;
+            }
+            if (IsWaiting())
+            {
+                RoundStartedTimerSetup();
                 return;
             }
             BrainSheets = new ObservableCollection<BrainSheet>(_context.CurrentFinding?.BrainSheets);
@@ -220,7 +225,7 @@ namespace Method635.App.Forms.ViewModels
             }
         }
 
-        public bool CommitEnabled => BrainWaves != null;
+        public bool CommitEnabled => BrainWaves != null || _context.CurrentFinding?.CurrentRound>0;
 
 
         private string _ideaText;

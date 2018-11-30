@@ -15,6 +15,6 @@
                 <common:EncodingOptions Height="250" Width="250" PureBarcode="True" />
             </forms:ZXingBarcodeImageView.BarcodeOptions>
         </forms:ZXingBarcodeImageView>
-        <Label Text="{Binding MemberCountString}" HorizontalOptions="Center"/>
+        <Label Text="{Binding MemberCountString}" HorizontalOptions="Center" Margin="0,10"/>
     </StackLayout>
 </ContentPage>
