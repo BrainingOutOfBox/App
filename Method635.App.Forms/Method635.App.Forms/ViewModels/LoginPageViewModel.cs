@@ -14,7 +14,7 @@ namespace Method635.App.Forms.ViewModels
     public class LoginPageViewModel : BindableBase
     {
         private readonly INavigationService _navigationService;
-        private BrainstormingContext _context;
+        private readonly BrainstormingContext _context;
 
         public LoginPageViewModel(INavigationService navigationService, BrainstormingContext context)
         {

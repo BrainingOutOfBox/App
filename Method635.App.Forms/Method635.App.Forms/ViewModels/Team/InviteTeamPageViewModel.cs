@@ -1,5 +1,7 @@
 ﻿using Method635.App.Forms.Context;
+using Method635.App.Forms.PrismEvents;
 using Method635.App.Forms.RestAccess;
+using Prism.Events;
 using Prism.Mvvm;
 using Prism.Navigation;
 using System.Timers;
@@ -9,13 +11,16 @@ namespace Method635.App.Forms.ViewModels.Team
 {
     public class InviteTeamPageViewModel : BindableBase, IDestructible
     {
+        private readonly INavigationService _navigationService;
+        private readonly IEventAggregator _eventAggregator;
         private readonly BrainstormingContext _context;
 
-        public InviteTeamPageViewModel(BrainstormingContext context)
+        public InviteTeamPageViewModel(INavigationService navigationService, IEventAggregator eventAggregator, BrainstormingContext context)
         {
+            this._navigationService = navigationService;
+            this._eventAggregator = eventAggregator;
             this._context = context;
             TeamId = _context.CurrentBrainstormingTeam.Id;
-            SetUpBarcodeOptions();
             InitiateMemberCountTimer();
         }
 
@@ -30,12 +35,10 @@ namespace Method635.App.Forms.ViewModels.Team
         {
             _memberCount = new TeamRestResolver().GetTeamById(
                     _context.CurrentBrainstormingTeam.Id).CurrentNrOfParticipants;
-
-        }
-
-        private void SetUpBarcodeOptions()
-        {
-            this.BarcodeOptions = new EncodingOptions() { Height = 250, Width = 250, PureBarcode = true };
+            if (_memberCount == _teamCapacity)
+            {
+                this._eventAggregator.GetEvent<RenderBrainstormingListEvent>().Publish();
+            }
         }
 
         public void Destroy()
@@ -76,6 +79,5 @@ namespace Method635.App.Forms.ViewModels.Team
             }
         }
         private int _teamCapacity => _context.CurrentBrainstormingTeam.NrOfParticipants;
-        public EncodingOptions BarcodeOptions { get; private set; }
     }
 }

@@ -3,11 +3,18 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
              xmlns:forms="clr-namespace:ZXing.Net.Mobile.Forms;assembly=ZXing.Net.Mobile.Forms"
+             xmlns:common="clr-namespace:ZXing.Common;assembly=zxing.portable"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="Method635.App.Forms.Views.Team.InviteTeamPage" Title="Invite Team Members">
     <StackLayout Orientation="Vertical" >
+        <Entry x:Name="BackupCodeFiled" Text="{Binding TeamId}" IsVisible="False"/>
+
         <Label Margin="20" Text="Tell your team members to scan the QR-Code to join the team" FontSize="Small" HorizontalTextAlignment="Center"/>
-        <forms:ZXingBarcodeImageView BarcodeValue="{Binding TeamId}" BarcodeOptions="{Binding BarcodeOptions}" BarcodeFormat="QR_CODE" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />
+        <forms:ZXingBarcodeImageView BindingContext="{x:Reference BackupCodeFiled}" BarcodeValue="{Binding Path=Text}"  BarcodeFormat="QR_CODE" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" >
+            <forms:ZXingBarcodeImageView.BarcodeOptions>
+                <common:EncodingOptions Height="250" Width="250" PureBarcode="True" />
+            </forms:ZXingBarcodeImageView.BarcodeOptions>
+        </forms:ZXingBarcodeImageView>
         <Label Text="{Binding MemberCountString}" HorizontalOptions="Center"/>
     </StackLayout>
 </ContentPage>
