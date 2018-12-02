@@ -33,10 +33,11 @@ namespace Method635.App.Forms.ViewModels.Team
 
         private void UpdateMemberCount(object sender, ElapsedEventArgs e)
         {
-            _memberCount = new TeamRestResolver().GetTeamById(
-                    _context.CurrentBrainstormingTeam.Id).CurrentNrOfParticipants;
-            if (_memberCount == _teamCapacity)
+            var newestTeam = new TeamRestResolver().GetTeamById(
+                    _context.CurrentBrainstormingTeam.Id);
+            if (newestTeam.CurrentNrOfParticipants == _teamCapacity)
             {
+                _context.CurrentBrainstormingTeam = newestTeam;
                 this._eventAggregator.GetEvent<RenderBrainstormingListEvent>().Publish();
             }
         }

@@ -114,9 +114,17 @@ namespace Method635.App.Forms.ViewModels
         public bool HasFindings
         {
             get => _hasFindings;
-            set => SetProperty(ref _hasFindings, value);
+            set
+            {
+                SetProperty(ref _hasFindings, value);
+                HasNoFindings = !value;
+            }
         }
-        public bool HasNoFindings => !HasFindings;
-        
+        private bool _hasNoFindings;
+        public bool HasNoFindings
+        {
+            get => _hasNoFindings;
+            set => SetProperty(ref _hasNoFindings, value);
+        }
     }
 }
