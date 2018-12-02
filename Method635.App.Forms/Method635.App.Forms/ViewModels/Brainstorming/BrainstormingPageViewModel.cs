@@ -40,14 +40,24 @@ namespace Method635.App.Forms.ViewModels
 
         private void SendBrainWave()
         {
-            var nrOfBrainsheets = _context.CurrentFinding.BrainSheets.Count;
-            var currentSheet = _context.CurrentFinding.BrainSheets[(_context.CurrentFinding.CurrentRound + _positionInTeam - 1) % nrOfBrainsheets];
-            if (!_brainstormingFindingRestResolver.UpdateSheet(_context.CurrentFinding.Id, currentSheet))
+            try
             {
-                Console.WriteLine("Couldn't place brainsheet");
+
+                var nrOfBrainsheets = _context.CurrentFinding.BrainSheets.Count;
+                var currentSheet = _context.CurrentFinding.BrainSheets[(_context.CurrentFinding.CurrentRound + _positionInTeam - 1) % nrOfBrainsheets];
+                if (!_brainstormingFindingRestResolver.UpdateSheet(_context.CurrentFinding.Id, currentSheet))
+                {
+                    Console.WriteLine("Couldn't place brainsheet");
+                }
+                brainWaveSent = true;
+                RoundStartedTimerSetup();
+
             }
-            brainWaveSent = true;
-            RoundStartedTimerSetup();
+            catch (ArgumentOutOfRangeException ex)
+            {
+                Console.Write("Invalid index access!");
+            }
+
         }
 
         private void RoundStartedTimerSetup()
@@ -83,9 +93,17 @@ namespace Method635.App.Forms.ViewModels
 
         private void CommitIdea()
         {
-            this.BrainWaves[_context.CurrentFinding.CurrentRound - 1].Ideas[commitIdeaIndex % (_context.CurrentFinding.NrOfIdeas)].Description = IdeaText;
-            commitIdeaIndex++;
-            IdeaText = string.Empty;
+            try
+            {
+
+                this.BrainWaves[_context.CurrentFinding.CurrentRound - 1].Ideas[commitIdeaIndex % (_context.CurrentFinding.NrOfIdeas)].Description = IdeaText;
+                commitIdeaIndex++;
+                IdeaText = string.Empty;
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                Console.Write("Invalid index access!");
+            }
         }
 
         private void EvaluateDisplayedBrainWaves()
@@ -225,7 +243,7 @@ namespace Method635.App.Forms.ViewModels
             }
         }
 
-        public bool CommitEnabled => BrainWaves != null || _context.CurrentFinding?.CurrentRound>0;
+        public bool CommitEnabled => BrainWaves != null || _context.CurrentFinding?.CurrentRound > 0;
 
 
         private string _ideaText;

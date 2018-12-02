@@ -12,8 +12,8 @@
         <!-- HEADER -->
         <local:BrainstormingHeaderView />
         <!-- CENTER -->
-        <StackLayout Orientation="Vertical" VerticalOptions="CenterAndExpand" >
-                <controls:CarouselViewControl ItemsSource="{Binding BrainSheets}" HeightRequest="400" InterPageSpacing="50" Margin="15" Position="{Binding CurrentSheetNr}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+        <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" >
+                <controls:CarouselViewControl ItemsSource="{Binding BrainSheets}"  InterPageSpacing="50" Margin="15" Position="{Binding CurrentSheetNr}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                     <controls:CarouselViewControl.ItemTemplate>
                         <DataTemplate>
                             <Frame BorderColor="LightGray">
