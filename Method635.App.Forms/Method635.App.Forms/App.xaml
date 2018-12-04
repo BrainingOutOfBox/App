@@ -2,8 +2,9 @@
 <prism:PrismApplication xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="clr-namespace:Prism.DryIoc;assembly=Prism.DryIoc.Forms"
+                        xmlns:local="clr-namespace:Method635.App.Forms.Converter"
              x:Class="Method635.App.Forms.App">
     <Application.Resources>
-
+        <local:InvertBooleanConverter x:Key="InvertBooleanConverter" />
     </Application.Resources>
 </prism:PrismApplication>

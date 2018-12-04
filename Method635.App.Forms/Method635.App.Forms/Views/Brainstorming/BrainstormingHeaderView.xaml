@@ -13,7 +13,7 @@
                 <!-- TODO animate with attached behaviors as soon as remainingTime < 10s  -->
             </Label>
             <Label Text="Completed" TextColor="Green" IsVisible="{Binding IsBrainstormingFinished}" FontSize="Medium" VerticalOptions="Center" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
-            <Button Text="Send" Command="{Binding SendBrainwaveCommand}" IsVisible="{Binding HasBrainstormingNotEnded}" HorizontalOptions="End" />
+            <Button Text="Send" Command="{Binding SendBrainwaveCommand}" IsVisible="{Binding HasBrainstormingNotEnded}" IsEnabled="{Binding BrainWaveSent, Converter={StaticResource Key=InvertBooleanConverter}}" HorizontalOptions="End" />
         </StackLayout>
     </ContentView.Content>
 </ContentView>

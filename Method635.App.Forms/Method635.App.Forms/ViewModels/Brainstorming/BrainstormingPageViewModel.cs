@@ -36,6 +36,7 @@ namespace Method635.App.Forms.ViewModels
 
             EvaluateDisplayedBrainWaves();
             RemainingTimeTimerSetup();
+            BrainWaveSent = false;
         }
 
         private void SendBrainWave()
@@ -48,7 +49,7 @@ namespace Method635.App.Forms.ViewModels
                 {
                     Console.WriteLine("Couldn't place brainsheet");
                 }
-                brainWaveSent = true;
+                BrainWaveSent = true;
                 RoundStartedTimerSetup();
 
             }
@@ -85,7 +86,7 @@ namespace Method635.App.Forms.ViewModels
         {
             _nextCheckRoundTimer.Stop();
             _nextCheckRoundTimer.Dispose();
-            brainWaveSent = false;
+            BrainWaveSent = false;
             commitIdeaIndex = 0;
             EvaluateDisplayedBrainWaves();
         }
@@ -160,7 +161,7 @@ namespace Method635.App.Forms.ViewModels
                 _context.CurrentFinding.Id,
                 _context.CurrentFinding.TeamId);
 
-            if (IsBrainstormingRunning() && remainingTime < TimeSpan.FromSeconds(1) && !brainWaveSent)
+            if (IsBrainstormingRunning() && remainingTime < TimeSpan.FromSeconds(1) && !BrainWaveSent)
             {
                 SendBrainWave();
                 return;
@@ -280,7 +281,12 @@ namespace Method635.App.Forms.ViewModels
 
         private bool _isActive;
         private int commitIdeaIndex = 0;
-        private bool brainWaveSent;
+        private bool _brainWaveSent;
+        public bool BrainWaveSent
+        {
+            get => _brainWaveSent;
+            set => SetProperty(ref _brainWaveSent, value);
+        }
 
         public bool IsActive
         {
