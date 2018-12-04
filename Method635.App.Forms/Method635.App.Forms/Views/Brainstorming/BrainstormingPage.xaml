@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
@@ -12,8 +12,8 @@
         <!-- HEADER -->
         <local:BrainstormingHeaderView />
         <!-- CENTER -->
-        <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" >
-                <controls:CarouselViewControl ItemsSource="{Binding BrainSheets}" InterPageSpacing="50" Margin="15" Position="{Binding CurrentSheetNr}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+        <StackLayout Orientation="Vertical" VerticalOptions="CenterAndExpand" >
+                <controls:CarouselViewControl ItemsSource="{Binding BrainSheets}" HeightRequest="300" InterPageSpacing="50" Margin="15" Position="{Binding CurrentSheetNr}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                     <controls:CarouselViewControl.ItemTemplate>
                         <DataTemplate>
                             <Frame BorderColor="LightGray">
