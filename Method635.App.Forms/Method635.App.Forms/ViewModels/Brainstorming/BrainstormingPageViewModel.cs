@@ -119,6 +119,8 @@ namespace Method635.App.Forms.ViewModels
             BrainSheets = new ObservableCollection<BrainSheet>(_context.CurrentFinding?.BrainSheets);
             if (HasBrainstormingEnded())
             {
+                IsBrainstormingFinished = true;
+                BrainWaves = _context.CurrentFinding.BrainSheets[CurrentSheetNr+1% BrainSheets.Count].BrainWaves;
                 return;
             }
 
@@ -276,8 +278,12 @@ namespace Method635.App.Forms.ViewModels
             set => SetProperty(ref _currentSheetText, value);
         }
 
-        public bool HasBrainstormingNotEnded => !HasBrainstormingEnded();
-        public bool IsBrainstormingFinished => HasBrainstormingEnded();
+        private bool _isBrainstormingFinished;
+        public bool IsBrainstormingFinished
+        {
+            get => _isBrainstormingFinished;
+            set => SetProperty(ref _isBrainstormingFinished, value);
+        }
 
         private bool _isActive;
         private int commitIdeaIndex = 0;
@@ -295,7 +301,7 @@ namespace Method635.App.Forms.ViewModels
             {
                 SetProperty(ref _isActive, value, () => System.Diagnostics.Debug.WriteLine($"{Title} IsActive Changed: {value}"));
 
-                if (_isActive && !this._updateRoundTimer.Enabled && HasBrainstormingNotEnded)
+                if (_isActive && !this._updateRoundTimer.Enabled && !IsBrainstormingFinished)
                 {
                     this._updateRoundTimer.Start();
                 }

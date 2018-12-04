@@ -13,7 +13,7 @@
         <local:BrainstormingHeaderView />
         <!-- CENTER -->
         <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" >
-                <controls:CarouselViewControl ItemsSource="{Binding BrainSheets}"  InterPageSpacing="50" Margin="15" Position="{Binding CurrentSheetNr}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                <controls:CarouselViewControl ItemsSource="{Binding BrainSheets}" InterPageSpacing="50" Margin="15" Position="{Binding CurrentSheetNr}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                     <controls:CarouselViewControl.ItemTemplate>
                         <DataTemplate>
                             <Frame BorderColor="LightGray">
@@ -44,7 +44,7 @@
 
 
         <!-- FOOTER -->
-        <StackLayout Orientation="Vertical" VerticalOptions="End" HorizontalOptions="Fill" Margin="10" IsVisible="{Binding HasBrainstormingNotEnded}">
+        <StackLayout Orientation="Vertical" VerticalOptions="End" HorizontalOptions="Fill" Margin="10" IsVisible="{Binding IsBrainstormingFinished, Converter={StaticResource InvertBooleanConverter}}">
             <StackLayout Orientation="Horizontal" VerticalOptions="Start">
                 <Label Text="Idea Description:" />
             </StackLayout>

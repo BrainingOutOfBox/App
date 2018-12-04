@@ -93,6 +93,7 @@ namespace Method635.App.Forms.ViewModels.Brainstorming
         private bool HasValidFindingName()
         {
             this.HasInvalidChars = false;
+            if (string.IsNullOrEmpty(FindingName)) return false;
             return disallowedChars.TrueForAll(c => FindingName.IndexOf(c) < 0);
         }
 
