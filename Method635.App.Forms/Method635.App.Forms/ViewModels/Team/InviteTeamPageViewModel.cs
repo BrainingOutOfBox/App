@@ -35,6 +35,7 @@ namespace Method635.App.Forms.ViewModels.Team
         {
             var newestTeam = new TeamRestResolver().GetTeamById(
                     _context.CurrentBrainstormingTeam.Id);
+            _memberCount = newestTeam.CurrentNrOfParticipants;
             if (newestTeam.CurrentNrOfParticipants == _teamCapacity)
             {
                 _context.CurrentBrainstormingTeam = newestTeam;

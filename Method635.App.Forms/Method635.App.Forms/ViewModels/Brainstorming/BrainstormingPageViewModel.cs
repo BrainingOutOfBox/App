@@ -42,7 +42,6 @@ namespace Method635.App.Forms.ViewModels
         {
             try
             {
-
                 var nrOfBrainsheets = _context.CurrentFinding.BrainSheets.Count;
                 var currentSheet = _context.CurrentFinding.BrainSheets[(_context.CurrentFinding.CurrentRound + _positionInTeam - 1) % nrOfBrainsheets];
                 if (!_brainstormingFindingRestResolver.UpdateSheet(_context.CurrentFinding.Id, currentSheet))
@@ -95,7 +94,6 @@ namespace Method635.App.Forms.ViewModels
         {
             try
             {
-
                 this.BrainWaves[_context.CurrentFinding.CurrentRound - 1].Ideas[commitIdeaIndex % (_context.CurrentFinding.NrOfIdeas)].Description = IdeaText;
                 commitIdeaIndex++;
                 IdeaText = string.Empty;
@@ -118,7 +116,6 @@ namespace Method635.App.Forms.ViewModels
                 return;
             }
             BrainSheets = new ObservableCollection<BrainSheet>(_context.CurrentFinding?.BrainSheets);
-
             if (HasBrainstormingEnded())
             {
                 return;
@@ -132,7 +129,9 @@ namespace Method635.App.Forms.ViewModels
             CurrentSheetNr = (currentRound + _positionInTeam - 1) % nrOfBrainsheets;
             var currentBrainSheet = _context.CurrentFinding.BrainSheets[CurrentSheetNr];
             BrainWaves = currentBrainSheet.BrainWaves;
+            CommitEnabled = BrainWaves != null || _context.CurrentFinding?.CurrentRound > 0;
         }
+
         private int _positionInTeam => _teamParticipants.IndexOf(_teamParticipants.Find(p => p.UserName.Equals(_context.CurrentParticipant.UserName)));
         private List<Participant> _teamParticipants => _context.CurrentBrainstormingTeam.Participants;
 
@@ -243,8 +242,11 @@ namespace Method635.App.Forms.ViewModels
             }
         }
 
-        public bool CommitEnabled => BrainWaves != null || _context.CurrentFinding?.CurrentRound > 0;
-
+        private bool _commitEnabled;
+        public bool CommitEnabled {
+            get => _commitEnabled;
+            set => SetProperty(ref _commitEnabled, value); 
+        }
 
         private string _ideaText;
         public string IdeaText
