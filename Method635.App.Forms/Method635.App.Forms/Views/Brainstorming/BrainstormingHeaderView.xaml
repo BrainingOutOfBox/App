@@ -2,9 +2,13 @@
 <ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Method635.App.Forms.Views.Brainstorming.BrainstormingHeaderView">
-  <ContentView.Content>
+
+    <ContentView.Content>
         <StackLayout Orientation="Horizontal" HeightRequest="50" Margin="0,0,50,0" HorizontalOptions="FillAndExpand">
             <Image Source="start_brainstorming.PNG" Aspect="AspectFit" >
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding RefreshCommand}" />
+                </Image.GestureRecognizers>
             </Image>
             <Label Text="{Binding CurrentSheet}" IsVisible="{Binding IsBrainstormingFinished, Converter={StaticResource InvertBooleanConverter}}"/>
             <Label Text="{Binding RemainingTime}"  
@@ -23,8 +27,6 @@
                     IsVisible="{Binding IsBrainstormingFinished, Converter={StaticResource InvertBooleanConverter}}"
                     IsEnabled="{Binding BrainWaveSent, Converter={StaticResource Key=InvertBooleanConverter}}" 
                     HorizontalOptions="End" />
-            <Button Text="Sync" Command="{Binding RefreshCommand}"
-                    IsVisible="{Binding IsBrainstormingFinished, Converter={StaticResource InvertBooleanConverter}}" />
         </StackLayout>
     </ContentView.Content>
 </ContentView>
