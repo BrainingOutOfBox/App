@@ -23,6 +23,8 @@
                     IsVisible="{Binding IsBrainstormingFinished, Converter={StaticResource InvertBooleanConverter}}"
                     IsEnabled="{Binding BrainWaveSent, Converter={StaticResource Key=InvertBooleanConverter}}" 
                     HorizontalOptions="End" />
+            <Button Text="Sync" Command="{Binding RefreshCommand}"
+                    IsVisible="{Binding IsBrainstormingFinished, Converter={StaticResource InvertBooleanConverter}}" />
         </StackLayout>
     </ContentView.Content>
 </ContentView>

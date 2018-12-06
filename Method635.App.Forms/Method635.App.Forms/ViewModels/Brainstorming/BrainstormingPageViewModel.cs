@@ -1,8 +1,10 @@
 ﻿using Method635.App.Forms.Context;
 using Method635.App.Forms.Models;
+using Method635.App.Forms.PrismEvents;
 using Method635.App.Forms.RestAccess;
 using Prism;
 using Prism.Commands;
+using Prism.Events;
 using Prism.Mvvm;
 using Prism.Navigation;
 using System;
@@ -17,15 +19,18 @@ namespace Method635.App.Forms.ViewModels
         private Timer _updateRoundTimer;
         private Timer _nextCheckRoundTimer;
         private readonly INavigationService _navigationService;
+        private readonly IEventAggregator _eventAggregator;
         private readonly BrainstormingContext _context;
         private readonly BrainstormingFindingRestResolver _brainstormingFindingRestResolver;
 
         public DelegateCommand CommitCommand { get; }
         public DelegateCommand SendBrainwaveCommand { get; }
+        public DelegateCommand RefreshCommand { get; }
 
-        public BrainstormingPageViewModel(INavigationService navigationService, BrainstormingContext brainstormingContext)
+        public BrainstormingPageViewModel(INavigationService navigationService, IEventAggregator eventAggregator, BrainstormingContext brainstormingContext)
         {
             this._navigationService = navigationService;
+            this._eventAggregator = eventAggregator;
             this._context = brainstormingContext;
 
             this._findingTitle = _context.CurrentFinding?.Name;
@@ -33,10 +38,15 @@ namespace Method635.App.Forms.ViewModels
 
             this.CommitCommand = new DelegateCommand(CommitIdea);
             this.SendBrainwaveCommand = new DelegateCommand(SendBrainWave);
-
+            this.RefreshCommand = new DelegateCommand(RefreshPage);
             EvaluateDisplayedBrainWaves();
             RemainingTimeTimerSetup();
             BrainWaveSent = false;
+        }
+
+        private void RefreshPage()
+        {
+            this._eventAggregator.GetEvent<RenderBrainstormingEvent>().Publish();
         }
 
         private void SendBrainWave()
@@ -120,7 +130,7 @@ namespace Method635.App.Forms.ViewModels
             if (HasBrainstormingEnded())
             {
                 IsBrainstormingFinished = true;
-                BrainWaves = _context.CurrentFinding.BrainSheets[CurrentSheetNr+1% BrainSheets.Count].BrainWaves;
+                BrainWaves = _context.CurrentFinding.BrainSheets[CurrentSheetNr++% BrainSheets.Count].BrainWaves;
                 return;
             }
 
