@@ -44,13 +44,6 @@ namespace Method635.App.Forms.ViewModels.Team
             {
                 var restResolver = new TeamRestResolver();
                 BottomOverlayText = "Found Team, placing call to join it...";
-                _context.CurrentParticipant = new Models.Participant() //TODO Should be taken from logged in participant
-                {
-                    FirstName = "Ol",
-                    LastName = "Da",
-                    Password = "Lassi",
-                    UserName = "pqsqsi"
-                };
                 if(!restResolver.JoinTeam(result.Text, _context.CurrentParticipant))
                 {
                     BottomOverlayText = "Something went wrong, please try again.";

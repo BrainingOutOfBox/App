@@ -30,6 +30,10 @@ namespace Method635.App.Forms.RestAccess
             {
                 Console.WriteLine($"Failed to create participant: {ex.Message}");
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Failed to create participant: {ex.Message}");
+            }
             return false;
         }
 
@@ -46,6 +50,10 @@ namespace Method635.App.Forms.RestAccess
                 }
             }
             catch (RestEndpointException ex)
+            {
+                Console.WriteLine($"Failed to login: {ex.Message}");
+            }
+            catch(Exception ex)
             {
                 Console.WriteLine($"Failed to login: {ex.Message}");
             }

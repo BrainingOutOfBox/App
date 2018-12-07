@@ -1,9 +1,10 @@
 ﻿using Newtonsoft.Json;
+using Prism.Mvvm;
 using System.Collections.Generic;
 
 namespace Method635.App.Forms.Models
 {
-    public class BrainstormingFinding
+    public class BrainstormingFinding : BindableBase
     {
         [JsonProperty("identifier")]
         public string Id { get; set; }
@@ -23,8 +24,10 @@ namespace Method635.App.Forms.Models
         [JsonProperty("baseRoundTime")]
         public int BaseRoundTime { get; set; }
 
+
+        private int _currentRound;
         [JsonProperty("currentRound")]
-        public int CurrentRound { get; set; }
+        public int CurrentRound { get=>_currentRound; set=>SetProperty(ref _currentRound, value); }
 
         [JsonProperty("brainsheets")]
         public List<BrainSheet> BrainSheets { get; set; }

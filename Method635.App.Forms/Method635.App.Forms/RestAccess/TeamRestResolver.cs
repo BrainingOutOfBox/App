@@ -154,6 +154,10 @@ namespace Method635.App.Forms.RestAccess
             {
                 Console.WriteLine($"Failed to create brainstorming finding: {ex.Message}");
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Failed to create brainstorming finding: {ex.Message}");
+            }
             return brainstormingTeam;
         }
     }

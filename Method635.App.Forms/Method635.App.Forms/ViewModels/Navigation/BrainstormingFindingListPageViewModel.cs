@@ -10,6 +10,9 @@ using Prism.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace Method635.App.Forms.ViewModels
 {
@@ -33,7 +36,12 @@ namespace Method635.App.Forms.ViewModels
             this.CreateFindingCommand = new DelegateCommand(CreateBrainstormingFinding);
         }
 
-        
+        private async Task<bool> RefreshFindingList()
+        {
+            FillFindingListItems();
+            return true;
+        }
+
         private async void CreateBrainstormingFinding()
         {
             await this._navigationService.NavigateAsync("NewBrainstormingPage");
@@ -51,7 +59,26 @@ namespace Method635.App.Forms.ViewModels
         public DelegateCommand CreateFindingCommand { get; }
         public DelegateCommand SwipeLeftGestureCommand { get; }
         public DelegateCommand SwipeRightGestureCommand { get; }
+        public ICommand RefreshFindingListCommand
+        {
+            get
+            {
+                return new Command(async () =>
+                {
+                    IsRefreshing = true;
 
+                    await RefreshFindingList();
+
+                    IsRefreshing = false;
+                });
+            }
+        }
+        private bool _isRefreshing;
+        public bool IsRefreshing
+        {
+            get => _isRefreshing;
+            set => SetProperty(ref _isRefreshing, value);
+        }
         private void SelectFinding()
         {
             _brainstormingContext.CurrentFinding = SelectedFinding.Finding;
@@ -87,9 +114,17 @@ namespace Method635.App.Forms.ViewModels
         public bool HasFindings
         {
             get => _hasFindings;
-            set => SetProperty(ref _hasFindings, value);
+            set
+            {
+                SetProperty(ref _hasFindings, value);
+                HasNoFindings = !value;
+            }
         }
-        public bool HasNoFindings => !HasFindings;
-        
+        private bool _hasNoFindings;
+        public bool HasNoFindings
+        {
+            get => _hasNoFindings;
+            set => SetProperty(ref _hasNoFindings, value);
+        }
     }
 }
