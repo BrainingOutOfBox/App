@@ -2,4 +2,4 @@
 
 # Publish to be able to load nunit assembly
 
-dotnet publish $APPCENTER_SOURCE_DIRECTORY\Method635.App.Tests\
+dotnet publish $APPCENTER_SOURCE_DIRECTORY/Method635.App.Tests/
