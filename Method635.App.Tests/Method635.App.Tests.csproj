@@ -4,6 +4,8 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
 
     <IsPackable>false</IsPackable>
+
+    <AssemblyName>Method635.App.Tests</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
