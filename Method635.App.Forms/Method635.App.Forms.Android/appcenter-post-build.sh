@@ -4,16 +4,16 @@
 # The script will build, run and display the results in the build logs.
 
 echo "Found NUnit test projects:"
-find $APPCENTER_SOURCE_DIRECTORY -regex '.*Test.*\.csproj' -exec echo {} \;
+find $APPCENTER_SOURCE_DIRECTORY -regex '.*Method635.App.Tests.*\.csproj' -exec echo {} \;
 echo
 echo "Building NUnit test projects:"
-find $APPCENTER_SOURCE_DIRECTORY -regex '.*Test.*\.csproj' -exec msbuild {} \;
+find $APPCENTER_SOURCE_DIRECTORY -regex '.*Method635.App.Tests.*\.csproj' -exec msbuild {} \;
 echo
 echo "Compiled projects to run NUnit tests:"
-find $APPCENTER_SOURCE_DIRECTORY -regex '.*bin.*Test.*\.dll' -exec echo {} \;
+find $APPCENTER_SOURCE_DIRECTORY -regex '.*bin.*Method635.App.Tests.*\.dll' -exec echo {} \;
 echo
 echo "Running NUnit tests:"
-find $APPCENTER_SOURCE_DIRECTORY -regex '.*bin.*Test.*\.dll' -exec nunit3-console {} \;
+find $APPCENTER_SOURCE_DIRECTORY -regex '.*bin.*Method635.App.Tests.*\.dll' -exec nunit3-console {} \;
 echo
 echo "NUnit tests result:"
 pathOfTestResults=$(find $APPCENTER_SOURCE_DIRECTORY -name 'TestResult.xml')
