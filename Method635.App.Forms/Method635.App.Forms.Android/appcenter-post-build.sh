@@ -2,6 +2,8 @@
 #
 # For Xamarin, run all NUnit test projects that have "Test" in the name.
 # The script will build, run and display the results in the build logs.
+echo "Restore for test specifically"
+dotnet restore $APPCENTER_SOURCE_DIRECTORY/Method635.App.Tests/
 
 echo "Found NUnit test projects:"
 find $APPCENTER_SOURCE_DIRECTORY -regex '.*Method635.App.Tests.*\.csproj' -exec echo {} \;
