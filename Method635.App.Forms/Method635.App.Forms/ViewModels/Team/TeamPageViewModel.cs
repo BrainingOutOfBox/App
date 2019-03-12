@@ -8,6 +8,7 @@ using Prism.Mvvm;
 using Prism.Navigation;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Method635.App.Forms.ViewModels.Team
 {
@@ -17,7 +18,6 @@ namespace Method635.App.Forms.ViewModels.Team
         private readonly IEventAggregator _eventAggregator;
         private readonly BrainstormingContext _context;
 
-
         public TeamPageViewModel(INavigationService navigationService, IEventAggregator eventAggregator, BrainstormingContext context)
         {
             this._navigationService = navigationService;
@@ -25,7 +25,7 @@ namespace Method635.App.Forms.ViewModels.Team
             this._context = context;
 
             this.TeamList = FillTeamList();
-            if (this.TeamList.Count > 0 && _context.CurrentBrainstormingTeam == null)
+            if (this.TeamList.Any() && _context.CurrentBrainstormingTeam == null)
             {
                 SelectedTeam = this.TeamList[0];
                 _context.CurrentBrainstormingTeam = this.SelectedTeam;
@@ -60,7 +60,7 @@ namespace Method635.App.Forms.ViewModels.Team
         private List<BrainstormingTeam> FillTeamList()
         {
             var teamList = new TeamRestResolver().GetMyBrainstormingTeams(_context.CurrentParticipant.UserName);
-            HasTeam = teamList.Count > 0;
+            HasTeam = teamList.Any();
             return teamList;
         }
 

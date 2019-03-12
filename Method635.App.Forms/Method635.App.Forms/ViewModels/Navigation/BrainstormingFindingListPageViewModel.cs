@@ -50,7 +50,7 @@ namespace Method635.App.Forms.ViewModels
         private void FillFindingListItems()
         {
             var findingItems = new BrainstormingFindingRestResolver().GetAllFindingsForTeam(_brainstormingContext.CurrentBrainstormingTeam?.Id);
-            HasFindings = findingItems.Count > 0;
+            HasFindings = findingItems.Any();
             // Encapsulate findings from model into findings to be displayed in listview
             FindingList = findingItems.Select(finding => new BrainstormingFindingListItem(finding)).ToList();
         }
