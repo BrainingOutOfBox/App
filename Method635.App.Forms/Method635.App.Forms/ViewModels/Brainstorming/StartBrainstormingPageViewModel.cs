@@ -1,12 +1,10 @@
 ﻿using Method635.App.Forms.Context;
 using Method635.App.Forms.PrismEvents;
 using Method635.App.Forms.RestAccess;
-using Method635.App.Forms.RestAccess.RestExceptions;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
 using Prism.Navigation;
-using System;
 
 namespace Method635.App.Forms.ViewModels.Brainstorming
 {
@@ -18,17 +16,17 @@ namespace Method635.App.Forms.ViewModels.Brainstorming
 
         public StartBrainstormingPageViewModel(INavigationService navigationService, IEventAggregator eventAggregator, BrainstormingContext context)
         {
-            this._navigationService = navigationService;
-            this._eventAggregator = eventAggregator;
-            this._context = context;
+            _navigationService = navigationService;
+            _eventAggregator = eventAggregator;
+            _context = context;
             TapCommand = new DelegateCommand(StartBrainstorming);
         }
 
         public DelegateCommand TapCommand { get; set; }
         private void StartBrainstorming()
         {
-            new BrainstormingFindingRestResolver().StartBrainstormingFinding(this._context.CurrentFinding.Id);
-            this._eventAggregator.GetEvent<RenderBrainstormingEvent>().Publish();
+            new BrainstormingFindingRestResolver().StartBrainstormingFinding(_context.CurrentFinding.Id);
+            _eventAggregator.GetEvent<RenderBrainstormingEvent>().Publish();
         }
 
         private string _connectionErrorText;

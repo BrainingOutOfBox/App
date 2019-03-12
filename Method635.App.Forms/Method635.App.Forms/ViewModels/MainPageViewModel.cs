@@ -13,29 +13,29 @@ namespace Method635.App.Forms.ViewModels
 
         public MainPageViewModel(INavigationService navigationService, IEventAggregator eventAggregator)
         {
-            this._navigationService = navigationService;
-            this._eventAggregator = eventAggregator;
+            _navigationService = navigationService;
+            _eventAggregator = eventAggregator;
             SubscribeToEvents();
 
-            this.NavigateCommand = new DelegateCommand<string>(OnNavigateCommandExecuted);
+            NavigateCommand = new DelegateCommand<string>(OnNavigateCommandExecuted);
         }
 
         private void SubscribeToEvents()
         {
-            this._eventAggregator.GetEvent<RenderBrainstormingListEvent>().Subscribe(async () =>
+            _eventAggregator.GetEvent<RenderBrainstormingListEvent>().Subscribe(async () =>
             {
-                await this._navigationService.NavigateAsync("app:///NavigationPage/MainPage?selectedTab=BrainstormingFindingListPage");
+                await _navigationService.NavigateAsync("app:///NavigationPage/MainPage?selectedTab=BrainstormingFindingListPage");
             }, ThreadOption.UIThread);
 
-            this._eventAggregator.GetEvent<RenderBrainstormingEvent>().Subscribe(async () =>
+            _eventAggregator.GetEvent<RenderBrainstormingEvent>().Subscribe(async () =>
             {
-                await this._navigationService.NavigateAsync("app:///NavigationPage/MainPage?selectedTab=BrainstormingPage");
+                await _navigationService.NavigateAsync("app:///NavigationPage/MainPage?selectedTab=BrainstormingPage");
             }, ThreadOption.UIThread);
         }
 
         private async void OnNavigateCommandExecuted(string path)
         {
-            await this._navigationService.NavigateAsync(path);
+            await _navigationService.NavigateAsync(path);
         }
 
         public DelegateCommand<string> NavigateCommand { get; }

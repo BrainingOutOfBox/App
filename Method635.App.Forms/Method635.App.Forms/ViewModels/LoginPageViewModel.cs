@@ -18,16 +18,16 @@ namespace Method635.App.Forms.ViewModels
 
         public LoginPageViewModel(INavigationService navigationService, BrainstormingContext context)
         {
-            this._navigationService = navigationService;
-            this._context = context;
+            _navigationService = navigationService;
+            _context = context;
 
-            this.LoginCommand = new DelegateCommand(Login);
-            this.ShowRegisterCommand = new DelegateCommand(ShowRegister);
+            LoginCommand = new DelegateCommand(Login);
+            ShowRegisterCommand = new DelegateCommand(ShowRegister);
         }
 
         private void ShowRegister()
         {
-            this._navigationService.NavigateAsync("NavigationPage/CreateAccountPage");
+            _navigationService.NavigateAsync("NavigationPage/CreateAccountPage");
         }
 
         private async void Login()
@@ -39,7 +39,7 @@ namespace Method635.App.Forms.ViewModels
             }
             var loginParticipant = new Participant()
             {
-                UserName = this.Username,
+                UserName = this.UserName,
                 Password = this.Password
             };
             var response = new ParticipantRestResolver().Login(loginParticipant);
@@ -57,7 +57,7 @@ namespace Method635.App.Forms.ViewModels
         private bool CheckInput()
         {
             ErrorText = string.Empty;
-            if (string.IsNullOrEmpty(Password) || string.IsNullOrEmpty(Username))
+            if (string.IsNullOrEmpty(Password) || string.IsNullOrEmpty(UserName))
             {
                 ErrorText = "Please fill in all the fields to login";
                 HasError = true;
@@ -67,7 +67,7 @@ namespace Method635.App.Forms.ViewModels
         }
 
         private string _username;
-        public string Username
+        public string UserName
         {
             get => _username;
             set => SetProperty(ref _username, value);

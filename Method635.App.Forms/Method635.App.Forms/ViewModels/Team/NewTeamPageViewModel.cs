@@ -14,9 +14,9 @@ namespace Method635.App.Forms.ViewModels.Team
         private readonly BrainstormingContext _context;
         public NewTeamPageViewModel(INavigationService navigationService, BrainstormingContext context)
         {
-            this._navigationService = navigationService;
-            this._context = context;
-            this.CreateTeamCommand = new DelegateCommand(CreateTeam);
+            _navigationService = navigationService;
+            _context = context;
+            CreateTeamCommand = new DelegateCommand(CreateTeam);
         }
 
         private void CreateTeam()
@@ -33,8 +33,8 @@ namespace Method635.App.Forms.ViewModels.Team
             {
                 Console.WriteLine("There was an error creating the new brainstorming team.. No Id returned");
             }
-            this._context.CurrentBrainstormingTeam = newTeamWithId;
-            this._navigationService.NavigateAsync("MainPage/NavigationPage/InviteTeamPage");
+            _context.CurrentBrainstormingTeam = newTeamWithId;
+            _navigationService.NavigateAsync("MainPage/NavigationPage/InviteTeamPage");
         }
 
         public string TeamName { get; set; } = string.Empty;

@@ -25,12 +25,12 @@ namespace Method635.App.Forms.ViewModels.Brainstorming
             IEventAggregator eventAggregator,
             BrainstormingContext brainstormingContext)
         {
-            this._navigationService = navigationService;
-            this._eventAggregator = eventAggregator;
-            this._context = brainstormingContext;
-            this.CreateFindingCommand = new DelegateCommand(CreateFinding);
+           _navigationService = navigationService;
+           _eventAggregator = eventAggregator;
+           _context = brainstormingContext;
+           CreateFindingCommand = new DelegateCommand(CreateFinding);
 
-            this.HasInvalidChars = false;
+           HasInvalidChars = false;
         }
 
         private void CreateFinding()
@@ -45,14 +45,14 @@ namespace Method635.App.Forms.ViewModels.Brainstorming
                 var finding = new BrainstormingFinding()
                 {
                     TeamId = _context.CurrentBrainstormingTeam.Id,
-                    Name = this.FindingName,
-                    NrOfIdeas = this.nrOfIdeas,
-                    BaseRoundTime = this.baseRoundTime,
-                    ProblemDescription = this.Description
+                    Name = FindingName,
+                    NrOfIdeas = _nrOfIdeas,
+                    BaseRoundTime = _baseRoundTime,
+                    ProblemDescription = Description
                 };
                 finding = new BrainstormingFindingRestResolver().CreateBrainstormingFinding(finding);
                 _context.CurrentFinding = finding;
-                this._eventAggregator.GetEvent<RenderBrainstormingEvent>().Publish();
+                _eventAggregator.GetEvent<RenderBrainstormingEvent>().Publish();
             }
             catch(Exception ex)
             {
@@ -65,34 +65,34 @@ namespace Method635.App.Forms.ViewModels.Brainstorming
         {
             if (!HasValidFindingName())
             {
-                this.ErrorText = "Please don't use any of the prohibited characters";
-                this.HasError = true;
-                this.HasInvalidChars = true;
+                ErrorText = "Please don't use any of the prohibited characters";
+                HasError = true;
+                HasInvalidChars = true;
                 return false;
             }
             if(string.IsNullOrEmpty(FindingName) ||
                 string.IsNullOrEmpty(NrOfIdeasText) ||
                 string.IsNullOrEmpty(BaseRoundTimeText))
             {
-                this.ErrorText = "Please fill in all the necessary fields";
-                this.HasError = true;
+                ErrorText = "Please fill in all the necessary fields";
+                HasError = true;
                 return false;
             }
             if (!int.TryParse(NrOfIdeasText, out int nrOfIdeas) ||
                 !int.TryParse(BaseRoundTimeText, out int baseRoundTime))
             {
-                this.ErrorText = "Please use numbers in the corresponding fields";
-                this.HasError = true;
+                ErrorText = "Please use numbers in the corresponding fields";
+                HasError = true;
                 return false;
             }
-            this.baseRoundTime = baseRoundTime;
-            this.nrOfIdeas = nrOfIdeas;
+            _baseRoundTime = baseRoundTime;
+            _nrOfIdeas = nrOfIdeas;
             return true;
         }
 
         private bool HasValidFindingName()
         {
-            this.HasInvalidChars = false;
+            HasInvalidChars = false;
             if (string.IsNullOrEmpty(FindingName)) return false;
             return disallowedChars.TrueForAll(c => FindingName.IndexOf(c) < 0);
         }
@@ -110,8 +110,8 @@ namespace Method635.App.Forms.ViewModels.Brainstorming
             set => SetProperty(ref _errorText, value);
         }
         private bool _hasError;
-        private int baseRoundTime;
-        private int nrOfIdeas;
+        private int _baseRoundTime;
+        private int _nrOfIdeas;
 
         public bool HasError
         {

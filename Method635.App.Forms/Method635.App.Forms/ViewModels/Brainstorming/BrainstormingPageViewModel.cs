@@ -29,16 +29,16 @@ namespace Method635.App.Forms.ViewModels
 
         public BrainstormingPageViewModel(INavigationService navigationService, IEventAggregator eventAggregator, BrainstormingContext brainstormingContext)
         {
-            this._navigationService = navigationService;
-            this._eventAggregator = eventAggregator;
-            this._context = brainstormingContext;
+            _navigationService = navigationService;
+            _eventAggregator = eventAggregator;
+            _context = brainstormingContext;
 
-            this._findingTitle = _context.CurrentFinding?.Name;
-            this._brainstormingFindingRestResolver = new BrainstormingFindingRestResolver();
+            _findingTitle = _context.CurrentFinding?.Name;
+            _brainstormingFindingRestResolver = new BrainstormingFindingRestResolver();
 
-            this.CommitCommand = new DelegateCommand(CommitIdea);
-            this.SendBrainwaveCommand = new DelegateCommand(SendBrainWave);
-            this.RefreshCommand = new DelegateCommand(RefreshPage);
+            CommitCommand = new DelegateCommand(CommitIdea);
+            SendBrainwaveCommand = new DelegateCommand(SendBrainWave);
+            RefreshCommand = new DelegateCommand(RefreshPage);
             EvaluateDisplayedBrainWaves();
             RemainingTimeTimerSetup();
             BrainWaveSent = false;
@@ -46,7 +46,7 @@ namespace Method635.App.Forms.ViewModels
 
         private void RefreshPage()
         {
-            this._eventAggregator.GetEvent<RenderBrainstormingEvent>().Publish();
+            _eventAggregator.GetEvent<RenderBrainstormingEvent>().Publish();
         }
 
         private void SendBrainWave()
@@ -105,7 +105,7 @@ namespace Method635.App.Forms.ViewModels
         {
             try
             {
-                this.BrainWaves[_context.CurrentFinding.CurrentRound - 1].Ideas[commitIdeaIndex % (_context.CurrentFinding.NrOfIdeas)].Description = IdeaText;
+                BrainWaves[_context.CurrentFinding.CurrentRound - 1].Ideas[commitIdeaIndex % (_context.CurrentFinding.NrOfIdeas)].Description = IdeaText;
                 commitIdeaIndex++;
                 IdeaText = string.Empty;
             }
@@ -163,7 +163,7 @@ namespace Method635.App.Forms.ViewModels
 
         private void RemainingTimeTimerSetup()
         {
-            this._updateRoundTimer = new Timer(1000);
+            _updateRoundTimer = new Timer(1000);
             _updateRoundTimer.Elapsed += UpdateRoundTime;
         }
 
@@ -190,7 +190,7 @@ namespace Method635.App.Forms.ViewModels
 
         public void OnNavigatedTo(NavigationParameters parameters)
         {
-            _context.CurrentFinding = this._brainstormingFindingRestResolver.GetFinding(_context.CurrentFinding);
+            _context.CurrentFinding = _brainstormingFindingRestResolver.GetFinding(_context.CurrentFinding);
             if (IsBrainstormingRunning() || HasBrainstormingEnded())
             {
                 // Brainstorming has already started
@@ -200,10 +200,10 @@ namespace Method635.App.Forms.ViewModels
             }
 
             var moderatorOfCurrentFinding = GetModeratorOfTeam(_context.CurrentFinding.TeamId);
-            if (this._context.CurrentParticipant.UserName.Equals(moderatorOfCurrentFinding.UserName))
+            if (_context.CurrentParticipant.UserName.Equals(moderatorOfCurrentFinding.UserName))
             {
                 // Brainstorming is not yet started and current user is the moderator -> Display StartBrainstorming
-                this._navigationService.NavigateAsync("StartBrainstormingPage");
+                _navigationService.NavigateAsync("StartBrainstormingPage");
             }
         }
 
@@ -214,8 +214,8 @@ namespace Method635.App.Forms.ViewModels
 
         public void Destroy()
         {
-            this._updateRoundTimer.Stop();
-            this._updateRoundTimer.Dispose();
+           _updateRoundTimer.Stop();
+           _updateRoundTimer.Dispose();
         }
 
         private List<BrainWave> _brainWaves;
@@ -256,7 +256,8 @@ namespace Method635.App.Forms.ViewModels
         }
 
         private bool _commitEnabled;
-        public bool CommitEnabled {
+        public bool CommitEnabled
+        {
             get => _commitEnabled;
             set => SetProperty(ref _commitEnabled, value); 
         }
@@ -311,13 +312,13 @@ namespace Method635.App.Forms.ViewModels
             {
                 SetProperty(ref _isActive, value, () => System.Diagnostics.Debug.WriteLine($"{Title} IsActive Changed: {value}"));
 
-                if (_isActive && !this._updateRoundTimer.Enabled && !IsBrainstormingFinished)
+                if (_isActive && !_updateRoundTimer.Enabled && !IsBrainstormingFinished)
                 {
-                    this._updateRoundTimer.Start();
+                    _updateRoundTimer.Start();
                 }
                 else if (!_isActive)
                 {
-                    this._updateRoundTimer.Stop();
+                    _updateRoundTimer.Stop();
                 }
             }
         }

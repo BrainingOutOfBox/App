@@ -17,16 +17,16 @@ namespace Method635.App.Forms.ViewModels.Team
 
         public InviteTeamPageViewModel(INavigationService navigationService, IEventAggregator eventAggregator, BrainstormingContext context)
         {
-            this._navigationService = navigationService;
-            this._eventAggregator = eventAggregator;
-            this._context = context;
+            _navigationService = navigationService;
+            _eventAggregator = eventAggregator;
+            _context = context;
             TeamId = _context.CurrentBrainstormingTeam.Id;
             InitiateMemberCountTimer();
         }
 
         private void InitiateMemberCountTimer()
         {
-            this._timer = new Timer(5000);
+            _timer = new Timer(5000);
             _timer.Elapsed += UpdateMemberCount;
             _timer.Start();
         }
@@ -39,14 +39,14 @@ namespace Method635.App.Forms.ViewModels.Team
             if (newestTeam.CurrentNrOfParticipants == _teamCapacity)
             {
                 _context.CurrentBrainstormingTeam = newestTeam;
-                this._eventAggregator.GetEvent<RenderBrainstormingListEvent>().Publish();
+                _eventAggregator.GetEvent<RenderBrainstormingListEvent>().Publish();
             }
         }
 
         public void Destroy()
         {
-            this._timer.Stop();
-            this._timer.Dispose();
+            _timer.Stop();
+            _timer.Dispose();
         }
 
         private string _teamId;

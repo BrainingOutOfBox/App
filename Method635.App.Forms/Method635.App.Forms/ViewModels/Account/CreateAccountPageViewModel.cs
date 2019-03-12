@@ -15,9 +15,9 @@ namespace Method635.App.Forms.ViewModels.Account
 
         public CreateAccountPageViewModel(INavigationService navigationService)
         {
-            this._navigationService = navigationService;
+            _navigationService = navigationService;
 
-            this.RegisterCommand = new DelegateCommand(Register);
+            RegisterCommand = new DelegateCommand(Register);
         }
 
         private async void Register()

@@ -20,20 +20,20 @@ namespace Method635.App.Forms.ViewModels.Team
 
         public TeamPageViewModel(INavigationService navigationService, IEventAggregator eventAggregator, BrainstormingContext context)
         {
-            this._navigationService = navigationService;
-            this._eventAggregator = eventAggregator;
-            this._context = context;
+            _navigationService = navigationService;
+            _eventAggregator = eventAggregator;
+            _context = context;
 
-            this.TeamList = FillTeamList();
-            if (this.TeamList.Any() && _context.CurrentBrainstormingTeam == null)
+            TeamList = FillTeamList();
+            if (TeamList.Any() && _context.CurrentBrainstormingTeam == null)
             {
-                SelectedTeam = this.TeamList[0];
-                _context.CurrentBrainstormingTeam = this.SelectedTeam;
+                SelectedTeam = TeamList[0];
+                _context.CurrentBrainstormingTeam = SelectedTeam;
             }
-            this.SelectTeamCommand = new DelegateCommand(SelectTeam);
-            this.CreateTeamCommand = new DelegateCommand(CreateTeam);
-            this.JoinTeamCommand = new DelegateCommand(JoinTeam);
-            this.LeaveTeamCommand = new DelegateCommand<BrainstormingTeam>(LeaveTeam);
+            SelectTeamCommand = new DelegateCommand(SelectTeam);
+            CreateTeamCommand = new DelegateCommand(CreateTeam);
+            JoinTeamCommand = new DelegateCommand(JoinTeam);
+            LeaveTeamCommand = new DelegateCommand<BrainstormingTeam>(LeaveTeam);
         }
 
         private void LeaveTeam(BrainstormingTeam team)
@@ -43,18 +43,18 @@ namespace Method635.App.Forms.ViewModels.Team
 
         private void JoinTeam()
         {
-            this._navigationService.NavigateAsync("JoinTeamPage");
+            _navigationService.NavigateAsync("JoinTeamPage");
         }
 
         private void CreateTeam()
         {
-            this._navigationService.NavigateAsync("NewTeamPage");
+            _navigationService.NavigateAsync("NewTeamPage");
         }
 
         private void SelectTeam()
         {
             _context.CurrentBrainstormingTeam = _selectedTeam;
-            this._eventAggregator.GetEvent<RenderBrainstormingListEvent>().Publish();
+            _eventAggregator.GetEvent<RenderBrainstormingListEvent>().Publish();
         }
 
         private List<BrainstormingTeam> FillTeamList()

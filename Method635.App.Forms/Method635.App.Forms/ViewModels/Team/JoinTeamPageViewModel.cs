@@ -29,11 +29,11 @@ namespace Method635.App.Forms.ViewModels.Team
         }
         public JoinTeamPageViewModel(INavigationService navigationService, IEventAggregator eventAggregator, BrainstormingContext context)
         {
-            this._navigationService = navigationService;
-            this._eventAggregator = eventAggregator;
-            this._context = context;
+            _navigationService = navigationService;
+            _eventAggregator = eventAggregator;
+            _context = context;
 
-            this.FoundTeamIdCommand = new DelegateCommand<Result>(JoinTeam);
+            FoundTeamIdCommand = new DelegateCommand<Result>(JoinTeam);
 
             SetUpBarcodeOptions();
             JoinPending = false;
@@ -55,13 +55,13 @@ namespace Method635.App.Forms.ViewModels.Team
                 JoinPending = true;
                 _context.CurrentBrainstormingTeam = restResolver.GetTeamById(result.Text);
 
-                this._eventAggregator.GetEvent<RenderBrainstormingListEvent>().Publish();
+                _eventAggregator.GetEvent<RenderBrainstormingListEvent>().Publish();
             }
         }
 
         private void SetUpBarcodeOptions()
         {
-            this.BarcodeOptions = new MobileBarcodeScanningOptions()
+            BarcodeOptions = new MobileBarcodeScanningOptions()
             {
                 TryInverted = true,
                 PossibleFormats = new List<BarcodeFormat>()

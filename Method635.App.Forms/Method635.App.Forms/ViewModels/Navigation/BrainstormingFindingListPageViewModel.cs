@@ -2,12 +2,10 @@
 using Method635.App.Forms.PrismEvents;
 using Method635.App.Forms.RestAccess;
 using Method635.App.Forms.ViewModels.Navigation;
-using Prism;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
 using Prism.Navigation;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -26,14 +24,14 @@ namespace Method635.App.Forms.ViewModels
             IEventAggregator eventAggregator,
             BrainstormingContext brainstormingContext)
         {
-            this._navigationService = navigationService;
-            this._eventAggregator = eventAggregator;
-            this._brainstormingContext = brainstormingContext;
+            _navigationService = navigationService;
+            _eventAggregator = eventAggregator;
+            _brainstormingContext = brainstormingContext;
 
             FillFindingListItems();
 
-            this.SelectFindingCommand = new DelegateCommand(SelectFinding);
-            this.CreateFindingCommand = new DelegateCommand(CreateBrainstormingFinding);
+            SelectFindingCommand = new DelegateCommand(SelectFinding);
+            CreateFindingCommand = new DelegateCommand(CreateBrainstormingFinding);
         }
 
         private async Task<bool> RefreshFindingList()
@@ -44,7 +42,7 @@ namespace Method635.App.Forms.ViewModels
 
         private async void CreateBrainstormingFinding()
         {
-            await this._navigationService.NavigateAsync("NewBrainstormingPage");
+            await _navigationService.NavigateAsync("NewBrainstormingPage");
         }
 
         private void FillFindingListItems()
@@ -82,7 +80,7 @@ namespace Method635.App.Forms.ViewModels
         private void SelectFinding()
         {
             _brainstormingContext.CurrentFinding = SelectedFinding.Finding;
-            this._eventAggregator.GetEvent<RenderBrainstormingEvent>().Publish();
+            _eventAggregator.GetEvent<RenderBrainstormingEvent>().Publish();
         }
 
         public void OnNavigatedFrom(NavigationParameters parameters)

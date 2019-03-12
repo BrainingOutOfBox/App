@@ -5,10 +5,10 @@
         public Moderator() { }
         public Moderator(Participant p)
         {
-            this.FirstName = p.FirstName;
-            this.LastName = p.LastName;
-            this.UserName = p.UserName;
-            this.Password = p.Password;
+            FirstName = p.FirstName;
+            LastName = p.LastName;
+            UserName = p.UserName;
+            Password = p.Password;
         }
     }
 }
