@@ -5,7 +5,6 @@ using Prism.Events;
 using Prism.Mvvm;
 using Prism.Navigation;
 using System.Timers;
-using ZXing.Common;
 
 namespace Method635.App.Forms.ViewModels.Team
 {
@@ -14,6 +13,7 @@ namespace Method635.App.Forms.ViewModels.Team
         private readonly INavigationService _navigationService;
         private readonly IEventAggregator _eventAggregator;
         private readonly BrainstormingContext _context;
+        private Timer _timer;
 
         public InviteTeamPageViewModel(INavigationService navigationService, IEventAggregator eventAggregator, BrainstormingContext context)
         {
@@ -68,7 +68,6 @@ namespace Method635.App.Forms.ViewModels.Team
                 SetProperty(ref _memberCountString, value);
             }
         }
-        private Timer _timer;
 
         private int _backendNrCount;
         private int _memberCount

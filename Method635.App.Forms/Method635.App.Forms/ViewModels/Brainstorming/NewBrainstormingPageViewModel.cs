@@ -16,6 +16,8 @@ namespace Method635.App.Forms.ViewModels.Brainstorming
         private readonly INavigationService _navigationService;
         private readonly IEventAggregator _eventAggregator;
         private readonly BrainstormingContext _context;
+        private int _nrOfIdeas;
+        private int _baseRoundTime;
 
         private readonly List<char> disallowedChars = new List<char>{ '\\', ' ' };
 
@@ -109,18 +111,14 @@ namespace Method635.App.Forms.ViewModels.Brainstorming
             get => _errorText;
             set => SetProperty(ref _errorText, value);
         }
-        private bool _hasError;
-        private int _baseRoundTime;
-        private int _nrOfIdeas;
 
+        private bool _hasError;
         public bool HasError
         {
             get => _hasError;
             set => SetProperty(ref _hasError, value);
         }
         public string ProhibitedChars => $"Prohibited characters (comma-separated, including whitespace): {string.Join(", ", disallowedChars)}";
-
-
 
         private bool _hasInvalidChars;
         public bool HasInvalidChars

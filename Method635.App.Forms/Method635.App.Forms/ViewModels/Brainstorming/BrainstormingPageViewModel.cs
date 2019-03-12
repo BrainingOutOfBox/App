@@ -22,6 +22,7 @@ namespace Method635.App.Forms.ViewModels
         private readonly IEventAggregator _eventAggregator;
         private readonly BrainstormingContext _context;
         private readonly BrainstormingFindingRestResolver _brainstormingFindingRestResolver;
+        private int commitIdeaIndex = 0;
 
         public DelegateCommand CommitCommand { get; }
         public DelegateCommand SendBrainwaveCommand { get; }
@@ -67,7 +68,6 @@ namespace Method635.App.Forms.ViewModels
             {
                 Console.Write("Invalid index access!");
             }
-
         }
 
         private void RoundStartedTimerSetup()
@@ -81,6 +81,7 @@ namespace Method635.App.Forms.ViewModels
         {
             UpdateRound();
         }
+
         private void UpdateRound()
         {
             var backendFinding = _brainstormingFindingRestResolver.GetFinding(_context.CurrentFinding);
@@ -134,9 +135,7 @@ namespace Method635.App.Forms.ViewModels
                 return;
             }
 
-
             var currentRound = _context.CurrentFinding.CurrentRound;
-
 
             var nrOfBrainsheets = BrainSheets.Count;
             CurrentSheetNr = (currentRound + _positionInTeam - 1) % nrOfBrainsheets;
@@ -218,7 +217,6 @@ namespace Method635.App.Forms.ViewModels
            _updateRoundTimer.Dispose();
         }
 
-        private List<BrainWave> _brainWaves;
 
         private ObservableCollection<BrainSheet> _brainSheets;
         public ObservableCollection<BrainSheet> BrainSheets
@@ -232,6 +230,8 @@ namespace Method635.App.Forms.ViewModels
 
             }
         }
+
+        private List<BrainWave> _brainWaves;
         public List<BrainWave> BrainWaves
         {
             get => _brainWaves;
@@ -270,10 +270,10 @@ namespace Method635.App.Forms.ViewModels
         }
 
         public string Title => "Brainstorming";
-        private string _findingTitle;
 
         public event EventHandler IsActiveChanged;
 
+        private string _findingTitle;
         public string FindingTitle
         {
             get => _findingTitle;
@@ -296,8 +296,6 @@ namespace Method635.App.Forms.ViewModels
             set => SetProperty(ref _isBrainstormingFinished, value);
         }
 
-        private bool _isActive;
-        private int commitIdeaIndex = 0;
         private bool _brainWaveSent;
         public bool BrainWaveSent
         {
@@ -305,6 +303,7 @@ namespace Method635.App.Forms.ViewModels
             set => SetProperty(ref _brainWaveSent, value);
         }
 
+        private bool _isActive;
         public bool IsActive
         {
             get { return _isActive; }

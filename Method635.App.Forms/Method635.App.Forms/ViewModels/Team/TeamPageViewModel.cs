@@ -76,6 +76,7 @@ namespace Method635.App.Forms.ViewModels.Team
         public DelegateCommand CreateTeamCommand { get; }
         public DelegateCommand JoinTeamCommand { get; }
         public DelegateCommand<BrainstormingTeam> LeaveTeamCommand { get; }
+
         private BrainstormingTeam _selectedTeam;
         public BrainstormingTeam SelectedTeam {
             get =>_selectedTeam;
@@ -91,7 +92,6 @@ namespace Method635.App.Forms.ViewModels.Team
             get => _hasTeam;
             set => SetProperty(ref _hasTeam, value);
         }
-        public bool HasNoTeam => !HasTeam;
 
         public string Title => "My Teams";
 	}

@@ -7,7 +7,7 @@
              Title="Login to Brainstorming">
     <ScrollView>
         <StackLayout Orientation="Vertical" Margin="5, 10">
-            <Entry Text="{Binding Username}" Placeholder="Username" IsTabStop="True" TabIndex="0" HeightRequest="50"/>
+            <Entry Text="{Binding UserName}" Placeholder="Username" IsTabStop="True" TabIndex="0" HeightRequest="50"/>
             
             <Entry Text="{Binding Password}" Placeholder="Password" IsTabStop="True" TabIndex="1" IsPassword="True" HeightRequest="50"/>
 

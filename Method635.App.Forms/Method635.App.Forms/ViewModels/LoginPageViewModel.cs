@@ -47,7 +47,7 @@ namespace Method635.App.Forms.ViewModels
             {
                 _context.JwtToken = response.JwtToken;
                 _context.CurrentParticipant = response.Participant;
-                await _navigationService.NavigateAsync("NavigationPage/MainPage", useModalNavigation: true);
+                await _navigationService.NavigateAsync("MainPage", useModalNavigation: true);
                 return;
             }
             ErrorText = "There was an error with your login, please try again.";

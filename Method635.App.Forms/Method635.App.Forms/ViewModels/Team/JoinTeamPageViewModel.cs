@@ -5,28 +5,19 @@ using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
 using Prism.Navigation;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using ZXing;
-using ZXing.Common;
 using ZXing.Mobile;
 
 namespace Method635.App.Forms.ViewModels.Team
 {
-	public class JoinTeamPageViewModel : BindableBase
+    public class JoinTeamPageViewModel : BindableBase
 	{
         private readonly INavigationService _navigationService;
         private readonly IEventAggregator _eventAggregator;
         private readonly BrainstormingContext _context;
 
-        private bool _joinExecuted;
-        public bool JoinPending { get => _joinExecuted;
-            set
-            {
-                SetProperty(ref _joinExecuted, value);
-            }
-        }
+      
         public JoinTeamPageViewModel(INavigationService navigationService, IEventAggregator eventAggregator, BrainstormingContext context)
         {
             _navigationService = navigationService;
@@ -80,6 +71,15 @@ namespace Method635.App.Forms.ViewModels.Team
             }
         }
 
+        private bool _joinPending;
+        public bool JoinPending
+        {
+            get => _joinPending;
+            set
+            {
+                SetProperty(ref _joinPending, value);
+            }
+        }
         public DelegateCommand<Result> FoundTeamIdCommand { get; private set; }
         public MobileBarcodeScanningOptions BarcodeOptions { get; private set; }
 	}

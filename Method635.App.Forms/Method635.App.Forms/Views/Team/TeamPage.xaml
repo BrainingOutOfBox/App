@@ -31,7 +31,7 @@
                                       Command="{Binding SelectTeamCommand}"/>
             </ListView.Behaviors>
         </ListView>
-        <Label IsEnabled="False" IsVisible="{Binding HasNoTeam}" HorizontalTextAlignment="Center"
+        <Label IsEnabled="False" IsVisible="{Binding HasTeam,Converter={StaticResource InvertBooleanConverter}}" HorizontalTextAlignment="Center"
                VerticalTextAlignment="Center" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
             <Label.Text>
 You don't belong to a team yet.. 

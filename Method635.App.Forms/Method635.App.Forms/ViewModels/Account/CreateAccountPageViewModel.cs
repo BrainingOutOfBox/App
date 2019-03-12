@@ -30,10 +30,10 @@ namespace Method635.App.Forms.ViewModels.Account
 
             var newParticipant = new Participant()
             {
-                FirstName = this.FirstName,
-                LastName = this.LastName,
-                UserName = this.UserName,
-                Password = this.Password
+                FirstName = FirstName,
+                LastName = LastName,
+                UserName = UserName,
+                Password = Password
             };
             if(!new ParticipantRestResolver().CreateParticipant(newParticipant))
             {
