@@ -4,12 +4,17 @@ using Method635.App.Forms.RestAccess;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
+using Method635.App.Logging;
+using Xamarin.Forms;
 
 namespace Method635.App.Forms.ViewModels.Account
 {
     public class CreateAccountPageViewModel : BindableBase
     {
         private readonly INavigationService _navigationService;
+
+        // Platform independent logger necessary, thus resolving from xf dependency service.
+        private readonly ILogger _logger = DependencyService.Get<ILogManager>().GetLog();
 
         public DelegateCommand RegisterCommand { get; }
 
@@ -24,7 +29,7 @@ namespace Method635.App.Forms.ViewModels.Account
         {
             if (!CheckInput())
             {
-                Console.WriteLine("Input validation failed");
+                _logger.Error("Input validation failed");
                 return;
             }
 

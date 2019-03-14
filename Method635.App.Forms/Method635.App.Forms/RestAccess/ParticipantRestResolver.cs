@@ -3,6 +3,8 @@ using System.Net.Http;
 using Method635.App.Models;
 using Method635.App.Forms.RestAccess.ResponseModel;
 using Method635.App.Forms.RestAccess.RestExceptions;
+using Method635.App.Logging;
+using Xamarin.Forms;
 
 namespace Method635.App.Forms.RestAccess
 {
@@ -12,27 +14,30 @@ namespace Method635.App.Forms.RestAccess
         private const string REGISTER_ENDPOINT = "register";
         private const string LOGIN_ENDPOINT = "login";
 
+        // Platform independent logger necessary, thus resolving from xf dependency service.
+        private readonly ILogger _logger = DependencyService.Get<ILogManager>().GetLog();
+
         internal bool CreateParticipant(Participant newParticipant)
         {
             try
             {
-                Console.WriteLine("Calling backend to create participant..");
+                _logger.Info("Calling backend to create participant..");
                 var res = PostCall(newParticipant, $"{PARTICIPANT_ENDPOINT}/{REGISTER_ENDPOINT}");
                 if (res.IsSuccessStatusCode)
                 {
-                    Console.WriteLine($"Created participant. Content: {res.Content}");
+                    _logger.Info($"Created participant. Content: {res.Content}");
                     var parsedResponseMessage = res.Content.ReadAsAsync<RestResponseMessage>().Result;
-                    Console.WriteLine(parsedResponseMessage.Title, parsedResponseMessage.Text);
+                    _logger.Info(parsedResponseMessage.Title, parsedResponseMessage.Text);
                     return true;
                 }
             }
             catch (RestEndpointException ex)
             {
-                Console.WriteLine($"Failed to create participant: {ex.Message}");
+                _logger.Error($"Failed to create participant: {ex.Message}", ex);
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Failed to create participant: {ex.Message}");
+                _logger.Error($"Failed to create participant: {ex.Message}", ex);
             }
             return false;
         }
@@ -41,21 +46,21 @@ namespace Method635.App.Forms.RestAccess
         {
             try
             {
-                Console.WriteLine("Calling backend to login..");
+                _logger.Info("Calling backend to login..");
                 var res = PostCall(loginParticipant, $"{PARTICIPANT_ENDPOINT}/{LOGIN_ENDPOINT}");
                 if (res.IsSuccessStatusCode)
                 {
-                    Console.WriteLine($"Participant {loginParticipant.UserName} successfully logged in.");
+                    _logger.Info($"Participant {loginParticipant.UserName} successfully logged in.");
                     return res.Content.ReadAsAsync<RestLoginResponse>().Result;
                 }
             }
             catch (RestEndpointException ex)
             {
-                Console.WriteLine($"Failed to login: {ex.Message}");
+                _logger.Error($"Failed to login: {ex.Message}", ex);
             }
             catch(Exception ex)
             {
-                Console.WriteLine($"Failed to login: {ex.Message}");
+                _logger.Error($"Failed to login: {ex.Message}", ex);
             }
             return null; 
         }

@@ -4,6 +4,8 @@ using Method635.App.Forms.RestAccess.RestExceptions;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using Method635.App.Logging;
+using Xamarin.Forms;
 
 namespace Method635.App.Forms.RestAccess
 {
@@ -17,11 +19,14 @@ namespace Method635.App.Forms.RestAccess
         private const string GET_FINDING_ENDPOINT = "getBrainstormingFinding";
         private const string BRAINSHEET_UPDATE_ENDPOINT = "putBrainsheet";
 
+        // Platform independent logger necessary, thus resolving from xf dependency service.
+        private readonly ILogger _logger = DependencyService.Get<ILogManager>().GetLog();
+
         public TimeSpan GetRemainingTime(string findingId, string teamId)
         {
             try
             {
-                Console.WriteLine("Getting remaining time..");
+                _logger.Info("Getting remaining time..");
                 HttpResponseMessage response = GetCall($"{FINDINGS_ENDPOINT}/{teamId}/{findingId}/{TIMING_ENDPOINT_DIFF}");
 
                 if (response.IsSuccessStatusCode)
@@ -31,13 +36,13 @@ namespace Method635.App.Forms.RestAccess
                 }
                 else
                 {
-                    Console.WriteLine($"{(int)response.StatusCode} ({response.ReasonPhrase})");
+                    _logger.Info($"{(int)response.StatusCode} ({response.ReasonPhrase})");
                     return TimeSpan.Zero;
                 }
             }
             catch (RestEndpointException ex)
             {
-                Console.WriteLine($"Error getting remaining time: {ex}");
+                _logger.Error($"Error getting remaining time: {ex}",ex);
             }
             return TimeSpan.Zero;
         }
@@ -46,22 +51,22 @@ namespace Method635.App.Forms.RestAccess
         {
             try
             {
-                Console.WriteLine($"Getting all brainstorming findings for team {teamId}..");
+                _logger.Info($"Getting all brainstorming findings for team {teamId}..");
                 var res = GetCall($"{FINDINGS_ENDPOINT}/{teamId}/{GET_FINDINGS_ENDPOINT}");
                 if (res.IsSuccessStatusCode)
                 {
-                    Console.WriteLine($"Got all Brainstormingfindings finding. Content: {res.Content}");
+                    _logger.Info($"Got all Brainstormingfindings finding. Content: {res.Content}");
                     var brainstormingFindings = res.Content.ReadAsAsync<List<BrainstormingFinding>>().Result;
-                    Console.WriteLine("got findings: ");
-                    brainstormingFindings.ForEach(finding => Console.WriteLine(finding.Name));
+                    _logger.Info("got findings: ");
+                    brainstormingFindings.ForEach(finding => _logger.Info(finding.Name));
                     return brainstormingFindings;
                 }
             }
             catch (RestEndpointException ex)
             {
-                Console.WriteLine($"Failed to create brainstorming finding: {ex.Message}");
+                _logger.Error($"Failed to create brainstorming finding: {ex.Message}", ex);
             }
-            Console.WriteLine($"No brainstorming findings found for team {teamId}");
+            _logger.Error($"No brainstorming findings found for team {teamId}",null);
             return new List<BrainstormingFinding>();
         }
 
@@ -69,24 +74,24 @@ namespace Method635.App.Forms.RestAccess
         {
             try
             {
-                Console.WriteLine("Updating brainsheet..");
+                _logger.Info("Updating brainsheet..");
                 var res = PutCall(brainSheet, $"{FINDINGS_ENDPOINT}/{findingId}/{BRAINSHEET_UPDATE_ENDPOINT}");
                 var parsedResponseMessage = res.Content.ReadAsAsync<RestResponseMessage>().Result;
-                Console.WriteLine(parsedResponseMessage.Title);
-                Console.WriteLine(parsedResponseMessage.Text);
+                _logger.Info(parsedResponseMessage.Title);
+                _logger.Info(parsedResponseMessage.Text);
                 if (res.IsSuccessStatusCode)
                 {
-                    Console.WriteLine($"Updated finding. Content: {res.Content}");
+                    _logger.Info($"Updated finding. Content: {res.Content}");
                     return true;
                 }
             }
             catch(RestEndpointException ex)
             {
-                Console.WriteLine($"There was an error updating the brainsheet: {ex.Message}");
+                _logger.Error($"There was an error updating the brainsheet: {ex.Message}", ex);
             }
             catch(UnsupportedMediaTypeException ex)
             {
-                Console.WriteLine($"There was an error updating the brainsheet (Unsupported media response): {ex.Message}");
+                _logger.Error($"There was an error updating the brainsheet (Unsupported media response): {ex.Message}", ex);
             }
             return false;
         }
@@ -95,24 +100,24 @@ namespace Method635.App.Forms.RestAccess
         {
             try
             {
-                Console.WriteLine("Getting brainstorming finding..");
+                _logger.Info("Getting brainstorming finding..");
                 var res = GetCall($"{FINDINGS_ENDPOINT}/{finding.Id}/{GET_FINDING_ENDPOINT}");
                 var parsedResponseMessage = res.Content.ReadAsAsync<RestResponseMessage>().Result;
-                Console.WriteLine(parsedResponseMessage.Title);
-                Console.WriteLine(parsedResponseMessage.Text);
+                _logger.Info(parsedResponseMessage.Title);
+                _logger.Info(parsedResponseMessage.Text);
                 if (res.IsSuccessStatusCode)
                 {
-                    Console.WriteLine($"Getting brainstorming finding. Content: {res.Content}");
+                    _logger.Info($"Getting brainstorming finding. Content: {res.Content}");
                     return res.Content.ReadAsAsync<BrainstormingFinding>().Result;
                 }
                 else
                 {
-                    Console.WriteLine($"Couldn't get finding {finding.Id}.");
+                    _logger.Error($"Couldn't get finding {finding.Id}.");
                 }
             }
             catch(RestEndpointException ex)
             {
-                Console.WriteLine($"There was an error getting the finding {finding.Id}");
+                _logger.Error($"There was an error getting the finding {finding.Id}");
             }
             return finding;
         }
@@ -121,26 +126,26 @@ namespace Method635.App.Forms.RestAccess
         {
             try
             {
-                Console.WriteLine("Creating brainstorming finding..");
+                _logger.Info("Creating brainstorming finding..");
                 var res = PostCall(finding, $"{FINDINGS_ENDPOINT}/{finding.TeamId}/{CREATE_FINDING_ENDPOINT}");
                 if (res.IsSuccessStatusCode)
                 {
-                    Console.WriteLine($"Created brainstorming finding. Content: {res.Content}");
+                    _logger.Info($"Created brainstorming finding. Content: {res.Content}");
                     var parsedResponseMessage = res.Content.ReadAsAsync<RestResponseMessage>().Result;
                     finding.Id = parsedResponseMessage.Text;
                     return finding;
                 }
                 else
                 {
-                    Console.WriteLine("The brainstorming finding couldn't be created.");
+                    _logger.Info("The brainstorming finding couldn't be created.");
                     var parsedResponseMessage = res.Content.ReadAsAsync<RestResponseMessage>().Result;
-                    Console.WriteLine(parsedResponseMessage.Title);
-                    Console.WriteLine(parsedResponseMessage.Text);
+                    _logger.Error(parsedResponseMessage.Title);
+                    _logger.Error(parsedResponseMessage.Text);
                 }
             }
             catch (RestEndpointException ex)
             {
-                Console.WriteLine($"Failed to create brainstorming finding: {ex.Message}");
+                _logger.Error($"Failed to create brainstorming finding: {ex.Message}", ex);
             }
             return finding;
         }
@@ -148,24 +153,24 @@ namespace Method635.App.Forms.RestAccess
         {
             try
             {
-                Console.WriteLine("Starting brainstorming finding..");
+                _logger.Info("Starting brainstorming finding..");
                 var res = GetCall($"{FINDINGS_ENDPOINT}/{findingId}/{START_FINDING_ENDPOINT}");
                 var parsedResponseMessage = res.Content.ReadAsAsync<RestResponseMessage>().Result;
-                Console.WriteLine(parsedResponseMessage.Title);
-                Console.WriteLine(parsedResponseMessage.Text);
+                _logger.Info(parsedResponseMessage.Title);
+                _logger.Info(parsedResponseMessage.Text);
                 if (res.IsSuccessStatusCode)
                 {
-                    Console.WriteLine($"Started brainstorming finding. Content: {res.Content}");
+                    _logger.Info($"Started brainstorming finding. Content: {res.Content}");
                     return true;
                 }
                 else
                 {
-                    Console.WriteLine("The brainstorming finding couldn't be started.");
+                    _logger.Error("The brainstorming finding couldn't be started.");
                 }
             }
             catch (RestEndpointException ex)
             {
-                Console.WriteLine($"Failed to create brainstorming finding: {ex.Message}");
+                _logger.Error($"Failed to create brainstorming finding: {ex.Message}", ex);
             }
             return false;
 

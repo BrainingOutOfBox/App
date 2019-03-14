@@ -1,4 +1,5 @@
 ﻿using Method635.App.Forms.Context;
+using Method635.App.Logging;
 using Method635.App.Forms.ViewModels;
 using Method635.App.Forms.ViewModels.Account;
 using Method635.App.Forms.ViewModels.Brainstorming;
@@ -34,6 +35,7 @@ namespace Method635.App.Forms
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            containerRegistry.RegisterSingleton<ILogger, NLogLogger>();
             containerRegistry.RegisterForNavigation<NavigationPage>();
             
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();

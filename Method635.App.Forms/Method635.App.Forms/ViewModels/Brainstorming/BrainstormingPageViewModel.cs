@@ -11,6 +11,8 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Timers;
+using Method635.App.Logging;
+using Xamarin.Forms;
 
 namespace Method635.App.Forms.ViewModels
 {
@@ -24,6 +26,10 @@ namespace Method635.App.Forms.ViewModels
         private readonly BrainstormingFindingRestResolver _brainstormingFindingRestResolver;
         private int commitIdeaIndex = 0;
 
+
+        // Platform independent logger necessary, thus resolving from xf dependency service.
+        private readonly ILogger _logger = DependencyService.Get<ILogManager>().GetLog();
+
         public DelegateCommand CommitCommand { get; }
         public DelegateCommand SendBrainwaveCommand { get; }
         public DelegateCommand RefreshCommand { get; }
@@ -33,7 +39,6 @@ namespace Method635.App.Forms.ViewModels
             _navigationService = navigationService;
             _eventAggregator = eventAggregator;
             _context = brainstormingContext;
-
             _findingTitle = _context.CurrentFinding?.Name;
             _brainstormingFindingRestResolver = new BrainstormingFindingRestResolver();
 
@@ -58,7 +63,7 @@ namespace Method635.App.Forms.ViewModels
                 var currentSheet = _context.CurrentFinding.BrainSheets[(_context.CurrentFinding.CurrentRound + _positionInTeam - 1) % nrOfBrainsheets];
                 if (!_brainstormingFindingRestResolver.UpdateSheet(_context.CurrentFinding.Id, currentSheet))
                 {
-                    Console.WriteLine("Couldn't place brainsheet");
+                    _logger.Error("Couldn't place brainsheet");
                 }
                 BrainWaveSent = true;
                 RoundStartedTimerSetup();
@@ -66,7 +71,7 @@ namespace Method635.App.Forms.ViewModels
             }
             catch (ArgumentOutOfRangeException ex)
             {
-                Console.Write("Invalid index access!");
+                _logger.Error("Invalid index access!");
             }
         }
 
@@ -88,7 +93,7 @@ namespace Method635.App.Forms.ViewModels
             if (backendFinding.CurrentRound != _context.CurrentFinding.CurrentRound)
             {
                 _context.CurrentFinding = backendFinding;
-                Console.WriteLine("Round has changed, proceeding to next round");
+                _logger.Info("Round has changed, proceeding to next round");
                 NextRound();
             }
         }
@@ -112,7 +117,7 @@ namespace Method635.App.Forms.ViewModels
             }
             catch (ArgumentOutOfRangeException ex)
             {
-                Console.Write("Invalid index access!");
+                _logger.Error("Invalid index access!");
             }
         }
 
@@ -226,8 +231,7 @@ namespace Method635.App.Forms.ViewModels
             private set
             {
                 SetProperty(ref _brainSheets, value);
-                Console.WriteLine("-------------------");
-                Console.WriteLine($"Set brainsheet with count {value.Count}. Current Sheet nr: {CurrentSheetNr}");
+                _logger.Info($"Set brainsheet with count {value.Count}. Current Sheet nr: {CurrentSheetNr}");
 
             }
         }

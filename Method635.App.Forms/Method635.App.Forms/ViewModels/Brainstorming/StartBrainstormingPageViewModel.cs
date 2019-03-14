@@ -1,6 +1,7 @@
 ﻿using Method635.App.Forms.Context;
 using Method635.App.Forms.PrismEvents;
 using Method635.App.Forms.RestAccess;
+using Method635.App.Logging;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
@@ -13,12 +14,14 @@ namespace Method635.App.Forms.ViewModels.Brainstorming
         private readonly INavigationService _navigationService;
         private readonly IEventAggregator _eventAggregator;
         private readonly BrainstormingContext _context;
+        private readonly ILogger _logger;
 
-        public StartBrainstormingPageViewModel(INavigationService navigationService, IEventAggregator eventAggregator, BrainstormingContext context)
+        public StartBrainstormingPageViewModel(INavigationService navigationService, IEventAggregator eventAggregator, ILogger logger, BrainstormingContext context)
         {
             _navigationService = navigationService;
             _eventAggregator = eventAggregator;
             _context = context;
+            _logger = logger;
             TapCommand = new DelegateCommand(StartBrainstorming);
         }
 

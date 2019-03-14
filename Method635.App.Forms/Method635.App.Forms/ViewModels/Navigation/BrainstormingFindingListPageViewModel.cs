@@ -2,6 +2,7 @@
 using Method635.App.Forms.PrismEvents;
 using Method635.App.Forms.RestAccess;
 using Method635.App.Forms.ViewModels.Navigation;
+using Method635.App.Logging;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
@@ -19,15 +20,17 @@ namespace Method635.App.Forms.ViewModels
         private readonly INavigationService _navigationService;
         private readonly IEventAggregator _eventAggregator;
         private readonly BrainstormingContext _brainstormingContext;
+        private readonly ILogger _logger;
 
         public BrainstormingFindingListPageViewModel(INavigationService navigationService,
             IEventAggregator eventAggregator,
-            BrainstormingContext brainstormingContext)
+            BrainstormingContext brainstormingContext,
+            ILogger logger)
         {
             _navigationService = navigationService;
             _eventAggregator = eventAggregator;
             _brainstormingContext = brainstormingContext;
-
+            _logger = logger;
             FillFindingListItems();
 
             SelectFindingCommand = new DelegateCommand(SelectFinding);

@@ -9,6 +9,8 @@ using Prism.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Method635.App.Logging;
+using Xamarin.Forms;
 
 namespace Method635.App.Forms.ViewModels.Team
 {
@@ -17,6 +19,9 @@ namespace Method635.App.Forms.ViewModels.Team
         private readonly INavigationService _navigationService;
         private readonly IEventAggregator _eventAggregator;
         private readonly BrainstormingContext _context;
+
+        // Platform independent logger necessary, thus resolving from xf dependency service.
+        private readonly ILogger _logger = DependencyService.Get<ILogManager>().GetLog();
 
         public TeamPageViewModel(INavigationService navigationService, IEventAggregator eventAggregator, BrainstormingContext context)
         {
@@ -38,7 +43,7 @@ namespace Method635.App.Forms.ViewModels.Team
 
         private void LeaveTeam(BrainstormingTeam team)
         {
-            Console.WriteLine("Leaving team...");
+            _logger.Info("Leaving team...");
         }
 
         private void JoinTeam()

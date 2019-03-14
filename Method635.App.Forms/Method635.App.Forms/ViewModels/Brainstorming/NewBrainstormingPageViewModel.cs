@@ -8,6 +8,8 @@ using Prism.Mvvm;
 using Prism.Navigation;
 using System;
 using System.Collections.Generic;
+using Method635.App.Logging;
+using Xamarin.Forms;
 
 namespace Method635.App.Forms.ViewModels.Brainstorming
 {
@@ -15,11 +17,14 @@ namespace Method635.App.Forms.ViewModels.Brainstorming
 	{
         private readonly INavigationService _navigationService;
         private readonly IEventAggregator _eventAggregator;
-        private readonly BrainstormingContext _context;
+        private readonly BrainstormingContext _context; 
         private int _nrOfIdeas;
         private int _baseRoundTime;
 
         private readonly List<char> disallowedChars = new List<char>{ '\\', ' ' };
+
+        // Platform independent logger necessary, thus resolving from xf dependency service.
+        private readonly ILogger _logger = DependencyService.Get<ILogManager>().GetLog();
 
         public DelegateCommand CreateFindingCommand { get; }
 
@@ -39,7 +44,7 @@ namespace Method635.App.Forms.ViewModels.Brainstorming
         {
             if (!CheckInput())
             {
-                Console.WriteLine("Invalid input to create finding..");
+                _logger.Error($"Invalid input (using '{FindingName}')to create finding..");
                 return;
             }
             try
@@ -58,7 +63,7 @@ namespace Method635.App.Forms.ViewModels.Brainstorming
             }
             catch(Exception ex)
             {
-                Console.WriteLine(ex);
+                _logger.Error(ex.Message, ex);
             }
             
         }

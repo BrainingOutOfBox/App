@@ -8,6 +8,8 @@ using Prism.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Method635.App.Logging;
+using Xamarin.Forms;
 
 namespace Method635.App.Forms.ViewModels
 {
@@ -15,6 +17,9 @@ namespace Method635.App.Forms.ViewModels
     {
         private readonly INavigationService _navigationService;
         private readonly BrainstormingContext _context;
+
+        // Platform independent logger necessary, thus resolving from xf dependency service.
+        private readonly ILogger _logger = DependencyService.Get<ILogManager>().GetLog();
 
         public LoginPageViewModel(INavigationService navigationService, BrainstormingContext context)
         {
@@ -34,13 +39,13 @@ namespace Method635.App.Forms.ViewModels
         {
             if (!CheckInput())
             {
-                Console.WriteLine("Input invalid for login");
+                _logger.Error("Input invalid for login");
                 return;
             }
             var loginParticipant = new Participant()
             {
-                UserName = this.UserName,
-                Password = this.Password
+                UserName = UserName,
+                Password = Password
             };
             var response = new ParticipantRestResolver().Login(loginParticipant);
             if(response != null)
