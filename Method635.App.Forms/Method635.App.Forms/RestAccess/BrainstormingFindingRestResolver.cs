@@ -1,4 +1,4 @@
-﻿using Method635.App.Forms.Models;
+﻿using Method635.App.Models;
 using Method635.App.Forms.RestAccess.ResponseModel;
 using Method635.App.Forms.RestAccess.RestExceptions;
 using System;

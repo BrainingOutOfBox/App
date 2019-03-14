@@ -28,6 +28,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Method635.App.Models\Method635.App.Models.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="Views\Brainstorming\BrainstormingPage.xaml.cs">
       <DependentUpon>BrainstormingPage.xaml</DependentUpon>
     </Compile>

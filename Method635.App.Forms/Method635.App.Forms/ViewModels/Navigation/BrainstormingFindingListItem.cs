@@ -1,4 +1,4 @@
-﻿using Method635.App.Forms.Models;
+﻿using Method635.App.Models;
 
 namespace Method635.App.Forms.ViewModels.Navigation
 {

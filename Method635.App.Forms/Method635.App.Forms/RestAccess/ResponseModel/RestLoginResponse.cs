@@ -1,4 +1,4 @@
-﻿using Method635.App.Forms.Models;
+﻿using Method635.App.Models;
 using Newtonsoft.Json;
 
 namespace Method635.App.Forms.RestAccess.ResponseModel

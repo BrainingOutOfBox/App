@@ -1,9 +1,8 @@
 ﻿using Newtonsoft.Json;
-using Prism.Mvvm;
 
-namespace Method635.App.Forms.Models
+namespace Method635.App.Models
 {
-    public class TextIdea : BindableBase, IIdea
+    public class TextIdea : PropertyChangedBase, IIdea
     {
         private string _description;
         [JsonProperty("description")]

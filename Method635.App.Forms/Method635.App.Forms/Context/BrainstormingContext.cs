@@ -1,4 +1,4 @@
-﻿using Method635.App.Forms.Models;
+﻿using Method635.App.Models;
 using Prism.Mvvm;
 
 namespace Method635.App.Forms.Context

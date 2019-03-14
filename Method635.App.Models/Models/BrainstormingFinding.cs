@@ -1,10 +1,9 @@
 ﻿using Newtonsoft.Json;
-using Prism.Mvvm;
 using System.Collections.Generic;
 
-namespace Method635.App.Forms.Models
+namespace Method635.App.Models
 {
-    public class BrainstormingFinding : BindableBase
+    public class BrainstormingFinding : PropertyChangedBase
     {
         [JsonProperty("identifier")]
         public string Id { get; set; }

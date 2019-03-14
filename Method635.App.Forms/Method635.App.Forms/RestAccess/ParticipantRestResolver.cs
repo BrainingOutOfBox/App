@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Net.Http;
-using Method635.App.Forms.Models;
+using Method635.App.Models;
 using Method635.App.Forms.RestAccess.ResponseModel;
 using Method635.App.Forms.RestAccess.RestExceptions;
 

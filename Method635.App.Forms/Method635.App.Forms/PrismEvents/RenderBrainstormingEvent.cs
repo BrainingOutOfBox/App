@@ -1,8 +1,4 @@
-﻿using Method635.App.Forms.Models;
-using Prism.Events;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Prism.Events;
 
 namespace Method635.App.Forms.PrismEvents
 {

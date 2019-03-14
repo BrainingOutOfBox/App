@@ -1,5 +1,5 @@
 ﻿using Method635.App.Forms.Context;
-using Method635.App.Forms.Models;
+using Method635.App.Models;
 using Method635.App.Forms.PrismEvents;
 using Method635.App.Forms.RestAccess;
 using Prism;
@@ -202,7 +202,8 @@ namespace Method635.App.Forms.ViewModels
             if (_context.CurrentParticipant.UserName.Equals(moderatorOfCurrentFinding.UserName))
             {
                 // Brainstorming is not yet started and current user is the moderator -> Display StartBrainstorming
-                _navigationService.NavigateAsync("StartBrainstormingPage");
+                //_navigationService.NavigateAsync("NavigationPage/StartBrainstormingPage");
+                _eventAggregator.GetEvent<RenderStartBrainstormingEvent>().Publish();
             }
         }
 

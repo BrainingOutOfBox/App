@@ -1,10 +1,9 @@
 ﻿using Newtonsoft.Json;
-using Prism.Mvvm;
 using System.Collections.Generic;
 
-namespace Method635.App.Forms.Models
+namespace Method635.App.Models
 {
-    public class BrainWave : BindableBase
+    public class BrainWave : PropertyChangedBase
     {
         [JsonProperty("nrOfBrainwave")]
         public int NrOfBrainWave { get; set; }
