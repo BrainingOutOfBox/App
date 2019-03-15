@@ -68,6 +68,7 @@
   <ItemGroup>
     <Compile Include="Logging\NLogManager.cs" />
     <Compile Include="MainActivity.cs" />
+    <Compile Include="Resources\Localize.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

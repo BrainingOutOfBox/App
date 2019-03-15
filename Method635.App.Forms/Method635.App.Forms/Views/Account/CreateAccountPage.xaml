@@ -4,25 +4,31 @@
              xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="Method635.App.Forms.Views.Account.CreateAccountPage"
-             Title="Create Account">
+             xmlns:i18n="clr-namespace:Method635.App.Forms.Resources"
+             Title="{i18n:Translate Text=CreateAccount}">
     <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
 
         <ScrollView>
             <StackLayout Orientation="Vertical">
-            <Label Text="Firstname" />
+                <Label Text="{i18n:Translate Text=FirstName}" />
                 <Entry Text="{Binding FirstName}" />
-                <Label Text="Lastname" />
+                
+                <Label Text="{i18n:Translate Text=LastName}" />
                 <Entry Text="{Binding LastName}" />
-                <Label Text="Username" />
+                
+                <Label Text="{i18n:Translate Text=UserName}" />
                 <Entry Text="{Binding UserName}" />
-                <Label Text="Password" />
+                
+                <Label Text="{i18n:Translate Text=Password}" />
                 <Entry Text="{Binding Password}" IsPassword="True" />
-                <Label Text="Repeat Password" />
+                
+                <Label Text="{i18n:Translate Text=RepeatPassword}" />
                 <Entry Text="{Binding RepeatPassword}" IsPassword="True"/>
             </StackLayout>
         </ScrollView>
+        
         <Label Text="{Binding ErrorMessage}" TextColor="Red" IsVisible="{Binding RegisterFailed}" />
-        <Button Text="Register" Command="{Binding RegisterCommand}" />
+        <Button Text="{i18n:Translate Text=Register}" Command="{Binding RegisterCommand}" />
     </StackLayout>
 </ContentPage>
     
