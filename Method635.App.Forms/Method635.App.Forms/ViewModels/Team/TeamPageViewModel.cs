@@ -12,6 +12,7 @@ using System.Linq;
 using Method635.App.Logging;
 using Xamarin.Forms;
 using Method635.App.Forms.Services;
+using Method635.App.Forms.Resources;
 
 namespace Method635.App.Forms.ViewModels.Team
 {
@@ -99,6 +100,6 @@ namespace Method635.App.Forms.ViewModels.Team
             set => SetProperty(ref _hasTeam, value);
         }
 
-        public string Title => "My Teams";
+        public string Title => AppResources.MyTeams;
 	}
 }

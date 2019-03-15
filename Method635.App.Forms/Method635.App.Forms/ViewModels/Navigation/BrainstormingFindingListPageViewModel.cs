@@ -1,5 +1,6 @@
 ﻿using Method635.App.Forms.Context;
 using Method635.App.Forms.PrismEvents;
+using Method635.App.Forms.Resources;
 using Method635.App.Forms.RestAccess;
 using Method635.App.Forms.ViewModels.Navigation;
 using Method635.App.Logging;
@@ -97,7 +98,7 @@ namespace Method635.App.Forms.ViewModels
 
         public BrainstormingFindingListItem SelectedFinding { get; set; }
 
-        public string Title => "Brainstorming Findings";
+        public string Title => AppResources.BrainstormingFindings;
 
         private List<BrainstormingFindingListItem> _findingList;
         public List<BrainstormingFindingListItem> FindingList

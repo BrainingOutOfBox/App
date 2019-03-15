@@ -61,11 +61,29 @@ namespace Method635.App.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Found Team, placing call to join it...
+        /// </summary>
+        internal static string BottomOverlayText {
+            get {
+                return ResourceManager.GetString("BottomOverlayText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Brainstorming.
         /// </summary>
         internal static string Brainstorming {
             get {
                 return ResourceManager.GetString("Brainstorming", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Brainstorming Findings.
+        /// </summary>
+        internal static string BrainstormingFindings {
+            get {
+                return ResourceManager.GetString("BrainstormingFindings", resourceCulture);
             }
         }
         
@@ -106,6 +124,33 @@ namespace Method635.App.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to There was an error with your login, please try again..
+        /// </summary>
+        internal static string LoginError {
+            get {
+                return ResourceManager.GetString("LoginError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} of {1} Members joined..
+        /// </summary>
+        internal static string MemberCountString {
+            get {
+                return ResourceManager.GetString("MemberCountString", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to My Teams.
+        /// </summary>
+        internal static string MyTeams {
+            get {
+                return ResourceManager.GetString("MyTeams", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please make sure the passwords match..
         /// </summary>
         internal static string PasswordsDontMatch {
@@ -129,6 +174,24 @@ namespace Method635.App.Forms.Resources {
         internal static string SheetNrOfNr {
             get {
                 return ResourceManager.GetString("SheetNrOfNr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Something went wrong, please try again..
+        /// </summary>
+        internal static string SomethingWrongTryAgain {
+            get {
+                return ResourceManager.GetString("SomethingWrongTryAgain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Success!.
+        /// </summary>
+        internal static string Success {
+            get {
+                return ResourceManager.GetString("Success", resourceCulture);
             }
         }
         

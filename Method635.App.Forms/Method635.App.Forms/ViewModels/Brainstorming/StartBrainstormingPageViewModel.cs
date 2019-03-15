@@ -12,14 +12,12 @@ namespace Method635.App.Forms.ViewModels.Brainstorming
 {
     public class StartBrainstormingPageViewModel : BindableBase
 	{
-        private readonly INavigationService _navigationService;
         private readonly IEventAggregator _eventAggregator;
         private readonly BrainstormingContext _context;
         private readonly ILogger _logger;
 
-        public StartBrainstormingPageViewModel(INavigationService navigationService, IEventAggregator eventAggregator, ILogger logger, BrainstormingContext context)
+        public StartBrainstormingPageViewModel(IEventAggregator eventAggregator, ILogger logger, BrainstormingContext context)
         {
-            _navigationService = navigationService;
             _eventAggregator = eventAggregator;
             _context = context;
             _logger = logger;

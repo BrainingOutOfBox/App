@@ -1,5 +1,6 @@
 ﻿using Method635.App.Forms.Context;
 using Method635.App.Forms.PrismEvents;
+using Method635.App.Forms.Resources;
 using Method635.App.Forms.RestAccess;
 using Prism.Commands;
 using Prism.Events;
@@ -34,15 +35,15 @@ namespace Method635.App.Forms.ViewModels.Team
             if(!JoinPending && !string.IsNullOrEmpty(result.Text))
             {
                 var restResolver = new TeamRestResolver();
-                BottomOverlayText = "Found Team, placing call to join it...";
+                BottomOverlayText = AppResources.BottomOverlayText;
                 if(!restResolver.JoinTeam(result.Text, _context.CurrentParticipant))
                 {
-                    BottomOverlayText = "Something went wrong, please try again.";
+                    BottomOverlayText = AppResources.SomethingWrongTryAgain;
                     JoinPending = true;
                     return;
                 }
 
-                BottomOverlayText += " Success!";
+                BottomOverlayText += AppResources.Success;
                 JoinPending = true;
                 _context.CurrentBrainstormingTeam = restResolver.GetTeamById(result.Text);
 

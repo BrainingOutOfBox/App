@@ -56,7 +56,7 @@ namespace Method635.App.Forms.ViewModels
                 await _navigationService.NavigateToMainPage();
                 return;
             }
-            ErrorText = "There was an error with your login, please try again.";
+            ErrorText = AppResources.LoginError;
             HasError = true;
         }
 
@@ -65,7 +65,7 @@ namespace Method635.App.Forms.ViewModels
             ErrorText = string.Empty;
             if (string.IsNullOrEmpty(Password) || string.IsNullOrEmpty(UserName))
             {
-                ErrorText = "Please fill in all the fields to login";
+                ErrorText = AppResources.FillNecessaryFields;
                 HasError = true;
                 return false;
             }

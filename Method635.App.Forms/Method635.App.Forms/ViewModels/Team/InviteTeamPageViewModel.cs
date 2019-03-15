@@ -1,5 +1,6 @@
 ﻿using Method635.App.Forms.Context;
 using Method635.App.Forms.PrismEvents;
+using Method635.App.Forms.Resources;
 using Method635.App.Forms.RestAccess;
 using Method635.App.Forms.Services;
 using Prism.Events;
@@ -78,7 +79,7 @@ namespace Method635.App.Forms.ViewModels.Team
             set
             {
                 SetProperty(ref _backendNrCount, value);
-                MemberCountString = $"{_memberCount} of {_teamCapacity} Members joined";
+                MemberCountString = string.Format(AppResources.MemberCountString, _memberCount,_teamCapacity);
             }
         }
         private int _teamCapacity => _context.CurrentBrainstormingTeam.NrOfParticipants;

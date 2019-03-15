@@ -144,4 +144,25 @@
   <data name="ClickToStartBrainstorming" xml:space="preserve">
     <value>Click on the icon to start Brainstorming.</value>
   </data>
+  <data name="BrainstormingFindings" xml:space="preserve">
+    <value>Brainstorming Findings</value>
+  </data>
+  <data name="MemberCountString" xml:space="preserve">
+    <value>{0} of {1} Members joined.</value>
+  </data>
+  <data name="BottomOverlayText" xml:space="preserve">
+    <value>Found Team, placing call to join it..</value>
+  </data>
+  <data name="SomethingWrongTryAgain" xml:space="preserve">
+    <value>Something went wrong, please try again.</value>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>Success!</value>
+  </data>
+  <data name="MyTeams" xml:space="preserve">
+    <value>My Teams</value>
+  </data>
+  <data name="LoginError" xml:space="preserve">
+    <value>There was an error with your login, please try again.</value>
+  </data>
 </root>
