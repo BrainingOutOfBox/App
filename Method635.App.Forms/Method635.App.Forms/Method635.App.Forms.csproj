@@ -33,6 +33,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="ui-strings.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ui-strings.resx</DependentUpon>
+    </Compile>
     <Compile Update="Views\Brainstorming\BrainstormingPage.xaml.cs">
       <DependentUpon>BrainstormingPage.xaml</DependentUpon>
     </Compile>
@@ -51,6 +56,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Resources\AppResources.en-GB.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="ui-strings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ui-strings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\Account\CreateAccountPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>

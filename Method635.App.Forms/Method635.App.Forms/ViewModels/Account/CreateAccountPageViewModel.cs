@@ -1,12 +1,11 @@
-﻿using System;
-using Method635.App.Models;
+﻿using Method635.App.Models;
 using Method635.App.Forms.RestAccess;
 using Prism.Commands;
 using Prism.Mvvm;
-using Prism.Navigation;
 using Method635.App.Logging;
 using Xamarin.Forms;
 using Method635.App.Forms.Services;
+using Method635.App.Forms.Resources;
 
 namespace Method635.App.Forms.ViewModels.Account
 {
@@ -43,7 +42,7 @@ namespace Method635.App.Forms.ViewModels.Account
             };
             if(!new ParticipantRestResolver().CreateParticipant(newParticipant))
             {
-                ErrorMessage = "There was an error registering your user.";
+                ErrorMessage = AppResources.ErrorRegisteringUser; 
                 RegisterFailed = true;
                 return;
             }
@@ -56,7 +55,7 @@ namespace Method635.App.Forms.ViewModels.Account
             RegisterFailed = false;
             if (_password != _repeatPassword)
             {
-                ErrorMessage = "Please make sure the passwords match.";
+                ErrorMessage = AppResources.PasswordsDontMatch;
                 RegisterFailed = true;
                 return false;
             }

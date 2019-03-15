@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using Method635.App.Logging;
 using Xamarin.Forms;
+using Method635.App.Forms.Resources;
 
 namespace Method635.App.Forms.ViewModels.Brainstorming
 {
@@ -72,7 +73,7 @@ namespace Method635.App.Forms.ViewModels.Brainstorming
         {
             if (!HasValidFindingName())
             {
-                ErrorText = "Please don't use any of the prohibited characters";
+                ErrorText = AppResources.DontUseProhibitedChars;
                 HasError = true;
                 HasInvalidChars = true;
                 return false;
@@ -81,14 +82,14 @@ namespace Method635.App.Forms.ViewModels.Brainstorming
                 string.IsNullOrEmpty(NrOfIdeasText) ||
                 string.IsNullOrEmpty(BaseRoundTimeText))
             {
-                ErrorText = "Please fill in all the necessary fields";
+                ErrorText = AppResources.FillNecessaryFields;
                 HasError = true;
                 return false;
             }
             if (!int.TryParse(NrOfIdeasText, out int nrOfIdeas) ||
                 !int.TryParse(BaseRoundTimeText, out int baseRoundTime))
             {
-                ErrorText = "Please use numbers in the corresponding fields";
+                ErrorText = AppResources.UseNumbersInFields;
                 HasError = true;
                 return false;
             }
@@ -123,7 +124,7 @@ namespace Method635.App.Forms.ViewModels.Brainstorming
             get => _hasError;
             set => SetProperty(ref _hasError, value);
         }
-        public string ProhibitedChars => $"Prohibited characters (comma-separated, including whitespace): {string.Join(", ", disallowedChars)}";
+        public string ProhibitedChars => string.Format(AppResources.ProhibitedCharsText,string.Join(", ", disallowedChars));
 
         private bool _hasInvalidChars;
         public bool HasInvalidChars
@@ -131,6 +132,5 @@ namespace Method635.App.Forms.ViewModels.Brainstorming
             get => _hasInvalidChars;
             set => SetProperty(ref _hasInvalidChars, value);
         }
-
     }
 }

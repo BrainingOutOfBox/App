@@ -61,11 +61,83 @@ namespace Method635.App.Forms.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Get Time.
+        ///   Looks up a localized string similar to Brainstorming.
         /// </summary>
-        internal static string GetTimeText {
+        internal static string Brainstorming {
             get {
-                return ResourceManager.GetString("GetTimeText", resourceCulture);
+                return ResourceManager.GetString("Brainstorming", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Click on the icon to start Brainstorming..
+        /// </summary>
+        internal static string ClickToStartBrainstorming {
+            get {
+                return ResourceManager.GetString("ClickToStartBrainstorming", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please don&apos;t use any of the prohibited characters..
+        /// </summary>
+        internal static string DontUseProhibitedChars {
+            get {
+                return ResourceManager.GetString("DontUseProhibitedChars", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There was an error registering your user..
+        /// </summary>
+        internal static string ErrorRegisteringUser {
+            get {
+                return ResourceManager.GetString("ErrorRegisteringUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please fill in all the necessary fields..
+        /// </summary>
+        internal static string FillNecessaryFields {
+            get {
+                return ResourceManager.GetString("FillNecessaryFields", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please make sure the passwords match..
+        /// </summary>
+        internal static string PasswordsDontMatch {
+            get {
+                return ResourceManager.GetString("PasswordsDontMatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Prohibited characters (comma-separated, including whitespace): {0}.
+        /// </summary>
+        internal static string ProhibitedCharsText {
+            get {
+                return ResourceManager.GetString("ProhibitedCharsText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sheet {0} of {1}..
+        /// </summary>
+        internal static string SheetNrOfNr {
+            get {
+                return ResourceManager.GetString("SheetNrOfNr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please use numbers in the corresponding fields..
+        /// </summary>
+        internal static string UseNumbersInFields {
+            get {
+                return ResourceManager.GetString("UseNumbersInFields", resourceCulture);
             }
         }
     }

@@ -13,6 +13,7 @@ using System.Collections.ObjectModel;
 using System.Timers;
 using Method635.App.Logging;
 using Xamarin.Forms;
+using Method635.App.Forms.Resources;
 
 namespace Method635.App.Forms.ViewModels
 {
@@ -182,7 +183,7 @@ namespace Method635.App.Forms.ViewModels
                 SendBrainWave();
                 return;
             }
-            RemainingTime = ($"{remainingTime.Minutes:D2}m:{remainingTime.Seconds:D2}s");
+            RemainingTime = $"{remainingTime.Minutes:D2}m:{remainingTime.Seconds:D2}s";
         }
 
 
@@ -198,7 +199,7 @@ namespace Method635.App.Forms.ViewModels
             if (IsBrainstormingRunning() || HasBrainstormingEnded())
             {
                 // Brainstorming has already started
-                CurrentSheetText = $"Sheet {CurrentSheetNr} of {_context.CurrentBrainstormingTeam.NrOfParticipants}";
+                CurrentSheetText = string.Format(AppResources.SheetNrOfNr, CurrentSheetNr, _context.CurrentBrainstormingTeam.NrOfParticipants);
                 EvaluateDisplayedBrainWaves();
                 return;
             }
@@ -274,7 +275,7 @@ namespace Method635.App.Forms.ViewModels
             set => SetProperty(ref _ideaText, value);
         }
 
-        public string Title => "Brainstorming";
+        public string Title => AppResources.Brainstorming;
 
         public event EventHandler IsActiveChanged;
 
@@ -314,7 +315,7 @@ namespace Method635.App.Forms.ViewModels
             get { return _isActive; }
             set
             {
-                SetProperty(ref _isActive, value, () => System.Diagnostics.Debug.WriteLine($"{Title} IsActive Changed: {value}"));
+                SetProperty(ref _isActive, value);
 
                 if (_isActive && !_updateRoundTimer.Enabled && !IsBrainstormingFinished)
                 {

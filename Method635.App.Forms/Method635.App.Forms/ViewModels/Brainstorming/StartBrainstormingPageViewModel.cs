@@ -1,5 +1,6 @@
 ﻿using Method635.App.Forms.Context;
 using Method635.App.Forms.PrismEvents;
+using Method635.App.Forms.Resources;
 using Method635.App.Forms.RestAccess;
 using Method635.App.Logging;
 using Prism.Commands;
@@ -42,7 +43,7 @@ namespace Method635.App.Forms.ViewModels.Brainstorming
             }
         }
 
-        private string _clickOnTextToStartBrainstorming = "Click on the icon to start Brainstorming";
+        private string _clickOnTextToStartBrainstorming = AppResources.ClickToStartBrainstorming;
         public string ClickOnTextToStartBrainstorming
         {
             get => _clickOnTextToStartBrainstorming;

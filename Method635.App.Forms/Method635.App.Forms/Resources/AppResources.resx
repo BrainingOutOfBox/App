@@ -117,7 +117,31 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="GetTimeText" xml:space="preserve">
-    <value>Get Time</value>
+  <data name="ErrorRegisteringUser" xml:space="preserve">
+    <value>There was an error registering your user.</value>
+  </data>
+  <data name="PasswordsDontMatch" xml:space="preserve">
+    <value>Please make sure the passwords match.</value>
+  </data>
+  <data name="SheetNrOfNr" xml:space="preserve">
+    <value>Sheet {0} of {1}.</value>
+  </data>
+  <data name="Brainstorming" xml:space="preserve">
+    <value>Brainstorming</value>
+  </data>
+  <data name="DontUseProhibitedChars" xml:space="preserve">
+    <value>Please don't use any of the prohibited characters.</value>
+  </data>
+  <data name="FillNecessaryFields" xml:space="preserve">
+    <value>Please fill in all the necessary fields.</value>
+  </data>
+  <data name="UseNumbersInFields" xml:space="preserve">
+    <value>Please use numbers in the corresponding fields.</value>
+  </data>
+  <data name="ProhibitedCharsText" xml:space="preserve">
+    <value>Prohibited characters (comma-separated, including whitespace): {0}</value>
+  </data>
+  <data name="ClickToStartBrainstorming" xml:space="preserve">
+    <value>Click on the icon to start Brainstorming.</value>
   </data>
 </root>
