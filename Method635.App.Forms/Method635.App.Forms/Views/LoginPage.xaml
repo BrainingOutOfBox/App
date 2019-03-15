@@ -3,17 +3,18 @@
              xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              prism:ViewModelLocator.AutowireViewModel="True"
+             xmlns:i18n="clr-namespace:Method635.App.Forms.Resources"
              x:Class="Method635.App.Forms.Views.LoginPage"
-             Title="Login to Brainstorming">
+             Title="{i18n:Translate Text=LoginTitle}">
     <ScrollView>
         <StackLayout Orientation="Vertical" Margin="5, 10">
-            <Entry Text="{Binding UserName}" Placeholder="Username" IsTabStop="True" TabIndex="0" HeightRequest="50"/>
+            <Entry Text="{Binding UserName}" Placeholder="{i18n:Translate Text=UserName}" IsTabStop="True" TabIndex="0" HeightRequest="50"/>
             
-            <Entry Text="{Binding Password}" Placeholder="Password" IsTabStop="True" TabIndex="1" IsPassword="True" HeightRequest="50"/>
+            <Entry Text="{Binding Password}" Placeholder="{i18n:Translate Text=Password}" IsTabStop="True" TabIndex="1" IsPassword="True" HeightRequest="50"/>
 
             <Label Text="{Binding ErrorText}" TextColor="Red" IsEnabled="{Binding HasError}" />
-            <Button Command="{Binding LoginCommand}" Text="Login" TabIndex="2"/>
-            <Button Command="{Binding ShowRegisterCommand}" Text="Register" TabIndex="3" />
+            <Button Command="{Binding LoginCommand}" Text="{i18n:Translate Text=Login}" TabIndex="2"/>
+            <Button Command="{Binding ShowRegisterCommand}" Text="{i18n:Translate Text=Register}" TabIndex="3" />
         </StackLayout>
     </ScrollView>
 </ContentPage>

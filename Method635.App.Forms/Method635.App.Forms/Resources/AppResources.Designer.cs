@@ -61,6 +61,24 @@ namespace Method635.App.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add Brainstorming Finding.
+        /// </summary>
+        internal static string AddFinding {
+            get {
+                return ResourceManager.GetString("AddFinding", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add Brainstorming Team.
+        /// </summary>
+        internal static string AddTeam {
+            get {
+                return ResourceManager.GetString("AddTeam", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Found Team, placing call to join it...
         /// </summary>
         internal static string BottomOverlayText {
@@ -75,6 +93,15 @@ namespace Method635.App.Forms.Resources {
         internal static string Brainstorming {
             get {
                 return ResourceManager.GetString("Brainstorming", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Short Description of the topic the brainstorming is about..
+        /// </summary>
+        internal static string BrainstormingDescription {
+            get {
+                return ResourceManager.GetString("BrainstormingDescription", resourceCulture);
             }
         }
         
@@ -97,11 +124,47 @@ namespace Method635.App.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Completed.
+        /// </summary>
+        internal static string Completed {
+            get {
+                return ResourceManager.GetString("Completed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create Account.
         /// </summary>
         internal static string CreateAccount {
             get {
                 return ResourceManager.GetString("CreateAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create Finding.
+        /// </summary>
+        internal static string CreateFinding {
+            get {
+                return ResourceManager.GetString("CreateFinding", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create a new Team.
+        /// </summary>
+        internal static string CreateTeam {
+            get {
+                return ResourceManager.GetString("CreateTeam", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Description.
+        /// </summary>
+        internal static string Description {
+            get {
+                return ResourceManager.GetString("Description", resourceCulture);
             }
         }
         
@@ -133,11 +196,47 @@ namespace Method635.App.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Brainstorming Finding Name.
+        /// </summary>
+        internal static string FindingName {
+            get {
+                return ResourceManager.GetString("FindingName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Firstname.
         /// </summary>
         internal static string FirstName {
             get {
                 return ResourceManager.GetString("FirstName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Choose how many ideas you want to have in one round.
+        /// </summary>
+        internal static string IdeasDescription {
+            get {
+                return ResourceManager.GetString("IdeasDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invite Team Members.
+        /// </summary>
+        internal static string InviteMembers {
+            get {
+                return ResourceManager.GetString("InviteMembers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Join Team.
+        /// </summary>
+        internal static string JoinTeam {
+            get {
+                return ResourceManager.GetString("JoinTeam", resourceCulture);
             }
         }
         
@@ -151,11 +250,38 @@ namespace Method635.App.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Leave Team.
+        /// </summary>
+        internal static string LeaveTeam {
+            get {
+                return ResourceManager.GetString("LeaveTeam", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Login.
+        /// </summary>
+        internal static string Login {
+            get {
+                return ResourceManager.GetString("Login", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to There was an error with your login, please try again..
         /// </summary>
         internal static string LoginError {
             get {
                 return ResourceManager.GetString("LoginError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Login to Brainstorming.
+        /// </summary>
+        internal static string LoginTitle {
+            get {
+                return ResourceManager.GetString("LoginTitle", resourceCulture);
             }
         }
         
@@ -169,11 +295,76 @@ namespace Method635.App.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Method 635.
+        /// </summary>
+        internal static string Method635 {
+            get {
+                return ResourceManager.GetString("Method635", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to My Teams.
         /// </summary>
         internal static string MyTeams {
             get {
                 return ResourceManager.GetString("MyTeams", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name.
+        /// </summary>
+        internal static string Name {
+            get {
+                return ResourceManager.GetString("Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Names must be shorter than 22 characters and without spaces or periods..
+        /// </summary>
+        internal static string NameConstraints {
+            get {
+                return ResourceManager.GetString("NameConstraints", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There are no brainstorming findings for this team yet.. 
+        ///Add a brainstorming finding below or wait till another team member creates one..
+        /// </summary>
+        internal static string NoFindingsYet {
+            get {
+                return ResourceManager.GetString("NoFindingsYet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You don&apos;t belong to a team yet.. 
+        ///Join or add a team below.
+        /// </summary>
+        internal static string NoTeamYet {
+            get {
+                return ResourceManager.GetString("NoTeamYet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Number of Ideas.
+        /// </summary>
+        internal static string NrOfIdeas {
+            get {
+                return ResourceManager.GetString("NrOfIdeas", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to # Ideas.
+        /// </summary>
+        internal static string NrOfIdeasPlaceholder {
+            get {
+                return ResourceManager.GetString("NrOfIdeasPlaceholder", resourceCulture);
             }
         }
         
@@ -196,11 +387,38 @@ namespace Method635.App.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Place the code inside the area.
+        /// </summary>
+        internal static string PlaceQrInArea {
+            get {
+                return ResourceManager.GetString("PlaceQrInArea", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Prohibited characters (comma-separated, including whitespace): {0}.
         /// </summary>
         internal static string ProhibitedCharsText {
             get {
                 return ResourceManager.GetString("ProhibitedCharsText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Purpose (optional).
+        /// </summary>
+        internal static string Purpose {
+            get {
+                return ResourceManager.GetString("Purpose", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Briefly describe the purpose of your team.
+        /// </summary>
+        internal static string PurposeText {
+            get {
+                return ResourceManager.GetString("PurposeText", resourceCulture);
             }
         }
         
@@ -223,6 +441,42 @@ namespace Method635.App.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Round Time.
+        /// </summary>
+        internal static string RoundTime {
+            get {
+                return ResourceManager.GetString("RoundTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Choose what your base round time will be. This will be incremented by 1 min every round.
+        /// </summary>
+        internal static string RoundTimeDescription {
+            get {
+                return ResourceManager.GetString("RoundTimeDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Base Round Time in mins.
+        /// </summary>
+        internal static string RoundTimeText {
+            get {
+                return ResourceManager.GetString("RoundTimeText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Send.
+        /// </summary>
+        internal static string Send {
+            get {
+                return ResourceManager.GetString("Send", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sheet {0} of {1}..
         /// </summary>
         internal static string SheetNrOfNr {
@@ -241,11 +495,65 @@ namespace Method635.App.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Start Brainstorming.
+        /// </summary>
+        internal static string StartBrainstorming {
+            get {
+                return ResourceManager.GetString("StartBrainstorming", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Success!.
         /// </summary>
         internal static string Success {
             get {
                 return ResourceManager.GetString("Success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Team Name.
+        /// </summary>
+        internal static string TeamName {
+            get {
+                return ResourceManager.GetString("TeamName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Team Size.
+        /// </summary>
+        internal static string TeamSize {
+            get {
+                return ResourceManager.GetString("TeamSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Choose how many participants the team should have.
+        /// </summary>
+        internal static string TeamSizeDescription {
+            get {
+                return ResourceManager.GetString("TeamSizeDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Number of Participants.
+        /// </summary>
+        internal static string TeamSizeText {
+            get {
+                return ResourceManager.GetString("TeamSizeText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tell your team members to scan the QR-Code to join the team.
+        /// </summary>
+        internal static string TellMembersToJoin {
+            get {
+                return ResourceManager.GetString("TellMembersToJoin", resourceCulture);
             }
         }
         

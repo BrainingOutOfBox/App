@@ -2,23 +2,24 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
              prism:ViewModelLocator.AutowireViewModel="True"
+             xmlns:i18n="clr-namespace:Method635.App.Forms.Resources"
              x:Class="Method635.App.Forms.Views.Brainstorming.NewBrainstormingPage">
     <ScrollView>
         <StackLayout Orientation="Vertical">
-            <Label Text="Brainstorming Finding Name" />
-            <Entry Placeholder="Name" Text="{Binding FindingName}" />
-            <Label Text="Number of Ideas" />
-            <Entry Placeholder="# Ideas" Text="{Binding NrOfIdeasText}" />
-            <Label FontSize="Small" Text="Choose how many ideas you want to have in one round" />
-            <Label Text="Round Time" />
-            <Entry Placeholder="Base Round Time in mins" Text="{Binding BaseRoundTimeText}"/>
-            <Label FontSize="Small" Text="Choose what your base round time will be. This will be incremented by 1 min every round" />
-            <Label Text="Description" />
-            <Editor Placeholder="Short Description of the topic the brainstorming is about." Text="{Binding Description}" />
+            <Label Text="{i18n:Translate Text=FindingName}" />
+            <Entry Placeholder="{i18n:Translate Text=Name}" Text="{Binding FindingName}" />
+            <Label Text="{i18n:Translate Text=NrOfIdeas}" />
+            <Entry Placeholder="{i18n:Translate Text=NrOfIdeasPlaceholder}" Text="{Binding NrOfIdeasText}" />
+            <Label FontSize="Small" Text="{i18n:Translate Text=IdeasDescription}" />
+            <Label Text="{i18n:Translate Text=RoundTime}" />
+            <Entry Placeholder="{i18n:Translate Text=RoundTimeText}" Text="{Binding BaseRoundTimeText}"/>
+            <Label FontSize="Small" Text="{i18n:Translate Text=RoundTimeDescription}" />
+            <Label Text="{i18n:Translate Text=Description}" />
+            <Editor Placeholder="{i18n:Translate Text=BrainstormingDescription}" Text="{Binding Description}" />
 
             <Label Text="{Binding ErrorText}" IsEnabled="{Binding HasError}" TextColor="Red" HorizontalTextAlignment="Center"/>
             <Label Text="{Binding ProhibitedChars}" IsEnabled="{Binding HasInvalidChars}" HorizontalTextAlignment="Center"/>
-            <Button Text="Create Finding" Command="{Binding CreateFindingCommand}" />
+            <Button Text="{i18n:Translate Text=CreateFinding}" Command="{Binding CreateFindingCommand}" />
         </StackLayout>
     </ScrollView>
 </ContentPage>
