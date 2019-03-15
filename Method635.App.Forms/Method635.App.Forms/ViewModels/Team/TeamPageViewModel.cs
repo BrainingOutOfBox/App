@@ -11,19 +11,20 @@ using System.Collections.Generic;
 using System.Linq;
 using Method635.App.Logging;
 using Xamarin.Forms;
+using Method635.App.Forms.Services;
 
 namespace Method635.App.Forms.ViewModels.Team
 {
     public class TeamPageViewModel : BindableBase
 	{
-        private readonly INavigationService _navigationService;
+        private readonly IUiNavigationService _navigationService;
         private readonly IEventAggregator _eventAggregator;
         private readonly BrainstormingContext _context;
 
         // Platform independent logger necessary, thus resolving from xf dependency service.
         private readonly ILogger _logger = DependencyService.Get<ILogManager>().GetLog();
 
-        public TeamPageViewModel(INavigationService navigationService, IEventAggregator eventAggregator, BrainstormingContext context)
+        public TeamPageViewModel(IUiNavigationService navigationService, IEventAggregator eventAggregator, BrainstormingContext context)
         {
             _navigationService = navigationService;
             _eventAggregator = eventAggregator;
@@ -46,14 +47,14 @@ namespace Method635.App.Forms.ViewModels.Team
             _logger.Info("Leaving team...");
         }
 
-        private void JoinTeam()
+        private async void JoinTeam()
         {
-            _navigationService.NavigateAsync("JoinTeamPage");
+            await _navigationService.NavigateToJoinTeam();
         }
 
-        private void CreateTeam()
+        private async void CreateTeam()
         {
-            _navigationService.NavigateAsync("NewTeamPage");
+            await _navigationService.NavigateToCreateTeam();
         }
 
         private void SelectTeam()

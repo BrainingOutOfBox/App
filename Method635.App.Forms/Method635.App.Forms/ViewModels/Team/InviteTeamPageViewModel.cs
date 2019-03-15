@@ -1,6 +1,7 @@
 ﻿using Method635.App.Forms.Context;
 using Method635.App.Forms.PrismEvents;
 using Method635.App.Forms.RestAccess;
+using Method635.App.Forms.Services;
 using Prism.Events;
 using Prism.Mvvm;
 using Prism.Navigation;
@@ -10,12 +11,12 @@ namespace Method635.App.Forms.ViewModels.Team
 {
     public class InviteTeamPageViewModel : BindableBase, IDestructible
     {
-        private readonly INavigationService _navigationService;
+        private readonly IUiNavigationService _navigationService;
         private readonly IEventAggregator _eventAggregator;
         private readonly BrainstormingContext _context;
         private Timer _timer;
 
-        public InviteTeamPageViewModel(INavigationService navigationService, IEventAggregator eventAggregator, BrainstormingContext context)
+        public InviteTeamPageViewModel(IUiNavigationService navigationService, IEventAggregator eventAggregator, BrainstormingContext context)
         {
             _navigationService = navigationService;
             _eventAggregator = eventAggregator;
@@ -31,7 +32,7 @@ namespace Method635.App.Forms.ViewModels.Team
             _timer.Start();
         }
 
-        private void UpdateMemberCount(object sender, ElapsedEventArgs e)
+        private async void UpdateMemberCount(object sender, ElapsedEventArgs e)
         {
             var newestTeam = new TeamRestResolver().GetTeamById(
                     _context.CurrentBrainstormingTeam.Id);
@@ -39,7 +40,8 @@ namespace Method635.App.Forms.ViewModels.Team
             if (newestTeam.CurrentNrOfParticipants == _teamCapacity)
             {
                 _context.CurrentBrainstormingTeam = newestTeam;
-                _eventAggregator.GetEvent<RenderBrainstormingListEvent>().Publish();
+                //_eventAggregator.GetEvent<RenderBrainstormingListEvent>().Publish();
+                await _navigationService.NavigateToBrainstormingListTab();
             }
         }
 

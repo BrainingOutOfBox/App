@@ -10,18 +10,19 @@ using System.Collections.Generic;
 using System.Text;
 using Method635.App.Logging;
 using Xamarin.Forms;
+using Method635.App.Forms.Services;
 
 namespace Method635.App.Forms.ViewModels
 {
     public class LoginPageViewModel : BindableBase
     {
-        private readonly INavigationService _navigationService;
+        private readonly IUiNavigationService _navigationService;
         private readonly BrainstormingContext _context;
 
         // Platform independent logger necessary, thus resolving from xf dependency service.
         private readonly ILogger _logger = DependencyService.Get<ILogManager>().GetLog();
 
-        public LoginPageViewModel(INavigationService navigationService, BrainstormingContext context)
+        public LoginPageViewModel(IUiNavigationService navigationService, BrainstormingContext context)
         {
             _navigationService = navigationService;
             _context = context;
@@ -32,7 +33,7 @@ namespace Method635.App.Forms.ViewModels
 
         private void ShowRegister()
         {
-            _navigationService.NavigateAsync("NavigationPage/CreateAccountPage");
+            _navigationService.NavigateToRegister();
         }
 
         private async void Login()
@@ -52,7 +53,7 @@ namespace Method635.App.Forms.ViewModels
             {
                 _context.JwtToken = response.JwtToken;
                 _context.CurrentParticipant = response.Participant;
-                await _navigationService.NavigateAsync("MainPage", useModalNavigation: true);
+                await _navigationService.NavigateToMainPage();
                 return;
             }
             ErrorText = "There was an error with your login, please try again.";

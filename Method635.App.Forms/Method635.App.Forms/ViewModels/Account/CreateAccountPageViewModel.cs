@@ -6,19 +6,20 @@ using Prism.Mvvm;
 using Prism.Navigation;
 using Method635.App.Logging;
 using Xamarin.Forms;
+using Method635.App.Forms.Services;
 
 namespace Method635.App.Forms.ViewModels.Account
 {
     public class CreateAccountPageViewModel : BindableBase
     {
-        private readonly INavigationService _navigationService;
+        private readonly IUiNavigationService _navigationService;
 
         // Platform independent logger necessary, thus resolving from xf dependency service.
         private readonly ILogger _logger = DependencyService.Get<ILogManager>().GetLog();
 
         public DelegateCommand RegisterCommand { get; }
 
-        public CreateAccountPageViewModel(INavigationService navigationService)
+        public CreateAccountPageViewModel(IUiNavigationService navigationService)
         {
             _navigationService = navigationService;
 
@@ -46,7 +47,7 @@ namespace Method635.App.Forms.ViewModels.Account
                 RegisterFailed = true;
                 return;
             }
-            await _navigationService.NavigateAsync("app:///NavigationPage/LoginPage");
+            await _navigationService.NavigateToLogin();
         }
 
         private bool CheckInput()

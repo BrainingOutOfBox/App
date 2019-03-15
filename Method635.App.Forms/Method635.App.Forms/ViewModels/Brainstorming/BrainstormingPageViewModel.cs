@@ -187,12 +187,12 @@ namespace Method635.App.Forms.ViewModels
 
 
         // Navigation away from current page
-        public void OnNavigatedFrom(NavigationParameters parameters)
+        public void OnNavigatedFrom(INavigationParameters parameters)
         {
             _updateRoundTimer.Stop();
         }
 
-        public void OnNavigatedTo(NavigationParameters parameters)
+        public void OnNavigatedTo(INavigationParameters parameters)
         {
             _context.CurrentFinding = _brainstormingFindingRestResolver.GetFinding(_context.CurrentFinding);
             if (IsBrainstormingRunning() || HasBrainstormingEnded())

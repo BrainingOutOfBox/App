@@ -86,12 +86,12 @@ namespace Method635.App.Forms.ViewModels
             _eventAggregator.GetEvent<RenderBrainstormingEvent>().Publish();
         }
 
-        public void OnNavigatedTo(NavigationParameters parameters)
+        public void OnNavigatedTo(INavigationParameters parameters)
         {
             FillFindingListItems();
         }
 
-        public void OnNavigatedFrom(NavigationParameters parameters)
+        public void OnNavigatedFrom(INavigationParameters parameters)
         {
         }
 

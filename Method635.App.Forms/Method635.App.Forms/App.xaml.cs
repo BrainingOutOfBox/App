@@ -17,6 +17,7 @@ using Prism.DryIoc;
 using Prism.Ioc;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using Method635.App.Forms.Services;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace Method635.App.Forms
@@ -36,13 +37,14 @@ namespace Method635.App.Forms
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterSingleton<ILogger, NLogLogger>();
+
             containerRegistry.RegisterForNavigation<NavigationPage>();
-            
+            containerRegistry.RegisterSingleton<IUiNavigationService, UiNavigationService>();
+
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
 
             containerRegistry.RegisterForNavigation<LoginPage, LoginPageViewModel>();
             containerRegistry.RegisterForNavigation<CreateAccountPage, CreateAccountPageViewModel>();
-
 
             containerRegistry.RegisterForNavigation<BrainstormingPage, BrainstormingPageViewModel>();
             containerRegistry.RegisterForNavigation<StartBrainstormingPage, StartBrainstormingPageViewModel>();

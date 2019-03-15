@@ -12,8 +12,8 @@
             <Entry Text="{Binding Password}" Placeholder="Password" IsTabStop="True" TabIndex="1" IsPassword="True" HeightRequest="50"/>
 
             <Label Text="{Binding ErrorText}" TextColor="Red" IsEnabled="{Binding HasError}" />
-            <Button Command="{Binding LoginCommand}" Text="Login" />
-            <Button Command="{Binding ShowRegisterCommand}" Text="Register" />
+            <Button Command="{Binding LoginCommand}" Text="Login" TabIndex="2"/>
+            <Button Command="{Binding ShowRegisterCommand}" Text="Register" TabIndex="3" />
         </StackLayout>
     </ScrollView>
 </ContentPage>
