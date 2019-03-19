@@ -290,4 +290,10 @@ Join or add a team below</value>
   <data name="Method635" xml:space="preserve">
     <value>Method 635</value>
   </data>
+  <data name="InvalidRoundTime" xml:space="preserve">
+    <value>Please choose a round time greater than 0.</value>
+  </data>
+  <data name="InvalidNrOfIdeas" xml:space="preserve">
+    <value>Please choose a number of ideas greater than 0.</value>
+  </data>
 </root>

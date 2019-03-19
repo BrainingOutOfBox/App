@@ -14,6 +14,7 @@ using System.Timers;
 using Method635.App.Logging;
 using Xamarin.Forms;
 using Method635.App.Forms.Resources;
+using Method635.App.Forms.Services;
 
 namespace Method635.App.Forms.ViewModels
 {
@@ -21,7 +22,7 @@ namespace Method635.App.Forms.ViewModels
     {
         private Timer _updateRoundTimer;
         private Timer _nextCheckRoundTimer;
-        private readonly INavigationService _navigationService;
+        private readonly IUiNavigationService _navigationService;
         private readonly IEventAggregator _eventAggregator;
         private readonly BrainstormingContext _context;
         private readonly BrainstormingFindingRestResolver _brainstormingFindingRestResolver;
@@ -35,7 +36,7 @@ namespace Method635.App.Forms.ViewModels
         public DelegateCommand SendBrainwaveCommand { get; }
         public DelegateCommand RefreshCommand { get; }
 
-        public BrainstormingPageViewModel(INavigationService navigationService, IEventAggregator eventAggregator, BrainstormingContext brainstormingContext)
+        public BrainstormingPageViewModel(IUiNavigationService navigationService, IEventAggregator eventAggregator, BrainstormingContext brainstormingContext)
         {
             _navigationService = navigationService;
             _eventAggregator = eventAggregator;
@@ -53,7 +54,7 @@ namespace Method635.App.Forms.ViewModels
 
         private void RefreshPage()
         {
-            _eventAggregator.GetEvent<RenderBrainstormingEvent>().Publish();
+            _navigationService.NavigateToBrainstormingTab();
         }
 
         private void SendBrainWave()
@@ -208,8 +209,8 @@ namespace Method635.App.Forms.ViewModels
             if (_context.CurrentParticipant.UserName.Equals(moderatorOfCurrentFinding.UserName))
             {
                 // Brainstorming is not yet started and current user is the moderator -> Display StartBrainstorming
-                //_navigationService.NavigateAsync("NavigationPage/StartBrainstormingPage");
-                _eventAggregator.GetEvent<RenderStartBrainstormingEvent>().Publish();
+                _navigationService.NavigateToStartBrainstorming();
+                //_eventAggregator.GetEvent<RenderStartBrainstormingEvent>().Publish();
             }
         }
 

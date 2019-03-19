@@ -1,11 +1,9 @@
 ﻿using Method635.App.Forms.Context;
-using Method635.App.Forms.PrismEvents;
 using Method635.App.Forms.Resources;
 using Method635.App.Forms.RestAccess;
+using Method635.App.Forms.Services;
 using Prism.Commands;
-using Prism.Events;
 using Prism.Mvvm;
-using Prism.Navigation;
 using System.Collections.Generic;
 using ZXing;
 using ZXing.Mobile;
@@ -14,15 +12,13 @@ namespace Method635.App.Forms.ViewModels.Team
 {
     public class JoinTeamPageViewModel : BindableBase
 	{
-        private readonly INavigationService _navigationService;
-        private readonly IEventAggregator _eventAggregator;
+        private readonly IUiNavigationService _navigationService;
         private readonly BrainstormingContext _context;
 
       
-        public JoinTeamPageViewModel(INavigationService navigationService, IEventAggregator eventAggregator, BrainstormingContext context)
+        public JoinTeamPageViewModel(IUiNavigationService navigationService, BrainstormingContext context)
         {
             _navigationService = navigationService;
-            _eventAggregator = eventAggregator;
             _context = context;
 
             FoundTeamIdCommand = new DelegateCommand<Result>(JoinTeam);
@@ -47,7 +43,7 @@ namespace Method635.App.Forms.ViewModels.Team
                 JoinPending = true;
                 _context.CurrentBrainstormingTeam = restResolver.GetTeamById(result.Text);
 
-                _eventAggregator.GetEvent<RenderBrainstormingListEvent>().Publish();
+                _navigationService.NavigateToBrainstormingListTab();
             }
         }
 

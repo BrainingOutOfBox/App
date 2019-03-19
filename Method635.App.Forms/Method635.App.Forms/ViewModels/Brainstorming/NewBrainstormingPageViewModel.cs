@@ -1,44 +1,39 @@
 ﻿using Method635.App.Forms.Context;
 using Method635.App.Models;
-using Method635.App.Forms.PrismEvents;
 using Method635.App.Forms.RestAccess;
 using Prism.Commands;
-using Prism.Events;
 using Prism.Mvvm;
-using Prism.Navigation;
 using System;
 using System.Collections.Generic;
 using Method635.App.Logging;
 using Xamarin.Forms;
 using Method635.App.Forms.Resources;
+using Method635.App.Forms.Services;
 
 namespace Method635.App.Forms.ViewModels.Brainstorming
 {
     public class NewBrainstormingPageViewModel : BindableBase
-	{
-        private readonly INavigationService _navigationService;
-        private readonly IEventAggregator _eventAggregator;
-        private readonly BrainstormingContext _context; 
+    {
+        private readonly IUiNavigationService _navigationService;
+        private readonly BrainstormingContext _context;
         private int _nrOfIdeas;
         private int _baseRoundTime;
 
-        private readonly List<char> disallowedChars = new List<char>{ '\\', ' ' };
+        private readonly List<char> disallowedChars = new List<char> { '\\', ' ' };
 
         // Platform independent logger necessary, thus resolving from xf dependency service.
         private readonly ILogger _logger = DependencyService.Get<ILogManager>().GetLog();
 
         public DelegateCommand CreateFindingCommand { get; }
 
-        public NewBrainstormingPageViewModel(INavigationService navigationService,
-            IEventAggregator eventAggregator,
+        public NewBrainstormingPageViewModel(IUiNavigationService navigationService,
             BrainstormingContext brainstormingContext)
         {
-           _navigationService = navigationService;
-           _eventAggregator = eventAggregator;
-           _context = brainstormingContext;
-           CreateFindingCommand = new DelegateCommand(CreateFinding);
+            _navigationService = navigationService;
+            _context = brainstormingContext;
+            CreateFindingCommand = new DelegateCommand(CreateFinding);
 
-           HasInvalidChars = false;
+            HasInvalidChars = false;
         }
 
         private void CreateFinding()
@@ -60,13 +55,12 @@ namespace Method635.App.Forms.ViewModels.Brainstorming
                 };
                 finding = new BrainstormingFindingRestResolver().CreateBrainstormingFinding(finding);
                 _context.CurrentFinding = finding;
-                _eventAggregator.GetEvent<RenderBrainstormingEvent>().Publish();
+                _navigationService.NavigateToBrainstormingTab();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.Error(ex.Message, ex);
             }
-            
         }
 
         private bool CheckInput()
@@ -78,7 +72,7 @@ namespace Method635.App.Forms.ViewModels.Brainstorming
                 HasInvalidChars = true;
                 return false;
             }
-            if(string.IsNullOrEmpty(FindingName) ||
+            if (string.IsNullOrEmpty(FindingName) ||
                 string.IsNullOrEmpty(NrOfIdeasText) ||
                 string.IsNullOrEmpty(BaseRoundTimeText))
             {
@@ -90,6 +84,18 @@ namespace Method635.App.Forms.ViewModels.Brainstorming
                 !int.TryParse(BaseRoundTimeText, out int baseRoundTime))
             {
                 ErrorText = AppResources.UseNumbersInFields;
+                HasError = true;
+                return false;
+            }
+            if (baseRoundTime < 1 || baseRoundTime > 100)
+            {
+                ErrorText = AppResources.InvalidRoundTime;
+                HasError = true;
+                return false;
+            }
+            if (nrOfIdeas < 1 || nrOfIdeas > 100)
+            {
+                ErrorText = AppResources.InvalidNrOfIdeas;
                 HasError = true;
                 return false;
             }
@@ -106,7 +112,6 @@ namespace Method635.App.Forms.ViewModels.Brainstorming
         }
 
         public string FindingName { get; set; }
-        //TODO Input Validation for ints
         public string NrOfIdeasText { get; set; }
         public string BaseRoundTimeText { get; set; }
         public string Description { get; set; } = string.Empty;
@@ -124,7 +129,7 @@ namespace Method635.App.Forms.ViewModels.Brainstorming
             get => _hasError;
             set => SetProperty(ref _hasError, value);
         }
-        public string ProhibitedChars => string.Format(AppResources.ProhibitedCharsText,string.Join(", ", disallowedChars));
+        public string ProhibitedChars => string.Format(AppResources.ProhibitedCharsText, string.Join(", ", disallowedChars));
 
         private bool _hasInvalidChars;
         public bool HasInvalidChars

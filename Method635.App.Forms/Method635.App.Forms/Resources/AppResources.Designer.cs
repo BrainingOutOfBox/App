@@ -223,6 +223,24 @@ namespace Method635.App.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please choose a number of ideas greater than 0..
+        /// </summary>
+        internal static string InvalidNrOfIdeas {
+            get {
+                return ResourceManager.GetString("InvalidNrOfIdeas", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please choose a round time greater than 0..
+        /// </summary>
+        internal static string InvalidRoundTime {
+            get {
+                return ResourceManager.GetString("InvalidRoundTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invite Team Members.
         /// </summary>
         internal static string InviteMembers {

@@ -2,6 +2,7 @@
 using Method635.App.Forms.PrismEvents;
 using Method635.App.Forms.Resources;
 using Method635.App.Forms.RestAccess;
+using Method635.App.Forms.Services;
 using Method635.App.Logging;
 using Prism.Commands;
 using Prism.Events;
@@ -12,12 +13,14 @@ namespace Method635.App.Forms.ViewModels.Brainstorming
 {
     public class StartBrainstormingPageViewModel : BindableBase
 	{
+        private readonly IUiNavigationService _navigationService;
         private readonly IEventAggregator _eventAggregator;
         private readonly BrainstormingContext _context;
         private readonly ILogger _logger;
 
-        public StartBrainstormingPageViewModel(IEventAggregator eventAggregator, ILogger logger, BrainstormingContext context)
+        public StartBrainstormingPageViewModel(IUiNavigationService navigationService, IEventAggregator eventAggregator, ILogger logger, BrainstormingContext context)
         {
+            _navigationService = navigationService;
             _eventAggregator = eventAggregator;
             _context = context;
             _logger = logger;
@@ -28,7 +31,8 @@ namespace Method635.App.Forms.ViewModels.Brainstorming
         private void StartBrainstorming()
         {
             new BrainstormingFindingRestResolver().StartBrainstormingFinding(_context.CurrentFinding.Id);
-            _eventAggregator.GetEvent<RenderBrainstormingEvent>().Publish();
+            _navigationService.NavigateToBrainstormingTab();
+            //_eventAggregator.GetEvent<RenderBrainstormingEvent>().Publish();
         }
 
         private string _connectionErrorText;

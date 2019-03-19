@@ -2,6 +2,7 @@
 using Method635.App.Forms.PrismEvents;
 using Method635.App.Forms.Resources;
 using Method635.App.Forms.RestAccess;
+using Method635.App.Forms.Services;
 using Method635.App.Forms.ViewModels.Navigation;
 using Method635.App.Logging;
 using Prism.Commands;
@@ -18,12 +19,12 @@ namespace Method635.App.Forms.ViewModels
 {
     public class BrainstormingFindingListPageViewModel : BindableBase, INavigatedAware
     {
-        private readonly INavigationService _navigationService;
+        private readonly IUiNavigationService _navigationService;
         private readonly IEventAggregator _eventAggregator;
         private readonly BrainstormingContext _brainstormingContext;
         private readonly ILogger _logger;
 
-        public BrainstormingFindingListPageViewModel(INavigationService navigationService,
+        public BrainstormingFindingListPageViewModel(IUiNavigationService navigationService,
             IEventAggregator eventAggregator,
             BrainstormingContext brainstormingContext,
             ILogger logger)
@@ -46,7 +47,7 @@ namespace Method635.App.Forms.ViewModels
 
         private async void CreateBrainstormingFinding()
         {
-            await _navigationService.NavigateAsync("NewBrainstormingPage");
+            await _navigationService.NavigateToCreateBrainstorming();
         }
 
         private void FillFindingListItems()
@@ -84,7 +85,8 @@ namespace Method635.App.Forms.ViewModels
         private void SelectFinding()
         {
             _brainstormingContext.CurrentFinding = SelectedFinding.Finding;
-            _eventAggregator.GetEvent<RenderBrainstormingEvent>().Publish();
+            _navigationService.NavigateToBrainstormingTab();
+            //_eventAggregator.GetEvent<RenderBrainstormingEvent>().Publish();
         }
 
         public void OnNavigatedTo(INavigationParameters parameters)

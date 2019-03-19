@@ -1,8 +1,4 @@
-﻿using Method635.App.Forms.PrismEvents;
-using Prism.Events;
-using Prism.Navigation;
-
-using System;
+﻿using Prism.Navigation;
 using System.Threading.Tasks;
 
 namespace Method635.App.Forms.Services
@@ -10,46 +6,14 @@ namespace Method635.App.Forms.Services
     public class UiNavigationService : IUiNavigationService
     {
         private readonly INavigationService _navigationService;
-        private readonly IEventAggregator _eventAggregator;
 
-        public UiNavigationService(INavigationService navigationService, IEventAggregator eventAggregator)
+        public UiNavigationService(INavigationService navigationService)
         {
             _navigationService = navigationService;
-            _eventAggregator = eventAggregator;
-            SubscribeToEvents();
-        }
-
-        private void SubscribeToEvents()
-        {
-            const string BrainstormingFindingListPath = "app:///MainPage?selectedTab=BrainstormingFindingListPage";
-            Subscribe<RenderBrainstormingListEvent>(BrainstormingFindingListPath);
-
-            const string RenderBrainstormingPath = "app:///MainPage?selectedTab=BrainstormingPage";
-            Subscribe<RenderBrainstormingEvent>(RenderBrainstormingPath);
-
-            const string RenderStartBrainstormingPath = "NavigationPage/StartBrainstormingPage";
-            Subscribe<RenderStartBrainstormingEvent>(RenderStartBrainstormingPath);
-        }
-
-        private void Subscribe<T>(string navigationPath) where T : PubSubEvent, new()
-        {
-            Action navigateAsync = async () =>
-            {
-                await NavigateAsync(navigationPath);
-            };
-
-            _eventAggregator.GetEvent<T>().Unsubscribe(navigateAsync);
-            _eventAggregator.GetEvent<T>().Subscribe(navigateAsync, ThreadOption.UIThread);
-        }
-
-        private async Task NavigateAsync(string path)
-        {
-            await _navigationService.NavigateAsync(path);
         }
 
         public async Task NavigateToMainPage()
         {
-            //await _navigationService.GoBackToRootAsync();
             await _navigationService.NavigateAsync("app:///MainPage");
         }
 
@@ -63,14 +27,14 @@ namespace Method635.App.Forms.Services
             await _navigationService.NavigateAsync("CreateAccountPage");
         }
 
-        public Task NavigateToTeamsTab()
+        public async Task NavigateToTeamsTab()
         {
-            throw new NotImplementedException();
+            await _navigationService.NavigateAsync("app:///MainPage?selectedTab=TeamPage");
         }
 
         public async Task NavigateToBrainstormingListTab()
         {
-            await _navigationService.NavigateAsync("MainPage?selectedTab=BrainstormingFindingListPage");
+            await _navigationService.NavigateAsync("app:///MainPage?selectedTab=BrainstormingFindingListPage");
         }
 
         public async Task NavigateToBrainstormingTab()
@@ -78,9 +42,9 @@ namespace Method635.App.Forms.Services
             await _navigationService.NavigateAsync("app:///MainPage?selectedTab=BrainstormingPage");
         }
 
-        public Task NavigateToCreateBrainstorming()
+        public async Task NavigateToCreateBrainstorming()
         {
-            throw new NotImplementedException();
+            await _navigationService.NavigateAsync("/NavigationPage/MainPage/NewBrainstormingPage");
         }
 
         public async Task NavigateToJoinTeam()
@@ -100,7 +64,7 @@ namespace Method635.App.Forms.Services
 
         public async Task NavigateToStartBrainstorming()
         {
-            await _navigationService.NavigateAsync("NavigationPage/StartBrainstormingPage");
+            await _navigationService.NavigateAsync("/NavigationPage/StartBrainstormingPage/");
         }
     }
 }
