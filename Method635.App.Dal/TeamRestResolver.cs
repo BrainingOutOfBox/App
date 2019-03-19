@@ -49,7 +49,7 @@ namespace Method635.App.Forms.RestAccess
             return null;
         }
 
-        internal List<BrainstormingTeam> GetMyBrainstormingTeams(string userName)
+        public List<BrainstormingTeam> GetMyBrainstormingTeams(string userName)
         {
             try
             {
@@ -78,7 +78,7 @@ namespace Method635.App.Forms.RestAccess
             return new List<BrainstormingTeam>();
         }
 
-        internal bool JoinTeam(string teamId, Participant participant)
+        public bool JoinTeam(string teamId, Participant participant)
         {
             try
             {

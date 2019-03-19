@@ -6,7 +6,7 @@
              xmlns:i18n="clr-namespace:Method635.App.Forms.Resources"
              xmlns:b="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
              x:Class="Method635.App.Forms.Views.Navigation.BrainstormingFindingListPage"
-             Title="{Binding Title}">
+             Title="{i18n:Translate Text=BrainstormingFindings}">
     <StackLayout>
         <ListView ItemsSource="{Binding FindingList}" SelectedItem="{Binding SelectedFinding}"  IsPullToRefreshEnabled="True" RefreshCommand="{Binding RefreshFindingListCommand}" IsRefreshing="{Binding IsRefreshing}">
             <ListView.ItemTemplate>

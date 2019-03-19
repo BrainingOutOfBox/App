@@ -17,7 +17,7 @@ namespace Method635.App.Forms.RestAccess
         // Platform independent logger necessary, thus resolving from xf dependency service.
         private readonly ILogger _logger = DependencyService.Get<ILogManager>().GetLog();
 
-        internal bool CreateParticipant(Participant newParticipant)
+        public bool CreateParticipant(Participant newParticipant)
         {
             try
             {
@@ -42,7 +42,7 @@ namespace Method635.App.Forms.RestAccess
             return false;
         }
 
-        internal RestLoginResponse Login(Participant loginParticipant)
+        public RestLoginResponse Login(Participant loginParticipant)
         {
             try
             {

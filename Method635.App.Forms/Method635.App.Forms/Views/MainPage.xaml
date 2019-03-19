@@ -8,7 +8,7 @@
                   xmlns:localTeam="clr-namespace:Method635.App.Forms.Views.Team"
                   prism:ViewModelLocator.AutowireViewModel="True"
                   x:Class="Method635.App.Forms.MainPage"
-                  Title="{i18n:Translate Text=Method635}">
+                  Title="{Binding Title}">
     <TabbedPage.Children>
         <localTeam:TeamPage />
         <local:BrainstormingFindingListPage />

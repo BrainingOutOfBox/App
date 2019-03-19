@@ -1,0 +1,27 @@
+﻿{
+  "server": {
+    "hostname": "https://sinv-56079.edu.hsr.ch",
+    "port": 40000
+  },
+  "brainstorming-endpoints": {
+    "findings": "Finding",
+    "createFinding": "createBrainstormingFinding",
+    "getFinding": "getBrainstormingFinding",
+    "getFindings": "getBrainstormingFindings",
+    "startFinding": "startBrainstorming",
+    "remainingTime": "remainingTime",
+    "updateBrainsheet": "putBrainsheet"
+  },
+  "participant-endpoints": {
+    "participant": "Participant",
+    "register": "register",
+    "login": "login"
+  },
+  "team-endpoints": {
+    "team": "Team",
+    "createTeam": "createBrainstormingTeam",
+    "getTeam": "getBrainstormingTeam",
+    "getTeams": "getMyBrainstormingTeams",
+    "join": "joinTeam"
+  }
+}

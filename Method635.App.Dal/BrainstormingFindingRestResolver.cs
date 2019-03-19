@@ -70,7 +70,7 @@ namespace Method635.App.Forms.RestAccess
             return new List<BrainstormingFinding>();
         }
 
-        internal bool UpdateSheet(string findingId, BrainSheet brainSheet)
+        public bool UpdateSheet(string findingId, BrainSheet brainSheet)
         {
             try
             {
@@ -96,7 +96,7 @@ namespace Method635.App.Forms.RestAccess
             return false;
         }
 
-        internal BrainstormingFinding GetFinding(BrainstormingFinding finding)
+        public BrainstormingFinding GetFinding(BrainstormingFinding finding)
         {
             try
             {

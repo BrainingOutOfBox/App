@@ -296,4 +296,7 @@ Join or add a team below</value>
   <data name="InvalidNrOfIdeas" xml:space="preserve">
     <value>Please choose a number of ideas greater than 0.</value>
   </data>
+  <data name="Team" xml:space="preserve">
+    <value>Team</value>
+  </data>
 </root>

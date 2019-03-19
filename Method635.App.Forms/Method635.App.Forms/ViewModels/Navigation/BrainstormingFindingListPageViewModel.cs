@@ -35,6 +35,8 @@ namespace Method635.App.Forms.ViewModels
             _logger = logger;
             FillFindingListItems();
 
+            _eventAggregator.GetEvent<SetMainPageSubTitleEvent>().Publish(_brainstormingContext.CurrentBrainstormingTeam.Name);
+
             SelectFindingCommand = new DelegateCommand(SelectFinding);
             CreateFindingCommand = new DelegateCommand(CreateBrainstormingFinding);
         }
@@ -100,7 +102,8 @@ namespace Method635.App.Forms.ViewModels
 
         public BrainstormingFindingListItem SelectedFinding { get; set; }
 
-        public string Title => AppResources.BrainstormingFindings;
+
+        public string Title { get; set; }
 
         private List<BrainstormingFindingListItem> _findingList;
         public List<BrainstormingFindingListItem> FindingList
