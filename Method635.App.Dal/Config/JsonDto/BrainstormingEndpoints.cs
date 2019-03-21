@@ -1,11 +1,8 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Method635.App.Dal.Config
 {
-    internal class BrainstormingEndpoints
+    public class BrainstormingEndpoints
     {
         [JsonProperty("findings")]
         public string FindingsEndpoint { get; set; }

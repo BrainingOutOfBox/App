@@ -1,6 +1,6 @@
 ﻿namespace Method635.App.Dal.Config
 {
-    interface IConfigurationService
+    public interface IConfigurationService
     {
         IServerConfig ServerConfig { get; set; }
     }

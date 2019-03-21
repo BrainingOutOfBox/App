@@ -18,6 +18,7 @@ using Prism.Ioc;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Method635.App.Forms.Services;
+using Method635.App.Dal.Config;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace Method635.App.Forms
@@ -37,6 +38,7 @@ namespace Method635.App.Forms
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterSingleton<ILogger, NLogLogger>();
+            containerRegistry.RegisterSingleton<IConfigurationService, JsonConfigurationService>();
 
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterSingleton<IUiNavigationService, UiNavigationService>();

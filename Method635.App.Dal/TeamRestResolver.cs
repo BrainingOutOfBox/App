@@ -19,7 +19,7 @@ namespace Method635.App.Forms.RestAccess
 
         // Platform independent logger necessary, thus resolving from xf dependency service.
         private readonly ILogger _logger = DependencyService.Get<ILogManager>().GetLog();
-
+        
         public BrainstormingTeam GetTeamById(string teamId)
         {
             try

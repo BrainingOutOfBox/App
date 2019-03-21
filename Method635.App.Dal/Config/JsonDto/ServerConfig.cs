@@ -2,7 +2,7 @@
 
 namespace Method635.App.Dal.Config
 {
-    internal class ServerConfig
+    public class ServerConfig : IServerConfig
     {
         [JsonProperty("server")]
         public Server Server { get; set; }
@@ -12,7 +12,7 @@ namespace Method635.App.Dal.Config
         public ParticipantEndpoints ParticipantEndpoints { get; set; }
 
     }
-    internal class Server
+    public class Server
     {
         [JsonProperty("hostname")]
         public string HostName { get; set; }

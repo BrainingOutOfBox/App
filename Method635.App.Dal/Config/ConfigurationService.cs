@@ -1,27 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Newtonsoft.Json;
+using System;
+using System.IO;
+using System.Reflection;
 
 namespace Method635.App.Dal.Config
 {
-    class ConfigurationService : IConfigurationService
+    public class JsonConfigurationService : IConfigurationService
     {
-        private string _configPath;
 
-        public ConfigurationService(string configPath = null)
+        public JsonConfigurationService()
         {
-            _configPath = configPath;
             Setup();
         }
 
         private void Setup()
         {
-            if (string.IsNullOrEmpty(_configPath))
-            {
-                //TODO get path to backend-config.json and jsonserialize it
-            }
+            var assembly = IntrospectionExtensions.GetTypeInfo(typeof(JsonConfigurationService)).Assembly;
+            ServerConfig = (ServerConfig)DeserializeFromStream(assembly.GetManifestResourceStream("Method635.App.Dal.Config.JsonDto.backend-config.json"), typeof(ServerConfig));
         }
 
-        public IServerConfig ServerConfig { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        private object DeserializeFromStream(Stream stream, Type targetType)
+        {
+            var serializer = new JsonSerializer();
+            
+                using (var sr = new StreamReader(stream))
+                using (var jsonTextReader = new JsonTextReader(sr))
+                {
+                    return serializer.Deserialize(jsonTextReader, targetType);
+                }
+
+            }
+
+        public IServerConfig ServerConfig { get; set; } 
     }
 }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Method635.App.Dal.Config
 {
-    internal class ParticipantEndpoints
+    public class ParticipantEndpoints
     {
         [JsonProperty("participant")]
         public string ParticipantEndpoint { get; set; }

@@ -1,6 +1,5 @@
 ﻿using Method635.App.Forms.Context;
 using Method635.App.Models;
-using Method635.App.Forms.PrismEvents;
 using Method635.App.Forms.RestAccess;
 using Prism;
 using Prism.Commands;
@@ -15,6 +14,7 @@ using Method635.App.Logging;
 using Xamarin.Forms;
 using Method635.App.Forms.Resources;
 using Method635.App.Forms.Services;
+using Method635.App.Dal.Config;
 
 namespace Method635.App.Forms.ViewModels
 {
@@ -24,6 +24,7 @@ namespace Method635.App.Forms.ViewModels
         private Timer _nextCheckRoundTimer;
         private readonly IUiNavigationService _navigationService;
         private readonly IEventAggregator _eventAggregator;
+        private readonly IConfigurationService _configurationService;
         private readonly BrainstormingContext _context;
         private readonly BrainstormingFindingRestResolver _brainstormingFindingRestResolver;
         private int commitIdeaIndex = 0;
@@ -36,10 +37,11 @@ namespace Method635.App.Forms.ViewModels
         public DelegateCommand SendBrainwaveCommand { get; }
         public DelegateCommand RefreshCommand { get; }
 
-        public BrainstormingPageViewModel(IUiNavigationService navigationService, IEventAggregator eventAggregator, BrainstormingContext brainstormingContext)
+        public BrainstormingPageViewModel(IUiNavigationService navigationService, IEventAggregator eventAggregator, IConfigurationService configurationService,  BrainstormingContext brainstormingContext)
         {
             _navigationService = navigationService;
             _eventAggregator = eventAggregator;
+            _configurationService = configurationService;
             _context = brainstormingContext;
             _findingTitle = _context.CurrentFinding?.Name;
             _brainstormingFindingRestResolver = new BrainstormingFindingRestResolver();

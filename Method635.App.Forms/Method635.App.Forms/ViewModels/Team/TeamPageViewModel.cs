@@ -1,12 +1,9 @@
 ﻿using Method635.App.Forms.Context;
 using Method635.App.Models;
-using Method635.App.Forms.PrismEvents;
 using Method635.App.Forms.RestAccess;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
-using Prism.Navigation;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Method635.App.Logging;

@@ -1,6 +1,6 @@
 ﻿namespace Method635.App.Dal.Config
 {
-    interface IServerConfig
+    public interface IServerConfig
     {
         Server Server { get; set; }
         BrainstormingEndpoints BrainstormingEndpoints { get; set; }

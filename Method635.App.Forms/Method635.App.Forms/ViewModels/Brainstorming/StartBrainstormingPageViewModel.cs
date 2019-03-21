@@ -1,5 +1,4 @@
 ﻿using Method635.App.Forms.Context;
-using Method635.App.Forms.PrismEvents;
 using Method635.App.Forms.Resources;
 using Method635.App.Forms.RestAccess;
 using Method635.App.Forms.Services;
@@ -7,7 +6,6 @@ using Method635.App.Logging;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
-using Prism.Navigation;
 
 namespace Method635.App.Forms.ViewModels.Brainstorming
 {
