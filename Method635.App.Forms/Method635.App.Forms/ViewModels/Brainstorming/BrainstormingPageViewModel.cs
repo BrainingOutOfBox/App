@@ -15,6 +15,7 @@ using Xamarin.Forms;
 using Method635.App.Forms.Resources;
 using Method635.App.Forms.Services;
 using Method635.App.Dal.Config;
+using Method635.App.BL;
 
 namespace Method635.App.Forms.ViewModels
 {
@@ -37,7 +38,12 @@ namespace Method635.App.Forms.ViewModels
         public DelegateCommand SendBrainwaveCommand { get; }
         public DelegateCommand RefreshCommand { get; }
 
-        public BrainstormingPageViewModel(IUiNavigationService navigationService, IEventAggregator eventAggregator, IConfigurationService configurationService,  BrainstormingContext brainstormingContext)
+        public BrainstormingPageViewModel(
+            IUiNavigationService navigationService, 
+            IEventAggregator eventAggregator,
+            IConfigurationService configurationService, 
+            BrainstormingContext brainstormingContext,
+            BrainstormingService brainstormingService)
         {
             _navigationService = navigationService;
             _eventAggregator = eventAggregator;

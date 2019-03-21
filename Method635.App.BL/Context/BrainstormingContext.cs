@@ -1,9 +1,8 @@
 ﻿using Method635.App.Models;
-using Prism.Mvvm;
 
 namespace Method635.App.Forms.Context
 {
-    public class BrainstormingContext : BindableBase
+    public class BrainstormingContext : PropertyChangedBase
     {
         public BrainstormingTeam CurrentBrainstormingTeam { get; set; }
         public Participant CurrentParticipant { get; set; }

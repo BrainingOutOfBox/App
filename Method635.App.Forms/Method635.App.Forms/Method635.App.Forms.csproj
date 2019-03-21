@@ -27,6 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Method635.App.BL\Method635.App.BL.csproj" />
     <ProjectReference Include="..\..\Method635.App.Dal\Method635.App.Dal.csproj" />
     <ProjectReference Include="..\..\Method635.App.Logging\Method635.App.Logging.csproj" />
     <ProjectReference Include="..\..\Method635.App.Models\Method635.App.Models.csproj" />
