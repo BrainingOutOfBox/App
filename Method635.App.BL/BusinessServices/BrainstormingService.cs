@@ -1,6 +1,6 @@
 ﻿using Method635.App.BL.BusinessServices.BrainstormingStateMachine;
+using Method635.App.Dal.Interfaces;
 using Method635.App.Forms.Context;
-using Method635.App.Forms.RestAccess;
 using Method635.App.Models;
 
 namespace Method635.App.BL
@@ -8,14 +8,14 @@ namespace Method635.App.BL
     public class BrainstormingService : PropertyChangedBase
     {
         private BrainstormingContext _context;
-        private readonly BrainstormingFindingRestResolver _brainstormingRestResolver;
+        private readonly IBrainstormingDalService _brainstormingDalService;
         private readonly StateMachine _stateMachine;
 
-        public BrainstormingService(BrainstormingFindingRestResolver brainstormingFindingResolver, BrainstormingContext brainstormingContext)
+        public BrainstormingService(IBrainstormingDalService brainstormingDalService, BrainstormingContext brainstormingContext)
         {
             _context = brainstormingContext;
-            _brainstormingRestResolver = brainstormingFindingResolver;
-            _stateMachine = new StateMachine(_brainstormingRestResolver, _context);
+            _brainstormingDalService = brainstormingDalService;
+            _stateMachine = new StateMachine(_brainstormingDalService, _context);
             _stateMachine.PropertyChanged += StateMachine_PropertyChanged;
         }
 

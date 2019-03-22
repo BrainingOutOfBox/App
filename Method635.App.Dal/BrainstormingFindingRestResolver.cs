@@ -6,10 +6,11 @@ using System.Collections.Generic;
 using System.Net.Http;
 using Method635.App.Logging;
 using Xamarin.Forms;
+using Method635.App.Dal.Interfaces;
 
 namespace Method635.App.Forms.RestAccess
 {
-    public class BrainstormingFindingRestResolver : RestResolverBase
+    public class BrainstormingFindingRestResolver : RestResolverBase, IBrainstormingDalService
     {
         private const string FINDINGS_ENDPOINT = "Finding";
         private const string CREATE_FINDING_ENDPOINT = "createBrainstormingFinding";
@@ -47,7 +48,7 @@ namespace Method635.App.Forms.RestAccess
             return TimeSpan.Zero;
         }
 
-        public List<BrainstormingFinding> GetAllFindingsForTeam(string teamId)
+        public List<BrainstormingFinding> GetAllFindings(string teamId)
         {
             try
             {
@@ -96,12 +97,12 @@ namespace Method635.App.Forms.RestAccess
             return false;
         }
 
-        public BrainstormingFinding GetFinding(BrainstormingFinding finding)
+        public BrainstormingFinding GetFinding(string findingId)
         {
             try
             {
                 _logger.Info("Getting brainstorming finding..");
-                var res = GetCall($"{FINDINGS_ENDPOINT}/{finding.Id}/{GET_FINDING_ENDPOINT}");
+                var res = GetCall($"{FINDINGS_ENDPOINT}/{findingId}/{GET_FINDING_ENDPOINT}");
                 var parsedResponseMessage = res.Content.ReadAsAsync<RestResponseMessage>().Result;
                 _logger.Info(parsedResponseMessage.Title);
                 _logger.Info(parsedResponseMessage.Text);
@@ -112,17 +113,17 @@ namespace Method635.App.Forms.RestAccess
                 }
                 else
                 {
-                    _logger.Error($"Couldn't get finding {finding.Id}.");
+                    _logger.Error($"Couldn't get finding {findingId}.");
                 }
             }
             catch(RestEndpointException ex)
             {
-                _logger.Error($"There was an error getting the finding {finding.Id}");
+                _logger.Error($"There was an error getting the finding {findingId}");
             }
-            return finding;
+            return null;
         }
 
-        public BrainstormingFinding CreateBrainstormingFinding(BrainstormingFinding finding)
+        public BrainstormingFinding CreateFinding(BrainstormingFinding finding)
         {
             try
             {

@@ -99,8 +99,8 @@ namespace Method635.App.Forms.ViewModels
 
         private void UpdateRound()
         {
-            var backendFinding = _brainstormingFindingRestResolver.GetFinding(_context.CurrentFinding);
-            if (backendFinding.CurrentRound != _context.CurrentFinding.CurrentRound)
+            var backendFinding = _brainstormingFindingRestResolver.GetFinding(_context.CurrentFinding.Id);
+            if (backendFinding?.CurrentRound != _context.CurrentFinding.CurrentRound)
             {
                 _context.CurrentFinding = backendFinding;
                 _logger.Info("Round has changed, proceeding to next round");
@@ -204,7 +204,12 @@ namespace Method635.App.Forms.ViewModels
 
         public void OnNavigatedTo(INavigationParameters parameters)
         {
-            _context.CurrentFinding = _brainstormingFindingRestResolver.GetFinding(_context.CurrentFinding);
+            var retrievedFinding = _brainstormingFindingRestResolver.GetFinding(_context.CurrentFinding.Id);
+            if (retrievedFinding == null)
+            {
+                _logger.Error($"Finding retrieved from backend was null ({_context.CurrentFinding.Id})");
+            }
+            _context.CurrentFinding = retrievedFinding;
             if (IsBrainstormingRunning() || HasBrainstormingEnded())
             {
                 // Brainstorming has already started

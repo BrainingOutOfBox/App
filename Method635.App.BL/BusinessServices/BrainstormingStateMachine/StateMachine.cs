@@ -1,5 +1,5 @@
-﻿using Method635.App.Forms.Context;
-using Method635.App.Forms.RestAccess;
+﻿using Method635.App.Dal.Interfaces;
+using Method635.App.Forms.Context;
 using Method635.App.Models;
 using System;
 
@@ -7,12 +7,12 @@ namespace Method635.App.BL.BusinessServices.BrainstormingStateMachine
 {
     internal class StateMachine : PropertyChangedBase
     {
-        private readonly BrainstormingFindingRestResolver _brainstormingRestResolver;
+        private readonly IBrainstormingDalService _brainstormingDalService;
         private readonly BrainstormingContext _context;
 
-        public StateMachine(BrainstormingFindingRestResolver brainstormingRestResolver, BrainstormingContext context)
+        public StateMachine(IBrainstormingDalService brainstormingDalService, BrainstormingContext context)
         {
-            _brainstormingRestResolver = brainstormingRestResolver;
+            _brainstormingDalService = brainstormingDalService;
             _context = context;
         }
 
@@ -26,7 +26,7 @@ namespace Method635.App.BL.BusinessServices.BrainstormingStateMachine
             }
             else if (currentRound == 0)
             {
-                evaluatedState = new WaitingState(_brainstormingRestResolver, _context);
+                evaluatedState = new WaitingState(_brainstormingDalService, _context);
             }
             else if (currentRound > 0)
             {

@@ -53,7 +53,7 @@ namespace Method635.App.Forms.ViewModels.Brainstorming
                     BaseRoundTime = _baseRoundTime,
                     ProblemDescription = Description
                 };
-                finding = new BrainstormingFindingRestResolver().CreateBrainstormingFinding(finding);
+                finding = new BrainstormingFindingRestResolver().CreateFinding(finding);
                 _context.CurrentFinding = finding;
                 _navigationService.NavigateToBrainstormingTab();
             }

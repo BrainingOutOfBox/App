@@ -1,35 +1,30 @@
 using Method635.App.BL;
+using Method635.App.Dal.Interfaces;
 using Method635.App.Forms.Context;
-using Method635.App.Forms.RestAccess;
 using Method635.App.Models;
 using Method635.App.Tests.Setup;
 using Moq;
 using NUnit.Framework;
-using System;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Tests
 {
-    public class Tests
+    public class BrainstormingServiceTest
     {
-        private BrainstormingService _brainstormingService;
-
         [SetUp]
         public void Setup()
         {
             MockPlatformServices.Init();
-
-           var _context = new BrainstormingContext()
-            {
-                CurrentFinding = CreateFinding(0)
-            };
-            var restMock = new Mock<BrainstormingFindingRestResolver>();
-            restMock.SetupSequence(request => request.GetFinding(It.IsAny<BrainstormingFinding>())).
-                Returns(CreateFinding(1));
-
-            _brainstormingService = new BrainstormingService(restMock.Object, _context);
         }
 
+        private BrainstormingContext CreateContext(int findingRound)
+        {
+            return new BrainstormingContext()
+            {
+                CurrentFinding = CreateFinding(findingRound)
+            };
+        }
         private BrainstormingFinding CreateFinding(int round)
         {
             return new BrainstormingFinding()
@@ -39,12 +34,32 @@ namespace Tests
         }
 
         [Test]
-        public void Test1()
+        public void StartRoundTest()
         {
-            _brainstormingService.StartBusinessService();
-            Assert.IsTrue(_brainstormingService.IsWaiting);
+            var restMock = new Mock<IBrainstormingDalService>();
+            restMock.SetupSequence(request => request.GetFinding(It.IsAny<string>())).
+                Returns(CreateFinding(1));
+
+            var brainstormingService = new BrainstormingService(restMock.Object, CreateContext(0));
+
+            brainstormingService.StartBusinessService();
+            Assert.IsTrue(brainstormingService.IsWaiting);
             Thread.Sleep(2600);
-            Assert.IsTrue(_brainstormingService.IsRunning);
+            Assert.IsTrue(brainstormingService.IsRunning);
+        }
+
+        [Test]
+        public void EndRoundTest()
+        {
+            var restMock = new Mock<IBrainstormingDalService>();
+            restMock.SetupSequence(request => request.GetFinding(It.IsAny<string>())).
+                Returns(CreateFinding(-1));
+            var brainstormingService = new BrainstormingService(restMock.Object, CreateContext(1));
+
+
+            Assert.IsTrue(brainstormingService.IsRunning);
+            Thread.Sleep(2600);
+            Assert.IsTrue(brainstormingService.IsEnded);
         }
     }
 }

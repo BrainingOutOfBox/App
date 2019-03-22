@@ -10,6 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Method635.App.Dal.Interfaces\Method635.App.Dal.Interfaces.csproj" />
     <ProjectReference Include="..\Method635.App.Logging\Method635.App.Logging.csproj" />
     <ProjectReference Include="..\Method635.App.Models\Method635.App.Models.csproj" />
   </ItemGroup>
