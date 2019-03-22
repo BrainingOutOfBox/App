@@ -1,6 +1,7 @@
 ﻿using Method635.App.Dal.Interfaces;
 using Method635.App.Forms.Context;
 using Method635.App.Models;
+using Method635.App.Models.Models;
 using System;
 
 namespace Method635.App.BL.BusinessServices.BrainstormingStateMachine
@@ -9,11 +10,16 @@ namespace Method635.App.BL.BusinessServices.BrainstormingStateMachine
     {
         private readonly IBrainstormingDalService _brainstormingDalService;
         private readonly BrainstormingContext _context;
+        private readonly BrainstormingModel _brainstormingModel;
 
-        public StateMachine(IBrainstormingDalService brainstormingDalService, BrainstormingContext context)
+        public StateMachine(
+            IBrainstormingDalService brainstormingDalService, 
+            BrainstormingContext context,
+            BrainstormingModel brainstormingModel)
         {
             _brainstormingDalService = brainstormingDalService;
             _context = context;
+            _brainstormingModel = brainstormingModel;
         }
 
         public void Start()
@@ -30,7 +36,7 @@ namespace Method635.App.BL.BusinessServices.BrainstormingStateMachine
             }
             else if (currentRound > 0)
             {
-                evaluatedState = new RunningState();
+                evaluatedState = new RunningState(_brainstormingDalService, _context, _brainstormingModel);
             }
             if(currentRound < -1 || evaluatedState == null)
             {

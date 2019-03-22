@@ -8,12 +8,10 @@ namespace Method635.App.BL
 
         public void CleanUp()
         {
-            throw new System.NotImplementedException();
         }
 
         public void Init()
         {
-            throw new System.NotImplementedException();
         }
     }
 }
