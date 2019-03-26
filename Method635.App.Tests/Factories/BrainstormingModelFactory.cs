@@ -42,7 +42,19 @@ namespace Method635.App.Tests.Factories
         {
             return new BrainstormingFinding()
             {
-                CurrentRound = round
+                CurrentRound = round,
+                BrainSheets = CreateBrainSheets(),
+            };
+        }
+
+        private static List<BrainSheet> CreateBrainSheets()
+        {
+            return new List<BrainSheet>()
+            {
+                new BrainSheet()
+                {
+                    BrainWaves = new List<BrainWave>()
+                }
             };
         }
     }

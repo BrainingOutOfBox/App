@@ -5,18 +5,8 @@ namespace Method635.App.Models.Models
 {
     public class BrainstormingModel : PropertyChangedBase
     {
-        private ObservableCollection<BrainSheet> _brainSheets;
-        public ObservableCollection<BrainSheet> BrainSheets
-        {
-            get => _brainSheets;
-            set => SetProperty(ref _brainSheets, value);
-        }
-        private ObservableCollection<BrainWave> _brainWaves;
-        public ObservableCollection<BrainWave> BrainWaves
-        {
-            get => _brainWaves;
-            set => SetProperty(ref _brainWaves, value);
-        }
+        public ObservableCollection<BrainSheet> BrainSheets { get; set; }
+        public ObservableCollection<BrainWave> BrainWaves { get; set; }
         private bool _brainWaveSent;
         public bool BrainWaveSent
         {
@@ -36,5 +26,11 @@ namespace Method635.App.Models.Models
             set => SetProperty(ref _currentSheetNr, value);
         }
 
+        private bool _commitEnabled;
+        public bool CommitEnabled
+        {
+            get => _commitEnabled;
+            set => SetProperty(ref _commitEnabled, value);
+        }
     }
 }

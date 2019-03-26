@@ -16,14 +16,66 @@ namespace Tests
     public class BrainstormingServiceTest
     {
         [SetUp]
-        public void Setup()
+        public void SetUp()
         {
             MockPlatformServices.Init();
         }
 
+        [Test]
+        public void WaitingStateTest()
+        {
+            var restMock = new Mock<IBrainstormingDalService>();
+            restMock.SetupSequence(request => request.GetFinding(It.IsAny<string>())).
+                Returns(BrainstormingModelFactory.CreateFinding(0));
+
+            var brainstormingService = new BrainstormingService(
+                restMock.Object,
+                BrainstormingModelFactory.CreateContext(0),
+                new BrainstormingModel());
+
+            brainstormingService.StartBusinessService();
+            Assert.IsTrue(brainstormingService.IsWaiting);
+            Assert.IsFalse(brainstormingService.IsRunning);
+            Assert.IsFalse(brainstormingService.IsEnded);
+        }
 
         [Test]
-        [Parallelizable(ParallelScope.Self)]
+        public void RunningStateTest()
+        {
+            var restMock = new Mock<IBrainstormingDalService>();
+            restMock.SetupSequence(request => request.GetFinding(It.IsAny<string>())).
+                Returns(BrainstormingModelFactory.CreateFinding(3));
+
+            var brainstormingService = new BrainstormingService(
+                restMock.Object,
+                BrainstormingModelFactory.CreateContext(3),
+                new BrainstormingModel());
+
+            brainstormingService.StartBusinessService();
+            Assert.IsTrue(brainstormingService.IsRunning);
+            Assert.IsFalse(brainstormingService.IsWaiting);
+            Assert.IsFalse(brainstormingService.IsEnded);
+        }
+
+        [Test]
+        public void EndedStateTest()
+        {
+            var restMock = new Mock<IBrainstormingDalService>();
+            restMock.SetupSequence(request => request.GetFinding(It.IsAny<string>())).
+                Returns(BrainstormingModelFactory.CreateFinding(-1));
+
+            var brainstormingService = new BrainstormingService(
+                restMock.Object,
+                BrainstormingModelFactory.CreateContext(-1),
+                new BrainstormingModel());
+
+            brainstormingService.StartBusinessService();
+            Assert.IsTrue(brainstormingService.IsEnded);
+            Assert.IsFalse(brainstormingService.IsWaiting);
+            Assert.IsFalse(brainstormingService.IsRunning);
+        }
+
+        [Test]
         public void StartRoundTest()
         {
             var restMock = new Mock<IBrainstormingDalService>();
@@ -42,13 +94,14 @@ namespace Tests
         }
 
         [Test]
-        [Parallelizable(ParallelScope.Self)]
         public void EndRoundTest()
         {
             var restMock = new Mock<IBrainstormingDalService>();
-            restMock.SetupSequence(request => request.GetFinding(It.IsAny<string>())).
-                Returns(BrainstormingModelFactory.CreateFinding(-1));
-            restMock.SetupSequence(req => req.UpdateSheet(It.IsAny<string>(), It.IsAny<BrainSheet>()))
+            restMock.SetupSequence(request => request.GetFinding(It.IsAny<string>()))
+                .Returns(BrainstormingModelFactory.CreateFinding(1)) 
+                .Returns(BrainstormingModelFactory.CreateFinding(-1));
+
+            restMock.Setup(req => req.UpdateSheet(It.IsAny<string>(), It.IsAny<BrainSheet>()))
                 .Returns(true);
 
             var model = new BrainstormingModel()
@@ -70,18 +123,19 @@ namespace Tests
 
 
             Assert.IsTrue(brainstormingService.IsRunning);
-            Thread.Sleep(5100);
+            Thread.Sleep(4000);
             Assert.IsTrue(brainstormingService.IsEnded);
         }
 
         [Test]
-        [Parallelizable(ParallelScope.Self)]
         public void RemainingTimeTest()
         {
             var restMock = new Mock<IBrainstormingDalService>();
             restMock.SetupSequence(req => req.GetRemainingTime(It.IsAny<string>(), It.IsAny<string>()))
                 .Returns(TimeSpan.FromSeconds(10))
                 .Returns(TimeSpan.FromSeconds(5));
+            restMock.Setup(req => req.GetFinding(It.IsAny<string>()))
+                .Returns(BrainstormingModelFactory.CreateFinding(1));
 
             var brainstormingService = new BrainstormingService(
                 restMock.Object,

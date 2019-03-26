@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Timers;
 using Method635.App.BL.BusinessServices.BrainstormingStateMachine;
 using Method635.App.Dal.Interfaces;
 using Method635.App.Forms.Context;
+using Method635.App.Logging;
 using Method635.App.Models;
 using Method635.App.Models.Models;
+using Xamarin.Forms;
 
 namespace Method635.App.BL
 {
@@ -16,8 +19,11 @@ namespace Method635.App.BL
         private readonly IBrainstormingDalService _brainstormingDalService;
         private readonly BrainstormingContext _context;
         private BrainstormingModel _brainstormingModel;
+        private int commitIdeaIndex = 0;
 
         public event ChangeStateHandler ChangeStateEvent;
+
+        private readonly ILogger _logger = DependencyService.Get<ILogManager>().GetLog();
 
         public RunningState(IBrainstormingDalService brainstormingDalService, BrainstormingContext context, BrainstormingModel brainstormingModel)
         {
@@ -34,10 +40,23 @@ namespace Method635.App.BL
 
         public void Init()
         {
-            // TODO: * Remaining Time Timer 
-            //       * Timer for round checker
-            //       * Display BrainSheets accordingly
+            RetrieveFinding();
             RemainingTimeTimerSetup();
+        }
+
+        private void RetrieveFinding()
+        {
+            var retrievedFinding = _brainstormingDalService.GetFinding(_context.CurrentFinding.Id);
+            if (retrievedFinding == null)
+            {
+                _logger.Error($"Finding retrieved from backend was null ({_context.CurrentFinding.Id})");
+                throw new ArgumentException("Finding retrieved from backend can't be null.");
+            }
+            _context.CurrentFinding = retrievedFinding;
+
+            // TODO: Define CurrentSheetText in vm
+            // CurrentSheetText = string.Format(AppResources.SheetNrOfNr, CurrentSheetNr, _context.CurrentBrainstormingTeam.NrOfParticipants);
+            EvaluateBrainWaves();
         }
 
         private void RemainingTimeTimerSetup()
@@ -67,8 +86,8 @@ namespace Method635.App.BL
         {
             if(_context.CurrentFinding.BrainSheets == null)
             {
-                //Log error
-                return;
+                _logger.Error("Brainsheets were null, can't send brainwave!");
+                throw new ArgumentException("Brainsheets on current finding can't be null");
             }
             try
             {
@@ -76,7 +95,7 @@ namespace Method635.App.BL
                 var currentSheet = _context.CurrentFinding.BrainSheets[(_context.CurrentFinding.CurrentRound + _positionInTeam - 1) % nrOfBrainsheets];
                 if (!_brainstormingDalService.UpdateSheet(_context.CurrentFinding.Id, currentSheet))
                 {
-                    //_logger.Error("Couldn't place brainsheet");
+                    _logger.Error("Couldn't place brainsheet");
                 }
                 _brainstormingModel.BrainWaveSent = true;
                 RoundStartedTimerSetup();
@@ -84,7 +103,7 @@ namespace Method635.App.BL
             }
             catch (ArgumentOutOfRangeException ex)
             {
-                //_logger.Error("Invalid index access!");
+                _logger.Error("Invalid index access!");
             }
         }
 
@@ -112,13 +131,42 @@ namespace Method635.App.BL
                 if (backendFinding?.CurrentRound == -1)
                 {
                     ChangeStateEvent?.Invoke(new EndedState());
-                    _nextCheckRoundTimer.Dispose();
+                    return;
                 }
                 _context.CurrentFinding = backendFinding;
-                //_logger.Info("Round has changed, proceeding to next round");
-                //NextRound();
+                _logger.Info("Round has changed, proceeding to next round");
+                NextRound();
             }
             _nextCheckRoundTimer.Start();
+        }
+
+        private void NextRound()
+        {
+            _nextCheckRoundTimer.Stop();
+            _nextCheckRoundTimer.Dispose();
+            _brainstormingModel.BrainWaveSent = false;
+
+            // TODO Handle commitideaindex in VM
+            commitIdeaIndex = 0;
+            EvaluateBrainWaves();
+        }
+        private void EvaluateBrainWaves()
+        {
+            if (_context.CurrentBrainstormingTeam == null || _context.CurrentFinding == null)
+            {
+                return;
+            }
+            _brainstormingModel.BrainSheets = new ObservableCollection<BrainSheet>(_context.CurrentFinding.BrainSheets);
+
+            var currentRound = _context.CurrentFinding.CurrentRound;
+
+            var nrOfBrainsheets = _brainstormingModel.BrainSheets.Count;
+            _brainstormingModel.CurrentSheetNr = (currentRound + _positionInTeam - 1) % nrOfBrainsheets;
+            var currentBrainSheet = _context.CurrentFinding.BrainSheets[_brainstormingModel.CurrentSheetNr];
+            _brainstormingModel.BrainWaves = new ObservableCollection<BrainWave>(currentBrainSheet.BrainWaves);
+
+            // TODO: Handle commitenabled in VM?
+            _brainstormingModel.CommitEnabled = _brainstormingModel.BrainWaves != null || _context.CurrentFinding?.CurrentRound > 0;
         }
     }
 }
