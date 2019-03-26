@@ -28,8 +28,11 @@ namespace Tests
             restMock.SetupSequence(request => request.GetFinding(It.IsAny<string>())).
                 Returns(BrainstormingModelFactory.CreateFinding(0));
 
+            var dalMock = new Mock<IDalService>();
+            dalMock.Setup(serv => serv.BrainstormingDalService).Returns(restMock.Object);
+
             var brainstormingService = new BrainstormingService(
-                restMock.Object,
+                dalMock.Object,
                 BrainstormingModelFactory.CreateContext(0),
                 new BrainstormingModel());
 
@@ -46,8 +49,11 @@ namespace Tests
             restMock.SetupSequence(request => request.GetFinding(It.IsAny<string>())).
                 Returns(BrainstormingModelFactory.CreateFinding(3));
 
+            var dalMock = new Mock<IDalService>();
+            dalMock.Setup(serv => serv.BrainstormingDalService).Returns(restMock.Object);
+
             var brainstormingService = new BrainstormingService(
-                restMock.Object,
+                dalMock.Object,
                 BrainstormingModelFactory.CreateContext(3),
                 new BrainstormingModel());
 
@@ -64,8 +70,11 @@ namespace Tests
             restMock.SetupSequence(request => request.GetFinding(It.IsAny<string>())).
                 Returns(BrainstormingModelFactory.CreateFinding(-1));
 
+            var dalMock = new Mock<IDalService>();
+            dalMock.Setup(serv => serv.BrainstormingDalService).Returns(restMock.Object);
+
             var brainstormingService = new BrainstormingService(
-                restMock.Object,
+                dalMock.Object,
                 BrainstormingModelFactory.CreateContext(-1),
                 new BrainstormingModel());
 
@@ -82,8 +91,11 @@ namespace Tests
             restMock.SetupSequence(request => request.GetFinding(It.IsAny<string>())).
                 Returns(BrainstormingModelFactory.CreateFinding(1));
 
+            var dalMock = new Mock<IDalService>();
+            dalMock.Setup(serv => serv.BrainstormingDalService).Returns(restMock.Object);
+
             var brainstormingService = new BrainstormingService(
-                restMock.Object,
+                dalMock.Object,
                 BrainstormingModelFactory.CreateContext(0),
                 new BrainstormingModel());
 
@@ -114,8 +126,11 @@ namespace Tests
                 new BrainSheet()
             };
 
+            var dalMock = new Mock<IDalService>();
+            dalMock.Setup(serv => serv.BrainstormingDalService).Returns(restMock.Object);
+
             var brainstormingService = new BrainstormingService(
-                restMock.Object, 
+                dalMock.Object,
                 context,
                 model
                );
@@ -137,8 +152,11 @@ namespace Tests
             restMock.Setup(req => req.GetFinding(It.IsAny<string>()))
                 .Returns(BrainstormingModelFactory.CreateFinding(1));
 
+            var dalMock = new Mock<IDalService>();
+            dalMock.Setup(serv => serv.BrainstormingDalService).Returns(restMock.Object);
+
             var brainstormingService = new BrainstormingService(
-                restMock.Object,
+                dalMock.Object,
                 BrainstormingModelFactory.CreateContext(1),
                 new BrainstormingModel());
 

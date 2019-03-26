@@ -15,12 +15,12 @@ namespace Method635.App.BL
         private readonly StateMachine _stateMachine;
 
         public BrainstormingService(
-            IBrainstormingDalService brainstormingDalService,
+            IDalService iDalService,
             BrainstormingContext brainstormingContext,
             BrainstormingModel brainstormingModel)
         {
             _context = brainstormingContext;
-            _brainstormingDalService = brainstormingDalService;
+            _brainstormingDalService = iDalService.BrainstormingDalService;
             _stateMachine = new StateMachine(_brainstormingDalService, _context, brainstormingModel);
             _stateMachine.PropertyChanged += StateMachine_PropertyChanged;
 
@@ -86,6 +86,11 @@ namespace Method635.App.BL
         {
             get => _remainingTime;
             set => SetProperty(ref _remainingTime, value);
+        }
+
+        public void SendBrainWave()
+        {
+            throw new NotImplementedException();
         }
     }
 }

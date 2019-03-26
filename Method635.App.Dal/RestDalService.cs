@@ -5,7 +5,11 @@ namespace Method635.App.Dal
 {
     public class RestDalService : IDalService
     {
-        private readonly IBrainstormingDalService _brainstormingDalService = new BrainstormingFindingRestResolver();
-        public IBrainstormingDalService BrainstormingDalService => _brainstormingDalService;
+        public RestDalService(IBrainstormingDalService brainstormingService)
+        {
+            BrainstormingDalService = brainstormingService;
+        }
+        public IBrainstormingDalService BrainstormingDalService { get; }
+
     }
 }

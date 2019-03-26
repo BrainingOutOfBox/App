@@ -19,14 +19,13 @@ using Method635.App.BL;
 
 namespace Method635.App.Forms.ViewModels
 {
-    public class BrainstormingPageViewModel : BindableBase, INavigatedAware, IActiveAware, IDestructible
+    public class BrainstormingPageViewModel : BindableBase
     {
-        private Timer _updateRoundTimer;
         private Timer _nextCheckRoundTimer;
         private readonly IUiNavigationService _navigationService;
         private readonly IConfigurationService _configurationService;
         private readonly BrainstormingContext _context;
-        private readonly BrainstormingFindingRestResolver _brainstormingFindingRestResolver;
+        private readonly BrainstormingService _brainstormingService;
         private int commitIdeaIndex = 0;
 
 
@@ -47,14 +46,25 @@ namespace Method635.App.Forms.ViewModels
             _configurationService = configurationService;
             _context = brainstormingContext;
             _findingTitle = _context.CurrentFinding?.Name;
-            _brainstormingFindingRestResolver = new BrainstormingFindingRestResolver();
+
+            _brainstormingService = brainstormingService;
+            _brainstormingService.PropertyChanged += _brainstormingService_PropertyChanged;
+            BrainWaveSent = _brainstormingService.BrainWaveSent;
+            _brainstormingService.StartBusinessService();
 
             CommitCommand = new DelegateCommand(CommitIdea);
             SendBrainwaveCommand = new DelegateCommand(SendBrainWave);
             RefreshCommand = new DelegateCommand(RefreshPage);
-            EvaluateDisplayedBrainWaves();
-            RemainingTimeTimerSetup();
-            BrainWaveSent = false;
+        }
+
+        private void _brainstormingService_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            BrainSheets = _brainstormingService.BrainSheets;
+            BrainWaveSent = _brainstormingService.BrainWaveSent;
+            IsWaiting = _brainstormingService.IsWaiting;
+            IsRunning = _brainstormingService.IsRunning;
+            IsEnded = _brainstormingService.IsEnded;
+            RemainingTime = $"{_brainstormingService.RemainingTime.Minutes:D2}m:{_brainstormingService.RemainingTime.Seconds:D2}s";
         }
 
         private void RefreshPage()
@@ -64,61 +74,14 @@ namespace Method635.App.Forms.ViewModels
 
         private void SendBrainWave()
         {
-            try
-            {
-                var nrOfBrainsheets = _context.CurrentFinding.BrainSheets.Count;
-                var currentSheet = _context.CurrentFinding.BrainSheets[(_context.CurrentFinding.CurrentRound + _positionInTeam - 1) % nrOfBrainsheets];
-                if (!_brainstormingFindingRestResolver.UpdateSheet(_context.CurrentFinding.Id, currentSheet))
-                {
-                    _logger.Error("Couldn't place brainsheet");
-                }
-                BrainWaveSent = true;
-                RoundStartedTimerSetup();
-
-            }
-            catch (ArgumentOutOfRangeException ex)
-            {
-                _logger.Error("Invalid index access!", ex);
-            }
-        }
-
-        private void RoundStartedTimerSetup()
-        {
-            _nextCheckRoundTimer = new Timer(2500);
-            _nextCheckRoundTimer.Elapsed += NextCheckRoundTimerElapsed;
-            _nextCheckRoundTimer.Start();
-        }
-
-        private void NextCheckRoundTimerElapsed(object sender, ElapsedEventArgs e)
-        {
-            UpdateRound();
-        }
-
-        private void UpdateRound()
-        {
-            var backendFinding = _brainstormingFindingRestResolver.GetFinding(_context.CurrentFinding.Id);
-            if (backendFinding?.CurrentRound != _context.CurrentFinding.CurrentRound)
-            {
-                _context.CurrentFinding = backendFinding;
-                _logger.Info("Round has changed, proceeding to next round");
-                NextRound();
-            }
-        }
-
-        private void NextRound()
-        {
-            _nextCheckRoundTimer.Stop();
-            _nextCheckRoundTimer.Dispose();
-            BrainWaveSent = false;
-            commitIdeaIndex = 0;
-            EvaluateDisplayedBrainWaves();
+            _brainstormingService.SendBrainWave();
         }
 
         private void CommitIdea()
         {
             try
             {
-                BrainWaves[_context.CurrentFinding.CurrentRound - 1].Ideas[commitIdeaIndex % (_context.CurrentFinding.NrOfIdeas)].Description = IdeaText;
+                BrainWaves[_context.CurrentFinding.CurrentRound - 1].Ideas[commitIdeaIndex % _context.CurrentFinding.NrOfIdeas].Description = IdeaText;
                 commitIdeaIndex++;
                 IdeaText = string.Empty;
             }
@@ -128,123 +91,21 @@ namespace Method635.App.Forms.ViewModels
             }
         }
 
-        private void EvaluateDisplayedBrainWaves()
-        {
-            if (_context.CurrentBrainstormingTeam == null || _context.CurrentFinding == null)
-            {
-                return;
-            }
-            if (IsWaiting())
-            {
-                RoundStartedTimerSetup();
-                return;
-            }
-            BrainSheets = new ObservableCollection<BrainSheet>(_context.CurrentFinding?.BrainSheets);
-            if (HasBrainstormingEnded())
-            {
-                IsBrainstormingFinished = true;
-                BrainWaves = _context.CurrentFinding.BrainSheets[CurrentSheetNr++% BrainSheets.Count].BrainWaves;
-                return;
-            }
-
-            var currentRound = _context.CurrentFinding.CurrentRound;
-
-            var nrOfBrainsheets = BrainSheets.Count;
-            CurrentSheetNr = (currentRound + _positionInTeam - 1) % nrOfBrainsheets;
-            var currentBrainSheet = _context.CurrentFinding.BrainSheets[CurrentSheetNr];
-            BrainWaves = currentBrainSheet.BrainWaves;
-            CommitEnabled = BrainWaves != null || _context.CurrentFinding?.CurrentRound > 0;
-        }
+        
 
         private int _positionInTeam => _teamParticipants.IndexOf(_teamParticipants.Find(p => p.UserName.Equals(_context.CurrentParticipant.UserName)));
         private List<Participant> _teamParticipants => _context.CurrentBrainstormingTeam.Participants;
-
-        private bool IsBrainstormingRunning()
-        {
-            return _context.CurrentFinding?.CurrentRound > 0;
-        }
-        private bool HasBrainstormingEnded()
-        {
-            return _context.CurrentFinding?.CurrentRound == -1;
-        }
-        private bool IsWaiting()
-        {
-            return _context.CurrentFinding?.CurrentRound == 0;
-        }
-
-        private void RemainingTimeTimerSetup()
-        {
-            _updateRoundTimer = new Timer(1000);
-            _updateRoundTimer.Elapsed += UpdateRoundTime;
-        }
-
-        private void UpdateRoundTime(object sender, ElapsedEventArgs e)
-        {
-            var remainingTime = _brainstormingFindingRestResolver.GetRemainingTime(
-                _context.CurrentFinding.Id,
-                _context.CurrentFinding.TeamId);
-
-            if (IsBrainstormingRunning() && remainingTime < TimeSpan.FromSeconds(1) && !BrainWaveSent)
-            {
-                SendBrainWave();
-                return;
-            }
-            RemainingTime = $"{remainingTime.Minutes:D2}m:{remainingTime.Seconds:D2}s";
-        }
-
-
-        // Navigation away from current page
-        public void OnNavigatedFrom(INavigationParameters parameters)
-        {
-            _updateRoundTimer.Stop();
-        }
-
-        public void OnNavigatedTo(INavigationParameters parameters)
-        {
-            var retrievedFinding = _brainstormingFindingRestResolver.GetFinding(_context.CurrentFinding.Id);
-            if (retrievedFinding == null)
-            {
-                _logger.Error($"Finding retrieved from backend was null ({_context.CurrentFinding.Id})");
-            }
-            _context.CurrentFinding = retrievedFinding;
-            if (IsBrainstormingRunning() || HasBrainstormingEnded())
-            {
-                // Brainstorming has already started
-                CurrentSheetText = string.Format(AppResources.SheetNrOfNr, CurrentSheetNr, _context.CurrentBrainstormingTeam.NrOfParticipants);
-                EvaluateDisplayedBrainWaves();
-                return;
-            }
-
-            var moderatorOfCurrentFinding = GetModeratorOfTeam(_context.CurrentFinding.TeamId);
-            if (_context.CurrentParticipant.UserName.Equals(moderatorOfCurrentFinding.UserName))
-            {
-                // Brainstorming is not yet started and current user is the moderator -> Display StartBrainstorming
-                _navigationService.NavigateToStartBrainstorming();
-            }
-        }
+        
 
         private Moderator GetModeratorOfTeam(string teamId)
         {
             return new TeamRestResolver().GetModeratorByTeamId(teamId);
         }
 
-        public void Destroy()
-        {
-           _updateRoundTimer.Stop();
-           _updateRoundTimer.Dispose();
-        }
-
-
-        private ObservableCollection<BrainSheet> _brainSheets;
         public ObservableCollection<BrainSheet> BrainSheets
         {
-            get => _brainSheets;
-            private set
-            {
-                SetProperty(ref _brainSheets, value);
-                _logger.Info($"Set brainsheet with count {value.Count}. Current Sheet nr: {CurrentSheetNr}");
-
-            }
+            get;
+            private set;
         }
 
         private List<BrainWave> _brainWaves;
@@ -287,8 +148,6 @@ namespace Method635.App.Forms.ViewModels
 
         public string Title => AppResources.Brainstorming;
 
-        public event EventHandler IsActiveChanged;
-
         private string _findingTitle;
         public string FindingTitle
         {
@@ -319,23 +178,14 @@ namespace Method635.App.Forms.ViewModels
             set => SetProperty(ref _brainWaveSent, value);
         }
 
-        private bool _isActive;
-        public bool IsActive
-        {
-            get { return _isActive; }
-            set
-            {
-                SetProperty(ref _isActive, value);
+        private bool _isWaiting;
+        public bool IsWaiting { get => _isWaiting; private set => SetProperty(ref _isWaiting, value); }
 
-                if (_isActive && !_updateRoundTimer.Enabled && !IsBrainstormingFinished)
-                {
-                    _updateRoundTimer.Start();
-                }
-                else if (!_isActive)
-                {
-                    _updateRoundTimer.Stop();
-                }
-            }
-        }
+        private bool _isEnded;
+        public bool IsEnded { get => _isEnded; private set => SetProperty(ref _isEnded, value); }
+
+        private bool _isRunning;
+        public bool IsRunning { get => _isRunning; private set => SetProperty(ref _isRunning, value); }
+               
     }
 }

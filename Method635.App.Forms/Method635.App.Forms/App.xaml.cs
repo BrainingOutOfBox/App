@@ -19,6 +19,10 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Method635.App.Forms.Services;
 using Method635.App.Dal.Config;
+using Method635.App.BL;
+using Method635.App.Dal.Interfaces;
+using Method635.App.Dal;
+using Method635.App.Forms.RestAccess;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace Method635.App.Forms
@@ -43,6 +47,13 @@ namespace Method635.App.Forms
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterSingleton<IUiNavigationService, UiNavigationService>();
 
+            containerRegistry.Register<IBrainstormingDalService, BrainstormingFindingRestResolver>();
+            containerRegistry.Register<IDalService, RestDalService>();
+
+            containerRegistry.RegisterSingleton<BrainstormingContext>();
+
+            containerRegistry.Register<BrainstormingService>();
+
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
 
             containerRegistry.RegisterForNavigation<LoginPage, LoginPageViewModel>();
@@ -59,7 +70,6 @@ namespace Method635.App.Forms
             containerRegistry.RegisterForNavigation<JoinTeamPage, JoinTeamPageViewModel>();
 
 
-            containerRegistry.RegisterSingleton<BrainstormingContext>();
         }
 
         protected override void OnStart()
