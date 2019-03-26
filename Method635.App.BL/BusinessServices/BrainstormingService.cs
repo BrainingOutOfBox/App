@@ -76,11 +76,10 @@ namespace Method635.App.BL
             get => _brainWaveSent;
             set => SetProperty(ref _brainWaveSent, value);
         }
-        private ObservableCollection<BrainSheet> _brainSheets;
         public ObservableCollection<BrainSheet> BrainSheets
         {
-            get => _brainSheets;
-            set => SetProperty(ref _brainSheets, value);
+            get;
+            set;
         }
         private TimeSpan _remainingTime;
         public TimeSpan RemainingTime

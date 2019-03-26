@@ -70,7 +70,9 @@ namespace Method635.App.Forms.iOS.Resources
 
         string ToDotnetFallbackLanguage(PlatformCulture platCulture)
         {
-            var netLanguage = platCulture.LanguageCode; // use the first part of the identifier (two chars, usually);
+            // Use the first part of the identifier (two chars, usually)
+            var netLanguage = platCulture.LanguageCode; 
+
             switch (platCulture.LanguageCode)
             {
                 case "pt":

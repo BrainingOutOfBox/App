@@ -13,9 +13,9 @@ namespace Method635.App.Tests.Setup
 {
     internal class MockPlatformServices : IPlatformServices
     {
-        Action<Action> _invokeOnMainThread;
-        Action<Uri> _openUriAction;
-        Func<Uri, CancellationToken, Task<Stream>> _getStreamAsync;
+        readonly Action<Action> _invokeOnMainThread;
+        readonly Action<Uri> _openUriAction;
+        readonly Func<Uri, CancellationToken, Task<Stream>> _getStreamAsync;
         public MockPlatformServices(Action<Action> invokeOnMainThread = null, Action<Uri> openUriAction = null, Func<Uri, CancellationToken, Task<Stream>> getStreamAsync = null)
         {
             _invokeOnMainThread = invokeOnMainThread;
@@ -36,7 +36,7 @@ namespace Method635.App.Tests.Setup
         }
         
 
-        public double GetNamedSize(NamedSize size, Type targetElement, bool useOldSizes)
+        public double GetNamedSize(NamedSize size, Type targetElementType, bool useOldSizes)
         {
             switch (size)
             {
@@ -134,18 +134,22 @@ namespace Method635.App.Tests.Setup
     {
         public void Debug(string message, params object[] args)
         {
+            // Empty since it's only a mock
         }
 
         public void Error(string message, params object[] args)
         {
+            // Empty since it's only a mock
         }
 
         public void Info(string message, params object[] args)
         {
+            // Empty since it's only a mock
         }
 
         public void Warn(string message, params object[] args)
         {
+            // Empty since it's only a mock
         }
     }
 

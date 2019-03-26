@@ -15,9 +15,8 @@ namespace Method635.App.Forms.Droid.Resources
         }
         public CultureInfo GetCurrentCultureInfo()
         {
-            var netLanguage = "en";
             var androidLocale = Java.Util.Locale.Default;
-            netLanguage = AndroidToDotnetLanguage(androidLocale.ToString().Replace("_", "-"));
+            var netLanguage = AndroidToDotnetLanguage(androidLocale.ToString().Replace("_", "-"));
             // this gets called a lot - try/catch can be expensive so consider caching or something
             CultureInfo ci = null;
             try
@@ -65,7 +64,7 @@ namespace Method635.App.Forms.Droid.Resources
         }
         string ToDotnetFallbackLanguage(PlatformCulture platCulture)
         {
-            var netLanguage = platCulture.LanguageCode; // use the first part of the identifier (two chars, usually);
+            var netLanguage = platCulture.LanguageCode; // use the first part of the identifier (two chars, usually)
             switch (platCulture.LanguageCode)
             {
                 case "gsw":

@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
              xmlns:local="clr-namespace:Method635.App.Forms.Views.Brainstorming"
+             xmlns:i18n="clr-namespace:Method635.App.Forms.Resources"
              xmlns:controls="clr-namespace:CarouselView.FormsPlugin.Abstractions;assembly=CarouselView.FormsPlugin.Abstractions"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="Method635.App.Forms.Views.Brainstorming.BrainstormingPage"
@@ -46,7 +47,7 @@
         <!-- FOOTER -->
         <StackLayout Orientation="Vertical" VerticalOptions="End" HorizontalOptions="Fill" Margin="10" IsVisible="{Binding IsBrainstormingFinished, Converter={StaticResource InvertBooleanConverter}}">
             <StackLayout Orientation="Horizontal" VerticalOptions="Start">
-                <Label Text="Idea Description:" />
+                <Label Text="{i18n:Translate Text=IdeaDescription}" />
             </StackLayout>
             <Grid HorizontalOptions="FillAndExpand" MinimumHeightRequest="100">
                 <Grid.ColumnDefinitions>
@@ -56,7 +57,7 @@
                 <Frame>
                     <Editor Grid.Column="0" HeightRequest="100" Text="{Binding IdeaText}" />
                 </Frame>
-                <Button Text="Commit" Grid.Column="1" VerticalOptions="Center" Command="{Binding CommitCommand}" IsEnabled="{Binding CommitEnabled}"/>
+                <Button Text="{i18n:Translate Text=Commit}" Grid.Column="1" VerticalOptions="Center" Command="{Binding CommitCommand}" IsEnabled="{Binding CommitEnabled}"/>
             </Grid>
         </StackLayout>
 

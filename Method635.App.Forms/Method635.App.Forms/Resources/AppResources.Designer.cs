@@ -124,6 +124,15 @@ namespace Method635.App.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Commit.
+        /// </summary>
+        internal static string Commit {
+            get {
+                return ResourceManager.GetString("Commit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Completed.
         /// </summary>
         internal static string Completed {
@@ -210,6 +219,15 @@ namespace Method635.App.Forms.Resources {
         internal static string FirstName {
             get {
                 return ResourceManager.GetString("FirstName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Idea Description:.
+        /// </summary>
+        internal static string IdeaDescription {
+            get {
+                return ResourceManager.GetString("IdeaDescription", resourceCulture);
             }
         }
         

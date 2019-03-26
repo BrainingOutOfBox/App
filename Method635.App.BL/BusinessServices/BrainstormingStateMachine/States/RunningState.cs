@@ -18,8 +18,7 @@ namespace Method635.App.BL
         private Timer _updateRoundTimer;
         private readonly IBrainstormingDalService _brainstormingDalService;
         private readonly BrainstormingContext _context;
-        private BrainstormingModel _brainstormingModel;
-        private int commitIdeaIndex = 0;
+        private readonly BrainstormingModel _brainstormingModel;
 
         public event ChangeStateHandler ChangeStateEvent;
 
@@ -103,7 +102,7 @@ namespace Method635.App.BL
             }
             catch (ArgumentOutOfRangeException ex)
             {
-                _logger.Error("Invalid index access!");
+                _logger.Error("Invalid index access!", ex);
             }
         }
 
@@ -147,7 +146,7 @@ namespace Method635.App.BL
             _brainstormingModel.BrainWaveSent = false;
 
             // TODO Handle commitideaindex in VM
-            commitIdeaIndex = 0;
+            //commitIdeaIndex = 0;
             EvaluateBrainWaves();
         }
         private void EvaluateBrainWaves()

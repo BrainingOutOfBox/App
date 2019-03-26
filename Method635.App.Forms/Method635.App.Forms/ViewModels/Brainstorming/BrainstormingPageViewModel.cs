@@ -24,7 +24,6 @@ namespace Method635.App.Forms.ViewModels
         private Timer _updateRoundTimer;
         private Timer _nextCheckRoundTimer;
         private readonly IUiNavigationService _navigationService;
-        private readonly IEventAggregator _eventAggregator;
         private readonly IConfigurationService _configurationService;
         private readonly BrainstormingContext _context;
         private readonly BrainstormingFindingRestResolver _brainstormingFindingRestResolver;
@@ -40,13 +39,11 @@ namespace Method635.App.Forms.ViewModels
 
         public BrainstormingPageViewModel(
             IUiNavigationService navigationService, 
-            IEventAggregator eventAggregator,
             IConfigurationService configurationService, 
             BrainstormingContext brainstormingContext,
             BrainstormingService brainstormingService)
         {
             _navigationService = navigationService;
-            _eventAggregator = eventAggregator;
             _configurationService = configurationService;
             _context = brainstormingContext;
             _findingTitle = _context.CurrentFinding?.Name;
@@ -81,7 +78,7 @@ namespace Method635.App.Forms.ViewModels
             }
             catch (ArgumentOutOfRangeException ex)
             {
-                _logger.Error("Invalid index access!");
+                _logger.Error("Invalid index access!", ex);
             }
         }
 
@@ -127,7 +124,7 @@ namespace Method635.App.Forms.ViewModels
             }
             catch (ArgumentOutOfRangeException ex)
             {
-                _logger.Error("Invalid index access!");
+                _logger.Error("Invalid index access!", ex);
             }
         }
 
@@ -223,7 +220,6 @@ namespace Method635.App.Forms.ViewModels
             {
                 // Brainstorming is not yet started and current user is the moderator -> Display StartBrainstorming
                 _navigationService.NavigateToStartBrainstorming();
-                //_eventAggregator.GetEvent<RenderStartBrainstormingEvent>().Publish();
             }
         }
 

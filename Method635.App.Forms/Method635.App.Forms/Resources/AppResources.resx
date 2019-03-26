@@ -299,4 +299,10 @@ Join or add a team below</value>
   <data name="Team" xml:space="preserve">
     <value>Team</value>
   </data>
+  <data name="IdeaDescription" xml:space="preserve">
+    <value>Idea Description:</value>
+  </data>
+  <data name="Commit" xml:space="preserve">
+    <value>Commit</value>
+  </data>
 </root>
