@@ -3,10 +3,13 @@ using Method635.App.BL.Interfaces;
 using Method635.App.Dal.Interfaces;
 using Method635.App.Forms.Context;
 using Method635.App.Forms.RestAccess;
+using Method635.App.Logging;
 using Method635.App.Models;
 using Method635.App.Models.Models;
 using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using Xamarin.Forms;
 
 namespace Method635.App.BL
 {
@@ -15,6 +18,10 @@ namespace Method635.App.BL
         private readonly BrainstormingContext _context;
         private readonly IBrainstormingDalService _brainstormingDalService;
         private readonly StateMachine _stateMachine;
+        private int commitIdeaIndex = 0;
+        private readonly BrainstormingModel _brainstormingModel;
+
+        private readonly ILogger _logger = DependencyService.Get<ILogManager>().GetLog();
 
         public BrainstormingService(
             IDalService iDalService,
@@ -32,7 +39,7 @@ namespace Method635.App.BL
             IsModerator = new TeamRestResolver().GetModeratorByTeamId(_context.CurrentBrainstormingTeam.Id).UserName.Equals(_context.CurrentParticipant.UserName);
         }
 
-        private void _brainstormingModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void _brainstormingModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             BrainWaveSent = _brainstormingModel.BrainWaveSent;
             BrainSheets = _brainstormingModel.BrainSheets;
@@ -44,7 +51,7 @@ namespace Method635.App.BL
             _stateMachine.Start();
         }
 
-        private void StateMachine_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void StateMachine_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             IsWaiting = _stateMachine.CurrentState is WaitingState;
             IsRunning = _stateMachine.CurrentState is RunningState;
@@ -72,15 +79,15 @@ namespace Method635.App.BL
         }
 
 
-        private readonly BrainstormingModel _brainstormingModel;
-
         private bool _brainWaveSent;
         public bool BrainWaveSent
         {
             get => _brainWaveSent;
             set => SetProperty(ref _brainWaveSent, value);
         }
-        public ObservableCollection<BrainSheet> BrainSheets { get; set; }
+
+        private ObservableCollection<BrainSheet> _brainSheets;
+        public ObservableCollection<BrainSheet> BrainSheets { get => _brainSheets; set => SetProperty(ref _brainSheets, value); }
         private TimeSpan _remainingTime;
         public TimeSpan RemainingTime
         {
@@ -98,7 +105,22 @@ namespace Method635.App.BL
         public void StartBrainstorming()
         {
             _brainstormingDalService.StartBrainstormingFinding(_context.CurrentFinding.Id);
-            _context.CurrentFinding = _brainstormingDalService.GetFinding(_context.CurrentFinding.Id); 
+            _context.CurrentFinding = _brainstormingDalService.GetFinding(_context.CurrentFinding.Id);
+        }
+
+        public void CommitIdea(string ideaText)
+        {
+            try
+            {
+                _brainstormingModel.BrainWaves[_context.CurrentFinding.CurrentRound - 1]
+                    .Ideas[commitIdeaIndex % _context.CurrentFinding.NrOfIdeas]
+                    .Description = ideaText;
+                commitIdeaIndex++;
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                _logger.Error("Invalid index access!", ex);
+            }
         }
     }
 }

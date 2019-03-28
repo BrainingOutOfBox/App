@@ -128,15 +128,15 @@ namespace Method635.App.BL
         {
             _nextCheckRoundTimer.Stop();
             var backendFinding = _brainstormingDalService.GetFinding(_context.CurrentFinding.Id);
+            _context.CurrentFinding = backendFinding;
 
-            if (backendFinding?.CurrentRound == -1)
+            if (_context.CurrentFinding?.CurrentRound == -1)
             {
-                ChangeStateEvent?.Invoke(new EndedState());
+                ChangeStateEvent?.Invoke(new EndedState(_context, _brainstormingModel));
                 return;
             }
-            else if (backendFinding?.CurrentRound != _context.CurrentFinding.CurrentRound)
+            else if (_context.CurrentFinding?.CurrentRound != _context.CurrentFinding.CurrentRound)
             {
-                _context.CurrentFinding = backendFinding;
                 _logger.Info("Round has changed, proceeding to next round");
                 NextRound();
             }
@@ -149,8 +149,6 @@ namespace Method635.App.BL
             _nextCheckRoundTimer.Dispose();
             _brainstormingModel.BrainWaveSent = false;
 
-            // TODO Handle commitideaindex in VM
-            //commitIdeaIndex = 0;
             EvaluateBrainWaves();
         }
         private void EvaluateBrainWaves()
@@ -167,9 +165,6 @@ namespace Method635.App.BL
             _brainstormingModel.CurrentSheetNr = (currentRound + _positionInTeam - 1) % nrOfBrainsheets;
             var currentBrainSheet = _context.CurrentFinding.BrainSheets[_brainstormingModel.CurrentSheetNr];
             _brainstormingModel.BrainWaves = new ObservableCollection<BrainWave>(currentBrainSheet.BrainWaves);
-
-            // TODO: Handle commitenabled in VM?
-            _brainstormingModel.CommitEnabled = _brainstormingModel.BrainWaves != null || _context.CurrentFinding?.CurrentRound > 0;
         }
     }
 }

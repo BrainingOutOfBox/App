@@ -1,15 +1,10 @@
 ﻿using Method635.App.Forms.Context;
 using Method635.App.Models;
-using Method635.App.Forms.RestAccess;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Timers;
-using Method635.App.Logging;
-using Xamarin.Forms;
 using Method635.App.Forms.Resources;
 using Method635.App.Forms.Services;
 using Method635.App.Dal.Config;
@@ -23,11 +18,8 @@ namespace Method635.App.Forms.ViewModels
         private readonly IConfigurationService _configurationService;
         private readonly BrainstormingContext _context;
         private readonly IBrainstormingService _brainstormingService;
-        private int commitIdeaIndex = 0;
+        private bool _serviceStarted;
 
-
-        // Platform independent logger necessary, thus resolving from xf dependency service.
-        private readonly ILogger _logger = DependencyService.Get<ILogManager>().GetLog();
 
         public DelegateCommand CommitCommand { get; }
         public DelegateCommand SendBrainwaveCommand { get; }
@@ -53,6 +45,8 @@ namespace Method635.App.Forms.ViewModels
             SendBrainwaveCommand = new DelegateCommand(SendBrainWave);
             RefreshCommand = new DelegateCommand(RefreshPage);
             TapCommand = new DelegateCommand(StartBrainstorming);
+
+            CommitEnabled = true;
         }
 
         private void StartBrainstorming()
@@ -89,27 +83,13 @@ namespace Method635.App.Forms.ViewModels
 
         private void CommitIdea()
         {
-            try
-            {
-                BrainWaves[_context.CurrentFinding.CurrentRound - 1].Ideas[commitIdeaIndex % _context.CurrentFinding.NrOfIdeas].Description = IdeaText;
-                commitIdeaIndex++;
-                IdeaText = string.Empty;
-            }
-            catch (ArgumentOutOfRangeException ex)
-            {
-                _logger.Error("Invalid index access!", ex);
-            }
+            _brainstormingService.CommitIdea(IdeaText);
+            IdeaText = string.Empty;
         }
 
         private int _positionInTeam => _teamParticipants.IndexOf(_teamParticipants.Find(p => p.UserName.Equals(_context.CurrentParticipant.UserName)));
         private List<Participant> _teamParticipants => _context.CurrentBrainstormingTeam.Participants;
         
-
-        private Moderator GetModeratorOfTeam(string teamId)
-        {
-            return new TeamRestResolver().GetModeratorByTeamId(teamId);
-        }
-
         public void OnNavigatedFrom(INavigationParameters parameters)
         {
             //TODO Implement a pause functionality in business service
@@ -214,9 +194,8 @@ namespace Method635.App.Forms.ViewModels
         private bool _isEnded;
         public bool IsEnded { get => _isEnded; private set => SetProperty(ref _isEnded, value); }
 
-        private bool _isRunning;
-        private bool _serviceStarted;
 
+        private bool _isRunning;
         public bool IsRunning { get => _isRunning; private set => SetProperty(ref _isRunning, value); }
                
     }

@@ -28,7 +28,7 @@ namespace Method635.App.BL.BusinessServices.BrainstormingStateMachine
             IState evaluatedState = null;
             if (currentRound == -1)
             {
-                evaluatedState = new EndedState();
+                evaluatedState = new EndedState(_context, _brainstormingModel);
             }
             else if (currentRound == 0)
             {

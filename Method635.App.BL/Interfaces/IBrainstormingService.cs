@@ -12,12 +12,14 @@ namespace Method635.App.BL.Interfaces
         bool IsRunning { get; }
         bool IsEnded { get; }
         bool BrainWaveSent { get; }
-        ObservableCollection<BrainSheet> BrainSheets { get; }
+        ObservableCollection<BrainSheet> BrainSheets { get; set; }
         TimeSpan RemainingTime { get; }
         bool IsModerator { get; }
 
+        void CommitIdea(string ideaText);
         void SendBrainWave();
         void StartBrainstorming();
         event PropertyChangedEventHandler PropertyChanged;
+
     }
 }

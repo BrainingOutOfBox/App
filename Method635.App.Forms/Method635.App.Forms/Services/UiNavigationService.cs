@@ -29,17 +29,17 @@ namespace Method635.App.Forms.Services
 
         public async Task NavigateToTeamsTab()
         {
-            await _navigationService.NavigateAsync("app:///NavigationPage/MainPage?selectedTab=TeamPage");
+            await _navigationService.NavigateAsync("/NavigationPage/MainPage?selectedTab=TeamPage");
         }
 
         public async Task NavigateToBrainstormingListTab()
         {
-            await _navigationService.NavigateAsync("app:///NavigationPage/MainPage?selectedTab=BrainstormingFindingListPage");
+            await _navigationService.NavigateAsync("/NavigationPage/MainPage?selectedTab=BrainstormingFindingListPage");
         }
 
         public async Task NavigateToBrainstormingTab()
         {
-            await _navigationService.NavigateAsync("app:///NavigationPage/MainPage?selectedTab=BrainstormingPage");
+            await _navigationService.NavigateAsync("/NavigationPage/MainPage?selectedTab=BrainstormingPage");
         }
 
         public async Task NavigateToCreateBrainstorming()
