@@ -124,10 +124,11 @@ namespace Method635.App.Forms.ViewModels
             }
         }
 
+        private ObservableCollection<BrainSheet> _brainSheets;
         public ObservableCollection<BrainSheet> BrainSheets
         {
-            get;
-            private set;
+            get => _brainSheets;
+            private set => SetProperty(ref _brainSheets, value);
         }
 
         private List<BrainWave> _brainWaves;

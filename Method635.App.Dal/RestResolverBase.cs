@@ -11,6 +11,7 @@ namespace Method635.App.Forms.RestAccess
     public abstract class RestResolverBase
     {
         private const string URL = "https://sinv-56079.edu.hsr.ch";
+        //private const string URL = "172.96.";
         private const int PORT = 40000;
 
         // Platform independent logger necessary, thus resolving from xf dependency service.

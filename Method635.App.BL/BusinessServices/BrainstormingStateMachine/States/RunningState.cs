@@ -16,6 +16,7 @@ namespace Method635.App.BL
     {
         private Timer _nextCheckRoundTimer;
         private Timer _updateRoundTimer;
+        private object lockObj = new object();
         private readonly IBrainstormingDalService _brainstormingDalService;
         private readonly BrainstormingContext _context;
         private readonly BrainstormingModel _brainstormingModel;
@@ -71,19 +72,22 @@ namespace Method635.App.BL
             var remainingTime = _brainstormingDalService.GetRemainingTime(
                    _context.CurrentFinding.Id,
                    _context.CurrentFinding.TeamId);
-
-            if (remainingTime < TimeSpan.FromSeconds(1) && !_brainstormingModel.BrainWaveSent)
+            lock (lockObj)
             {
-                SendBrainWave();
-                return;
+                if (remainingTime < TimeSpan.FromSeconds(1) && !_brainstormingModel.BrainWaveSent)
+                {
+                    SendBrainWave();
+                    return;
+                }
             }
+
             _brainstormingModel.RemainingTime = remainingTime;
             _updateRoundTimer.Start();
         }
 
         private void SendBrainWave()
         {
-            if(_context.CurrentFinding.BrainSheets == null)
+            if (_context.CurrentFinding.BrainSheets == null)
             {
                 _logger.Error("Brainsheets were null, can't send brainwave!");
                 throw new ArgumentException("Brainsheets on current finding can't be null");
@@ -98,7 +102,6 @@ namespace Method635.App.BL
                 }
                 _brainstormingModel.BrainWaveSent = true;
                 RoundStartedTimerSetup();
-
             }
             catch (ArgumentOutOfRangeException ex)
             {
@@ -125,13 +128,14 @@ namespace Method635.App.BL
         {
             _nextCheckRoundTimer.Stop();
             var backendFinding = _brainstormingDalService.GetFinding(_context.CurrentFinding.Id);
-            if (backendFinding?.CurrentRound != _context.CurrentFinding.CurrentRound)
+
+            if (backendFinding?.CurrentRound == -1)
             {
-                if (backendFinding?.CurrentRound == -1)
-                {
-                    ChangeStateEvent?.Invoke(new EndedState());
-                    return;
-                }
+                ChangeStateEvent?.Invoke(new EndedState());
+                return;
+            }
+            else if (backendFinding?.CurrentRound != _context.CurrentFinding.CurrentRound)
+            {
                 _context.CurrentFinding = backendFinding;
                 _logger.Info("Round has changed, proceeding to next round");
                 NextRound();

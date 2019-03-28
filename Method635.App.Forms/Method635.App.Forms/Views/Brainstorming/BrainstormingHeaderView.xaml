@@ -11,21 +11,21 @@
                     <TapGestureRecognizer Command="{Binding RefreshCommand}" />
                 </Image.GestureRecognizers>
             </Image>
-            <Label Text="{Binding CurrentSheet}" IsVisible="{Binding IsBrainstormingFinished, Converter={StaticResource InvertBooleanConverter}}"/>
+            <Label Text="{Binding CurrentSheet}" IsVisible="{Binding IsRunning, Converter={StaticResource InvertBooleanConverter}}"/>
             <Label Text="{Binding RemainingTime}"  
            HorizontalOptions="CenterAndExpand"
-           VerticalOptions="Center" IsVisible="{Binding IsBrainstormingFinished, Converter={StaticResource InvertBooleanConverter}}">
+           VerticalOptions="Center" IsVisible="{Binding IsEnded, Converter={StaticResource InvertBooleanConverter}}">
                 <!-- TODO animate with attached behaviors as soon as remainingTime < 10s  -->
             </Label>
             <Label Text="{i18n:Translate Text=Completed}" 
                    TextColor="Green"
-                   IsVisible="{Binding IsBrainstormingFinished}"
+                   IsVisible="{Binding IsEnded}"
                    FontSize="Medium" 
                    VerticalOptions="Center" 
                    FontAttributes="Bold" 
                    HorizontalOptions="CenterAndExpand"/>
             <Button Text="{i18n:Translate Text=Send}" Command="{Binding SendBrainwaveCommand}"
-                    IsVisible="{Binding IsBrainstormingFinished, Converter={StaticResource InvertBooleanConverter}}"
+                    IsVisible="{Binding IsEnded, Converter={StaticResource InvertBooleanConverter}}"
                     IsEnabled="{Binding BrainWaveSent, Converter={StaticResource Key=InvertBooleanConverter}}" 
                     HorizontalOptions="End" />
         </StackLayout>

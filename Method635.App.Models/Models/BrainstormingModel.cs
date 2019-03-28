@@ -5,8 +5,10 @@ namespace Method635.App.Models.Models
 {
     public class BrainstormingModel : PropertyChangedBase
     {
-        public ObservableCollection<BrainSheet> BrainSheets { get; set; }
-        public ObservableCollection<BrainWave> BrainWaves { get; set; }
+        private ObservableCollection<BrainSheet> _brainSheets;
+        public ObservableCollection<BrainSheet> BrainSheets { get=>_brainSheets; set=>SetProperty(ref _brainSheets, value); }
+        private ObservableCollection<BrainWave> _brainWaves;
+        public ObservableCollection<BrainWave> BrainWaves { get => _brainWaves; set => SetProperty(ref _brainWaves, value); }
         private bool _brainWaveSent;
         public bool BrainWaveSent
         {

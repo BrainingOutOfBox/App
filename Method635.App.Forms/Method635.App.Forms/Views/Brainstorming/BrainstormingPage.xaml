@@ -11,9 +11,9 @@
 
     <StackLayout Orientation="Vertical">
         <!-- HEADER -->
-        <local:BrainstormingHeaderView />
+        <local:BrainstormingHeaderView IsVisible="{Binding IsWaiting, Converter={StaticResource InvertBooleanConverter}}"/>
         <!-- CENTER -->
-        <local:StartBrainstormingView IsVisible="{Binding ShowStartBrainstorming}" />
+        <local:StartBrainstormingView IsVisible="{Binding ShowStartBrainstorming}" VerticalOptions="Center" />
 
         <StackLayout Orientation="Vertical" VerticalOptions="CenterAndExpand" IsVisible="{Binding IsWaiting, Converter={StaticResource InvertBooleanConverter}}">
                 <controls:CarouselViewControl ItemsSource="{Binding BrainSheets}" HeightRequest="300" InterPageSpacing="50" Margin="15" Position="{Binding CurrentSheetNr}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
@@ -47,7 +47,7 @@
 
 
         <!-- FOOTER -->
-        <StackLayout Orientation="Vertical" VerticalOptions="End" HorizontalOptions="Fill" Margin="10" IsVisible="{Binding IsBrainstormingFinished, Converter={StaticResource InvertBooleanConverter}}">
+        <StackLayout Orientation="Vertical" VerticalOptions="End" HorizontalOptions="Fill" Margin="10" IsVisible="{Binding IsRunning}">
             <StackLayout Orientation="Horizontal" VerticalOptions="Start">
                 <Label Text="{i18n:Translate Text=IdeaDescription}" />
             </StackLayout>
