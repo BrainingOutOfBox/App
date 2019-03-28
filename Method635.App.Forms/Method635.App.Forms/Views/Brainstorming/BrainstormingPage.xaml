@@ -13,7 +13,9 @@
         <!-- HEADER -->
         <local:BrainstormingHeaderView />
         <!-- CENTER -->
-        <StackLayout Orientation="Vertical" VerticalOptions="CenterAndExpand" >
+        <local:StartBrainstormingView IsVisible="{Binding ShowStartBrainstorming}" />
+
+        <StackLayout Orientation="Vertical" VerticalOptions="CenterAndExpand" IsVisible="{Binding IsWaiting, Converter={StaticResource InvertBooleanConverter}}">
                 <controls:CarouselViewControl ItemsSource="{Binding BrainSheets}" HeightRequest="300" InterPageSpacing="50" Margin="15" Position="{Binding CurrentSheetNr}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                     <controls:CarouselViewControl.ItemTemplate>
                         <DataTemplate>

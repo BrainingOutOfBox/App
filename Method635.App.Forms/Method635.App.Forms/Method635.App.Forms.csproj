@@ -50,9 +50,6 @@
     <Compile Update="Views\Brainstorming\NewBrainstormingPage.xaml.cs">
       <DependentUpon>NewBrainstormingPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\Brainstorming\StartBrainstormingPage.xaml.cs">
-      <DependentUpon>StartBrainstormingPage.xaml</DependentUpon>
-    </Compile>
     <Compile Update="Views\Navigation\BrainstormingFindingListPage.xaml.cs">
       <DependentUpon>BrainstormingFindingListPage.xaml</DependentUpon>
     </Compile>
@@ -82,6 +79,9 @@
     <EmbeddedResource Update="Views\Brainstorming\BrainstormingPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Views\Brainstorming\StartBrainstormingView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\LoginPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -89,9 +89,6 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Brainstorming\NewBrainstormingPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\Brainstorming\StartBrainstormingPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Navigation\BrainstormingFindingListPage.xaml">

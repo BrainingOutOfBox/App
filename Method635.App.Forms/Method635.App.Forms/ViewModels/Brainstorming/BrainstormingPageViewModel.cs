@@ -1,9 +1,7 @@
 ﻿using Method635.App.Forms.Context;
 using Method635.App.Models;
 using Method635.App.Forms.RestAccess;
-using Prism;
 using Prism.Commands;
-using Prism.Events;
 using Prism.Mvvm;
 using Prism.Navigation;
 using System;
@@ -15,17 +13,16 @@ using Xamarin.Forms;
 using Method635.App.Forms.Resources;
 using Method635.App.Forms.Services;
 using Method635.App.Dal.Config;
-using Method635.App.BL;
+using Method635.App.BL.Interfaces;
 
 namespace Method635.App.Forms.ViewModels
 {
     public class BrainstormingPageViewModel : BindableBase, INavigatedAware
     {
-        private Timer _nextCheckRoundTimer;
         private readonly IUiNavigationService _navigationService;
         private readonly IConfigurationService _configurationService;
         private readonly BrainstormingContext _context;
-        private readonly BrainstormingService _brainstormingService;
+        private readonly IBrainstormingService _brainstormingService;
         private int commitIdeaIndex = 0;
 
 
@@ -35,12 +32,13 @@ namespace Method635.App.Forms.ViewModels
         public DelegateCommand CommitCommand { get; }
         public DelegateCommand SendBrainwaveCommand { get; }
         public DelegateCommand RefreshCommand { get; }
+        public DelegateCommand TapCommand { get; }
 
         public BrainstormingPageViewModel(
             IUiNavigationService navigationService, 
             IConfigurationService configurationService, 
             BrainstormingContext brainstormingContext,
-            BrainstormingService brainstormingService)
+            IBrainstormingService brainstormingService)
         {
             _navigationService = navigationService;
             _configurationService = configurationService;
@@ -49,14 +47,26 @@ namespace Method635.App.Forms.ViewModels
 
             _brainstormingService = brainstormingService;
             _brainstormingService.PropertyChanged += _brainstormingService_PropertyChanged;
-            BrainWaveSent = _brainstormingService.BrainWaveSent;
+            UpdateProperties();
 
             CommitCommand = new DelegateCommand(CommitIdea);
             SendBrainwaveCommand = new DelegateCommand(SendBrainWave);
             RefreshCommand = new DelegateCommand(RefreshPage);
+            TapCommand = new DelegateCommand(StartBrainstorming);
+        }
+
+        private void StartBrainstorming()
+        {
+            _brainstormingService.StartBrainstorming();
+            _navigationService.NavigateToBrainstormingTab();
         }
 
         private void _brainstormingService_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            UpdateProperties();
+        }
+
+        private void UpdateProperties()
         {
             BrainSheets = _brainstormingService.BrainSheets;
             BrainWaveSent = _brainstormingService.BrainWaveSent;
@@ -64,6 +74,7 @@ namespace Method635.App.Forms.ViewModels
             IsRunning = _brainstormingService.IsRunning;
             IsEnded = _brainstormingService.IsEnded;
             RemainingTime = $"{_brainstormingService.RemainingTime.Minutes:D2}m:{_brainstormingService.RemainingTime.Seconds:D2}s";
+            ShowStartBrainstorming = IsWaiting && _brainstormingService.IsModerator;
         }
 
         private void RefreshPage()
@@ -89,8 +100,6 @@ namespace Method635.App.Forms.ViewModels
                 _logger.Error("Invalid index access!", ex);
             }
         }
-
-        
 
         private int _positionInTeam => _teamParticipants.IndexOf(_teamParticipants.Find(p => p.UserName.Equals(_context.CurrentParticipant.UserName)));
         private List<Participant> _teamParticipants => _context.CurrentBrainstormingTeam.Participants;
@@ -143,6 +152,13 @@ namespace Method635.App.Forms.ViewModels
             {
                 SetProperty(ref _remainingTime, value);
             }
+        }
+
+        private bool _showStartBrainstorming;
+        public bool ShowStartBrainstorming
+        {
+            get => _showStartBrainstorming;
+            private set=>SetProperty(ref _showStartBrainstorming, value);
         }
 
         private bool _commitEnabled;

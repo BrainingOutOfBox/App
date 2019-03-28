@@ -23,6 +23,7 @@ using Method635.App.BL;
 using Method635.App.Dal.Interfaces;
 using Method635.App.Dal;
 using Method635.App.Forms.RestAccess;
+using Method635.App.BL.Interfaces;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace Method635.App.Forms
@@ -49,10 +50,10 @@ namespace Method635.App.Forms
 
             containerRegistry.Register<IBrainstormingDalService, BrainstormingFindingRestResolver>();
             containerRegistry.Register<IDalService, RestDalService>();
+            containerRegistry.Register<IBrainstormingService, BrainstormingService>();
 
             containerRegistry.RegisterSingleton<BrainstormingContext>();
 
-            containerRegistry.Register<BrainstormingService>();
 
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
 
@@ -60,7 +61,6 @@ namespace Method635.App.Forms
             containerRegistry.RegisterForNavigation<CreateAccountPage, CreateAccountPageViewModel>();
 
             containerRegistry.RegisterForNavigation<BrainstormingPage, BrainstormingPageViewModel>();
-            containerRegistry.RegisterForNavigation<StartBrainstormingPage, StartBrainstormingPageViewModel>();
             containerRegistry.RegisterForNavigation<NewBrainstormingPage, NewBrainstormingPageViewModel>();
             containerRegistry.RegisterForNavigation<BrainstormingFindingListPage, BrainstormingFindingListPageViewModel>();
 

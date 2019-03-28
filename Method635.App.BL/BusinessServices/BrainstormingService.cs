@@ -1,6 +1,8 @@
 ﻿using Method635.App.BL.BusinessServices.BrainstormingStateMachine;
+using Method635.App.BL.Interfaces;
 using Method635.App.Dal.Interfaces;
 using Method635.App.Forms.Context;
+using Method635.App.Forms.RestAccess;
 using Method635.App.Models;
 using Method635.App.Models.Models;
 using System;
@@ -8,7 +10,7 @@ using System.Collections.ObjectModel;
 
 namespace Method635.App.BL
 {
-    public class BrainstormingService : PropertyChangedBase
+    public class BrainstormingService : PropertyChangedBase, IBrainstormingService
     {
         private readonly BrainstormingContext _context;
         private readonly IBrainstormingDalService _brainstormingDalService;
@@ -26,6 +28,8 @@ namespace Method635.App.BL
 
             _brainstormingModel = brainstormingModel;
             _brainstormingModel.PropertyChanged += _brainstormingModel_PropertyChanged;
+
+            IsModerator = new TeamRestResolver().GetModeratorByTeamId(_context.CurrentBrainstormingTeam.Id).UserName.Equals(_context.CurrentParticipant.UserName);
         }
 
         private void _brainstormingModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -76,11 +80,7 @@ namespace Method635.App.BL
             get => _brainWaveSent;
             set => SetProperty(ref _brainWaveSent, value);
         }
-        public ObservableCollection<BrainSheet> BrainSheets
-        {
-            get;
-            set;
-        }
+        public ObservableCollection<BrainSheet> BrainSheets { get; set; }
         private TimeSpan _remainingTime;
         public TimeSpan RemainingTime
         {
@@ -88,9 +88,17 @@ namespace Method635.App.BL
             set => SetProperty(ref _remainingTime, value);
         }
 
+        public bool IsModerator { get; }
+
         public void SendBrainWave()
         {
             throw new NotImplementedException();
+        }
+
+        public void StartBrainstorming()
+        {
+            _brainstormingDalService.StartBrainstormingFinding(_context.CurrentFinding.Id);
+            _context.CurrentFinding = _brainstormingDalService.GetFinding(_context.CurrentFinding.Id); 
         }
     }
 }
