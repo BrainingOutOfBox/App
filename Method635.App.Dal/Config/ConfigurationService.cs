@@ -16,7 +16,7 @@ namespace Method635.App.Dal.Config
         private void Setup()
         {
             var assembly = IntrospectionExtensions.GetTypeInfo(typeof(JsonConfigurationService)).Assembly;
-            ServerConfig = (ServerConfig)DeserializeFromStream(assembly.GetManifestResourceStream("Method635.App.Dal.Config.JsonDto.backend-config.json"), typeof(ServerConfig));
+            //ServerConfig = (ServerConfig)DeserializeFromStream(assembly.GetManifestResourceStream("Method635.App.Dal.Config.JsonDto.backend-config.json"), typeof(ServerConfig));
         }
 
         private object DeserializeFromStream(Stream stream, Type targetType)

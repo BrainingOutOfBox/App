@@ -19,7 +19,7 @@ using Method635.App.BL;
 
 namespace Method635.App.Forms.ViewModels
 {
-    public class BrainstormingPageViewModel : BindableBase
+    public class BrainstormingPageViewModel : BindableBase, INavigatedAware
     {
         private Timer _nextCheckRoundTimer;
         private readonly IUiNavigationService _navigationService;
@@ -50,7 +50,6 @@ namespace Method635.App.Forms.ViewModels
             _brainstormingService = brainstormingService;
             _brainstormingService.PropertyChanged += _brainstormingService_PropertyChanged;
             BrainWaveSent = _brainstormingService.BrainWaveSent;
-            _brainstormingService.StartBusinessService();
 
             CommitCommand = new DelegateCommand(CommitIdea);
             SendBrainwaveCommand = new DelegateCommand(SendBrainWave);
@@ -100,6 +99,20 @@ namespace Method635.App.Forms.ViewModels
         private Moderator GetModeratorOfTeam(string teamId)
         {
             return new TeamRestResolver().GetModeratorByTeamId(teamId);
+        }
+
+        public void OnNavigatedFrom(INavigationParameters parameters)
+        {
+            //TODO Implement a pause functionality in business service
+        }
+
+        public void OnNavigatedTo(INavigationParameters parameters)
+        {
+            if (!_serviceStarted)
+            {
+                _brainstormingService.StartBusinessService();
+                _serviceStarted = true;
+            }
         }
 
         public ObservableCollection<BrainSheet> BrainSheets
@@ -185,6 +198,8 @@ namespace Method635.App.Forms.ViewModels
         public bool IsEnded { get => _isEnded; private set => SetProperty(ref _isEnded, value); }
 
         private bool _isRunning;
+        private bool _serviceStarted;
+
         public bool IsRunning { get => _isRunning; private set => SetProperty(ref _isRunning, value); }
                
     }
