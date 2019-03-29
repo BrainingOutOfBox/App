@@ -69,6 +69,8 @@ namespace Method635.App.Forms.ViewModels
             IsEnded = _brainstormingService.IsEnded;
             RemainingTime = $"{_brainstormingService.RemainingTime.Minutes:D2}m:{_brainstormingService.RemainingTime.Seconds:D2}s";
             ShowStartBrainstorming = IsWaiting && _brainstormingService.IsModerator.Value;
+
+            IdeaHeight = IsEnded ? 450 : 300;
         }
 
         private void RefreshPage()
@@ -140,6 +142,8 @@ namespace Method635.App.Forms.ViewModels
             get => _showStartBrainstorming;
             private set=>SetProperty(ref _showStartBrainstorming, value);
         }
+        private int _ideaHeight;
+        public int IdeaHeight { get => _ideaHeight; private set=>SetProperty(ref _ideaHeight, value); }
 
         private bool _commitEnabled;
         public bool CommitEnabled

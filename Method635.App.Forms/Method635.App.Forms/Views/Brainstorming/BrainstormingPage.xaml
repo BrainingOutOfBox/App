@@ -16,7 +16,7 @@
         <local:StartBrainstormingView IsVisible="{Binding ShowStartBrainstorming}" VerticalOptions="Center" />
 
         <StackLayout Orientation="Vertical" VerticalOptions="CenterAndExpand" IsVisible="{Binding IsWaiting, Converter={StaticResource InvertBooleanConverter}}">
-                <controls:CarouselViewControl ItemsSource="{Binding BrainSheets}" HeightRequest="300" InterPageSpacing="50" Margin="15" Position="{Binding CurrentSheetNr}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+            <controls:CarouselViewControl ItemsSource="{Binding BrainSheets}" HeightRequest="{Binding IdeaHeight}" InterPageSpacing="50" Margin="15" Position="{Binding CurrentSheetNr}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                     <controls:CarouselViewControl.ItemTemplate>
                         <DataTemplate>
                             <Frame BorderColor="LightGray">
