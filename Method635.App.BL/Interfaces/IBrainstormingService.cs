@@ -11,7 +11,7 @@ namespace Method635.App.BL.Interfaces
         bool IsWaiting { get; }
         bool IsRunning { get; }
         bool IsEnded { get; }
-        bool BrainWaveSent { get; }
+        bool BrainWaveSent { get; set; }
         ObservableCollection<BrainSheet> BrainSheets { get; set; }
         TimeSpan RemainingTime { get; }
         bool? IsModerator { get; }

@@ -109,32 +109,7 @@ namespace Tests
         [Test]
         public void EndRoundTest()
         {
-            var restMock = new Mock<IBrainstormingDalService>();
-            restMock.SetupSequence(request => request.GetFinding(It.IsAny<string>()))
-                .Returns(BrainstormingModelFactory.CreateFinding(1)) 
-                .Returns(BrainstormingModelFactory.CreateFinding(-1));
-
-            restMock.Setup(req => req.UpdateSheet(It.IsAny<string>(), It.IsAny<BrainSheet>()))
-                .Returns(true);
-
-            var model = new BrainstormingModel()
-            {
-                BrainSheets = new ObservableCollection<BrainSheet>()
-            };
-            var context = BrainstormingModelFactory.CreateContext(1);
-            context.CurrentFinding.BrainSheets = new List<BrainSheet>()
-            {
-                new BrainSheet()
-            };
-
-            var dalMock = new Mock<IDalService>();
-            dalMock.Setup(serv => serv.BrainstormingDalService).Returns(restMock.Object);
-
-            var brainstormingService = new BrainstormingService(
-                dalMock.Object,
-                context,
-                model
-               );
+            var brainstormingService = BasicServiceSetup();
             brainstormingService.StartBusinessService();
 
 
@@ -166,6 +141,51 @@ namespace Tests
             var remainingTime = brainstormingService.RemainingTime;
             Thread.Sleep(1100);
             Assert.IsTrue(remainingTime > brainstormingService.RemainingTime);
+        }
+
+        [Test]
+        public void TestSendBrainWave()
+        {
+            BrainstormingService brainstormingService = BasicServiceSetup();
+            brainstormingService.StartBusinessService();
+
+            Assert.IsFalse(brainstormingService.BrainWaveSent);
+            brainstormingService.SendBrainWave();
+            Assert.IsTrue(brainstormingService.BrainWaveSent);
+            Assert.IsTrue(brainstormingService.IsRunning);
+            Thread.Sleep(2600);
+            Assert.IsTrue(brainstormingService.IsEnded);
+        }
+
+        private static BrainstormingService BasicServiceSetup()
+        {
+            var restMock = new Mock<IBrainstormingDalService>();
+            restMock.SetupSequence(request => request.GetFinding(It.IsAny<string>()))
+                .Returns(BrainstormingModelFactory.CreateFinding(1))
+                .Returns(BrainstormingModelFactory.CreateFinding(-1));
+
+            restMock.Setup(req => req.UpdateSheet(It.IsAny<string>(), It.IsAny<BrainSheet>()))
+                .Returns(true);
+
+            var model = new BrainstormingModel()
+            {
+                BrainSheets = new ObservableCollection<BrainSheet>()
+            };
+            var context = BrainstormingModelFactory.CreateContext(1);
+            context.CurrentFinding.BrainSheets = new List<BrainSheet>()
+            {
+                new BrainSheet()
+            };
+
+            var dalMock = new Mock<IDalService>();
+            dalMock.Setup(serv => serv.BrainstormingDalService).Returns(restMock.Object);
+
+            var brainstormingService = new BrainstormingService(
+                dalMock.Object,
+                context,
+                model
+               );
+            return brainstormingService;
         }
     }
 }

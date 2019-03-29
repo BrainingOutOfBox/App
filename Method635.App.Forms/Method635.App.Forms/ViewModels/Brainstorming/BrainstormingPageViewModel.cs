@@ -68,7 +68,7 @@ namespace Method635.App.Forms.ViewModels
             IsRunning = _brainstormingService.IsRunning;
             IsEnded = _brainstormingService.IsEnded;
             RemainingTime = $"{_brainstormingService.RemainingTime.Minutes:D2}m:{_brainstormingService.RemainingTime.Seconds:D2}s";
-            ShowStartBrainstorming = IsWaiting && _brainstormingService.IsModerator;
+            ShowStartBrainstorming = IsWaiting && _brainstormingService.IsModerator.Value;
         }
 
         private void RefreshPage()
@@ -78,6 +78,7 @@ namespace Method635.App.Forms.ViewModels
 
         private void SendBrainWave()
         {
+            _brainstormingService.BrainWaveSent = true;
             _brainstormingService.SendBrainWave();
         }
 
@@ -87,8 +88,6 @@ namespace Method635.App.Forms.ViewModels
             IdeaText = string.Empty;
         }
 
-        private int _positionInTeam => _teamParticipants.IndexOf(_teamParticipants.Find(p => p.UserName.Equals(_context.CurrentParticipant.UserName)));
-        private List<Participant> _teamParticipants => _context.CurrentBrainstormingTeam.Participants;
         
         public void OnNavigatedFrom(INavigationParameters parameters)
         {

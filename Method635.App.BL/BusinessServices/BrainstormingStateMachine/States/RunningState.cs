@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Timers;
 using Method635.App.BL.BusinessServices.BrainstormingStateMachine;
 using Method635.App.Dal.Interfaces;
@@ -30,6 +31,15 @@ namespace Method635.App.BL
             _brainstormingDalService = brainstormingDalService;
             _context = context;
             _brainstormingModel = brainstormingModel;
+            _brainstormingModel.PropertyChanged += _brainstormingModel_PropertyChanged;
+        }
+
+        private void _brainstormingModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (_brainstormingModel.BrainWaveSent && e.PropertyName.Equals(nameof(_brainstormingModel.BrainWaveSent)))
+            {
+                RoundStartedTimerSetup();
+            }
         }
 
         public void CleanUp()

@@ -7,6 +7,7 @@ using Method635.App.Logging;
 using Method635.App.Models;
 using Method635.App.Models.Models;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using Xamarin.Forms;
@@ -99,8 +100,28 @@ namespace Method635.App.BL
 
         public void SendBrainWave()
         {
-            throw new NotImplementedException();
+            if (_context.CurrentFinding.BrainSheets == null)
+            {
+                _logger.Error("Brainsheets were null, can't send brainwave!");
+                throw new ArgumentException("Brainsheets on current finding can't be null");
+            }
+            try
+            {
+                var nrOfBrainsheets = _context.CurrentFinding.BrainSheets.Count;
+                var currentSheet = _context.CurrentFinding.BrainSheets[(_context.CurrentFinding.CurrentRound + _positionInTeam - 1) % nrOfBrainsheets];
+                if (!_brainstormingDalService.UpdateSheet(_context.CurrentFinding.Id, currentSheet))
+                {
+                    _logger.Error("Couldn't place brainsheet");
+                }
+                _brainstormingModel.BrainWaveSent = true;
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                _logger.Error("Invalid index access!", ex);
+            }
         }
+        private int _positionInTeam => _teamParticipants.IndexOf(_teamParticipants.Find(p => p.UserName.Equals(_context.CurrentParticipant.UserName)));
+        private List<Participant> _teamParticipants => _context.CurrentBrainstormingTeam.Participants;
 
         public void StartBrainstorming()
         {
