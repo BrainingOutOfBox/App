@@ -69,7 +69,7 @@ namespace Method635.App.Forms.ViewModels
             IsEnded = _brainstormingService.IsEnded;
             RemainingTime = $"{_brainstormingService.RemainingTime.Minutes:D2}m:{_brainstormingService.RemainingTime.Seconds:D2}s";
             ShowStartBrainstorming = IsWaiting && _brainstormingService.IsModerator.Value;
-
+            CurrentSheetNr = _brainstormingService.CurrentSheetNr + 1;
             IdeaHeight = IsEnded ? 450 : 300;
         }
 
@@ -123,7 +123,11 @@ namespace Method635.App.Forms.ViewModels
         public int CurrentSheetNr
         {
             get => _currentSheetNr;
-            set => SetProperty(ref _currentSheetNr, value);
+            set
+            {
+                SetProperty(ref _currentSheetNr, value);
+                CurrentSheetText = string.Format(AppResources.SheetNrOfNr, _brainstormingService.CurrentSheetNr + 1, _brainstormingService.BrainSheets?.Count);
+            }
         }
 
         private string _remainingTime;

@@ -124,7 +124,7 @@
     <value>Please make sure the passwords match.</value>
   </data>
   <data name="SheetNrOfNr" xml:space="preserve">
-    <value>Sheet {0} of {1}.</value>
+    <value>Sheet {0} of {1}</value>
   </data>
   <data name="Brainstorming" xml:space="preserve">
     <value>Brainstorming</value>

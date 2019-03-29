@@ -45,6 +45,7 @@ namespace Method635.App.BL
             BrainWaveSent = _brainstormingModel.BrainWaveSent;
             BrainSheets = _brainstormingModel.BrainSheets;
             RemainingTime = _brainstormingModel.RemainingTime;
+            CurrentSheetNr = _brainstormingModel.CurrentSheetNr;
         }
 
         public void StartBusinessService()
@@ -122,6 +123,13 @@ namespace Method635.App.BL
         }
         private int _positionInTeam => _teamParticipants.IndexOf(_teamParticipants.Find(p => p.UserName.Equals(_context.CurrentParticipant.UserName)));
         private List<Participant> _teamParticipants => _context.CurrentBrainstormingTeam.Participants;
+
+        private int _currentSheetNr;
+        public int CurrentSheetNr
+        {
+            get => _currentSheetNr;
+            set => SetProperty(ref _currentSheetNr, value);
+        }
 
         public void StartBrainstorming()
         {

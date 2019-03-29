@@ -513,7 +513,7 @@ namespace Method635.App.Forms.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sheet {0} of {1}..
+        ///   Looks up a localized string similar to Sheet {0} of {1}.
         /// </summary>
         internal static string SheetNrOfNr {
             get {

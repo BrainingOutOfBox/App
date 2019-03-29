@@ -20,7 +20,7 @@
                     <controls:CarouselViewControl.ItemTemplate>
                         <DataTemplate>
                             <Frame BorderColor="LightGray">
-                                <ListView ItemsSource="{Binding BrainWaves}" HasUnevenRows="True" >
+                                <ListView ItemsSource="{Binding BrainWaves}" HasUnevenRows="True">
                                     <ListView.ItemTemplate>
                                         <DataTemplate>
                                             <ViewCell>
