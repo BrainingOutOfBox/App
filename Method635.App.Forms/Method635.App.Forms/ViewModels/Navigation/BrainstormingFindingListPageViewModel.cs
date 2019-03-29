@@ -1,4 +1,5 @@
-﻿using Method635.App.Forms.Context;
+﻿using Method635.App.Dal.Interfaces;
+using Method635.App.Forms.Context;
 using Method635.App.Forms.RestAccess;
 using Method635.App.Forms.Services;
 using Method635.App.Forms.ViewModels.Navigation;
@@ -18,17 +19,17 @@ namespace Method635.App.Forms.ViewModels
     public class BrainstormingFindingListPageViewModel : BindableBase, INavigatedAware
     {
         private readonly IUiNavigationService _navigationService;
-        private readonly IEventAggregator _eventAggregator;
+        private readonly IBrainstormingDalService _brainstormingDalService;
         private readonly BrainstormingContext _brainstormingContext;
         private readonly ILogger _logger;
 
         public BrainstormingFindingListPageViewModel(IUiNavigationService navigationService,
-            IEventAggregator eventAggregator,
+            IDalService iDalService,
             BrainstormingContext brainstormingContext,
             ILogger logger)
         {
             _navigationService = navigationService;
-            _eventAggregator = eventAggregator;
+            _brainstormingDalService = iDalService.BrainstormingDalService;
             _brainstormingContext = brainstormingContext;
             _logger = logger;
             FillFindingListItems();
@@ -50,7 +51,7 @@ namespace Method635.App.Forms.ViewModels
 
         private void FillFindingListItems()
         {
-            var findingItems = new BrainstormingFindingRestResolver().GetAllFindings(_brainstormingContext.CurrentBrainstormingTeam?.Id);
+            var findingItems = _brainstormingDalService.GetAllFindings(_brainstormingContext.CurrentBrainstormingTeam?.Id);
             HasFindings = findingItems.Any();
             // Encapsulate findings from model into findings to be displayed in listview
             FindingList = findingItems.Select(finding => new BrainstormingFindingListItem(finding)).ToList();
@@ -84,7 +85,6 @@ namespace Method635.App.Forms.ViewModels
         {
             _brainstormingContext.CurrentFinding = SelectedFinding.Finding;
             _navigationService.NavigateToBrainstormingTab();
-            //_eventAggregator.GetEvent<RenderBrainstormingEvent>().Publish();
         }
 
         public void OnNavigatedTo(INavigationParameters parameters)

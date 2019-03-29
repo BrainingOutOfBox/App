@@ -3,7 +3,6 @@
                   xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
                   xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                   xmlns:local="clr-namespace:Method635.App.Forms.Views.Navigation"
-                  xmlns:i18n="clr-namespace:Method635.App.Forms.Resources"
                   xmlns:local1="clr-namespace:Method635.App.Forms.Views.Brainstorming"
                   xmlns:localTeam="clr-namespace:Method635.App.Forms.Views.Team"
                   prism:ViewModelLocator.AutowireViewModel="True"

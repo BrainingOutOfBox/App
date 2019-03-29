@@ -9,13 +9,13 @@ using Method635.App.Forms.Resources;
 using Method635.App.Forms.Services;
 using Method635.App.Dal.Config;
 using Method635.App.BL.Interfaces;
+using System.ComponentModel;
 
 namespace Method635.App.Forms.ViewModels
 {
     public class BrainstormingPageViewModel : BindableBase, INavigatedAware
     {
         private readonly IUiNavigationService _navigationService;
-        private readonly IConfigurationService _configurationService;
         private readonly BrainstormingContext _context;
         private readonly IBrainstormingService _brainstormingService;
         private bool _serviceStarted;
@@ -28,12 +28,10 @@ namespace Method635.App.Forms.ViewModels
 
         public BrainstormingPageViewModel(
             IUiNavigationService navigationService, 
-            IConfigurationService configurationService, 
             BrainstormingContext brainstormingContext,
             IBrainstormingService brainstormingService)
         {
             _navigationService = navigationService;
-            _configurationService = configurationService;
             _context = brainstormingContext;
             _findingTitle = _context.CurrentFinding?.Name;
 
@@ -55,7 +53,7 @@ namespace Method635.App.Forms.ViewModels
             _navigationService.NavigateToBrainstormingTab();
         }
 
-        private void _brainstormingService_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void _brainstormingService_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             UpdateProperties();
         }
