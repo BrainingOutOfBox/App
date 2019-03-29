@@ -14,7 +14,7 @@ namespace Method635.App.BL.Interfaces
         bool BrainWaveSent { get; }
         ObservableCollection<BrainSheet> BrainSheets { get; set; }
         TimeSpan RemainingTime { get; }
-        bool IsModerator { get; }
+        bool? IsModerator { get; }
 
         void CommitIdea(string ideaText);
         void SendBrainWave();

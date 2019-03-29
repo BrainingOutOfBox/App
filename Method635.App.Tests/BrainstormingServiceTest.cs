@@ -13,6 +13,7 @@ using System.Threading;
 
 namespace Tests
 {
+    [Parallelizable(ParallelScope.All)]
     public class BrainstormingServiceTest
     {
         [SetUp]
@@ -88,7 +89,7 @@ namespace Tests
         public void StartRoundTest()
         {
             var restMock = new Mock<IBrainstormingDalService>();
-            restMock.SetupSequence(request => request.GetFinding(It.IsAny<string>())).
+            restMock.Setup(request => request.GetFinding(It.IsAny<string>())).
                 Returns(BrainstormingModelFactory.CreateFinding(1));
 
             var dalMock = new Mock<IDalService>();

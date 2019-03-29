@@ -36,7 +36,7 @@ namespace Method635.App.BL
             _brainstormingModel = brainstormingModel;
             _brainstormingModel.PropertyChanged += _brainstormingModel_PropertyChanged;
 
-            IsModerator = new TeamRestResolver().GetModeratorByTeamId(_context.CurrentBrainstormingTeam.Id).UserName.Equals(_context.CurrentParticipant.UserName);
+            IsModerator = new TeamRestResolver().GetModeratorByTeamId(_context.CurrentBrainstormingTeam.Id)?.UserName.Equals(_context.CurrentParticipant.UserName);
         }
 
         private void _brainstormingModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -95,7 +95,7 @@ namespace Method635.App.BL
             set => SetProperty(ref _remainingTime, value);
         }
 
-        public bool IsModerator { get; }
+        public bool? IsModerator { get; }
 
         public void SendBrainWave()
         {
