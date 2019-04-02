@@ -53,6 +53,11 @@ namespace Method635.App.BL
             _stateMachine.Start();
         }
 
+        public void StopBusinessService()
+        {
+            _stateMachine.Stop();
+        }
+
         private void StateMachine_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             IsWaiting = _stateMachine.CurrentState is WaitingState;
@@ -151,5 +156,6 @@ namespace Method635.App.BL
                 _logger.Error("Invalid index access!", ex);
             }
         }
+
     }
 }

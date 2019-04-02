@@ -13,7 +13,7 @@ using System.ComponentModel;
 
 namespace Method635.App.Forms.ViewModels
 {
-    public class BrainstormingPageViewModel : BindableBase, INavigatedAware
+    public class BrainstormingPageViewModel : BindableBase, INavigatedAware, IDestructible
     {
         private readonly IUiNavigationService _navigationService;
         private readonly BrainstormingContext _context;
@@ -101,6 +101,12 @@ namespace Method635.App.Forms.ViewModels
                 _brainstormingService.StartBusinessService();
                 _serviceStarted = true;
             }
+        }
+
+        public void Destroy()
+        {
+            _brainstormingService.PropertyChanged -= _brainstormingService_PropertyChanged;
+            _brainstormingService.StopBusinessService();
         }
 
         private ObservableCollection<BrainSheet> _brainSheets;

@@ -45,6 +45,15 @@ namespace Method635.App.BL.BusinessServices.BrainstormingStateMachine
             ChangeState(evaluatedState);
         }
 
+        public void Stop()
+        {
+            if (CurrentState != null)
+            {
+                CurrentState.CleanUp();
+                CurrentState.ChangeStateEvent -= ChangeState;
+            }
+        }
+
         private void ChangeState(IState newState)
         {
             CurrentState?.CleanUp();
@@ -58,7 +67,7 @@ namespace Method635.App.BL.BusinessServices.BrainstormingStateMachine
         public IState CurrentState
         {
             get => _currentState;
-            set => SetProperty(ref _currentState, value);
+            private set => SetProperty(ref _currentState, value);
         }
     }
 }
