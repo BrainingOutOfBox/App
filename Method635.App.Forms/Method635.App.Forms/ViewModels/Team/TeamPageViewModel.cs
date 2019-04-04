@@ -1,6 +1,4 @@
-﻿using Method635.App.Forms.Context;
-using Method635.App.Models;
-using Method635.App.Forms.RestAccess;
+﻿using Method635.App.Models;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
@@ -10,6 +8,8 @@ using Method635.App.Logging;
 using Xamarin.Forms;
 using Method635.App.Forms.Services;
 using Method635.App.Forms.Resources;
+using Method635.App.BL.Context;
+using Method635.App.BL.Interfaces;
 
 namespace Method635.App.Forms.ViewModels.Team
 {
@@ -17,15 +17,20 @@ namespace Method635.App.Forms.ViewModels.Team
 	{
         private readonly IUiNavigationService _navigationService;
         private readonly IEventAggregator _eventAggregator;
+        private readonly ITeamService _teamService;
         private readonly BrainstormingContext _context;
 
         // Platform independent logger necessary, thus resolving from xf dependency service.
         private readonly ILogger _logger = DependencyService.Get<ILogManager>().GetLog();
 
-        public TeamPageViewModel(IUiNavigationService navigationService, IEventAggregator eventAggregator, BrainstormingContext context)
+        public TeamPageViewModel(IUiNavigationService navigationService, 
+            IEventAggregator eventAggregator, 
+            ITeamService teamService,
+            BrainstormingContext context)
         {
             _navigationService = navigationService;
             _eventAggregator = eventAggregator;
+            _teamService = teamService;
             _context = context;
 
             TeamList = FillTeamList();
@@ -64,7 +69,7 @@ namespace Method635.App.Forms.ViewModels.Team
 
         private List<BrainstormingTeam> FillTeamList()
         {
-            var teamList = new TeamRestResolver().GetMyBrainstormingTeams(_context.CurrentParticipant.UserName);
+            var teamList = _teamService.GetTeamsByUserName(_context.CurrentParticipant.UserName);
             HasTeam = teamList.Any();
             return teamList;
         }

@@ -1,5 +1,4 @@
-﻿using Method635.App.Forms.Context;
-using Method635.App.Models;
+﻿using Method635.App.Models;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
@@ -7,9 +6,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Method635.App.Forms.Resources;
 using Method635.App.Forms.Services;
-using Method635.App.Dal.Config;
 using Method635.App.BL.Interfaces;
 using System.ComponentModel;
+using Method635.App.BL.Context;
 
 namespace Method635.App.Forms.ViewModels
 {

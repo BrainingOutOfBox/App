@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Method635.App.BL.BusinessServices.BrainstormingStateMachine;
-using Method635.App.Forms.Context;
+using Method635.App.BL.Context;
 using Method635.App.Models;
 using Method635.App.Models.Models;
 

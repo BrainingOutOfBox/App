@@ -10,6 +10,8 @@ namespace Method635.App.Dal.Config
         public BrainstormingEndpoints BrainstormingEndpoints { get; set; }
         [JsonProperty("participant-endpoints")]
         public ParticipantEndpoints ParticipantEndpoints { get; set; }
+        [JsonProperty("team-endpoints")]
+        public TeamEndpoints TeamEndpoints { get; set; }
 
     }
     public class Server

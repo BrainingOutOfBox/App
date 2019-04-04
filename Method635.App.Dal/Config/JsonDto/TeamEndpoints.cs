@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Method635.App.Dal.Config
 {
-    internal class TeamEndpoints
+    public class TeamEndpoints
     {
         [JsonProperty("team")]
         public string TeamEndpoint { get; set; }

@@ -7,28 +7,30 @@ using System.Net.Http;
 using Method635.App.Logging;
 using Xamarin.Forms;
 using Method635.App.Dal.Interfaces;
+using Method635.App.Dal.Config;
 
 namespace Method635.App.Forms.RestAccess
 {
-    public class BrainstormingFindingRestResolver : RestResolverBase, IBrainstormingDalService
+    public class BrainstormingFindingRestResolver : IBrainstormingDalService
     {
-        private const string FINDINGS_ENDPOINT = "Finding";
-        private const string CREATE_FINDING_ENDPOINT = "createBrainstormingFinding";
-        private const string START_FINDING_ENDPOINT = "startBrainstorming";
-        private const string TIMING_ENDPOINT_DIFF = "remainingTime";
-        private const string GET_FINDINGS_ENDPOINT = "getBrainstormingFindings";
-        private const string GET_FINDING_ENDPOINT = "getBrainstormingFinding";
-        private const string BRAINSHEET_UPDATE_ENDPOINT = "putBrainsheet";
 
         // Platform independent logger necessary, thus resolving from xf dependency service.
         private readonly ILogger _logger = DependencyService.Get<ILogManager>().GetLog();
+        private readonly BrainstormingEndpoints _findingsEndpoints;
+        private readonly IHttpClientService _clientService;
+
+        public BrainstormingFindingRestResolver(IConfigurationService configurationService, IHttpClientService httpClientService)
+        {
+            _findingsEndpoints = configurationService.ServerConfig.BrainstormingEndpoints;
+            _clientService = httpClientService;
+        }
 
         public TimeSpan GetRemainingTime(string findingId, string teamId)
         {
             try
             {
                 _logger.Info("Getting remaining time..");
-                HttpResponseMessage response = GetCall($"{FINDINGS_ENDPOINT}/{teamId}/{findingId}/{TIMING_ENDPOINT_DIFF}");
+                HttpResponseMessage response = _clientService.GetCall($"{_findingsEndpoints.FindingsEndpoint}/{teamId}/{findingId}/{_findingsEndpoints.RemainingTimeEndpoint}");
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -53,7 +55,7 @@ namespace Method635.App.Forms.RestAccess
             try
             {
                 _logger.Info($"Getting all brainstorming findings for team {teamId}..");
-                var res = GetCall($"{FINDINGS_ENDPOINT}/{teamId}/{GET_FINDINGS_ENDPOINT}");
+                var res = _clientService.GetCall($"{_findingsEndpoints.FindingsEndpoint}/{teamId}/{_findingsEndpoints.GetAllEndpoint}");
                 if (res.IsSuccessStatusCode)
                 {
                     _logger.Info($"Got all Brainstormingfindings finding. Content: {res.Content}");
@@ -76,7 +78,7 @@ namespace Method635.App.Forms.RestAccess
             try
             {
                 _logger.Info("Updating brainsheet..");
-                var res = PutCall(brainSheet, $"{FINDINGS_ENDPOINT}/{findingId}/{BRAINSHEET_UPDATE_ENDPOINT}");
+                var res = _clientService.PutCall(brainSheet, $"{_findingsEndpoints.FindingsEndpoint}/{findingId}/{_findingsEndpoints.UpdateBrainsheetEndpoint}");
                 var parsedResponseMessage = res.Content.ReadAsAsync<RestResponseMessage>().Result;
                 _logger.Info(parsedResponseMessage.Title);
                 _logger.Info(parsedResponseMessage.Text);
@@ -102,7 +104,7 @@ namespace Method635.App.Forms.RestAccess
             try
             {
                 _logger.Info("Getting brainstorming finding..");
-                var res = GetCall($"{FINDINGS_ENDPOINT}/{findingId}/{GET_FINDING_ENDPOINT}");
+                var res = _clientService.GetCall($"{_findingsEndpoints.FindingsEndpoint}/{findingId}/{_findingsEndpoints.GetEndpoint}");
                 var parsedResponseMessage = res.Content.ReadAsAsync<RestResponseMessage>().Result;
                 _logger.Info(parsedResponseMessage.Title);
                 _logger.Info(parsedResponseMessage.Text);
@@ -128,7 +130,7 @@ namespace Method635.App.Forms.RestAccess
             try
             {
                 _logger.Info("Creating brainstorming finding..");
-                var res = PostCall(finding, $"{FINDINGS_ENDPOINT}/{finding.TeamId}/{CREATE_FINDING_ENDPOINT}");
+                var res = _clientService.PostCall(finding, $"{_findingsEndpoints.FindingsEndpoint}/{finding.TeamId}/{_findingsEndpoints.CreateEndpoint}");
                 if (res.IsSuccessStatusCode)
                 {
                     _logger.Info($"Created brainstorming finding. Content: {res.Content}");
@@ -155,7 +157,7 @@ namespace Method635.App.Forms.RestAccess
             try
             {
                 _logger.Info("Starting brainstorming finding..");
-                var res = GetCall($"{FINDINGS_ENDPOINT}/{findingId}/{START_FINDING_ENDPOINT}");
+                var res = _clientService.GetCall($"{_findingsEndpoints.FindingsEndpoint}/{findingId}/{_findingsEndpoints.StartEndpoint}");
                 var parsedResponseMessage = res.Content.ReadAsAsync<RestResponseMessage>().Result;
                 _logger.Info(parsedResponseMessage.Title);
                 _logger.Info(parsedResponseMessage.Text);

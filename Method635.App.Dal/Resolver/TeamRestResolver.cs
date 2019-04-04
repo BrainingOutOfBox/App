@@ -6,26 +6,34 @@ using System.Collections.Generic;
 using System.Net.Http;
 using Method635.App.Logging;
 using Xamarin.Forms;
+using Method635.App.Dal.Config;
+using Method635.App.Dal.Interfaces;
 
 namespace Method635.App.Forms.RestAccess
 {
-    public class TeamRestResolver : RestResolverBase
+    public class TeamRestResolver : ITeamDalService
     {
-        private const string TEAM_ENDPOINT = "Team";
-        private const string CREATE_ENDPOINT = "createBrainstormingTeam";
-        private const string JOIN_ENDPOINT = "joinTeam";
-        private const string GET_TEAM = "getBrainstormingTeam";
-        private const string GET_MY_TEAMS = "getMyBrainstormingTeams";
+        //private const string TEAM_ENDPOINT = "Team";
+        //private const string CREATE_ENDPOINT = "createBrainstormingTeam";
+        //private const string JOIN_ENDPOINT = "joinTeam";
+        //private const string GET_TEAM = "getBrainstormingTeam";
+        //private const string GET_MY_TEAMS = "getMyBrainstormingTeams";
 
-        // Platform independent logger necessary, thus resolving from xf dependency service.
         private readonly ILogger _logger = DependencyService.Get<ILogManager>().GetLog();
-        
+        private readonly TeamEndpoints _teamConfig;
+        private readonly IHttpClientService _clientService;
+
+        public TeamRestResolver(IConfigurationService configurationService, IHttpClientService httpClientService)
+        {
+            _teamConfig = configurationService.ServerConfig.TeamEndpoints;
+            _clientService = httpClientService;
+        }
         public BrainstormingTeam GetTeamById(string teamId)
         {
             try
             {
                 _logger.Info($"Getting team {teamId}");
-                HttpResponseMessage response = GetCall($"{TEAM_ENDPOINT}/{teamId}/{GET_TEAM}");
+                HttpResponseMessage response = _clientService.GetCall($"{_teamConfig.TeamEndpoint}/{teamId}/{_teamConfig.GetEndpoint}");
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -54,7 +62,7 @@ namespace Method635.App.Forms.RestAccess
             try
             {
                 _logger.Info($"Getting all teams for {userName}");
-                HttpResponseMessage response = GetCall($"{TEAM_ENDPOINT}/{userName}/{GET_MY_TEAMS}");
+                HttpResponseMessage response = _clientService.GetCall($"{_teamConfig.TeamEndpoint}/{userName}/{_teamConfig.GetAllEndpoint}");
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -83,7 +91,7 @@ namespace Method635.App.Forms.RestAccess
             try
             {
                 _logger.Info($"Joining team {teamId}");
-                HttpResponseMessage response = PutCall(participant, $"{TEAM_ENDPOINT}/{teamId}/{JOIN_ENDPOINT}");
+                HttpResponseMessage response = _clientService.PutCall(participant, $"{_teamConfig.TeamEndpoint}/{teamId}/{_teamConfig.JoinEndpoint}");
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -111,7 +119,7 @@ namespace Method635.App.Forms.RestAccess
             try
             {
                 _logger.Info($"Resolving Moderator for team {teamId}");
-                HttpResponseMessage response = GetCall($"{TEAM_ENDPOINT}/{teamId}/{GET_TEAM}");
+                HttpResponseMessage response = _clientService.GetCall($"{_teamConfig.TeamEndpoint}/{teamId}/{_teamConfig.GetEndpoint}");
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -140,7 +148,7 @@ namespace Method635.App.Forms.RestAccess
             try
             {
                 _logger.Info("Creating brainstorming team..");
-                var res = PostCall(brainstormingTeam, $"{TEAM_ENDPOINT}/{CREATE_ENDPOINT}");
+                var res = _clientService.PostCall(brainstormingTeam, $"{_teamConfig.TeamEndpoint}/{_teamConfig.CreateEndpoint}");
 
                 if (res.IsSuccessStatusCode)
                 {

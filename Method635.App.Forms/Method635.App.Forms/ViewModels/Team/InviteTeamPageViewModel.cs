@@ -1,7 +1,7 @@
-﻿using Method635.App.Forms.Context;
+﻿using Method635.App.BL.Context;
+using Method635.App.BL.Interfaces;
 using Method635.App.Forms.PrismEvents;
 using Method635.App.Forms.Resources;
-using Method635.App.Forms.RestAccess;
 using Method635.App.Forms.Services;
 using Prism.Events;
 using Prism.Mvvm;
@@ -14,13 +14,19 @@ namespace Method635.App.Forms.ViewModels.Team
     {
         private readonly IUiNavigationService _navigationService;
         private readonly IEventAggregator _eventAggregator;
+        private readonly ITeamService _teamService;
         private readonly BrainstormingContext _context;
         private Timer _timer;
 
-        public InviteTeamPageViewModel(IUiNavigationService navigationService, IEventAggregator eventAggregator, BrainstormingContext context)
+        public InviteTeamPageViewModel(
+            IUiNavigationService navigationService,
+            IEventAggregator eventAggregator,
+            ITeamService teamService,
+            BrainstormingContext context)
         {
             _navigationService = navigationService;
             _eventAggregator = eventAggregator;
+            _teamService = teamService;
             _context = context;
             TeamId = _context.CurrentBrainstormingTeam.Id;
             InitiateMemberCountTimer();
@@ -35,8 +41,7 @@ namespace Method635.App.Forms.ViewModels.Team
 
         private async void UpdateMemberCount(object sender, ElapsedEventArgs e)
         {
-            var newestTeam = new TeamRestResolver().GetTeamById(
-                    _context.CurrentBrainstormingTeam.Id);
+            var newestTeam = _teamService.GetCurrentTeam();
             _memberCount = newestTeam.CurrentNrOfParticipants;
             if (newestTeam.CurrentNrOfParticipants == _teamCapacity)
             {

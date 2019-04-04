@@ -1,9 +1,9 @@
-﻿using System;
-
-namespace Method635.App.Dal.Interfaces
+﻿namespace Method635.App.Dal.Interfaces
 {
     public interface IDalService
     {
         IBrainstormingDalService BrainstormingDalService { get; }
+        IParticipantDalService ParticipantDalService { get; }
+        ITeamDalService TeamDalService { get; }
     }
 }

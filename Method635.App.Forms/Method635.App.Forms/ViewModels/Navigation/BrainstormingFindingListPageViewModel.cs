@@ -1,11 +1,9 @@
-﻿using Method635.App.Dal.Interfaces;
-using Method635.App.Forms.Context;
-using Method635.App.Forms.RestAccess;
+﻿using Method635.App.BL.Context;
+using Method635.App.Dal.Interfaces;
 using Method635.App.Forms.Services;
 using Method635.App.Forms.ViewModels.Navigation;
 using Method635.App.Logging;
 using Prism.Commands;
-using Prism.Events;
 using Prism.Mvvm;
 using Prism.Navigation;
 using System.Collections.Generic;

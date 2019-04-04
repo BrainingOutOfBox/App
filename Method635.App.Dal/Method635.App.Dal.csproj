@@ -5,6 +5,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Config\backend-config.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Config\backend-config.json">
+      <Generator></Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.7" />
     <PackageReference Include="Xamarin.Forms" Version="3.3.0.912540" />
   </ItemGroup>
@@ -13,13 +24,6 @@
     <ProjectReference Include="..\Method635.App.Dal.Interfaces\Method635.App.Dal.Interfaces.csproj" />
     <ProjectReference Include="..\Method635.App.Logging\Method635.App.Logging.csproj" />
     <ProjectReference Include="..\Method635.App.Models\Method635.App.Models.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Config\backend-config.json">
-      <Generator></Generator>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>

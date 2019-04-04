@@ -1,4 +1,4 @@
-﻿using Method635.App.Forms.Context;
+﻿using Method635.App.BL.Context;
 using Method635.App.Forms.Resources;
 using Prism.Mvvm;
 
@@ -8,7 +8,12 @@ namespace Method635.App.Forms.ViewModels
     {
         public MainPageViewModel(BrainstormingContext context)
         {
-            Title = $"{AppResources.Method635} - {AppResources.Team} '{context.CurrentBrainstormingTeam.Name}'";
+            if (context.CurrentBrainstormingTeam != null)
+            {
+                Title = $"{AppResources.Method635} - {AppResources.Team} '{context.CurrentBrainstormingTeam.Name}'";
+                return;
+            }
+            Title = $"{AppResources.Method635}";
         }
 
         private string _title;

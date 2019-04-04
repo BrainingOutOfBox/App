@@ -1,30 +1,30 @@
-﻿using Method635.App.Forms.Context;
-using Method635.App.Models;
+﻿using Method635.App.Models;
 using Method635.App.Forms.Resources;
-using Method635.App.Forms.RestAccess;
 using Prism.Commands;
 using Prism.Mvvm;
-using Prism.Navigation;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Method635.App.Logging;
 using Xamarin.Forms;
 using Method635.App.Forms.Services;
+using Method635.App.Dal.Interfaces;
+using Method635.App.BL.Context;
 
 namespace Method635.App.Forms.ViewModels
 {
     public class LoginPageViewModel : BindableBase
     {
         private readonly IUiNavigationService _navigationService;
+        private readonly IParticipantDalService _participantDalService;
         private readonly BrainstormingContext _context;
 
         // Platform independent logger necessary, thus resolving from xf dependency service.
         private readonly ILogger _logger = DependencyService.Get<ILogManager>().GetLog();
 
-        public LoginPageViewModel(IUiNavigationService navigationService, BrainstormingContext context)
+        public LoginPageViewModel(IUiNavigationService navigationService,
+            IDalService dalService,
+            BrainstormingContext context)
         {
             _navigationService = navigationService;
+            _participantDalService = dalService.ParticipantDalService;
             _context = context;
 
             LoginCommand = new DelegateCommand(Login);
@@ -48,11 +48,10 @@ namespace Method635.App.Forms.ViewModels
                 UserName = UserName,
                 Password = Password
             };
-            var response = new ParticipantRestResolver().Login(loginParticipant);
-            if(response != null)
+            var participant = _participantDalService.Login(loginParticipant);
+            if(participant != null)
             {
-                _context.JwtToken = response.JwtToken;
-                _context.CurrentParticipant = response.Participant;
+                _context.CurrentParticipant = participant;
                 await _navigationService.NavigateToMainPage();
                 return;
             }

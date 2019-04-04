@@ -159,13 +159,16 @@ namespace Tests
 
         private static BrainstormingService BasicServiceSetup()
         {
-            var restMock = new Mock<IBrainstormingDalService>();
-            restMock.SetupSequence(request => request.GetFinding(It.IsAny<string>()))
+            var brainstormingDalMock = new Mock<IBrainstormingDalService>();
+            brainstormingDalMock.SetupSequence(request => request.GetFinding(It.IsAny<string>()))
                 .Returns(BrainstormingModelFactory.CreateFinding(1))
                 .Returns(BrainstormingModelFactory.CreateFinding(-1));
 
-            restMock.Setup(req => req.UpdateSheet(It.IsAny<string>(), It.IsAny<BrainSheet>()))
+            brainstormingDalMock.Setup(req => req.UpdateSheet(It.IsAny<string>(), It.IsAny<BrainSheet>()))
                 .Returns(true);
+
+            var participantDalMock = new Mock<IParticipantDalService>();
+            var teamDalMock = new Mock<ITeamDalService>();
 
             var model = new BrainstormingModel()
             {
@@ -178,7 +181,9 @@ namespace Tests
             };
 
             var dalMock = new Mock<IDalService>();
-            dalMock.Setup(serv => serv.BrainstormingDalService).Returns(restMock.Object);
+            dalMock.Setup(s => s.BrainstormingDalService).Returns(brainstormingDalMock.Object);
+            dalMock.Setup(s => s.ParticipantDalService).Returns(participantDalMock.Object);
+            dalMock.Setup(s => s.TeamDalService).Returns(teamDalMock.Object);
 
             var brainstormingService = new BrainstormingService(
                 dalMock.Object,

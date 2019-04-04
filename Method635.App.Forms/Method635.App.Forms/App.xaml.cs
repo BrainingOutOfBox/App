@@ -1,5 +1,4 @@
-﻿using Method635.App.Forms.Context;
-using Method635.App.Logging;
+﻿using Method635.App.Logging;
 using Method635.App.Forms.ViewModels;
 using Method635.App.Forms.ViewModels.Account;
 using Method635.App.Forms.ViewModels.Brainstorming;
@@ -24,6 +23,9 @@ using Method635.App.Dal.Interfaces;
 using Method635.App.Dal;
 using Method635.App.Forms.RestAccess;
 using Method635.App.BL.Interfaces;
+using Method635.App.BL.BusinessServices;
+using Method635.App.BL.Context;
+using Method635.App.Models.Models;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace Method635.App.Forms
@@ -45,15 +47,22 @@ namespace Method635.App.Forms
             containerRegistry.RegisterSingleton<ILogger, NLogLogger>();
             containerRegistry.RegisterSingleton<IConfigurationService, JsonConfigurationService>();
 
+            containerRegistry.RegisterSingleton<IHttpClientService, RestClientService>();
+
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterSingleton<IUiNavigationService, UiNavigationService>();
 
-            containerRegistry.Register<IBrainstormingDalService, BrainstormingFindingRestResolver>();
             containerRegistry.Register<IDalService, RestDalService>();
+            containerRegistry.Register<IBrainstormingDalService, BrainstormingFindingRestResolver>();
+            containerRegistry.Register<IParticipantDalService, ParticipantRestResolver>();
+            containerRegistry.Register<ITeamDalService, TeamRestResolver>();
+
             containerRegistry.Register<IBrainstormingService, BrainstormingService>();
+            containerRegistry.Register<IParticipantService, ParticipantService>();
+            containerRegistry.Register<ITeamService, TeamService>();
 
             containerRegistry.RegisterSingleton<BrainstormingContext>();
-
+            containerRegistry.RegisterSingleton<BrainstormingModel>();
 
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
 

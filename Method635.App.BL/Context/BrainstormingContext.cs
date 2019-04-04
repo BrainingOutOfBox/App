@@ -1,6 +1,6 @@
 ﻿using Method635.App.Models;
 
-namespace Method635.App.Forms.Context
+namespace Method635.App.BL.Context
 {
     public class BrainstormingContext : PropertyChangedBase
     {

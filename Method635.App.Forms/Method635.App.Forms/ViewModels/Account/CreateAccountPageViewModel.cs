@@ -1,27 +1,27 @@
 ﻿using Method635.App.Models;
-using Method635.App.Forms.RestAccess;
 using Prism.Commands;
 using Prism.Mvvm;
 using Method635.App.Logging;
 using Xamarin.Forms;
 using Method635.App.Forms.Services;
 using Method635.App.Forms.Resources;
+using Method635.App.BL.Interfaces;
 
 namespace Method635.App.Forms.ViewModels.Account
 {
     public class CreateAccountPageViewModel : BindableBase
     {
         private readonly IUiNavigationService _navigationService;
+        private readonly IParticipantService _participantService;
 
-        // Platform independent logger necessary, thus resolving from xf dependency service.
         private readonly ILogger _logger = DependencyService.Get<ILogManager>().GetLog();
 
         public DelegateCommand RegisterCommand { get; }
 
-        public CreateAccountPageViewModel(IUiNavigationService navigationService)
+        public CreateAccountPageViewModel(IUiNavigationService navigationService, IParticipantService participantService)
         {
             _navigationService = navigationService;
-
+            _participantService = participantService;
             RegisterCommand = new DelegateCommand(Register);
         }
 
@@ -40,7 +40,7 @@ namespace Method635.App.Forms.ViewModels.Account
                 UserName = UserName,
                 Password = Password
             };
-            if(!new ParticipantRestResolver().CreateParticipant(newParticipant))
+            if(!_participantService.Register(newParticipant))
             {
                 ErrorMessage = AppResources.ErrorRegisteringUser; 
                 RegisterFailed = true;
@@ -61,7 +61,6 @@ namespace Method635.App.Forms.ViewModels.Account
             }
             return true;
         }
-
 
         private string _firstName;
         public string FirstName

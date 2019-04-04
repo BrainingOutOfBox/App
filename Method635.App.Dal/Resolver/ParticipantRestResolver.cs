@@ -5,24 +5,29 @@ using Method635.App.Forms.RestAccess.ResponseModel;
 using Method635.App.Forms.RestAccess.RestExceptions;
 using Method635.App.Logging;
 using Xamarin.Forms;
+using Method635.App.Dal.Config;
+using Method635.App.Dal.Interfaces;
 
 namespace Method635.App.Forms.RestAccess
 {
-    public class ParticipantRestResolver : RestResolverBase
+    public class ParticipantRestResolver : IParticipantDalService
     {
-        private const string PARTICIPANT_ENDPOINT = "Participant";
-        private const string REGISTER_ENDPOINT = "register";
-        private const string LOGIN_ENDPOINT = "login";
-
-        // Platform independent logger necessary, thus resolving from xf dependency service.
         private readonly ILogger _logger = DependencyService.Get<ILogManager>().GetLog();
+        private readonly ParticipantEndpoints _participantConfig;
+        private readonly IHttpClientService _clientService;
+
+        public ParticipantRestResolver(IConfigurationService configurationService, IHttpClientService httpClientService)
+        {
+            _participantConfig = configurationService.ServerConfig.ParticipantEndpoints;
+            _clientService = httpClientService;
+        }
 
         public bool CreateParticipant(Participant newParticipant)
         {
             try
             {
                 _logger.Info("Calling backend to create participant..");
-                var res = PostCall(newParticipant, $"{PARTICIPANT_ENDPOINT}/{REGISTER_ENDPOINT}");
+                var res = _clientService.PostCall(newParticipant, $"{_participantConfig.ParticipantEndpoint}/{_participantConfig.RegisterEndpoint}");
                 if (res.IsSuccessStatusCode)
                 {
                     _logger.Info($"Created participant. Content: {res.Content}");
@@ -42,16 +47,16 @@ namespace Method635.App.Forms.RestAccess
             return false;
         }
 
-        public RestLoginResponse Login(Participant loginParticipant)
+        public Participant Login(Participant loginParticipant)
         {
             try
             {
                 _logger.Info("Calling backend to login..");
-                var res = PostCall(loginParticipant, $"{PARTICIPANT_ENDPOINT}/{LOGIN_ENDPOINT}");
+                var res = _clientService.PostCall(loginParticipant, $"{_participantConfig.ParticipantEndpoint}/{_participantConfig.LoginEndpoint}");
                 if (res.IsSuccessStatusCode)
                 {
                     _logger.Info($"Participant {loginParticipant.UserName} successfully logged in.");
-                    return res.Content.ReadAsAsync<RestLoginResponse>().Result;
+                    return res.Content.ReadAsAsync<RestLoginResponse>().Result?.Participant;
                 }
             }
             catch (RestEndpointException ex)

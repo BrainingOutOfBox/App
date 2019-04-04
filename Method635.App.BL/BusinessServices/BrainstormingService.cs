@@ -1,8 +1,7 @@
 ﻿using Method635.App.BL.BusinessServices.BrainstormingStateMachine;
+using Method635.App.BL.Context;
 using Method635.App.BL.Interfaces;
 using Method635.App.Dal.Interfaces;
-using Method635.App.Forms.Context;
-using Method635.App.Forms.RestAccess;
 using Method635.App.Logging;
 using Method635.App.Models;
 using Method635.App.Models.Models;
@@ -18,6 +17,7 @@ namespace Method635.App.BL
     {
         private readonly BrainstormingContext _context;
         private readonly IBrainstormingDalService _brainstormingDalService;
+        private readonly ITeamDalService _teamDalService;
         private readonly StateMachine _stateMachine;
         private int commitIdeaIndex = 0;
         private readonly BrainstormingModel _brainstormingModel;
@@ -31,13 +31,13 @@ namespace Method635.App.BL
         {
             _context = brainstormingContext;
             _brainstormingDalService = iDalService.BrainstormingDalService;
+            _teamDalService = iDalService.TeamDalService;
             _stateMachine = new StateMachine(_brainstormingDalService, _context, brainstormingModel);
             _stateMachine.PropertyChanged += StateMachine_PropertyChanged;
 
             _brainstormingModel = brainstormingModel;
             _brainstormingModel.PropertyChanged += _brainstormingModel_PropertyChanged;
 
-            IsModerator = new TeamRestResolver().GetModeratorByTeamId(_context.CurrentBrainstormingTeam.Id)?.UserName.Equals(_context.CurrentParticipant.UserName);
         }
 
         private void _brainstormingModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -46,6 +46,8 @@ namespace Method635.App.BL
             BrainSheets = _brainstormingModel.BrainSheets;
             RemainingTime = _brainstormingModel.RemainingTime;
             CurrentSheetNr = _brainstormingModel.CurrentSheetNr;
+            IsModerator = _teamDalService.GetModeratorByTeamId(_context.CurrentBrainstormingTeam?.Id)?.UserName.Equals(_context.CurrentParticipant?.UserName);
+
         }
 
         public void StartBusinessService()
@@ -148,7 +150,7 @@ namespace Method635.App.BL
             set => SetProperty(ref _remainingTime, value);
         }
 
-        public bool? IsModerator { get; }
+        public bool? IsModerator { get; private set; }
 
         private int _positionInTeam => _teamParticipants.IndexOf(_teamParticipants.Find(p => p.UserName.Equals(_context.CurrentParticipant.UserName)));
         private List<Participant> _teamParticipants => _context.CurrentBrainstormingTeam.Participants;

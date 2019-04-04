@@ -1,6 +1,4 @@
-﻿using Method635.App.Forms.Context;
-using Method635.App.Models;
-using Method635.App.Forms.RestAccess;
+﻿using Method635.App.Models;
 using Prism.Commands;
 using Prism.Mvvm;
 using System;
@@ -9,27 +7,31 @@ using Method635.App.Logging;
 using Xamarin.Forms;
 using Method635.App.Forms.Resources;
 using Method635.App.Forms.Services;
+using Method635.App.Dal.Interfaces;
+using Method635.App.BL.Context;
 
 namespace Method635.App.Forms.ViewModels.Brainstorming
 {
     public class NewBrainstormingPageViewModel : BindableBase
     {
         private readonly IUiNavigationService _navigationService;
+        private readonly IBrainstormingDalService _brainstormingDalService;
         private readonly BrainstormingContext _context;
         private int _nrOfIdeas;
         private int _baseRoundTime;
 
         private readonly List<char> disallowedChars = new List<char> { '\\', ' ' };
 
-        // Platform independent logger necessary, thus resolving from xf dependency service.
         private readonly ILogger _logger = DependencyService.Get<ILogManager>().GetLog();
 
         public DelegateCommand CreateFindingCommand { get; }
 
         public NewBrainstormingPageViewModel(IUiNavigationService navigationService,
+            IDalService dalService,
             BrainstormingContext brainstormingContext)
         {
             _navigationService = navigationService;
+            _brainstormingDalService = dalService.BrainstormingDalService;
             _context = brainstormingContext;
             CreateFindingCommand = new DelegateCommand(CreateFinding);
 
@@ -53,7 +55,7 @@ namespace Method635.App.Forms.ViewModels.Brainstorming
                     BaseRoundTime = _baseRoundTime,
                     ProblemDescription = Description
                 };
-                finding = new BrainstormingFindingRestResolver().CreateFinding(finding);
+                finding = _brainstormingDalService.CreateFinding(finding);
                 _context.CurrentFinding = finding;
                 _navigationService.NavigateToBrainstormingTab();
             }
