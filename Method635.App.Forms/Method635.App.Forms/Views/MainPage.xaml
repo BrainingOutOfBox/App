@@ -8,9 +8,9 @@
                   prism:ViewModelLocator.AutowireViewModel="True"
                   x:Class="Method635.App.Forms.MainPage"
                   Title="{Binding Title}">
-    <TabbedPage.Children>
-        <localTeam:TeamPage />
-        <local:BrainstormingFindingListPage />
-        <local1:BrainstormingPage />
+        <TabbedPage.Children>
+            <localTeam:TeamPage />
+            <local:BrainstormingFindingListPage />
+            <local1:BrainstormingPage />
     </TabbedPage.Children>
 </TabbedPage>

@@ -1,4 +1,5 @@
 ﻿using Method635.App.Forms.Context;
+using Method635.App.Forms.PrismEvents;
 using Method635.App.Forms.Resources;
 using Method635.App.Forms.RestAccess;
 using Method635.App.Forms.Services;
@@ -40,8 +41,8 @@ namespace Method635.App.Forms.ViewModels.Team
             if (newestTeam.CurrentNrOfParticipants == _teamCapacity)
             {
                 _context.CurrentBrainstormingTeam = newestTeam;
-                //_eventAggregator.GetEvent<RenderBrainstormingListEvent>().Publish();
-                await _navigationService.NavigateToBrainstormingListTab();
+                _eventAggregator.GetEvent<RenderBrainstormingListEvent>().Publish();
+                //await _navigationService.NavigateToBrainstormingListTab();
             }
         }
 

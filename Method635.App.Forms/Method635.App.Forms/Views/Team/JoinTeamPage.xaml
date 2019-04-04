@@ -11,7 +11,7 @@
         <Grid.RowDefinitions>
             <RowDefinition />
         </Grid.RowDefinitions>
-        <zxing:ZXingScannerView Grid.Row="0" IsScanning="true" Options="{Binding BarcodeOptions}" 
+        <zxing:ZXingScannerView Grid.Row="0" IsScanning="{Binding ScanForResults}" Options="{Binding BarcodeOptions}" 
                                 WidthRequest="200" HeightRequest="200" ScanResultCommand="{Binding FoundTeamIdCommand}" />
         <zxing:ZXingDefaultOverlay Grid.Row="0" TopText="{i18n:Translate Text=PlaceQrInArea}" Opacity="0.9" BottomText="{Binding BottomOverlayText}" />
     </Grid>

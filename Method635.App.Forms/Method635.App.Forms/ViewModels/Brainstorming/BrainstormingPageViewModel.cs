@@ -36,7 +36,6 @@ namespace Method635.App.Forms.ViewModels
             _findingTitle = _context.CurrentFinding?.Name;
 
             _brainstormingService = brainstormingService;
-            _brainstormingService.PropertyChanged += _brainstormingService_PropertyChanged;
             UpdateProperties();
 
             CommitCommand = new DelegateCommand(CommitIdea);
@@ -91,11 +90,14 @@ namespace Method635.App.Forms.ViewModels
         
         public void OnNavigatedFrom(INavigationParameters parameters)
         {
-            //TODO Implement a pause functionality in business service
+            _brainstormingService.StopBusinessService();
+            _brainstormingService.PropertyChanged -= _brainstormingService_PropertyChanged;
         }
 
         public void OnNavigatedTo(INavigationParameters parameters)
         {
+            _brainstormingService.PropertyChanged += _brainstormingService_PropertyChanged;
+
             if (!_serviceStarted)
             {
                 _brainstormingService.StartBusinessService();
@@ -105,8 +107,8 @@ namespace Method635.App.Forms.ViewModels
 
         public void Destroy()
         {
-            _brainstormingService.PropertyChanged -= _brainstormingService_PropertyChanged;
             _brainstormingService.StopBusinessService();
+            _brainstormingService.PropertyChanged -= _brainstormingService_PropertyChanged;
         }
 
         private ObservableCollection<BrainSheet> _brainSheets;

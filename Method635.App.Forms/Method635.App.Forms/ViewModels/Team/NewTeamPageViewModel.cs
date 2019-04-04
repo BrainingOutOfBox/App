@@ -7,18 +7,19 @@ using Prism.Navigation;
 using System;
 using Method635.App.Logging;
 using Xamarin.Forms;
+using Method635.App.Forms.Services;
 
 namespace Method635.App.Forms.ViewModels.Team
 {
     public class NewTeamPageViewModel : BindableBase
     {
-        private readonly INavigationService _navigationService;
+        private readonly IUiNavigationService _navigationService;
         private readonly BrainstormingContext _context;
 
         // Platform independent logger necessary, thus resolving from xf dependency service.
         private readonly ILogger _logger = DependencyService.Get<ILogManager>().GetLog();
 
-        public NewTeamPageViewModel(INavigationService navigationService, BrainstormingContext context)
+        public NewTeamPageViewModel(IUiNavigationService navigationService, BrainstormingContext context)
         {
             _navigationService = navigationService;
             _context = context;
@@ -40,7 +41,7 @@ namespace Method635.App.Forms.ViewModels.Team
                 _logger.Error("There was an error creating the new brainstorming team.. No Id returned");
             }
             _context.CurrentBrainstormingTeam = newTeamWithId;
-            _navigationService.NavigateAsync("MainPage/NavigationPage/InviteTeamPage");
+            _navigationService.NavigateToInviteTeam();
         }
 
         public string TeamName { get; set; } = string.Empty;
