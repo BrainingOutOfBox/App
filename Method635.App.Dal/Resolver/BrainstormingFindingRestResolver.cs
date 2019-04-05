@@ -8,21 +8,25 @@ using Method635.App.Logging;
 using Xamarin.Forms;
 using Method635.App.Dal.Interfaces;
 using Method635.App.Dal.Config;
+using Method635.App.Dal.Mapping;
+using AutoMapper;
+using Method635.App.Dal.Mapping.Mappers;
 
 namespace Method635.App.Forms.RestAccess
 {
     public class BrainstormingFindingRestResolver : IBrainstormingDalService
     {
-
-        // Platform independent logger necessary, thus resolving from xf dependency service.
         private readonly ILogger _logger = DependencyService.Get<ILogManager>().GetLog();
+
         private readonly BrainstormingEndpoints _findingsEndpoints;
         private readonly IHttpClientService _clientService;
+        private readonly IBrainstormingMapper _brainstormingMapper;
 
-        public BrainstormingFindingRestResolver(IConfigurationService configurationService, IHttpClientService httpClientService)
+        public BrainstormingFindingRestResolver(IConfigurationService configurationService, IHttpClientService httpClientService, IBrainstormingMapper brainstormingMapper)
         {
             _findingsEndpoints = configurationService.ServerConfig.BrainstormingEndpoints;
             _clientService = httpClientService;
+            _brainstormingMapper = brainstormingMapper;
         }
 
         public TimeSpan GetRemainingTime(string findingId, string teamId)
@@ -59,10 +63,10 @@ namespace Method635.App.Forms.RestAccess
                 if (res.IsSuccessStatusCode)
                 {
                     _logger.Info($"Got all Brainstormingfindings finding. Content: {res.Content}");
-                    var brainstormingFindings = res.Content.ReadAsAsync<List<BrainstormingFinding>>().Result;
+                    var brainstormingFindingsDto = res.Content.ReadAsAsync<List<BrainstormingFindingDto>>().Result;
                     _logger.Info("got findings: ");
-                    brainstormingFindings.ForEach(finding => _logger.Info(finding.Name));
-                    return brainstormingFindings;
+                    brainstormingFindingsDto.ForEach(finding => _logger.Info(finding.Name));
+                    return _brainstormingMapper.MapFromDto(brainstormingFindingsDto);
                 }
             }
             catch (RestEndpointException ex)
@@ -78,7 +82,8 @@ namespace Method635.App.Forms.RestAccess
             try
             {
                 _logger.Info("Updating brainsheet..");
-                var res = _clientService.PutCall(brainSheet, $"{_findingsEndpoints.FindingsEndpoint}/{findingId}/{_findingsEndpoints.UpdateBrainsheetEndpoint}");
+                var brainsheetDto = _brainstormingMapper.MapToDto(brainSheet);
+                var res = _clientService.PutCall(brainsheetDto, $"{_findingsEndpoints.FindingsEndpoint}/{findingId}/{_findingsEndpoints.UpdateBrainsheetEndpoint}");
                 var parsedResponseMessage = res.Content.ReadAsAsync<RestResponseMessage>().Result;
                 _logger.Info(parsedResponseMessage.Title);
                 _logger.Info(parsedResponseMessage.Text);
@@ -111,7 +116,8 @@ namespace Method635.App.Forms.RestAccess
                 if (res.IsSuccessStatusCode)
                 {
                     _logger.Info($"Getting brainstorming finding. Content: {res.Content}");
-                    return res.Content.ReadAsAsync<BrainstormingFinding>().Result;
+                    var findingDto = res.Content.ReadAsAsync<BrainstormingFindingDto>().Result;
+                    return _brainstormingMapper.MapFromDto(findingDto);
                 }
                 else
                 {
@@ -130,7 +136,8 @@ namespace Method635.App.Forms.RestAccess
             try
             {
                 _logger.Info("Creating brainstorming finding..");
-                var res = _clientService.PostCall(finding, $"{_findingsEndpoints.FindingsEndpoint}/{finding.TeamId}/{_findingsEndpoints.CreateEndpoint}");
+                var findingDto = _brainstormingMapper.MapToDto(finding);
+                var res = _clientService.PostCall(findingDto, $"{_findingsEndpoints.FindingsEndpoint}/{findingDto.TeamId}/{_findingsEndpoints.CreateEndpoint}");
                 if (res.IsSuccessStatusCode)
                 {
                     _logger.Info($"Created brainstorming finding. Content: {res.Content}");
