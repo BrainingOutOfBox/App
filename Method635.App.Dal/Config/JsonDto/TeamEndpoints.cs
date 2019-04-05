@@ -13,7 +13,7 @@ namespace Method635.App.Dal.Config
         public string CreateEndpoint { get; set; }
         [JsonProperty("getTeam")]
         public string GetEndpoint { get; set; }
-        [JsonProperty("getMyTeam")]
+        [JsonProperty("getTeams")]
         public string GetAllEndpoint { get; set; }
         [JsonProperty("join")]
         public string JoinEndpoint { get; set; }

@@ -44,7 +44,9 @@ namespace Method635.App.BL
 
         public void CleanUp()
         {
+            _nextCheckRoundTimer.Elapsed -= NextCheckRoundTimerElapsed;
             _nextCheckRoundTimer.Dispose();
+            _updateRoundTimer.Elapsed -= UpdateRoundTime;
             _updateRoundTimer.Dispose();
         }
 

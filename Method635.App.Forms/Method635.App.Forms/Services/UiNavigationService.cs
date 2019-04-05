@@ -4,6 +4,7 @@ using Prism.Navigation;
 using System;
 using System.Threading.Tasks;
 
+
 namespace Method635.App.Forms.Services
 {
     public class UiNavigationService : IUiNavigationService
@@ -38,32 +39,32 @@ namespace Method635.App.Forms.Services
 
         public async Task NavigateToRegister()
         {
-            await _navigationService.NavigateAsync("CreateAccountPage");
+            await _navigationService.NavigateAsync("CreateAccountPage/");
         }
 
         public async Task NavigateToTeamsTab()
         {
-            await _navigationService.NavigateAsync("/NavigationPage/MainPage?selectedTab=TeamPage");
+            await _navigationService.NavigateAsync("/NavigationPage/MainPage?selectedTab=TeamPage/");
         }
 
         public async Task NavigateToBrainstormingListTab()
         {
-           var res=  await _navigationService.NavigateAsync("/NavigationPage/MainPage?selectedTab=BrainstormingFindingListPage");
+            var res = await _navigationService.NavigateAsync("/NavigationPage/MainPage?selectedTab=BrainstormingFindingListPage/");
         }
 
         public async Task NavigateToBrainstormingTab()
         {
-            await _navigationService.NavigateAsync("/NavigationPage/MainPage?selectedTab=BrainstormingPage");
+            await _navigationService.NavigateAsync("/NavigationPage/MainPage?selectedTab=BrainstormingPage/");
         }
 
         public async Task NavigateToCreateBrainstorming()
         {
-            await _navigationService.NavigateAsync("/NavigationPage/MainPage/NewBrainstormingPage");
+            await _navigationService.NavigateAsync("/NavigationPage/MainPage/NewBrainstormingPage/");
         }
 
         public async Task NavigateToJoinTeam()
         {
-            var res = await _navigationService.NavigateAsync("/NavigationPage/MainPage/JoinTeamPage");
+            var res = await _navigationService.NavigateAsync("/NavigationPage/MainPage/JoinTeamPage/");
         }
 
         public async Task NavigateToCreateTeam()
@@ -73,7 +74,7 @@ namespace Method635.App.Forms.Services
 
         public async Task NavigateToInviteTeam()
         {
-            await _navigationService.NavigateAsync("/NavigationPage/MainPage/InviteTeamPage");
+            await _navigationService.NavigateAsync("/NavigationPage/MainPage/InviteTeamPage/");
         }
 
         public async Task NavigateToStartBrainstorming()

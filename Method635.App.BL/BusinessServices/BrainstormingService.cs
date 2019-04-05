@@ -37,7 +37,7 @@ namespace Method635.App.BL
 
             _brainstormingModel = brainstormingModel;
             _brainstormingModel.PropertyChanged += _brainstormingModel_PropertyChanged;
-
+            
         }
 
         private void _brainstormingModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -46,18 +46,20 @@ namespace Method635.App.BL
             BrainSheets = _brainstormingModel.BrainSheets;
             RemainingTime = _brainstormingModel.RemainingTime;
             CurrentSheetNr = _brainstormingModel.CurrentSheetNr;
-            IsModerator = _teamDalService.GetModeratorByTeamId(_context.CurrentBrainstormingTeam?.Id)?.UserName.Equals(_context.CurrentParticipant?.UserName);
 
         }
 
         public void StartBusinessService()
         {
+            IsModerator = _teamDalService.GetModeratorByTeamId(_context.CurrentBrainstormingTeam?.Id)?.UserName.Equals(_context.CurrentParticipant?.UserName);
+
             _stateMachine.Start();
         }
 
         public void StopBusinessService()
         {
             _stateMachine.Stop();
+            _stateMachine.PropertyChanged -= StateMachine_PropertyChanged;
             _brainstormingModel.PropertyChanged -= _brainstormingModel_PropertyChanged;
         }
 

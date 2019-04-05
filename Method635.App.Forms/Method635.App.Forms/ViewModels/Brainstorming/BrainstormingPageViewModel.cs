@@ -64,7 +64,7 @@ namespace Method635.App.Forms.ViewModels
             IsRunning = _brainstormingService.IsRunning;
             IsEnded = _brainstormingService.IsEnded;
             RemainingTime = $"{_brainstormingService.RemainingTime.Minutes:D2}m:{_brainstormingService.RemainingTime.Seconds:D2}s";
-            ShowStartBrainstorming = IsWaiting && _brainstormingService.IsModerator.Value;
+            ShowStartBrainstorming = IsWaiting && _brainstormingService.IsModerator.HasValue && _brainstormingService.IsModerator.Value;
             CurrentSheetNr = _brainstormingService.CurrentSheetNr + 1;
             IdeaHeight = IsEnded ? 450 : 300;
         }

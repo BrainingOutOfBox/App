@@ -25,6 +25,7 @@ namespace Method635.App.BL
         }
         public void CleanUp()
         {
+            _timer.Elapsed -= Timer_Elapsed;
             _timer.Dispose();
         }
 

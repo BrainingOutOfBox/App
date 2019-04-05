@@ -54,6 +54,7 @@ namespace Method635.App.Forms.ViewModels.Team
         public void Destroy()
         {
             _timer.Stop();
+            _timer.Elapsed -= UpdateMemberCount;
             _timer.Dispose();
         }
 
