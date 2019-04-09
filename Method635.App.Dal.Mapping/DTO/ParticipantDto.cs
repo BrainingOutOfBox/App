@@ -2,7 +2,7 @@
 
 namespace Method635.App.Dal.Mapping
 {
-    public class Participant
+    public class ParticipantDto
     {
         [JsonProperty("username")]
         public string UserName { get; set; }

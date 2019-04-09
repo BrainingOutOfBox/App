@@ -4,12 +4,12 @@ using System.Collections.Generic;
 
 namespace Method635.App.Dal.Mapping
 {
-    public class BrainWave
+    public class BrainWaveDto
     {
         [JsonProperty("nrOfBrainwave")]
         public int NrOfBrainWave { get; set; }
 
         [JsonProperty("ideas")]
-        public List<Idea> Ideas { get; set; }
+        public List<IdeaDto> Ideas { get; set; }
     }
 }

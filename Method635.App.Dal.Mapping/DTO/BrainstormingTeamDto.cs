@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace Method635.App.Models
+namespace Method635.App.Dal.Mapping
 {
-    public class BrainstormingTeam
+    public class BrainstormingTeamDto
     {
         [JsonProperty("identifier")]
         public string Id { get; set; } = string.Empty;
@@ -16,9 +16,9 @@ namespace Method635.App.Models
         [JsonProperty("currentNrOfParticipants")]
         public int CurrentNrOfParticipants { get; set; }
         [JsonProperty("participants")]
-        public List<Participant> Participants { get; set; }
+        public List<ParticipantDto> Participants { get; set; }
         [JsonProperty("moderator")]
-        public Moderator Moderator { get; set; }
+        public ModeratorDto Moderator { get; set; }
     }
 }
 

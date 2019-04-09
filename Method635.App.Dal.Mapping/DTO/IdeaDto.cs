@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Newtonsoft.Json;
 
 namespace Method635.App.Dal.Mapping.DTO
 {
-    public abstract class Idea
+    [JsonConverter(typeof(IdeaConverter))]
+    public abstract class IdeaDto
     {
+        [JsonProperty("description")]
         public string Description { get; set; }
     }
 }

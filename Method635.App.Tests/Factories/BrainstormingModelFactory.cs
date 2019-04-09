@@ -45,7 +45,7 @@ namespace Method635.App.Tests.Factories
             };
         }
 
-        private static List<BrainSheet> CreateBrainSheets()
+        public static List<BrainSheet> CreateBrainSheets()
         {
             return new List<BrainSheet>()
             {

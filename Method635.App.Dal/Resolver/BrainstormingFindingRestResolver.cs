@@ -10,7 +10,6 @@ using Method635.App.Dal.Interfaces;
 using Method635.App.Dal.Config;
 using Method635.App.Dal.Mapping;
 using AutoMapper;
-using Method635.App.Dal.Mapping.Mappers;
 
 namespace Method635.App.Forms.RestAccess
 {
@@ -20,9 +19,9 @@ namespace Method635.App.Forms.RestAccess
 
         private readonly BrainstormingEndpoints _findingsEndpoints;
         private readonly IHttpClientService _clientService;
-        private readonly IBrainstormingMapper _brainstormingMapper;
+        private readonly IMapper _brainstormingMapper;
 
-        public BrainstormingFindingRestResolver(IConfigurationService configurationService, IHttpClientService httpClientService, IBrainstormingMapper brainstormingMapper)
+        public BrainstormingFindingRestResolver(IConfigurationService configurationService, IHttpClientService httpClientService, IMapper brainstormingMapper)
         {
             _findingsEndpoints = configurationService.ServerConfig.BrainstormingEndpoints;
             _clientService = httpClientService;
@@ -66,12 +65,16 @@ namespace Method635.App.Forms.RestAccess
                     var brainstormingFindingsDto = res.Content.ReadAsAsync<List<BrainstormingFindingDto>>().Result;
                     _logger.Info("got findings: ");
                     brainstormingFindingsDto.ForEach(finding => _logger.Info(finding.Name));
-                    return _brainstormingMapper.MapFromDto(brainstormingFindingsDto);
+                    return _brainstormingMapper.Map<List<BrainstormingFinding>>(brainstormingFindingsDto);
                 }
             }
             catch (RestEndpointException ex)
             {
-                _logger.Error($"Failed to create brainstorming finding: {ex.Message}", ex);
+                _logger.Error($"Failed to get brainstorming findings: {ex.Message}", ex);
+            }
+            catch(Exception ex)
+            {
+                _logger.Error($"Couldn't get all findings: {ex.Message}", ex);
             }
             _logger.Error($"No brainstorming findings found for team {teamId}",null);
             return new List<BrainstormingFinding>();
@@ -82,7 +85,7 @@ namespace Method635.App.Forms.RestAccess
             try
             {
                 _logger.Info("Updating brainsheet..");
-                var brainsheetDto = _brainstormingMapper.MapToDto(brainSheet);
+                var brainsheetDto = _brainstormingMapper.Map<BrainSheetDto>(brainSheet);
                 var res = _clientService.PutCall(brainsheetDto, $"{_findingsEndpoints.FindingsEndpoint}/{findingId}/{_findingsEndpoints.UpdateBrainsheetEndpoint}");
                 var parsedResponseMessage = res.Content.ReadAsAsync<RestResponseMessage>().Result;
                 _logger.Info(parsedResponseMessage.Title);
@@ -117,7 +120,7 @@ namespace Method635.App.Forms.RestAccess
                 {
                     _logger.Info($"Getting brainstorming finding. Content: {res.Content}");
                     var findingDto = res.Content.ReadAsAsync<BrainstormingFindingDto>().Result;
-                    return _brainstormingMapper.MapFromDto(findingDto);
+                    return _brainstormingMapper.Map<BrainstormingFinding>(findingDto);
                 }
                 else
                 {
@@ -136,7 +139,7 @@ namespace Method635.App.Forms.RestAccess
             try
             {
                 _logger.Info("Creating brainstorming finding..");
-                var findingDto = _brainstormingMapper.MapToDto(finding);
+                var findingDto = _brainstormingMapper.Map<BrainstormingFindingDto>(finding);
                 var res = _clientService.PostCall(findingDto, $"{_findingsEndpoints.FindingsEndpoint}/{findingDto.TeamId}/{_findingsEndpoints.CreateEndpoint}");
                 if (res.IsSuccessStatusCode)
                 {

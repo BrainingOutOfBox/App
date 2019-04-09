@@ -1,12 +1,6 @@
-﻿using Newtonsoft.Json;
-
-namespace Method635.App.Models
+﻿namespace Method635.App.Models
 {
-    public class TextIdea : PropertyChangedBase, IIdea
+    public class TextIdea : Idea
     {
-        private string _description;
-        [JsonProperty("description")]
-        public string Description { get=>_description;
-            set =>SetProperty(ref _description, value); }
     }
 }

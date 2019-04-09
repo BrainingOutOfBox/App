@@ -1,9 +1,9 @@
 ﻿namespace Method635.App.Dal.Mapping
 {
-    public class Moderator : Participant
+    public class ModeratorDto : ParticipantDto
     {
-        public Moderator() { }
-        public Moderator(Participant p)
+        public ModeratorDto() { }
+        public ModeratorDto(ParticipantDto p)
         {
             FirstName = p.FirstName;
             LastName = p.LastName;

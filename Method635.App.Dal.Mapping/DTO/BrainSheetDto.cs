@@ -4,12 +4,12 @@ using System.Collections.ObjectModel;
 
 namespace Method635.App.Dal.Mapping
 {
-    public class BrainSheet
+    public class BrainSheetDto
     {
         [JsonProperty("nrOfSheet")]
         public int NrOfSheet { get; set; }
 
         [JsonProperty("brainwaves")]
-        public List<BrainWave> BrainWaves { get; set; }
+        public List<BrainWaveDto> BrainWaves { get; set; }
     }
 }

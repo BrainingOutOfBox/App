@@ -26,6 +26,8 @@ using Method635.App.BL.Interfaces;
 using Method635.App.BL.BusinessServices;
 using Method635.App.BL.Context;
 using Method635.App.Models.Models;
+using AutoMapper;
+using Method635.App.Dal.Mapping.Mappers;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace Method635.App.Forms
@@ -56,6 +58,14 @@ namespace Method635.App.Forms
             containerRegistry.Register<IBrainstormingDalService, BrainstormingFindingRestResolver>();
             containerRegistry.Register<IParticipantDalService, ParticipantRestResolver>();
             containerRegistry.Register<ITeamDalService, TeamRestResolver>();
+
+            //Mapper.Initialize(cfg => cfg.AddProfile(new BrainstormingMappingProfile()));
+            //containerRegistry.Register<IMapper, Mapper>();
+            var config = new MapperConfiguration(cfg => cfg.AddProfile(new BrainstormingMappingProfile()));
+            containerRegistry.RegisterInstance(typeof(IMapper), config.CreateMapper());
+
+            config.AssertConfigurationIsValid();
+
 
             containerRegistry.Register<IBrainstormingService, BrainstormingService>();
             containerRegistry.Register<IParticipantService, ParticipantService>();

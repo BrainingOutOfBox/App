@@ -16,12 +16,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="8.0.0" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.7" />
     <PackageReference Include="Xamarin.Forms" Version="3.5.0.274416" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Method635.App.Dal.Interfaces\Method635.App.Dal.Interfaces.csproj" />
+    <ProjectReference Include="..\Method635.App.Dal.Mapping\Method635.App.Dal.Mapping.csproj" />
     <ProjectReference Include="..\Method635.App.Logging\Method635.App.Logging.csproj" />
     <ProjectReference Include="..\Method635.App.Models\Method635.App.Models.csproj" />
   </ItemGroup>
