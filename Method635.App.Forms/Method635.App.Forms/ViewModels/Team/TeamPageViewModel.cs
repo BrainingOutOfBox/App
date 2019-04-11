@@ -20,7 +20,6 @@ namespace Method635.App.Forms.ViewModels.Team
         private readonly ITeamService _teamService;
         private readonly BrainstormingContext _context;
 
-        // Platform independent logger necessary, thus resolving from xf dependency service.
         private readonly ILogger _logger = DependencyService.Get<ILogManager>().GetLog();
 
         public TeamPageViewModel(IUiNavigationService navigationService, 

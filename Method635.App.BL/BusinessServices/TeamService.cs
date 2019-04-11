@@ -2,7 +2,9 @@
 using Method635.App.BL.Context;
 using Method635.App.BL.Interfaces;
 using Method635.App.Dal.Interfaces;
+using Method635.App.Logging;
 using Method635.App.Models;
+using Xamarin.Forms;
 
 namespace Method635.App.BL.BusinessServices
 {
@@ -10,6 +12,7 @@ namespace Method635.App.BL.BusinessServices
     {
         private readonly ITeamDalService _teamDalService;
         private BrainstormingContext _context;
+        private readonly ILogger _logger = DependencyService.Get<ILogManager>().GetLog();
 
         public TeamService(IDalService dalService, BrainstormingContext context)
         {
@@ -19,7 +22,12 @@ namespace Method635.App.BL.BusinessServices
 
         public BrainstormingTeam AddTeam(BrainstormingTeam newTeam)
         {
-            return _teamDalService.CreateBrainstormingTeam(newTeam);
+            var team = _teamDalService.CreateBrainstormingTeam(newTeam);
+            if (string.IsNullOrEmpty(team.Id))
+            {
+                _logger.Error("Team id from backend was null.");
+            }
+            return team;
         }
 
         public BrainstormingTeam GetCurrentTeam()

@@ -12,5 +12,7 @@ namespace Method635.App.Dal.Mapping
         public string FirstName { get; set; }
         [JsonProperty("lastname")]
         public string LastName { get; set; }
+        [JsonProperty("accessToken")]
+        public string AccessToken { get; set; }
     }
 }

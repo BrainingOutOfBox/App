@@ -8,25 +8,23 @@ using Method635.App.Logging;
 using Xamarin.Forms;
 using Method635.App.Dal.Config;
 using Method635.App.Dal.Interfaces;
+using AutoMapper;
+using Method635.App.Dal.Mapping;
 
 namespace Method635.App.Forms.RestAccess
 {
     public class TeamRestResolver : ITeamDalService
     {
-        //private const string TEAM_ENDPOINT = "Team";
-        //private const string CREATE_ENDPOINT = "createBrainstormingTeam";
-        //private const string JOIN_ENDPOINT = "joinTeam";
-        //private const string GET_TEAM = "getBrainstormingTeam";
-        //private const string GET_MY_TEAMS = "getMyBrainstormingTeams";
-
         private readonly ILogger _logger = DependencyService.Get<ILogManager>().GetLog();
         private readonly TeamEndpoints _teamConfig;
         private readonly IHttpClientService _clientService;
+        private readonly IMapper _teamMapper;
 
-        public TeamRestResolver(IConfigurationService configurationService, IHttpClientService httpClientService)
+        public TeamRestResolver(IConfigurationService configurationService, IHttpClientService httpClientService, IMapper mapper)
         {
             _teamConfig = configurationService.ServerConfig.TeamEndpoints;
             _clientService = httpClientService;
+            _teamMapper = mapper;
         }
         public BrainstormingTeam GetTeamById(string teamId)
         {
@@ -37,9 +35,9 @@ namespace Method635.App.Forms.RestAccess
 
                 if (response.IsSuccessStatusCode)
                 {
-                    var team = response.Content.ReadAsAsync<BrainstormingTeam>().Result;
-                    _logger.Info($"Got team {team.Name}");
-                    return team;
+                    var teamDto = response.Content.ReadAsAsync<BrainstormingTeamDto>().Result;
+                    _logger.Info($"Got team {teamDto.Name}");
+                    return _teamMapper.Map<BrainstormingTeam>(teamDto);
                 }
                 else
                 {
@@ -66,9 +64,10 @@ namespace Method635.App.Forms.RestAccess
 
                 if (response.IsSuccessStatusCode)
                 {
-                    var teams = response.Content.ReadAsAsync<List<BrainstormingTeam>>().Result;
-                    _logger.Info($"Got {teams.Count} teams for {userName}.");
-                    return teams;
+                    var teamsDto = response.Content.ReadAsAsync<List<BrainstormingTeamDto>>().Result;
+                    _logger.Info($"Got {teamsDto.Count} teams for {userName}.");
+                    var teamlist = _teamMapper.Map<List<BrainstormingTeam>>(teamsDto);
+                    return teamlist;
                 }
                 else
                 {
@@ -83,6 +82,10 @@ namespace Method635.App.Forms.RestAccess
             {
                 _logger.Error($"Error getting Team (unsupported media type in response): {ex}", ex);
             }
+            catch(Exception ex)
+            {
+
+            }
             return new List<BrainstormingTeam>();
         }
 
@@ -91,7 +94,7 @@ namespace Method635.App.Forms.RestAccess
             try
             {
                 _logger.Info($"Joining team {teamId}");
-                HttpResponseMessage response = _clientService.PutCall(participant, $"{_teamConfig.TeamEndpoint}/{teamId}/{_teamConfig.JoinEndpoint}");
+                HttpResponseMessage response = _clientService.PutCall(_teamMapper.Map<ParticipantDto>(participant), $"{_teamConfig.TeamEndpoint}/{teamId}/{_teamConfig.JoinEndpoint}");
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -123,8 +126,9 @@ namespace Method635.App.Forms.RestAccess
 
                 if (response.IsSuccessStatusCode)
                 {
-                    var team = response.Content.ReadAsAsync<BrainstormingTeam>().Result;
-                    _logger.Info($"Got team {team.Name}");
+                    var teamDto = response.Content.ReadAsAsync<BrainstormingTeamDto>().Result;
+                    _logger.Info($"Got team {teamDto.Name}");
+                    var team = _teamMapper.Map<BrainstormingTeam>(teamDto);
                     return team.Moderator ?? null;
                 }
                 else
@@ -148,7 +152,8 @@ namespace Method635.App.Forms.RestAccess
             try
             {
                 _logger.Info("Creating brainstorming team..");
-                var res = _clientService.PostCall(brainstormingTeam, $"{_teamConfig.TeamEndpoint}/{_teamConfig.CreateEndpoint}");
+
+                var res = _clientService.PostCall(_teamMapper.Map<BrainstormingTeamDto>(brainstormingTeam), $"{_teamConfig.TeamEndpoint}/{_teamConfig.CreateEndpoint}");
 
                 if (res.IsSuccessStatusCode)
                 {

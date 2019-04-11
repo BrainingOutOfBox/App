@@ -23,7 +23,8 @@ namespace Method635.App.Dal.Mapping
         [JsonProperty("baseRoundTime")]
         public int BaseRoundTime { get; set; }
 
-
+        [JsonProperty("type")]
+        public string Type { get; set; } 
         [JsonProperty("currentRound")]
         public int CurrentRound { get; set; }
 

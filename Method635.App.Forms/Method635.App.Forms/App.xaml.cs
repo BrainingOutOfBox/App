@@ -59,12 +59,17 @@ namespace Method635.App.Forms
             containerRegistry.Register<IParticipantDalService, ParticipantRestResolver>();
             containerRegistry.Register<ITeamDalService, TeamRestResolver>();
 
-            //Mapper.Initialize(cfg => cfg.AddProfile(new BrainstormingMappingProfile()));
-            //containerRegistry.Register<IMapper, Mapper>();
-            var config = new MapperConfiguration(cfg => cfg.AddProfile(new BrainstormingMappingProfile()));
+            var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.AddProfile(new BrainstormingMappingProfile());
+                    cfg.AddProfile(new ParticipantMappingProfile());
+                    cfg.AddProfile(new TeamMappingProfile());
+                }
+            );
+            //config.AssertConfigurationIsValid();
+
             containerRegistry.RegisterInstance(typeof(IMapper), config.CreateMapper());
 
-            config.AssertConfigurationIsValid();
 
 
             containerRegistry.Register<IBrainstormingService, BrainstormingService>();

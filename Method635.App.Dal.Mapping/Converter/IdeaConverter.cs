@@ -16,9 +16,9 @@ namespace Method635.App.Dal.Mapping.DTO
     }
     public class IdeaConverter : JsonConverter
     {
-        private const string NoteIdeaTypeString = "noteidea";
-        private const string SketchIdeaTypeString = "sketchidea";
-        private const string PatternIdeaTypeString = "patternidea";
+        private const string NoteIdeaTypeString = "noteIdea";
+        private const string SketchIdeaTypeString = "sketchIdea";
+        private const string PatternIdeaTypeString = "patternIdea";
         static JsonSerializerSettings SpecifiedSubclassConversion = new JsonSerializerSettings() { ContractResolver = new BaseSpecifiedConcreteClassConverter() };
 
         public override bool CanConvert(Type objectType)
@@ -31,18 +31,18 @@ namespace Method635.App.Dal.Mapping.DTO
             JObject jo = JObject.Load(reader);
             if (jo.GetValue("type") == null)
             {
-                return JsonConvert.DeserializeObject<TextIdeaDto>(jo.ToString(), SpecifiedSubclassConversion);
+                return JsonConvert.DeserializeObject<NoteIdeaDto>(jo.ToString(), SpecifiedSubclassConversion);
             }
             switch (jo["type"].Value<string>())
             {
                 case NoteIdeaTypeString:
-                    return JsonConvert.DeserializeObject<TextIdeaDto>(jo.ToString(), SpecifiedSubclassConversion);
+                    return JsonConvert.DeserializeObject<NoteIdeaDto>(jo.ToString(), SpecifiedSubclassConversion);
                 case PatternIdeaTypeString:
                     return JsonConvert.DeserializeObject<PatternIdeaDto>(jo.ToString(), SpecifiedSubclassConversion);
                 case SketchIdeaTypeString:
                     return JsonConvert.DeserializeObject<SketchIdeaDto>(jo.ToString(), SpecifiedSubclassConversion);
                 case "":
-                    return JsonConvert.DeserializeObject<TextIdeaDto>(jo.ToString(), SpecifiedSubclassConversion);
+                    return JsonConvert.DeserializeObject<NoteIdeaDto>(jo.ToString(), SpecifiedSubclassConversion);
                 default:
                     throw new Exception($"Unknown type '{jo["type"].Value<string>()}'");
             }
@@ -61,7 +61,7 @@ namespace Method635.App.Dal.Mapping.DTO
             else
             {
                 JObject o = (JObject)t;
-                if (value is TextIdeaDto)
+                if (value is NoteIdeaDto)
                 {
                     o.Add("type", JToken.FromObject(NoteIdeaTypeString));
                 }

@@ -2,7 +2,7 @@
 
 namespace Method635.App.Dal.Mapping
 {
-    public class TextIdeaDto : IdeaDto
+    public class NoteIdeaDto : IdeaDto
     {
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace Method635.App.Models
 {
-    public class TextIdea : Idea
+    public class NoteIdea : Idea
     {
     }
 }
