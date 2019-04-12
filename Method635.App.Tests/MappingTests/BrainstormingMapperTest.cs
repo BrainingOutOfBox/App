@@ -1,4 +1,5 @@
-﻿using Method635.App.Dal.Mapping;
+﻿using AutoMapper;
+using Method635.App.Dal.Mapping;
 using Method635.App.Dal.Mapping.Mappers;
 using Method635.App.Models;
 using Method635.App.Tests.Factories;
@@ -11,9 +12,19 @@ namespace Method635.App.Tests.MappingTests
 {
     class BrainstormingMapperTest
     {
+        public IMapper _mapper { get; private set; }
+
         [SetUp]
         public void SetUp()
         {
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile(new BrainstormingMappingProfile());
+                cfg.AddProfile(new ParticipantMappingProfile());
+                cfg.AddProfile(new TeamMappingProfile());
+            }
+            );
+            _mapper = config.CreateMapper();
 
         }
 
@@ -42,15 +53,15 @@ namespace Method635.App.Tests.MappingTests
                 ProblemDescription = "Alterpalaber",
                 TeamId = "abc"
             };
-            //IBrainstormingMapper testee = new BrainstormingMappingProfile();
-            //var outputBo = testee.MapFromDto(inputFinding);
-            //Assert.AreEqual(outputBo.Id, targetFinding.Id);
-            //Assert.AreEqual(outputBo.BaseRoundTime, targetFinding.BaseRoundTime);
-            //Assert.AreEqual(outputBo.CurrentRound, targetFinding.CurrentRound);
-            //Assert.AreEqual(outputBo.Name, targetFinding.Name);
-            //Assert.AreEqual(outputBo.NrOfIdeas, targetFinding.NrOfIdeas);
-            //Assert.AreEqual(outputBo.ProblemDescription, targetFinding.ProblemDescription);
-            //Assert.AreEqual(outputBo.TeamId, targetFinding.TeamId);
+
+            var outputBo = _mapper.Map<BrainstormingFinding>(inputFinding);
+            Assert.AreEqual(targetFinding.Id, outputBo.Id);
+            Assert.AreEqual(targetFinding.BaseRoundTime, outputBo.BaseRoundTime);
+            Assert.AreEqual(targetFinding.CurrentRound, outputBo.CurrentRound);
+            Assert.AreEqual(targetFinding.Name, outputBo.Name);
+            Assert.AreEqual(targetFinding.NrOfIdeas, outputBo.NrOfIdeas);
+            Assert.AreEqual(targetFinding.ProblemDescription, outputBo.ProblemDescription);
+            Assert.AreEqual(targetFinding.TeamId, outputBo.TeamId);
         }
     }
 }

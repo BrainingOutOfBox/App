@@ -8,11 +8,10 @@ namespace Method635.App.Dal.Mapping.Mappers
     {
         public ParticipantMappingProfile()
         {
-            CreateMap<ParticipantDto, Participant>();
-            CreateMap<Participant, ParticipantDto>();
-
-            CreateMap<List<ParticipantDto>, List<Participant>>();
-            CreateMap<List<Participant>, List<ParticipantDto>>();
+            CreateMap<ParticipantDto, Participant>()
+                .Include<ModeratorDto,Moderator>();
+            CreateMap<Participant, ParticipantDto>()
+                .Include<Moderator, ModeratorDto>();
 
             CreateMap<Moderator, ModeratorDto>();
             CreateMap<ModeratorDto, Moderator>();

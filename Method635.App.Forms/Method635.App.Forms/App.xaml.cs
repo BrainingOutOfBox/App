@@ -66,7 +66,7 @@ namespace Method635.App.Forms
                     cfg.AddProfile(new TeamMappingProfile());
                 }
             );
-            //config.AssertConfigurationIsValid();
+            config.AssertConfigurationIsValid();
 
             containerRegistry.RegisterInstance(typeof(IMapper), config.CreateMapper());
 
