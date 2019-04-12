@@ -28,6 +28,7 @@ using Method635.App.BL.Context;
 using Method635.App.Models.Models;
 using AutoMapper;
 using Method635.App.Dal.Mapping.Mappers;
+using System;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace Method635.App.Forms
@@ -37,11 +38,19 @@ namespace Method635.App.Forms
         public App() : this(null) { }
 
         public App(IPlatformInitializer initializer) : base(initializer) { }
+        private readonly ILogger _logger = DependencyService.Get<ILogManager>().GetLog();
 
         protected override async void OnInitialized()
         {
-            InitializeComponent();
-            await NavigationService.NavigateAsync("NavigationPage/LoginPage");
+            try
+            {
+                InitializeComponent();
+                await NavigationService.NavigateAsync("NavigationPage/LoginPage");
+            }
+            catch (Exception ex)
+            {
+                _logger.Error("Fatal exception, the world has come to an end :(", ex);
+            }
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)

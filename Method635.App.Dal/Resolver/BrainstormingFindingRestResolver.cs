@@ -33,7 +33,7 @@ namespace Method635.App.Forms.RestAccess
             try
             {
                 _logger.Info("Getting remaining time..");
-                HttpResponseMessage response = _clientService.GetCall($"{_findingsEndpoints.FindingsEndpoint}/{teamId}/{findingId}/{_findingsEndpoints.RemainingTimeEndpoint}");
+                HttpResponseMessage response = _clientService.GetCall($"{_findingsEndpoints.FindingsEndpoint}/{findingId}/{_findingsEndpoints.RemainingTimeEndpoint}");
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -49,6 +49,10 @@ namespace Method635.App.Forms.RestAccess
             catch (RestEndpointException ex)
             {
                 _logger.Error($"Error getting remaining time: {ex}",ex);
+            }
+            catch (Exception ex)
+            {
+                _logger.Error("There was an error getting the remaining time", ex);
             }
             return TimeSpan.Zero;
         }
@@ -104,6 +108,10 @@ namespace Method635.App.Forms.RestAccess
             {
                 _logger.Error($"There was an error updating the brainsheet (Unsupported media response): {ex.Message}", ex);
             }
+            catch(Exception ex)
+            {
+                _logger.Error("There was an error updating the brainsheet", ex);
+            }
             return false;
         }
 
@@ -130,6 +138,10 @@ namespace Method635.App.Forms.RestAccess
             catch(RestEndpointException ex)
             {
                 _logger.Error($"There was an error getting the finding {findingId}");
+            }
+            catch (Exception ex)
+            {
+                _logger.Error("There was an error getting the finding", ex);
             }
             return null;
         }
@@ -160,6 +172,10 @@ namespace Method635.App.Forms.RestAccess
             {
                 _logger.Error($"Failed to create brainstorming finding: {ex.Message}", ex);
             }
+            catch (Exception ex)
+            {
+                _logger.Error("There was an error creating the finding", ex);
+            }
             return finding;
         }
         public bool StartBrainstormingFinding(string findingId)
@@ -184,6 +200,10 @@ namespace Method635.App.Forms.RestAccess
             catch (RestEndpointException ex)
             {
                 _logger.Error($"Failed to create brainstorming finding: {ex.Message}", ex);
+            }
+            catch (Exception ex)
+            {
+                _logger.Error("There was an error starting the finding", ex);
             }
             return false;
 

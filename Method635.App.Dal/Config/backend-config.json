@@ -1,6 +1,6 @@
 ﻿{
   "server": {
-    "hostname": "http://152.96.237.2",
+    "hostname": "https://sinv-56079.edu.hsr.ch",
     "port": 40000
   },
   "brainstorming-endpoints": {
@@ -9,7 +9,7 @@
     "getFinding": "getBrainstormingFinding",
     "getFindings": "getBrainstormingFindings",
     "startFinding": "startBrainstorming",
-    "remainingTime": "remainingTime",
+    "remainingTime": "getRemainingTime",
     "updateBrainsheet": "putBrainsheet"
   },
   "participant-endpoints": {

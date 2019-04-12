@@ -52,30 +52,31 @@ namespace Method635.App.Dal.Mapping.DTO
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            JToken t = JToken.FromObject(value);
-
-            if (t.Type != JTokenType.Object)
+            JsonObjectContract contract = (JsonObjectContract)serializer.ContractResolver.ResolveContract(value.GetType());
+            writer.WriteStartObject();
+            foreach (var property in contract.Properties)
             {
-                t.WriteTo(writer);
+                writer.WritePropertyName(property.PropertyName);
+                writer.WriteValue(property.ValueProvider.GetValue(value));
             }
-            else
+            if (value is NoteIdeaDto)
             {
-                JObject o = (JObject)t;
-                if (value is NoteIdeaDto)
-                {
-                    o.Add("type", JToken.FromObject(NoteIdeaTypeString));
-                }
-                else if (value is SketchIdeaDto)
-                {
-                    o.Add("type", JToken.FromObject(SketchIdeaTypeString));
-                }
-                else if (value is PatternIdeaDto)
-                {
-                    o.Add("type", JToken.FromObject(PatternIdeaTypeString));
-                }
-
-                o.WriteTo(writer);
+                writer.WritePropertyName("type");
+                writer.WriteValue(NoteIdeaTypeString);
             }
+            else if (value is SketchIdeaDto)
+            {
+                writer.WritePropertyName("type");
+                writer.WriteValue(SketchIdeaTypeString);
+            }
+            else if (value is PatternIdeaDto)
+            {
+                writer.WritePropertyName("type");
+                writer.WriteValue(PatternIdeaTypeString);
+            }
+
+            writer.WriteEndObject();
+
         }
     }
 }
