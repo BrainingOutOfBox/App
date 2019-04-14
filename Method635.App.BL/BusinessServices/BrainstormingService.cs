@@ -45,8 +45,7 @@ namespace Method635.App.BL
             BrainWaveSent = _brainstormingModel.BrainWaveSent;
             BrainSheets = _brainstormingModel.BrainSheets;
             RemainingTime = _brainstormingModel.RemainingTime;
-            CurrentSheetNr = _brainstormingModel.CurrentSheetNr;
-
+            CurrentSheetIndex = _brainstormingModel.CurrentSheetIndex;
         }
 
         public void StartBusinessService()
@@ -158,7 +157,7 @@ namespace Method635.App.BL
         private List<Participant> _teamParticipants => _context.CurrentBrainstormingTeam.Participants;
 
         private int _currentSheetNr;
-        public int CurrentSheetNr
+        public int CurrentSheetIndex
         {
             get => _currentSheetNr;
             set => SetProperty(ref _currentSheetNr, value);

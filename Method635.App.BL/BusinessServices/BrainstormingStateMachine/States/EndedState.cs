@@ -41,8 +41,8 @@ namespace Method635.App.BL
             var currentRound = _context.CurrentFinding.CurrentRound;
 
             var nrOfBrainsheets = _brainstormingModel.BrainSheets.Count;
-            _brainstormingModel.CurrentSheetNr = (currentRound + _positionInTeam - 1) % nrOfBrainsheets;
-            var currentBrainSheet = _context.CurrentFinding.BrainSheets[_brainstormingModel.CurrentSheetNr];
+            _brainstormingModel.CurrentSheetIndex = (currentRound + _positionInTeam - 1) % nrOfBrainsheets;
+            var currentBrainSheet = _context.CurrentFinding.BrainSheets[_brainstormingModel.CurrentSheetIndex];
             _brainstormingModel.BrainWaves = new ObservableCollection<BrainWave>(currentBrainSheet.BrainWaves);
         }
 

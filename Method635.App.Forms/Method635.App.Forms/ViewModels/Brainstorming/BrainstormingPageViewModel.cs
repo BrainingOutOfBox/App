@@ -9,6 +9,7 @@ using Method635.App.Forms.Services;
 using Method635.App.BL.Interfaces;
 using System.ComponentModel;
 using Method635.App.BL.Context;
+using System;
 
 namespace Method635.App.Forms.ViewModels
 {
@@ -41,10 +42,8 @@ namespace Method635.App.Forms.ViewModels
             SendBrainwaveCommand = new DelegateCommand(SendBrainWave);
             RefreshCommand = new DelegateCommand(RefreshPage);
             TapCommand = new DelegateCommand(StartBrainstorming);
-
             CommitEnabled = true;
         }
-
         private void StartBrainstorming()
         {
             _brainstormingService.StartBrainstorming();
@@ -65,7 +64,7 @@ namespace Method635.App.Forms.ViewModels
             IsEnded = _brainstormingService.IsEnded;
             RemainingTime = $"{_brainstormingService.RemainingTime.Minutes:D2}m:{_brainstormingService.RemainingTime.Seconds:D2}s";
             ShowStartBrainstorming = IsWaiting && _brainstormingService.IsModerator.HasValue && _brainstormingService.IsModerator.Value;
-            CurrentSheetNr = _brainstormingService.CurrentSheetNr + 1;
+            CurrentSheetIndex = _brainstormingService.CurrentSheetIndex;
             IdeaHeight = IsEnded ? 450 : 300;
         }
 
@@ -124,14 +123,14 @@ namespace Method635.App.Forms.ViewModels
             private set => SetProperty(ref _brainWaves, value);
         }
 
-        private int _currentSheetNr;
-        public int CurrentSheetNr
+        private int _currentSheetIndex;
+        public int CurrentSheetIndex
         {
-            get => _currentSheetNr;
+            get => _currentSheetIndex;
             set
             {
-                SetProperty(ref _currentSheetNr, value);
-                CurrentSheetText = string.Format(AppResources.SheetNrOfNr, _brainstormingService.CurrentSheetNr + 1, _brainstormingService.BrainSheets?.Count);
+                SetProperty(ref _currentSheetIndex, value);
+                CurrentSheetText = string.Format(AppResources.SheetNrOfNr, _brainstormingService.CurrentSheetIndex + 1, _brainstormingService.BrainSheets?.Count);
             }
         }
 

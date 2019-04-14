@@ -22,7 +22,7 @@ namespace Method635.App.Models.Models
             set => SetProperty(ref _remainingTime, value);
         }
         private int _currentSheetNr;
-        public int CurrentSheetNr
+        public int CurrentSheetIndex
         {
             get => _currentSheetNr;
             set => SetProperty(ref _currentSheetNr, value);

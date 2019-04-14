@@ -16,7 +16,7 @@ namespace Method635.App.BL.Interfaces
         ObservableCollection<BrainSheet> BrainSheets { get; set; }
         TimeSpan RemainingTime { get; }
         bool? IsModerator { get; }
-        int CurrentSheetNr { get; }
+        int CurrentSheetIndex { get; }
         void CommitIdea(string ideaText);
         void SendBrainWave();
         void StartBrainstorming();
