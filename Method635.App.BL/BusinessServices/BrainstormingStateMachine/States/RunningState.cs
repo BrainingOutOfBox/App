@@ -89,6 +89,7 @@ namespace Method635.App.BL
                 if (remainingTime < TimeSpan.FromSeconds(1) && !_brainstormingModel.BrainWaveSent)
                 {
                     SendBrainWave();
+                    _updateRoundTimer.Start();
                     return;
                 }
             }
@@ -113,7 +114,6 @@ namespace Method635.App.BL
                     _logger.Error("Couldn't place brainsheet");
                 }
                 _brainstormingModel.BrainWaveSent = true;
-                RoundStartedTimerSetup();
             }
             catch (ArgumentOutOfRangeException ex)
             {
@@ -140,15 +140,16 @@ namespace Method635.App.BL
         {
             _nextCheckRoundTimer.Stop();
             var backendFinding = _brainstormingDalService.GetFinding(_context.CurrentFinding.Id);
-            _context.CurrentFinding = backendFinding;
 
-            if (_context.CurrentFinding?.CurrentRound == -1)
+            if (backendFinding?.CurrentRound == -1)
             {
+                _context.CurrentFinding = backendFinding;
                 ChangeStateEvent?.Invoke(new EndedState(_context, _brainstormingModel));
                 return;
             }
-            else if (_context.CurrentFinding?.CurrentRound != _context.CurrentFinding.CurrentRound)
+            else if (backendFinding?.CurrentRound != _context.CurrentFinding.CurrentRound)
             {
+                _context.CurrentFinding = backendFinding;
                 _logger.Info("Round has changed, proceeding to next round");
                 NextRound();
             }
