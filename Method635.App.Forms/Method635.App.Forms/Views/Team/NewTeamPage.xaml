@@ -2,21 +2,23 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+             xmlns:i18n="clr-namespace:Method635.App.Forms.Resources"
              prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="Method635.App.Forms.Views.Team.NewTeamPage">
+             x:Class="Method635.App.Forms.Views.Team.NewTeamPage"
+             Title="{i18n:Translate Text=CreateTeam}">
     <StackLayout Orientation="Vertical">
-        <Label Text="Team Name" />
-        <Entry Placeholder="Name" Text="{Binding TeamName}" />
-        <Label Text="Names must be shorter than 22 characters and without spaces or periods." FontSize="Micro" />
-       
-        <Label Text="Team Size" />
-        <Entry Placeholder="Number of Participants" Text="{Binding TeamSize}" />
-        <Label Text="Choose how many participants the team should have" FontSize="Micro"/>
+        <Label Text="{i18n:Translate Text=TeamName}" />
+        <Entry Placeholder="{i18n:Translate Text=Name}" Text="{Binding TeamName}" />
+        <Label Text="{i18n:Translate Text=NameConstraints}" FontSize="Micro" />
 
-        <Label Text="Purpose (optional)" />
-        <Editor Placeholder="Briefly describe the purpose of your team" MinimumWidthRequest="100" Text="{Binding Purpose}"/>
+        <Label Text="{i18n:Translate Text=TeamSize}" />
+        <Entry Placeholder="{i18n:Translate Text=TeamSizeText}" Text="{Binding TeamSize}" />
+        <Label Text="{i18n:Translate Text=TeamSizeDescription}" FontSize="Micro"/>
 
-        <Button Text="Create Team" Command="{Binding CreateTeamCommand}" />
+        <Label Text="{i18n:Translate Text=Purpose}" />
+        <Editor Placeholder="{i18n:Translate Text=PurposeText}" MinimumWidthRequest="100" Text="{Binding Purpose}"/>
+
+        <Button Text="{i18n:Translate Text=CreateTeam}" Command="{Binding CreateTeamCommand}" />
     </StackLayout>
   
 </ContentPage>

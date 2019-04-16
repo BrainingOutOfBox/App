@@ -1,43 +1,48 @@
-﻿using Method635.App.Forms.Context;
-using Method635.App.Forms.Models;
-using Method635.App.Forms.PrismEvents;
-using Method635.App.Forms.RestAccess;
+﻿using Method635.App.Models;
 using Prism.Commands;
-using Prism.Events;
 using Prism.Mvvm;
-using Prism.Navigation;
 using System;
 using System.Collections.Generic;
+using Method635.App.Logging;
+using Xamarin.Forms;
+using Method635.App.Forms.Resources;
+using Method635.App.Forms.Services;
+using Method635.App.Dal.Interfaces;
+using Method635.App.BL.Context;
 
 namespace Method635.App.Forms.ViewModels.Brainstorming
 {
     public class NewBrainstormingPageViewModel : BindableBase
-	{
-        private readonly INavigationService _navigationService;
-        private readonly IEventAggregator _eventAggregator;
+    {
+        private readonly IUiNavigationService _navigationService;
+        private readonly IBrainstormingDalService _brainstormingDalService;
         private readonly BrainstormingContext _context;
+        private int _nrOfIdeas;
+        private int _baseRoundTime;
 
-        private readonly List<char> disallowedChars = new List<char>{ '\\', ' ' };
+        private readonly List<char> disallowedChars = new List<char> { '\\', ' ' };
+
+        private readonly ILogger _logger = DependencyService.Get<ILogManager>().GetLog();
 
         public DelegateCommand CreateFindingCommand { get; }
 
-        public NewBrainstormingPageViewModel(INavigationService navigationService,
-            IEventAggregator eventAggregator,
+        public NewBrainstormingPageViewModel(IUiNavigationService navigationService,
+            IDalService dalService,
             BrainstormingContext brainstormingContext)
         {
-            this._navigationService = navigationService;
-            this._eventAggregator = eventAggregator;
-            this._context = brainstormingContext;
-            this.CreateFindingCommand = new DelegateCommand(CreateFinding);
+            _navigationService = navigationService;
+            _brainstormingDalService = dalService.BrainstormingDalService;
+            _context = brainstormingContext;
+            CreateFindingCommand = new DelegateCommand(CreateFinding);
 
-            this.HasInvalidChars = false;
+            HasInvalidChars = false;
         }
 
         private void CreateFinding()
         {
             if (!CheckInput())
             {
-                Console.WriteLine("Invalid input to create finding..");
+                _logger.Error($"Invalid input (using '{FindingName}')to create finding..");
                 return;
             }
             try
@@ -45,60 +50,70 @@ namespace Method635.App.Forms.ViewModels.Brainstorming
                 var finding = new BrainstormingFinding()
                 {
                     TeamId = _context.CurrentBrainstormingTeam.Id,
-                    Name = this.FindingName,
-                    NrOfIdeas = this.nrOfIdeas,
-                    BaseRoundTime = this.baseRoundTime,
-                    ProblemDescription = this.Description
+                    Name = FindingName,
+                    NrOfIdeas = _nrOfIdeas,
+                    BaseRoundTime = _baseRoundTime,
+                    ProblemDescription = Description
                 };
-                finding = new BrainstormingFindingRestResolver().CreateBrainstormingFinding(finding);
+                finding = _brainstormingDalService.CreateFinding(finding);
                 _context.CurrentFinding = finding;
-                this._eventAggregator.GetEvent<RenderBrainstormingEvent>().Publish();
+                _navigationService.NavigateToBrainstormingTab();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                Console.WriteLine(ex);
+                _logger.Error(ex.Message, ex);
             }
-            
         }
 
         private bool CheckInput()
         {
             if (!HasValidFindingName())
             {
-                this.ErrorText = "Please don't use any of the prohibited characters";
-                this.HasError = true;
-                this.HasInvalidChars = true;
+                ErrorText = AppResources.DontUseProhibitedChars;
+                HasError = true;
+                HasInvalidChars = true;
                 return false;
             }
-            if(string.IsNullOrEmpty(FindingName) ||
+            if (string.IsNullOrEmpty(FindingName) ||
                 string.IsNullOrEmpty(NrOfIdeasText) ||
                 string.IsNullOrEmpty(BaseRoundTimeText))
             {
-                this.ErrorText = "Please fill in all the necessary fields";
-                this.HasError = true;
+                ErrorText = AppResources.FillNecessaryFields;
+                HasError = true;
                 return false;
             }
             if (!int.TryParse(NrOfIdeasText, out int nrOfIdeas) ||
                 !int.TryParse(BaseRoundTimeText, out int baseRoundTime))
             {
-                this.ErrorText = "Please use numbers in the corresponding fields";
-                this.HasError = true;
+                ErrorText = AppResources.UseNumbersInFields;
+                HasError = true;
                 return false;
             }
-            this.baseRoundTime = baseRoundTime;
-            this.nrOfIdeas = nrOfIdeas;
+            if (baseRoundTime < 1 || baseRoundTime > 100)
+            {
+                ErrorText = AppResources.InvalidRoundTime;
+                HasError = true;
+                return false;
+            }
+            if (nrOfIdeas < 1 || nrOfIdeas > 100)
+            {
+                ErrorText = AppResources.InvalidNrOfIdeas;
+                HasError = true;
+                return false;
+            }
+            _baseRoundTime = baseRoundTime;
+            _nrOfIdeas = nrOfIdeas;
             return true;
         }
 
         private bool HasValidFindingName()
         {
-            this.HasInvalidChars = false;
+            HasInvalidChars = false;
             if (string.IsNullOrEmpty(FindingName)) return false;
             return disallowedChars.TrueForAll(c => FindingName.IndexOf(c) < 0);
         }
 
         public string FindingName { get; set; }
-        //TODO Input Validation for ints
         public string NrOfIdeasText { get; set; }
         public string BaseRoundTimeText { get; set; }
         public string Description { get; set; } = string.Empty;
@@ -109,18 +124,14 @@ namespace Method635.App.Forms.ViewModels.Brainstorming
             get => _errorText;
             set => SetProperty(ref _errorText, value);
         }
-        private bool _hasError;
-        private int baseRoundTime;
-        private int nrOfIdeas;
 
+        private bool _hasError;
         public bool HasError
         {
             get => _hasError;
             set => SetProperty(ref _hasError, value);
         }
-        public string ProhibitedChars => $"Prohibited characters (comma-separated, including whitespace): {string.Join(", ", disallowedChars)}";
-
-
+        public string ProhibitedChars => string.Format(AppResources.ProhibitedCharsText, string.Join(", ", disallowedChars));
 
         private bool _hasInvalidChars;
         public bool HasInvalidChars
@@ -128,6 +139,5 @@ namespace Method635.App.Forms.ViewModels.Brainstorming
             get => _hasInvalidChars;
             set => SetProperty(ref _hasInvalidChars, value);
         }
-
     }
 }

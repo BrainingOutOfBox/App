@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
 using System.Resources;
-using System.Text;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -13,7 +11,7 @@ namespace Method635.App.Forms.Resources
     public class TranslateExtension : IMarkupExtension
     {
         private readonly CultureInfo ci = null;
-        const string ResourceId = "UsingResxLocalization.Resx.AppResources";
+        const string ResourceId = "Method635.App.Forms.Resources.AppResources";
 
         static readonly Lazy<ResourceManager> ResMgr = new Lazy<ResourceManager>(
             () => new ResourceManager(ResourceId, IntrospectionExtensions.GetTypeInfo(typeof(TranslateExtension)).Assembly));
@@ -22,11 +20,14 @@ namespace Method635.App.Forms.Resources
 
         public TranslateExtension()
         {
-            //Use for device specific translation
-            //if (Device.RuntimePlatform == Device.iOS || Device.RuntimePlatform == Device.Android)
-            //{
-            //    //ci = DependencyService.Get<ILocalize>().GetCurrentCultureInfo();
-            //}
+            // Use for device specific translation
+            // For translation see 
+            // https://docs.microsoft.com/en-gb/xamarin/xamarin-forms/app-fundamentals/localization/text?tabs=windows#localizing-xaml
+
+            if (Device.RuntimePlatform == Device.iOS || Device.RuntimePlatform == Device.Android)
+            {
+                ci = DependencyService.Get<ILocalize>().GetCurrentCultureInfo();
+            }
         }
 
         public object ProvideValue(IServiceProvider serviceProvider)

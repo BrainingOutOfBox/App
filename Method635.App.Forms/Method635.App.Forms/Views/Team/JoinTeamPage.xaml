@@ -2,16 +2,17 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+             xmlns:i18n="clr-namespace:Method635.App.Forms.Resources"
              xmlns:zxing="clr-namespace:ZXing.Net.Mobile.Forms;assembly=ZXing.Net.Mobile.Forms"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="Method635.App.Forms.Views.Team.JoinTeamPage"
-             Title="Join Team">
+             Title="{i18n:Translate Text=JoinTeam}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition />
         </Grid.RowDefinitions>
-        <zxing:ZXingScannerView Grid.Row="0" IsScanning="true" Options="{Binding BarcodeOptions}" 
+        <zxing:ZXingScannerView Grid.Row="0" IsScanning="{Binding ScanForResults}" Options="{Binding BarcodeOptions}" 
                                 WidthRequest="200" HeightRequest="200" ScanResultCommand="{Binding FoundTeamIdCommand}" />
-        <zxing:ZXingDefaultOverlay Grid.Row="0" TopText="Place the code inside the area" Opacity="0.9" BottomText="{Binding BottomOverlayText}" />
+        <zxing:ZXingDefaultOverlay Grid.Row="0" TopText="{i18n:Translate Text=PlaceQrInArea}" Opacity="0.9" BottomText="{Binding BottomOverlayText}" />
     </Grid>
 </ContentPage>

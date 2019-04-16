@@ -1,43 +1,26 @@
-﻿using Method635.App.Forms.PrismEvents;
-using Prism.Commands;
-using Prism.Events;
+﻿using Method635.App.BL.Context;
+using Method635.App.Forms.Resources;
 using Prism.Mvvm;
-using Prism.Navigation;
 
 namespace Method635.App.Forms.ViewModels
 {
     public class MainPageViewModel : BindableBase
     {
-        private readonly INavigationService _navigationService;
-        private readonly IEventAggregator _eventAggregator;
-
-        public MainPageViewModel(INavigationService navigationService, IEventAggregator eventAggregator)
+        public MainPageViewModel(BrainstormingContext context)
         {
-            this._navigationService = navigationService;
-            this._eventAggregator = eventAggregator;
-            SubscribeToEvents();
-
-            this.NavigateCommand = new DelegateCommand<string>(OnNavigateCommandExecuted);
-        }
-
-        private void SubscribeToEvents()
-        {
-            this._eventAggregator.GetEvent<RenderBrainstormingListEvent>().Subscribe(async () =>
+            if (context.CurrentBrainstormingTeam != null)
             {
-                await this._navigationService.NavigateAsync("app:///NavigationPage/MainPage?selectedTab=BrainstormingFindingListPage");
-            }, ThreadOption.UIThread);
-
-            this._eventAggregator.GetEvent<RenderBrainstormingEvent>().Subscribe(async () =>
-            {
-                await this._navigationService.NavigateAsync("app:///NavigationPage/MainPage?selectedTab=BrainstormingPage");
-            }, ThreadOption.UIThread);
+                Title = $"{AppResources.Method635} - {AppResources.Team} '{context.CurrentBrainstormingTeam.Name}'";
+                return;
+            }
+            Title = $"{AppResources.Method635}";
         }
 
-        private async void OnNavigateCommandExecuted(string path)
+        private string _title;
+        public string Title
         {
-            await this._navigationService.NavigateAsync(path);
+            get => _title;
+            set => SetProperty(ref _title, value);
         }
-
-        public DelegateCommand<string> NavigateCommand { get; }
     }
 }

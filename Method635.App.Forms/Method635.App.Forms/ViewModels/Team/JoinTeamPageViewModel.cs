@@ -1,67 +1,69 @@
-﻿using Method635.App.Forms.Context;
+﻿using Method635.App.BL.Context;
+using Method635.App.BL.Interfaces;
 using Method635.App.Forms.PrismEvents;
-using Method635.App.Forms.RestAccess;
+using Method635.App.Forms.Resources;
+using Method635.App.Forms.Services;
+using Method635.App.Logging;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
-using Prism.Navigation;
-using System;
 using System.Collections.Generic;
-using System.Linq;
+using Xamarin.Forms;
 using ZXing;
-using ZXing.Common;
 using ZXing.Mobile;
 
 namespace Method635.App.Forms.ViewModels.Team
 {
-	public class JoinTeamPageViewModel : BindableBase
+    public class JoinTeamPageViewModel : BindableBase
 	{
-        private readonly INavigationService _navigationService;
+        private readonly IUiNavigationService _navigationService;
         private readonly IEventAggregator _eventAggregator;
+        private readonly ITeamService _teamService;
         private readonly BrainstormingContext _context;
 
-        private bool _joinExecuted;
-        public bool JoinPending { get => _joinExecuted;
-            set
-            {
-                SetProperty(ref _joinExecuted, value);
-            }
-        }
-        public JoinTeamPageViewModel(INavigationService navigationService, IEventAggregator eventAggregator, BrainstormingContext context)
-        {
-            this._navigationService = navigationService;
-            this._eventAggregator = eventAggregator;
-            this._context = context;
+        private readonly ILogger _logger = DependencyService.Get<ILogManager>().GetLog();
 
-            this.FoundTeamIdCommand = new DelegateCommand<Result>(JoinTeam);
+        public JoinTeamPageViewModel(
+            IUiNavigationService navigationService, 
+            IEventAggregator eventAggregator, 
+            ITeamService teamService,
+            BrainstormingContext context)
+        {
+            _navigationService = navigationService;
+            _eventAggregator = eventAggregator;
+            _teamService = teamService;
+            _context = context;
+
+            FoundTeamIdCommand = new DelegateCommand<Result>(JoinTeam);
 
             SetUpBarcodeOptions();
-            JoinPending = false;
+            ScanForResults = true;
         }
         private void JoinTeam(Result result)
         {
-            if(!JoinPending && !string.IsNullOrEmpty(result.Text))
+            if(!string.IsNullOrEmpty(result.Text))
             {
-                var restResolver = new TeamRestResolver();
-                BottomOverlayText = "Found Team, placing call to join it...";
-                if(!restResolver.JoinTeam(result.Text, _context.CurrentParticipant))
+                ScanForResults = false;
+                BottomOverlayText = AppResources.BottomOverlayText;
+                if(!_teamService.JoinTeam(result.Text, _context.CurrentParticipant))
                 {
-                    BottomOverlayText = "Something went wrong, please try again.";
-                    JoinPending = true;
+                    BottomOverlayText = AppResources.SomethingWrongTryAgain;
+                    _logger.Error($"Couldn't join team '{result.Text}' with participant '{_context.CurrentParticipant}'.");
+                    ScanForResults = true;
                     return;
                 }
 
-                BottomOverlayText += " Success!";
-                JoinPending = true;
-                _context.CurrentBrainstormingTeam = restResolver.GetTeamById(result.Text);
+                BottomOverlayText += AppResources.Success;
+                _context.CurrentBrainstormingTeam = _teamService.GetTeam(result.Text);
 
-                this._eventAggregator.GetEvent<RenderBrainstormingListEvent>().Publish();
+                _eventAggregator.GetEvent<RenderBrainstormingListEvent>().Publish();
+                //_navigationService.NavigateToBrainstormingListTab();
             }
         }
 
         private void SetUpBarcodeOptions()
         {
-            this.BarcodeOptions = new MobileBarcodeScanningOptions()
+            BarcodeOptions = new MobileBarcodeScanningOptions()
             {
                 TryInverted = true,
                 PossibleFormats = new List<BarcodeFormat>()
@@ -80,6 +82,15 @@ namespace Method635.App.Forms.ViewModels.Team
             }
         }
 
+        private bool _scanForResults;
+        public bool ScanForResults
+        {
+            get => _scanForResults;
+            set
+            {
+                SetProperty(ref _scanForResults, value);
+            }
+        }
         public DelegateCommand<Result> FoundTeamIdCommand { get; private set; }
         public MobileBarcodeScanningOptions BarcodeOptions { get; private set; }
 	}

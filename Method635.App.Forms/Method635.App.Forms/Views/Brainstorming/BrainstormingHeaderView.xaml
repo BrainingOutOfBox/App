@@ -1,31 +1,31 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:i18n="clr-namespace:Method635.App.Forms.Resources"
              x:Class="Method635.App.Forms.Views.Brainstorming.BrainstormingHeaderView">
-
     <ContentView.Content>
-        <StackLayout Orientation="Horizontal" HeightRequest="50" Margin="0,0,50,0" HorizontalOptions="FillAndExpand">
+        <StackLayout Orientation="Horizontal" HeightRequest="50" Margin="0,10,50,0" HorizontalOptions="FillAndExpand">
             <Image Source="start_brainstorming.PNG" Aspect="AspectFit" >
                 <Image.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding RefreshCommand}" />
                 </Image.GestureRecognizers>
             </Image>
-            <Label Text="{Binding CurrentSheet}" IsVisible="{Binding IsBrainstormingFinished, Converter={StaticResource InvertBooleanConverter}}"/>
-            <Label Text="{Binding RemainingTime}"  
-           HorizontalOptions="CenterAndExpand"
-           VerticalOptions="Center" IsVisible="{Binding IsBrainstormingFinished, Converter={StaticResource InvertBooleanConverter}}">
-                <!-- TODO animate with attached behaviors as soon as remainingTime < 10s  -->
-            </Label>
-            <Label Text="Completed" 
-                   TextColor="Green"
-                   IsVisible="{Binding IsBrainstormingFinished}"
-                   FontSize="Medium" 
-                   VerticalOptions="Center" 
-                   FontAttributes="Bold" 
-                   HorizontalOptions="CenterAndExpand"/>
-            <Button Text="Send" Command="{Binding SendBrainwaveCommand}"
-                    IsVisible="{Binding IsBrainstormingFinished, Converter={StaticResource InvertBooleanConverter}}"
-                    IsEnabled="{Binding BrainWaveSent, Converter={StaticResource Key=InvertBooleanConverter}}" 
+            <StackLayout Orientation="Vertical" HorizontalOptions="CenterAndExpand">
+                <Label Text="{Binding RemainingTime}" 
+               VerticalOptions="Center" IsVisible="{Binding IsEnded, Converter={StaticResource InvertBooleanConverter}}">
+                    <!-- TODO animate with attached behaviors as soon as remainingTime < 10s  -->
+                </Label>
+                <Label Text="{i18n:Translate Text=Completed}" 
+                       TextColor="Green"
+                       IsVisible="{Binding IsEnded}"
+                       FontSize="Medium" 
+                       VerticalOptions="Center" 
+                       FontAttributes="Bold" />
+                <Label Text="{Binding CurrentSheetText}" VerticalOptions="End" HorizontalTextAlignment="Center" IsVisible="{Binding IsRunning, Converter={StaticResource InvertBooleanConverter}}"/>
+            </StackLayout>
+            <Button Text="{i18n:Translate Text=Send}" Command="{Binding SendBrainwaveCommand}"
+                    IsVisible="{Binding IsEnded, Converter={StaticResource InvertBooleanConverter}}"
+                    IsEnabled="{Binding BrainWaveSent, Converter={StaticResource InvertBooleanConverter}}" 
                     HorizontalOptions="End" />
         </StackLayout>
     </ContentView.Content>

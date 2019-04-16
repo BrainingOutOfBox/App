@@ -92,8 +92,10 @@
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Logging\NLogManager.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
+    <Compile Include="Resources\Localize.cs" />
     <None Include="Entitlements.plist" />
     <None Include="Info.plist">
       <SubType>Designer</SubType>
@@ -140,6 +142,9 @@
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon87.png">
       <Visible>false</Visible>
     </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\LaunchImages.launchimage\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
     <ImageAsset Include="Assets.xcassets\start_brainstorming.PNG.imageset\Contents.json">
       <Visible>false</Visible>
     </ImageAsset>
@@ -165,15 +170,21 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Prism.DryIoc.Forms">
-      <Version>7.0.0.396</Version>
+      <Version>7.1.0.431</Version>
     </PackageReference>
-    <PackageReference Include="Xamarin.Forms" Version="3.3.0.912540" />
+    <PackageReference Include="Xamarin.Forms">
+      <Version>3.5.0.274416</Version>
+    </PackageReference>
     <PackageReference Include="ZXing.Net.Mobile.Forms">
       <Version>2.4.1</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
+    <ProjectReference Include="..\..\Method635.App.Logging\Method635.App.Logging.csproj">
+      <Project>{cb6fcf3f-9588-468a-8a1d-789f9f274cc2}</Project>
+      <Name>Method635.App.Logging</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Method635.App.Forms\Method635.App.Forms.csproj">
       <Project>{92FACFB9-CC8A-4D87-BDB8-D22EF5E95B9A}</Project>
       <Name>Method635.App.Forms</Name>

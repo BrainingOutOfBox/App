@@ -1,13 +1,11 @@
-﻿using Method635.App.Forms.Context;
-using Method635.App.Forms.PrismEvents;
-using Method635.App.Forms.RestAccess;
+﻿using Method635.App.BL.Context;
+using Method635.App.Dal.Interfaces;
+using Method635.App.Forms.Services;
 using Method635.App.Forms.ViewModels.Navigation;
-using Prism;
+using Method635.App.Logging;
 using Prism.Commands;
-using Prism.Events;
 using Prism.Mvvm;
 using Prism.Navigation;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,22 +16,24 @@ namespace Method635.App.Forms.ViewModels
 {
     public class BrainstormingFindingListPageViewModel : BindableBase, INavigatedAware
     {
-        private readonly INavigationService _navigationService;
-        private readonly IEventAggregator _eventAggregator;
+        private readonly IUiNavigationService _navigationService;
+        private readonly IBrainstormingDalService _brainstormingDalService;
         private readonly BrainstormingContext _brainstormingContext;
+        private readonly ILogger _logger;
 
-        public BrainstormingFindingListPageViewModel(INavigationService navigationService,
-            IEventAggregator eventAggregator,
-            BrainstormingContext brainstormingContext)
+        public BrainstormingFindingListPageViewModel(IUiNavigationService navigationService,
+            IDalService iDalService,
+            BrainstormingContext brainstormingContext,
+            ILogger logger)
         {
-            this._navigationService = navigationService;
-            this._eventAggregator = eventAggregator;
-            this._brainstormingContext = brainstormingContext;
-
+            _navigationService = navigationService;
+            _brainstormingDalService = iDalService.BrainstormingDalService;
+            _brainstormingContext = brainstormingContext;
+            _logger = logger;
             FillFindingListItems();
 
-            this.SelectFindingCommand = new DelegateCommand(SelectFinding);
-            this.CreateFindingCommand = new DelegateCommand(CreateBrainstormingFinding);
+            SelectFindingCommand = new DelegateCommand(SelectFinding);
+            CreateFindingCommand = new DelegateCommand(CreateBrainstormingFinding);
         }
 
         private async Task<bool> RefreshFindingList()
@@ -44,13 +44,13 @@ namespace Method635.App.Forms.ViewModels
 
         private async void CreateBrainstormingFinding()
         {
-            await this._navigationService.NavigateAsync("NewBrainstormingPage");
+            await _navigationService.NavigateToCreateBrainstorming();
         }
 
         private void FillFindingListItems()
         {
-            var findingItems = new BrainstormingFindingRestResolver().GetAllFindingsForTeam(_brainstormingContext.CurrentBrainstormingTeam?.Id);
-            HasFindings = findingItems.Count > 0;
+            var findingItems = _brainstormingDalService.GetAllFindings(_brainstormingContext.CurrentBrainstormingTeam?.Id);
+            HasFindings = findingItems.Any();
             // Encapsulate findings from model into findings to be displayed in listview
             FindingList = findingItems.Select(finding => new BrainstormingFindingListItem(finding)).ToList();
         }
@@ -82,21 +82,22 @@ namespace Method635.App.Forms.ViewModels
         private void SelectFinding()
         {
             _brainstormingContext.CurrentFinding = SelectedFinding.Finding;
-            this._eventAggregator.GetEvent<RenderBrainstormingEvent>().Publish();
+            _navigationService.NavigateToBrainstormingTab();
         }
 
-        public void OnNavigatedFrom(NavigationParameters parameters)
-        {
-        }
-
-        public void OnNavigatedTo(NavigationParameters parameters)
+        public void OnNavigatedTo(INavigationParameters parameters)
         {
             FillFindingListItems();
         }
 
+        public void OnNavigatedFrom(INavigationParameters parameters)
+        {
+        }
+
         public BrainstormingFindingListItem SelectedFinding { get; set; }
 
-        public string Title => "Brainstorming Findings";
+
+        public string Title { get; set; }
 
         private List<BrainstormingFindingListItem> _findingList;
         public List<BrainstormingFindingListItem> FindingList

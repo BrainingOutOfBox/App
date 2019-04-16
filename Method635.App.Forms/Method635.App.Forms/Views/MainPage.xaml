@@ -6,10 +6,11 @@
                   xmlns:local1="clr-namespace:Method635.App.Forms.Views.Brainstorming"
                   xmlns:localTeam="clr-namespace:Method635.App.Forms.Views.Team"
                   prism:ViewModelLocator.AutowireViewModel="True"
-                  x:Class="Method635.App.Forms.MainPage">
-    <TabbedPage.Children>
-        <localTeam:TeamPage />
-        <local:BrainstormingFindingListPage />
-        <local1:BrainstormingPage />
+                  x:Class="Method635.App.Forms.MainPage"
+                  Title="{Binding Title}">
+        <TabbedPage.Children>
+            <localTeam:TeamPage />
+            <local:BrainstormingFindingListPage />
+            <local1:BrainstormingPage />
     </TabbedPage.Children>
 </TabbedPage>

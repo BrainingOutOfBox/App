@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+             xmlns:i18n="clr-namespace:Method635.App.Forms.Resources"
              xmlns:b="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="Method635.App.Forms.Views.Team.TeamPage"
@@ -13,7 +14,7 @@
                 <DataTemplate>
                     <ViewCell>
                         <ViewCell.ContextActions>
-                            <MenuItem Command="{Binding LeaveTeamCommand}" Text="Leave Team" CommandParameter="{Binding .}" />
+                            <MenuItem Command="{Binding LeaveTeamCommand}" Text="{i18n:Translate Text=LeaveTeam}" CommandParameter="{Binding .}" />
                         </ViewCell.ContextActions>
                         <Grid Padding="5,10">
                             <Grid.ColumnDefinitions>
@@ -31,17 +32,11 @@
                                       Command="{Binding SelectTeamCommand}"/>
             </ListView.Behaviors>
         </ListView>
-        <Label IsEnabled="False" IsVisible="{Binding HasNoTeam}" HorizontalTextAlignment="Center"
-               VerticalTextAlignment="Center" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-            <Label.Text>
-You don't belong to a team yet.. 
-Join or add a team below
-            </Label.Text>
-        </Label>
-        <Button Command="{Binding JoinTeamCommand}" Text="Join Brainstorming Team"/>
+        <Label IsEnabled="False" IsVisible="{Binding HasTeam,Converter={StaticResource InvertBooleanConverter}}" HorizontalTextAlignment="Center"
+               VerticalTextAlignment="Center" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Text="{i18n:Translate Text=NoTeamYet}" />
+        <Button Command="{Binding JoinTeamCommand}" Text="{i18n:Translate Text=JoinTeam}"/>
 
-        <Button Command="{Binding CreateTeamCommand}" Text="Add Brainstorming Team"/>
+        <Button Command="{Binding CreateTeamCommand}" Text="{i18n:Translate Text=AddTeam}"/>
     </StackLayout>
 
 </ContentPage>
-  

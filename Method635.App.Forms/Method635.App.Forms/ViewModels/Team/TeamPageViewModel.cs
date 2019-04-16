@@ -1,66 +1,75 @@
-﻿using Method635.App.Forms.Context;
-using Method635.App.Forms.Models;
-using Method635.App.Forms.PrismEvents;
-using Method635.App.Forms.RestAccess;
+﻿using Method635.App.Models;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
-using Prism.Navigation;
-using System;
 using System.Collections.Generic;
+using System.Linq;
+using Method635.App.Logging;
+using Xamarin.Forms;
+using Method635.App.Forms.Services;
+using Method635.App.Forms.Resources;
+using Method635.App.BL.Context;
+using Method635.App.BL.Interfaces;
 
 namespace Method635.App.Forms.ViewModels.Team
 {
     public class TeamPageViewModel : BindableBase
 	{
-        private readonly INavigationService _navigationService;
+        private readonly IUiNavigationService _navigationService;
         private readonly IEventAggregator _eventAggregator;
+        private readonly ITeamService _teamService;
         private readonly BrainstormingContext _context;
 
+        private readonly ILogger _logger = DependencyService.Get<ILogManager>().GetLog();
 
-        public TeamPageViewModel(INavigationService navigationService, IEventAggregator eventAggregator, BrainstormingContext context)
+        public TeamPageViewModel(IUiNavigationService navigationService, 
+            IEventAggregator eventAggregator, 
+            ITeamService teamService,
+            BrainstormingContext context)
         {
-            this._navigationService = navigationService;
-            this._eventAggregator = eventAggregator;
-            this._context = context;
+            _navigationService = navigationService;
+            _eventAggregator = eventAggregator;
+            _teamService = teamService;
+            _context = context;
 
-            this.TeamList = FillTeamList();
-            if (this.TeamList.Count > 0 && _context.CurrentBrainstormingTeam == null)
+            TeamList = FillTeamList();
+            if (TeamList.Any() && _context.CurrentBrainstormingTeam == null)
             {
-                SelectedTeam = this.TeamList[0];
-                _context.CurrentBrainstormingTeam = this.SelectedTeam;
+                SelectedTeam = TeamList[0];
+                _context.CurrentBrainstormingTeam = SelectedTeam;
             }
-            this.SelectTeamCommand = new DelegateCommand(SelectTeam);
-            this.CreateTeamCommand = new DelegateCommand(CreateTeam);
-            this.JoinTeamCommand = new DelegateCommand(JoinTeam);
-            this.LeaveTeamCommand = new DelegateCommand<BrainstormingTeam>(LeaveTeam);
+            SelectTeamCommand = new DelegateCommand(SelectTeam);
+            CreateTeamCommand = new DelegateCommand(CreateTeam);
+            JoinTeamCommand = new DelegateCommand(JoinTeam);
+            LeaveTeamCommand = new DelegateCommand<BrainstormingTeam>(LeaveTeam);
         }
 
         private void LeaveTeam(BrainstormingTeam team)
         {
-            Console.WriteLine("Leaving team...");
+            _logger.Info("Leaving team...");
         }
 
-        private void JoinTeam()
+        private async void JoinTeam()
         {
-            this._navigationService.NavigateAsync("JoinTeamPage");
+            await _navigationService.NavigateToJoinTeam();
         }
 
-        private void CreateTeam()
+        private async void CreateTeam()
         {
-            this._navigationService.NavigateAsync("NewTeamPage");
+            await _navigationService.NavigateToCreateTeam();
         }
 
         private void SelectTeam()
         {
             _context.CurrentBrainstormingTeam = _selectedTeam;
-            this._eventAggregator.GetEvent<RenderBrainstormingListEvent>().Publish();
+            _navigationService.NavigateToBrainstormingListTab();
+            //_eventAggregator.GetEvent<RenderBrainstormingListEvent>().Publish();
         }
 
         private List<BrainstormingTeam> FillTeamList()
         {
-            var teamList = new TeamRestResolver().GetMyBrainstormingTeams(_context.CurrentParticipant.UserName);
-            HasTeam = teamList.Count > 0;
+            var teamList = _teamService.GetTeamsByUserName(_context.CurrentParticipant.UserName);
+            HasTeam = teamList.Any();
             return teamList;
         }
 
@@ -76,6 +85,7 @@ namespace Method635.App.Forms.ViewModels.Team
         public DelegateCommand CreateTeamCommand { get; }
         public DelegateCommand JoinTeamCommand { get; }
         public DelegateCommand<BrainstormingTeam> LeaveTeamCommand { get; }
+
         private BrainstormingTeam _selectedTeam;
         public BrainstormingTeam SelectedTeam {
             get =>_selectedTeam;
@@ -91,8 +101,7 @@ namespace Method635.App.Forms.ViewModels.Team
             get => _hasTeam;
             set => SetProperty(ref _hasTeam, value);
         }
-        public bool HasNoTeam => !HasTeam;
 
-        public string Title => "My Teams";
+        public string Title => AppResources.MyTeams;
 	}
 }

@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:i18n="clr-namespace:Method635.App.Forms.Resources"
+             x:Class="Method635.App.Forms.Views.Brainstorming.StartBrainstormingView">
+    <ContentView.Content>
+        <StackLayout Orientation="Vertical">
+            <Image Source="start_brainstorming.PNG" Aspect="AspectFit">
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding TapCommand}" />
+                </Image.GestureRecognizers>
+            </Image>
+            <Label Text="{i18n:Translate Text=ClickToStartBrainstorming}" HorizontalOptions="Center" />
+            <Label Text="{Binding ConnectionErrorText}" x:Name="connectionErrorLabel" IsVisible="False" TextColor="Red"/>
+        </StackLayout>
+    </ContentView.Content>
+</ContentView>

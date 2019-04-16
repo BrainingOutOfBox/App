@@ -1,4 +1,4 @@
-﻿using Method635.App.Forms.Context;
+﻿using Method635.App.Logging;
 using Method635.App.Forms.ViewModels;
 using Method635.App.Forms.ViewModels.Account;
 using Method635.App.Forms.ViewModels.Brainstorming;
@@ -16,6 +16,19 @@ using Prism.DryIoc;
 using Prism.Ioc;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using Method635.App.Forms.Services;
+using Method635.App.Dal.Config;
+using Method635.App.BL;
+using Method635.App.Dal.Interfaces;
+using Method635.App.Dal;
+using Method635.App.Forms.RestAccess;
+using Method635.App.BL.Interfaces;
+using Method635.App.BL.BusinessServices;
+using Method635.App.BL.Context;
+using Method635.App.Models.Models;
+using AutoMapper;
+using Method635.App.Dal.Mapping.Mappers;
+using System;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace Method635.App.Forms
@@ -25,25 +38,62 @@ namespace Method635.App.Forms
         public App() : this(null) { }
 
         public App(IPlatformInitializer initializer) : base(initializer) { }
+        private readonly ILogger _logger = DependencyService.Get<ILogManager>().GetLog();
 
         protected override async void OnInitialized()
         {
-            InitializeComponent();
-            await NavigationService.NavigateAsync("NavigationPage/LoginPage");
+            try
+            {
+                InitializeComponent();
+                await NavigationService.NavigateAsync("NavigationPage/LoginPage");
+            }
+            catch (Exception ex)
+            {
+                _logger.Error("Fatal exception, the world has come to an end :(", ex);
+            }
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            containerRegistry.RegisterSingleton<ILogger, NLogLogger>();
+            containerRegistry.RegisterSingleton<IConfigurationService, JsonConfigurationService>();
+
+            containerRegistry.RegisterSingleton<IHttpClientService, RestClientService>();
+
             containerRegistry.RegisterForNavigation<NavigationPage>();
-            
+            containerRegistry.RegisterSingleton<IUiNavigationService, UiNavigationService>();
+
+            containerRegistry.Register<IDalService, RestDalService>();
+            containerRegistry.Register<IBrainstormingDalService, BrainstormingFindingRestResolver>();
+            containerRegistry.Register<IParticipantDalService, ParticipantRestResolver>();
+            containerRegistry.Register<ITeamDalService, TeamRestResolver>();
+
+            var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.AddProfile(new BrainstormingMappingProfile());
+                    cfg.AddProfile(new ParticipantMappingProfile());
+                    cfg.AddProfile(new TeamMappingProfile());
+                }
+            );
+            config.AssertConfigurationIsValid();
+
+            containerRegistry.RegisterInstance(typeof(IMapper), config.CreateMapper());
+
+
+
+            containerRegistry.Register<IBrainstormingService, BrainstormingService>();
+            containerRegistry.Register<IParticipantService, ParticipantService>();
+            containerRegistry.Register<ITeamService, TeamService>();
+
+            containerRegistry.RegisterSingleton<BrainstormingContext>();
+            containerRegistry.Register<BrainstormingModel>();
+
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
 
             containerRegistry.RegisterForNavigation<LoginPage, LoginPageViewModel>();
             containerRegistry.RegisterForNavigation<CreateAccountPage, CreateAccountPageViewModel>();
 
-
             containerRegistry.RegisterForNavigation<BrainstormingPage, BrainstormingPageViewModel>();
-            containerRegistry.RegisterForNavigation<StartBrainstormingPage, StartBrainstormingPageViewModel>();
             containerRegistry.RegisterForNavigation<NewBrainstormingPage, NewBrainstormingPageViewModel>();
             containerRegistry.RegisterForNavigation<BrainstormingFindingListPage, BrainstormingFindingListPageViewModel>();
 
@@ -53,7 +103,6 @@ namespace Method635.App.Forms
             containerRegistry.RegisterForNavigation<JoinTeamPage, JoinTeamPageViewModel>();
 
 
-            containerRegistry.RegisterSingleton<BrainstormingContext>();
         }
 
         protected override void OnStart()

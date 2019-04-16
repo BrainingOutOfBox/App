@@ -1,16 +1,13 @@
-﻿using Method635.App.Forms.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Method635.App.Models;
 
 namespace Method635.App.Forms.ViewModels.Navigation
 {
     public class BrainstormingFindingListItem
     {
-        public readonly BrainstormingFinding Finding;
+        public BrainstormingFinding Finding { get; }
         public BrainstormingFindingListItem(BrainstormingFinding finding)
         {
-            this.Finding = finding;
+            Finding = finding;
         }
 
         public string Title { get => Finding.Name; }

@@ -1,47 +1,52 @@
-﻿using System;
-using Method635.App.Forms.Models;
-using Method635.App.Forms.RestAccess;
+﻿using Method635.App.Models;
 using Prism.Commands;
 using Prism.Mvvm;
-using Prism.Navigation;
+using Method635.App.Logging;
+using Xamarin.Forms;
+using Method635.App.Forms.Services;
+using Method635.App.Forms.Resources;
+using Method635.App.BL.Interfaces;
 
 namespace Method635.App.Forms.ViewModels.Account
 {
     public class CreateAccountPageViewModel : BindableBase
     {
-        private readonly INavigationService _navigationService;
+        private readonly IUiNavigationService _navigationService;
+        private readonly IParticipantService _participantService;
+
+        private readonly ILogger _logger = DependencyService.Get<ILogManager>().GetLog();
 
         public DelegateCommand RegisterCommand { get; }
 
-        public CreateAccountPageViewModel(INavigationService navigationService)
+        public CreateAccountPageViewModel(IUiNavigationService navigationService, IParticipantService participantService)
         {
-            this._navigationService = navigationService;
-
-            this.RegisterCommand = new DelegateCommand(Register);
+            _navigationService = navigationService;
+            _participantService = participantService;
+            RegisterCommand = new DelegateCommand(Register);
         }
 
         private async void Register()
         {
             if (!CheckInput())
             {
-                Console.WriteLine("Input validation failed");
+                _logger.Error("Input validation failed");
                 return;
             }
 
             var newParticipant = new Participant()
             {
-                FirstName = this.FirstName,
-                LastName = this.LastName,
-                UserName = this.UserName,
-                Password = this.Password
+                FirstName = FirstName,
+                LastName = LastName,
+                UserName = UserName,
+                Password = Password
             };
-            if(!new ParticipantRestResolver().CreateParticipant(newParticipant))
+            if(!_participantService.Register(newParticipant))
             {
-                ErrorMessage = "There was an error registering your user.";
+                ErrorMessage = AppResources.ErrorRegisteringUser; 
                 RegisterFailed = true;
                 return;
             }
-            await _navigationService.NavigateAsync("app:///NavigationPage/LoginPage");
+            await _navigationService.NavigateToLogin();
         }
 
         private bool CheckInput()
@@ -50,13 +55,12 @@ namespace Method635.App.Forms.ViewModels.Account
             RegisterFailed = false;
             if (_password != _repeatPassword)
             {
-                ErrorMessage = "Please make sure the passwords match.";
+                ErrorMessage = AppResources.PasswordsDontMatch;
                 RegisterFailed = true;
                 return false;
             }
             return true;
         }
-
 
         private string _firstName;
         public string FirstName

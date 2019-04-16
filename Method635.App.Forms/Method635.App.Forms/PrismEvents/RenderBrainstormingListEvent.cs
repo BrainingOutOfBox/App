@@ -5,7 +5,8 @@ using System.Text;
 
 namespace Method635.App.Forms.PrismEvents
 {
-    public class RenderBrainstormingListEvent : PubSubEvent
+    internal class RenderBrainstormingListEvent : PubSubEvent
     {
+
     }
 }

@@ -117,7 +117,192 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="GetTimeText" xml:space="preserve">
-    <value>Get Time</value>
+  <data name="ErrorRegisteringUser" xml:space="preserve">
+    <value>There was an error registering your user.</value>
+  </data>
+  <data name="PasswordsDontMatch" xml:space="preserve">
+    <value>Please make sure the passwords match.</value>
+  </data>
+  <data name="SheetNrOfNr" xml:space="preserve">
+    <value>Sheet {0} of {1}</value>
+  </data>
+  <data name="Brainstorming" xml:space="preserve">
+    <value>Brainstorming</value>
+  </data>
+  <data name="DontUseProhibitedChars" xml:space="preserve">
+    <value>Please don't use any of the prohibited characters.</value>
+  </data>
+  <data name="FillNecessaryFields" xml:space="preserve">
+    <value>Please fill in all the necessary fields.</value>
+  </data>
+  <data name="UseNumbersInFields" xml:space="preserve">
+    <value>Please use numbers in the corresponding fields.</value>
+  </data>
+  <data name="ProhibitedCharsText" xml:space="preserve">
+    <value>Prohibited characters (comma-separated, including whitespace): {0}</value>
+  </data>
+  <data name="ClickToStartBrainstorming" xml:space="preserve">
+    <value>Click on the icon to start Brainstorming.</value>
+  </data>
+  <data name="BrainstormingFindings" xml:space="preserve">
+    <value>Brainstorming Findings</value>
+  </data>
+  <data name="MemberCountString" xml:space="preserve">
+    <value>{0} of {1} Members joined.</value>
+  </data>
+  <data name="BottomOverlayText" xml:space="preserve">
+    <value>Found Team, placing call to join it..</value>
+  </data>
+  <data name="SomethingWrongTryAgain" xml:space="preserve">
+    <value>Something went wrong, please try again.</value>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>Success!</value>
+  </data>
+  <data name="MyTeams" xml:space="preserve">
+    <value>My Teams</value>
+  </data>
+  <data name="LoginError" xml:space="preserve">
+    <value>There was an error with your login, please try again.</value>
+  </data>
+  <data name="CreateAccount" xml:space="preserve">
+    <value>Create Account</value>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>Register</value>
+  </data>
+  <data name="FirstName" xml:space="preserve">
+    <value>Firstname</value>
+  </data>
+  <data name="LastName" xml:space="preserve">
+    <value>Lastname</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="RepeatPassword" xml:space="preserve">
+    <value>Repeat Password</value>
+  </data>
+  <data name="UserName" xml:space="preserve">
+    <value>Username</value>
+  </data>
+  <data name="Completed" xml:space="preserve">
+    <value>Completed</value>
+  </data>
+  <data name="Send" xml:space="preserve">
+    <value>Send</value>
+  </data>
+  <data name="FindingName" xml:space="preserve">
+    <value>Brainstorming Finding Name</value>
+  </data>
+  <data name="NrOfIdeas" xml:space="preserve">
+    <value>Number of Ideas</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="NrOfIdeasPlaceholder" xml:space="preserve">
+    <value># Ideas</value>
+  </data>
+  <data name="IdeasDescription" xml:space="preserve">
+    <value>Choose how many ideas you want to have in one round</value>
+  </data>
+  <data name="RoundTime" xml:space="preserve">
+    <value>Round Time</value>
+  </data>
+  <data name="RoundTimeText" xml:space="preserve">
+    <value>Base Round Time in mins</value>
+  </data>
+  <data name="RoundTimeDescription" xml:space="preserve">
+    <value>Choose what your base round time will be. This will be incremented by 1 min every round</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="BrainstormingDescription" xml:space="preserve">
+    <value>Short Description of the topic the brainstorming is about.</value>
+  </data>
+  <data name="CreateFinding" xml:space="preserve">
+    <value>Create Finding</value>
+  </data>
+  <data name="StartBrainstorming" xml:space="preserve">
+    <value>Start Brainstorming</value>
+  </data>
+  <data name="AddFinding" xml:space="preserve">
+    <value>Add Brainstorming Finding</value>
+  </data>
+  <data name="NoFindingsYet" xml:space="preserve">
+    <value>There are no brainstorming findings for this team yet.. 
+Add a brainstorming finding below or wait till another team member creates one.</value>
+  </data>
+  <data name="InviteMembers" xml:space="preserve">
+    <value>Invite Team Members</value>
+  </data>
+  <data name="TellMembersToJoin" xml:space="preserve">
+    <value>Tell your team members to scan the QR-Code to join the team</value>
+  </data>
+  <data name="JoinTeam" xml:space="preserve">
+    <value>Join Team</value>
+  </data>
+  <data name="PlaceQrInArea" xml:space="preserve">
+    <value>Place the code inside the area</value>
+  </data>
+  <data name="CreateTeam" xml:space="preserve">
+    <value>Create a new Team</value>
+  </data>
+  <data name="TeamName" xml:space="preserve">
+    <value>Team Name</value>
+  </data>
+  <data name="NameConstraints" xml:space="preserve">
+    <value>Names must be shorter than 22 characters and without spaces or periods.</value>
+  </data>
+  <data name="TeamSize" xml:space="preserve">
+    <value>Team Size</value>
+  </data>
+  <data name="TeamSizeText" xml:space="preserve">
+    <value>Number of Participants</value>
+  </data>
+  <data name="TeamSizeDescription" xml:space="preserve">
+    <value>Choose how many participants the team should have</value>
+  </data>
+  <data name="Purpose" xml:space="preserve">
+    <value>Purpose (optional)</value>
+  </data>
+  <data name="PurposeText" xml:space="preserve">
+    <value>Briefly describe the purpose of your team</value>
+  </data>
+  <data name="LeaveTeam" xml:space="preserve">
+    <value>Leave Team</value>
+  </data>
+  <data name="AddTeam" xml:space="preserve">
+    <value>Add Brainstorming Team</value>
+  </data>
+  <data name="NoTeamYet" xml:space="preserve">
+    <value>You don't belong to a team yet.. 
+Join or add a team below</value>
+  </data>
+  <data name="LoginTitle" xml:space="preserve">
+    <value>Login to Brainstorming</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="Method635" xml:space="preserve">
+    <value>Method 635</value>
+  </data>
+  <data name="InvalidRoundTime" xml:space="preserve">
+    <value>Please choose a round time greater than 0.</value>
+  </data>
+  <data name="InvalidNrOfIdeas" xml:space="preserve">
+    <value>Please choose a number of ideas greater than 0.</value>
+  </data>
+  <data name="Team" xml:space="preserve">
+    <value>Team</value>
+  </data>
+  <data name="IdeaDescription" xml:space="preserve">
+    <value>Idea Description:</value>
+  </data>
+  <data name="Commit" xml:space="preserve">
+    <value>Commit</value>
   </data>
 </root>
