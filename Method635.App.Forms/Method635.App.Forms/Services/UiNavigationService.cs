@@ -54,7 +54,7 @@ namespace Method635.App.Forms.Services
 
         public async Task NavigateToBrainstormingTab()
         {
-            await _navigationService.NavigateAsync("/NavigationPage/MainPage?selectedTab=BrainstormingPage/");
+            var res = await _navigationService.NavigateAsync("/NavigationPage/MainPage?selectedTab=BrainstormingPage/");
         }
 
         public async Task NavigateToCreateBrainstorming()
@@ -80,6 +80,16 @@ namespace Method635.App.Forms.Services
         public async Task NavigateToStartBrainstorming()
         {
             await _navigationService.NavigateAsync("/NavigationPage/MainPage/StartBrainstormingPage/");
+        }
+
+        public async Task NavigateToInsertSpecial(INavigationParameters parameters)
+        {
+            var res = await _navigationService.NavigateAsync("/NavigationPage/MainPage?selectedTab=BrainstormingPage/InsertSpecialPage", parameters, useModalNavigation: true);
+        }
+
+        public async Task NavigateToInsertSketch(INavigationParameters parameters)
+        {
+            var res = await _navigationService.NavigateAsync("/NavigationPage/MainPage?selectedTab=BrainstormingPage/InsertSpecialPage/SketchPage", parameters, useModalNavigation: true);
         }
     }
 }

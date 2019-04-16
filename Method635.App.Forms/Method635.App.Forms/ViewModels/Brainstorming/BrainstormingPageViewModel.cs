@@ -1,7 +1,6 @@
 ﻿using Method635.App.Models;
 using Prism.Commands;
 using Prism.Mvvm;
-using Prism.Navigation;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Method635.App.Forms.Resources;
@@ -9,7 +8,7 @@ using Method635.App.Forms.Services;
 using Method635.App.BL.Interfaces;
 using System.ComponentModel;
 using Method635.App.BL.Context;
-using System;
+using Prism.Navigation;
 
 namespace Method635.App.Forms.ViewModels
 {
@@ -25,6 +24,7 @@ namespace Method635.App.Forms.ViewModels
         public DelegateCommand SendBrainwaveCommand { get; }
         public DelegateCommand RefreshCommand { get; }
         public DelegateCommand TapCommand { get; }
+        public DelegateCommand InsertSpecialCommand { get; }
 
         public BrainstormingPageViewModel(
             IUiNavigationService navigationService, 
@@ -42,8 +42,20 @@ namespace Method635.App.Forms.ViewModels
             SendBrainwaveCommand = new DelegateCommand(SendBrainWave);
             RefreshCommand = new DelegateCommand(RefreshPage);
             TapCommand = new DelegateCommand(StartBrainstorming);
+            InsertSpecialCommand = new DelegateCommand(InsertSpecial);
+
             CommitEnabled = true;
         }
+
+        private void InsertSpecial()
+        {
+            var navParam = new NavigationParameters
+            {
+                { "brainstormingService", _brainstormingService }
+            };
+            _navigationService.NavigateToInsertSpecial(navParam);
+        }
+
         private void StartBrainstorming()
         {
             _brainstormingService.StartBrainstorming();

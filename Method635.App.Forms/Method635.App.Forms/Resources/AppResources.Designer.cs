@@ -241,6 +241,15 @@ namespace Method635.App.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Choose your insertion type.
+        /// </summary>
+        internal static string InsertSpecialTitle {
+            get {
+                return ResourceManager.GetString("InsertSpecialTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please choose a number of ideas greater than 0..
         /// </summary>
         internal static string InvalidNrOfIdeas {
@@ -423,6 +432,15 @@ namespace Method635.App.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Pattern Idea.
+        /// </summary>
+        internal static string Pattern {
+            get {
+                return ResourceManager.GetString("Pattern", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Place the code inside the area.
         /// </summary>
         internal static string PlaceQrInArea {
@@ -518,6 +536,24 @@ namespace Method635.App.Forms.Resources {
         internal static string SheetNrOfNr {
             get {
                 return ResourceManager.GetString("SheetNrOfNr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sketch Idea.
+        /// </summary>
+        internal static string Sketch {
+            get {
+                return ResourceManager.GetString("Sketch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sketching Page.
+        /// </summary>
+        internal static string SketchPage {
+            get {
+                return ResourceManager.GetString("SketchPage", resourceCulture);
             }
         }
         

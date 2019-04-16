@@ -46,6 +46,12 @@ namespace Method635.App.BL
             BrainSheets = _brainstormingModel.BrainSheets;
             RemainingTime = _brainstormingModel.RemainingTime;
             CurrentSheetIndex = _brainstormingModel.CurrentSheetIndex;
+            if (IsRunning)
+            {
+                CurrentIdea =
+                    _brainstormingModel.BrainWaves?[_context.CurrentFinding.CurrentRound - 1]
+                        .Ideas?[commitIdeaIndex % _context.CurrentFinding.NrOfIdeas];
+            }
         }
 
         public void StartBusinessService()
@@ -157,11 +163,18 @@ namespace Method635.App.BL
         private List<Participant> _teamParticipants => _context.CurrentBrainstormingTeam.Participants;
 
         private int _currentSheetNr;
+
         public int CurrentSheetIndex
         {
             get => _currentSheetNr;
             set => SetProperty(ref _currentSheetNr, value);
         }
 
+        private Idea _currentIdea;
+        public Idea CurrentIdea
+        {
+            get => _currentIdea;
+            set => SetProperty(ref _currentIdea, value);
+        }
     }
 }

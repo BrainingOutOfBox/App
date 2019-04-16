@@ -305,4 +305,16 @@ Join or add a team below</value>
   <data name="Commit" xml:space="preserve">
     <value>Commit</value>
   </data>
+  <data name="Sketch" xml:space="preserve">
+    <value>Sketch Idea</value>
+  </data>
+  <data name="InsertSpecialTitle" xml:space="preserve">
+    <value>Choose your insertion type</value>
+  </data>
+  <data name="Pattern" xml:space="preserve">
+    <value>Pattern Idea</value>
+  </data>
+  <data name="SketchPage" xml:space="preserve">
+    <value>Sketching Page</value>
+  </data>
 </root>

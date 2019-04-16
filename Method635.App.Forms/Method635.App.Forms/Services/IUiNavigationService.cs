@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Prism.Navigation;
 using System.Threading.Tasks;
 
 namespace Method635.App.Forms.Services
@@ -18,5 +16,7 @@ namespace Method635.App.Forms.Services
         Task NavigateToBrainstormingTab();
         Task NavigateToCreateBrainstorming();
         Task NavigateToStartBrainstorming();
+        Task NavigateToInsertSpecial(INavigationParameters parameters);
+        Task NavigateToInsertSketch(INavigationParameters parameters);
     }
 }

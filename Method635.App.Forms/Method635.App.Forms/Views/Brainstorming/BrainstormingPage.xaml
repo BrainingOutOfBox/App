@@ -29,7 +29,11 @@
                                                         <ListView.ItemTemplate>
                                                             <DataTemplate>
                                                                 <ViewCell>
+                                                                <StackLayout Orientation="Vertical">
+                                                                    <Image Source="{Binding ImageSource}" />
                                                                     <Label Text="{Binding Description}" Margin="5" VerticalTextAlignment="Start" HorizontalTextAlignment="Start"/>
+                                                                    <Label />
+                                                                </StackLayout>
                                                                 </ViewCell>
                                                             </DataTemplate>
                                                         </ListView.ItemTemplate>
@@ -59,7 +63,10 @@
                 <Frame>
                     <Editor Grid.Column="0" HeightRequest="100" Text="{Binding IdeaText}" />
                 </Frame>
-                <Button Text="{i18n:Translate Text=Commit}" Grid.Column="1" VerticalOptions="Center" Command="{Binding CommitCommand}" IsEnabled="{Binding CommitEnabled}"/>
+                <StackLayout Orientation="Vertical" Grid.Column="1" VerticalOptions="CenterAndExpand">
+                    <Button Text="+" Command="{Binding InsertSpecialCommand}" />
+                    <Button Text="{i18n:Translate Text=Commit}" Command="{Binding CommitCommand}" IsEnabled="{Binding CommitEnabled}"/>
+                </StackLayout>
             </Grid>
         </StackLayout>
 

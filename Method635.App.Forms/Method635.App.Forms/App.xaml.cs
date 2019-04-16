@@ -29,6 +29,7 @@ using Method635.App.Models.Models;
 using AutoMapper;
 using Method635.App.Dal.Mapping.Mappers;
 using System;
+using Method635.App.Forms.Views.Brainstorming.SpecialContent;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace Method635.App.Forms
@@ -101,8 +102,10 @@ namespace Method635.App.Forms
             containerRegistry.RegisterForNavigation<NewTeamPage, NewTeamPageViewModel>();
             containerRegistry.RegisterForNavigation<InviteTeamPage, InviteTeamPageViewModel>();
             containerRegistry.RegisterForNavigation<JoinTeamPage, JoinTeamPageViewModel>();
+            containerRegistry.RegisterForNavigation<InsertSpecialPage, InsertSpecialPageViewModel>();
+            containerRegistry.RegisterForNavigation<SketchPage>();
 
-
+            containerRegistry.RegisterForNavigation<SketchPage, SketchPageViewModel>();
         }
 
         protected override void OnStart()
