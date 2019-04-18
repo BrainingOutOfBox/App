@@ -40,7 +40,6 @@ namespace Method635.App.Forms.ViewModels
         private async void Login()
         {
             IsRunning = true;
-            await Task.Delay(50);
             if (!CheckInput())
             {
                 _logger.Error("Input invalid for login");
@@ -53,7 +52,7 @@ namespace Method635.App.Forms.ViewModels
                 UserName = UserName,
                 Password = Password
             };
-            var participant = _participantDalService.Login(loginParticipant);
+            var participant = await Task.Run(() => _participantDalService.Login(loginParticipant));
             if(participant != null)
             {
                 _context.CurrentParticipant = participant;
