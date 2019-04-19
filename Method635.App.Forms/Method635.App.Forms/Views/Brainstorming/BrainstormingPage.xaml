@@ -25,16 +25,13 @@
                                         <DataTemplate>
                                             <ViewCell>
                                                 <StackLayout Orientation="Vertical" BackgroundColor="#F9F9F9" Margin="0,20">
-                                                    <ListView ItemsSource="{Binding Ideas}" HasUnevenRows="False" RowHeight="100" SelectionMode="None">
+                                                    <ListView ItemsSource="{Binding Ideas}" HasUnevenRows="False" RowHeight="240" SelectionMode="None">
                                                         <ListView.ItemTemplate>
                                                             <DataTemplate>
                                                                 <ViewCell>
                                                                 <StackLayout Orientation="Vertical">
-                                                                    <Frame BorderColor="Green" HeightRequest="50">
-                                                                        <Image Source="{Binding ImageSource}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Aspect="Fill"/>
-                                                                    </Frame>
+                                                                    <Image Source="{Binding ImageSource}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Aspect="Fill" HeightRequest="190"/>
                                                                     <Label Text="{Binding Description}" Margin="5" VerticalTextAlignment="Start" HorizontalTextAlignment="Start" HeightRequest="50"/>
-                                                                    <Label />
                                                                 </StackLayout>
                                                                 </ViewCell>
                                                             </DataTemplate>
