@@ -38,7 +38,7 @@ namespace Method635.App.Forms.ViewModels
 
         private async Task<bool> RefreshFindingList()
         {
-            FillFindingListItems();
+            await Task.Run(() => FillFindingListItems());
             return true;
         }
 

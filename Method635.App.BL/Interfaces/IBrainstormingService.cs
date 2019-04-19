@@ -22,6 +22,5 @@ namespace Method635.App.BL.Interfaces
         void SendBrainWave();
         void StartBrainstorming();
         event PropertyChangedEventHandler PropertyChanged;
-
     }
 }

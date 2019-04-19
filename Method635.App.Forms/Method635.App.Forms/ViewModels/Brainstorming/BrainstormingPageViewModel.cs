@@ -117,8 +117,8 @@ namespace Method635.App.Forms.ViewModels
 
         public void Destroy()
         {
-            _brainstormingService.StopBusinessService();
-            _brainstormingService.PropertyChanged -= _brainstormingService_PropertyChanged;
+            //_brainstormingService.StopBusinessService();
+            //_brainstormingService.PropertyChanged -= _brainstormingService_PropertyChanged;
         }
 
         private ObservableCollection<BrainSheet> _brainSheets;
@@ -126,13 +126,6 @@ namespace Method635.App.Forms.ViewModels
         {
             get => _brainSheets;
             private set => SetProperty(ref _brainSheets, value);
-        }
-
-        private List<BrainWave> _brainWaves;
-        public List<BrainWave> BrainWaves
-        {
-            get => _brainWaves;
-            private set => SetProperty(ref _brainWaves, value);
         }
 
         private int _currentSheetIndex;
@@ -203,7 +196,6 @@ namespace Method635.App.Forms.ViewModels
             get => _isBrainstormingFinished;
             set => SetProperty(ref _isBrainstormingFinished, value);
         }
-
         private bool _brainWaveSent;
         public bool BrainWaveSent
         {

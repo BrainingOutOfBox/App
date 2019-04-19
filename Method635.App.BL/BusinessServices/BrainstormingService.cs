@@ -1,4 +1,5 @@
-﻿using Method635.App.BL.BusinessServices.BrainstormingStateMachine;
+﻿using Method635.App.BL.BusinessServices;
+using Method635.App.BL.BusinessServices.BrainstormingStateMachine;
 using Method635.App.BL.Context;
 using Method635.App.BL.Interfaces;
 using Method635.App.Dal.Interfaces;
@@ -37,6 +38,7 @@ namespace Method635.App.BL
 
             _brainstormingModel = brainstormingModel;
             _brainstormingModel.PropertyChanged += _brainstormingModel_PropertyChanged;
+
             
         }
 
@@ -46,12 +48,6 @@ namespace Method635.App.BL
             BrainSheets = _brainstormingModel.BrainSheets;
             RemainingTime = _brainstormingModel.RemainingTime;
             CurrentSheetIndex = _brainstormingModel.CurrentSheetIndex;
-            if (IsRunning)
-            {
-                CurrentIdea =
-                    _brainstormingModel.BrainWaves?[_context.CurrentFinding.CurrentRound - 1]
-                        .Ideas?[commitIdeaIndex % _context.CurrentFinding.NrOfIdeas];
-            }
         }
 
         public void StartBusinessService()
@@ -119,7 +115,6 @@ namespace Method635.App.BL
             }
         }
 
-
         private bool _isWaiting;
         public bool IsWaiting
         {
@@ -174,7 +169,13 @@ namespace Method635.App.BL
         public Idea CurrentIdea
         {
             get => _currentIdea;
-            set => SetProperty(ref _currentIdea, value);
+            set
+            {
+                _context.CurrentFinding.BrainSheets[CurrentSheetIndex].BrainWaves[_context.CurrentFinding.CurrentRound - 1].Ideas[commitIdeaIndex % _context.CurrentFinding.NrOfIdeas] = value;
+                _brainstormingModel.BrainWaves[_context.CurrentFinding.CurrentRound - 1].Ideas[commitIdeaIndex % _context.CurrentFinding.NrOfIdeas] = value;
+                commitIdeaIndex++;
+                SetProperty(ref _currentIdea, value);
+            }
         }
     }
 }

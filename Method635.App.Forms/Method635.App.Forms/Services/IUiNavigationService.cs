@@ -18,5 +18,6 @@ namespace Method635.App.Forms.Services
         Task NavigateToStartBrainstorming();
         Task NavigateToInsertSpecial(INavigationParameters parameters);
         Task NavigateToInsertSketch(INavigationParameters parameters);
+        void NavigateBackToBrainstormingTab();
     }
 }

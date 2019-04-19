@@ -84,12 +84,17 @@ namespace Method635.App.Forms.Services
 
         public async Task NavigateToInsertSpecial(INavigationParameters parameters)
         {
-            var res = await _navigationService.NavigateAsync("/NavigationPage/MainPage?selectedTab=BrainstormingPage/InsertSpecialPage", parameters, useModalNavigation: true);
+            var res = await _navigationService.NavigateAsync("/NavigationPage/MainPage?selectedTab=BrainstormingPage/InsertSpecialPage", parameters);
         }
 
         public async Task NavigateToInsertSketch(INavigationParameters parameters)
         {
-            var res = await _navigationService.NavigateAsync("/NavigationPage/MainPage?selectedTab=BrainstormingPage/InsertSpecialPage/SketchPage", parameters, useModalNavigation: true);
+            var res = await _navigationService.NavigateAsync("/NavigationPage/MainPage?selectedTab=BrainstormingPage/InsertSpecialPage/SketchPage", parameters);
+        }
+
+        public async void NavigateBackToBrainstormingTab()
+        {
+            var res = await _navigationService.GoBackToRootAsync();
         }
     }
 }

@@ -82,12 +82,12 @@ namespace Method635.App.Forms
 
 
 
-            containerRegistry.Register<IBrainstormingService, BrainstormingService>();
+            containerRegistry.RegisterSingleton<IBrainstormingService, BrainstormingService>();
             containerRegistry.Register<IParticipantService, ParticipantService>();
             containerRegistry.Register<ITeamService, TeamService>();
 
             containerRegistry.RegisterSingleton<BrainstormingContext>();
-            containerRegistry.Register<BrainstormingModel>();
+            containerRegistry.RegisterSingleton<BrainstormingModel>();
 
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
 

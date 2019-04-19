@@ -1,9 +1,17 @@
-﻿using Method635.App.Forms.Views.Brainstorming.SpecialContent.Sketching;
+﻿using Method635.App.BL.BusinessServices;
+using Method635.App.BL.Interfaces;
+using Method635.App.Forms.PrismEvents;
+using Method635.App.Forms.Services;
+using Method635.App.Forms.Views.Brainstorming.SpecialContent.Sketching;
 using Method635.App.Forms.Views.Brainstorming.SpecialContent.Sketching.TouchEffect;
+using Method635.App.Models;
+using Method635.App.Models.Models;
+using Prism.Events;
 using SkiaSharp;
 using SkiaSharp.Views.Forms;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
 using Xamarin.Forms;
 
@@ -12,8 +20,15 @@ namespace Method635.App.Forms.Views.Brainstorming.SpecialContent
 {
     public partial class SketchPage : ContentPage
     {
-        public SketchPage()
+        private readonly IUiNavigationService _navigationService;
+        private readonly IEventAggregator _eventAggregator;
+        private readonly IBrainstormingService _brainstormingService;
+
+        public SketchPage(IUiNavigationService navigationService, IEventAggregator eventAggregator, IBrainstormingService brainstormingService)
         {
+            _navigationService = navigationService;
+            _eventAggregator = eventAggregator;
+            _brainstormingService = brainstormingService;
             InitializeComponent();
         }
         Dictionary<long, FingerPaintPolyline> inProgressPolylines = new Dictionary<long, FingerPaintPolyline>();
@@ -25,7 +40,6 @@ namespace Method635.App.Forms.Views.Brainstorming.SpecialContent
             StrokeCap = SKStrokeCap.Round,
             StrokeJoin = SKStrokeJoin.Round
         };
-
         void OnClearButtonClicked(object sender, EventArgs args)
         {
             completedPolylines.Clear();
@@ -140,11 +154,19 @@ namespace Method635.App.Forms.Views.Brainstorming.SpecialContent
             canvas.Flush();
 
             var snap = surface.Snapshot();
-
+            SketchIdea sketchIdea = new SketchIdea()
+            {
+                ImageStream = new MemoryStream()
+            };
             using (var data = snap.Encode(SKEncodedImageFormat.Png, 80))
             {
-                //_saveService.Save(data.AsStream());
+                data.AsStream().CopyTo(sketchIdea.ImageStream);
             }
+            sketchIdea.ImageStream.Position = 0;
+
+            var si = new SketchIdeaModel();
+            si.ImageSource = ImageSource.FromStream(() => sketchIdea.ImageStream);
+            _brainstormingService.CurrentIdea = si;
         }
     }
 }

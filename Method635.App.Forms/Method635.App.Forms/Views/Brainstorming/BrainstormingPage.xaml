@@ -30,8 +30,10 @@
                                                             <DataTemplate>
                                                                 <ViewCell>
                                                                 <StackLayout Orientation="Vertical">
-                                                                    <Image Source="{Binding ImageSource}" />
-                                                                    <Label Text="{Binding Description}" Margin="5" VerticalTextAlignment="Start" HorizontalTextAlignment="Start"/>
+                                                                    <Frame BorderColor="Green" HeightRequest="50">
+                                                                        <Image Source="{Binding ImageSource}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Aspect="Fill"/>
+                                                                    </Frame>
+                                                                    <Label Text="{Binding Description}" Margin="5" VerticalTextAlignment="Start" HorizontalTextAlignment="Start" HeightRequest="50"/>
                                                                     <Label />
                                                                 </StackLayout>
                                                                 </ViewCell>
