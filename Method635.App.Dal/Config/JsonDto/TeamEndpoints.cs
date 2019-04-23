@@ -1,9 +1,6 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Method635.App.Dal.Config
+namespace Method635.App.Dal.Config.JsonDto
 {
     public class TeamEndpoints
     {

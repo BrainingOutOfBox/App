@@ -5,5 +5,6 @@
         IBrainstormingDalService BrainstormingDalService { get; }
         IParticipantDalService ParticipantDalService { get; }
         ITeamDalService TeamDalService { get; }
+        IFileDalService FileDalService { get; }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace Method635.App.Dal.Config
+﻿using Method635.App.Dal.Config.JsonDto;
+
+namespace Method635.App.Dal.Config
 {
     public interface IServerConfig
     {
@@ -6,5 +8,6 @@
         BrainstormingEndpoints BrainstormingEndpoints { get; set; }
         ParticipantEndpoints ParticipantEndpoints { get; set; }
         TeamEndpoints TeamEndpoints { get; set; }
+        FileEndpoints FileEndpoints { get; set; }
     }
 }

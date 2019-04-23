@@ -163,10 +163,7 @@ namespace Method635.App.Forms.Views.Brainstorming.SpecialContent
                 data.AsStream().CopyTo(sketchIdea.ImageStream);
             }
             sketchIdea.ImageStream.Position = 0;
-
-            var si = new SketchIdeaModel();
-            si.ImageSource = ImageSource.FromStream(() => sketchIdea.ImageStream);
-            _brainstormingService.CurrentIdea = si;
+            _brainstormingService.UploadSketchIdea(new SketchIdeaModel(sketchIdea));
         }
     }
 }

@@ -19,6 +19,7 @@ namespace Method635.App.BL
         private readonly BrainstormingContext _context;
         private readonly IBrainstormingDalService _brainstormingDalService;
         private readonly ITeamDalService _teamDalService;
+        private readonly IFileDalService _fileDalService;
         private readonly StateMachine _stateMachine;
         private int commitIdeaIndex = 0;
         private readonly BrainstormingModel _brainstormingModel;
@@ -33,6 +34,7 @@ namespace Method635.App.BL
             _context = brainstormingContext;
             _brainstormingDalService = iDalService.BrainstormingDalService;
             _teamDalService = iDalService.TeamDalService;
+            _fileDalService = iDalService.FileDalService;
             _stateMachine = new StateMachine(_brainstormingDalService, _context, brainstormingModel);
             _stateMachine.PropertyChanged += StateMachine_PropertyChanged;
 
@@ -107,6 +109,28 @@ namespace Method635.App.BL
                 _brainstormingModel.BrainWaves[_context.CurrentFinding.CurrentRound - 1]
                     .Ideas[commitIdeaIndex % _context.CurrentFinding.NrOfIdeas]
                     .Description = ideaText;
+                commitIdeaIndex++;
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                _logger.Error("Invalid index access!", ex);
+            }
+        }
+
+        public void UploadSketchIdea(SketchIdeaModel sketchIdea)
+        {
+            var fileId = _fileDalService.UploadFile(sketchIdea.ImageStream);
+            sketchIdea.PictureId = fileId;
+            SetSketchIdea(sketchIdea);
+        }
+
+        private void SetSketchIdea(SketchIdeaModel sketchIdea)
+        {
+            try
+            {
+
+                _context.CurrentFinding.BrainSheets[CurrentSheetIndex].BrainWaves[_context.CurrentFinding.CurrentRound - 1].Ideas[commitIdeaIndex % _context.CurrentFinding.NrOfIdeas] = sketchIdea;
+                _brainstormingModel.BrainWaves[_context.CurrentFinding.CurrentRound - 1].Ideas[commitIdeaIndex % _context.CurrentFinding.NrOfIdeas] = sketchIdea;
                 commitIdeaIndex++;
             }
             catch (ArgumentOutOfRangeException ex)

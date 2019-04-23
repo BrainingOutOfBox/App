@@ -10,6 +10,7 @@ using Method635.App.Dal.Interfaces;
 using Method635.App.Dal.Config;
 using Method635.App.Dal.Mapping;
 using AutoMapper;
+using Method635.App.Dal.Config.JsonDto;
 
 namespace Method635.App.Forms.RestAccess
 {

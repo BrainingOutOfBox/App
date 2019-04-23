@@ -30,6 +30,7 @@ using AutoMapper;
 using Method635.App.Dal.Mapping.Mappers;
 using System;
 using Method635.App.Forms.Views.Brainstorming.SpecialContent;
+using Method635.App.Dal.Resolver;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace Method635.App.Forms
@@ -68,6 +69,7 @@ namespace Method635.App.Forms
             containerRegistry.Register<IBrainstormingDalService, BrainstormingFindingRestResolver>();
             containerRegistry.Register<IParticipantDalService, ParticipantRestResolver>();
             containerRegistry.Register<ITeamDalService, TeamRestResolver>();
+            containerRegistry.Register<IFileDalService, FileRestResolver>();
 
             var config = new MapperConfiguration(cfg =>
                 {
@@ -85,7 +87,7 @@ namespace Method635.App.Forms
             containerRegistry.RegisterSingleton<IBrainstormingService, BrainstormingService>();
             containerRegistry.Register<IParticipantService, ParticipantService>();
             containerRegistry.Register<ITeamService, TeamService>();
-
+                
             containerRegistry.RegisterSingleton<BrainstormingContext>();
             containerRegistry.RegisterSingleton<BrainstormingModel>();
 
