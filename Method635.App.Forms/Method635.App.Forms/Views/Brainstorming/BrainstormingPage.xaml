@@ -7,6 +7,7 @@
              xmlns:controls="clr-namespace:CarouselView.FormsPlugin.Abstractions;assembly=CarouselView.FormsPlugin.Abstractions"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="Method635.App.Forms.Views.Brainstorming.BrainstormingPage"
+             x:Name="BrainstormingContentPage"
              Title="{Binding Title}">
 
     <StackLayout Orientation="Vertical">
@@ -17,35 +18,39 @@
 
         <StackLayout Orientation="Vertical" VerticalOptions="CenterAndExpand" IsVisible="{Binding IsWaiting, Converter={StaticResource InvertBooleanConverter}}">
             <controls:CarouselViewControl ItemsSource="{Binding BrainSheets}" HeightRequest="{Binding IdeaHeight}" InterPageSpacing="50" Margin="15" Position="{Binding CurrentSheetNr}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-                    <controls:CarouselViewControl.ItemTemplate>
-                        <DataTemplate>
-                            <Frame BorderColor="LightGray">
-                                <ListView ItemsSource="{Binding BrainWaves}" HasUnevenRows="True">
-                                    <ListView.ItemTemplate>
-                                        <DataTemplate>
-                                            <ViewCell>
-                                                <StackLayout Orientation="Vertical" BackgroundColor="#F9F9F9" Margin="0,20">
-                                                    <ListView ItemsSource="{Binding Ideas}" HasUnevenRows="False" RowHeight="240" SelectionMode="None">
-                                                        <ListView.ItemTemplate>
-                                                            <DataTemplate>
-                                                                <ViewCell>
+                <controls:CarouselViewControl.ItemTemplate>
+                    <DataTemplate>
+                        <Frame BorderColor="LightGray">
+                            <ListView ItemsSource="{Binding BrainWaves}" HasUnevenRows="True">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <ViewCell>
+                                            <StackLayout Orientation="Vertical" BackgroundColor="#F9F9F9" Margin="0,20">
+                                                <ListView ItemsSource="{Binding Ideas}" HasUnevenRows="False" RowHeight="240" SelectionMode="None">
+                                                    <ListView.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <ViewCell>
                                                                 <StackLayout Orientation="Vertical">
-                                                                    <Image Source="{Binding ImageSource}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Aspect="Fill" HeightRequest="190"/>
+                                                                    <Image Source="{Binding ImageSource}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Aspect="AspectFit" HeightRequest="190">
+                                                                        <Image.GestureRecognizers>
+                                                                            <TapGestureRecognizer Command="{Binding Path=BindingContext.DownloadImageCommand, Source={x:Reference BrainstormingContentPage}}" CommandParameter="{Binding .}" />
+                                                                        </Image.GestureRecognizers>
+                                                                    </Image>
                                                                     <Label Text="{Binding Description}" Margin="5" VerticalTextAlignment="Start" HorizontalTextAlignment="Start" HeightRequest="50"/>
                                                                 </StackLayout>
-                                                                </ViewCell>
-                                                            </DataTemplate>
-                                                        </ListView.ItemTemplate>
-                                                    </ListView>
-                                                </StackLayout>
-                                            </ViewCell>
-                                        </DataTemplate>
-                                    </ListView.ItemTemplate>
-                                </ListView>
-                            </Frame>
-                        </DataTemplate>
-                    </controls:CarouselViewControl.ItemTemplate>
-                </controls:CarouselViewControl>
+                                                            </ViewCell>
+                                                        </DataTemplate>
+                                                    </ListView.ItemTemplate>
+                                                </ListView>
+                                            </StackLayout>
+                                        </ViewCell>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </Frame>
+                    </DataTemplate>
+                </controls:CarouselViewControl.ItemTemplate>
+            </controls:CarouselViewControl>
         </StackLayout>
 
 

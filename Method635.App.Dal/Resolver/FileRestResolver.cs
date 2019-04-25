@@ -28,7 +28,23 @@ namespace Method635.App.Dal.Resolver
         }
         public Task<Stream> Download(string fileId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var res = _clientService.GetCall($"{_fileEndpoints.FilesEndpoint}/{fileId}/{_fileEndpoints.DownloadEndpoint}");
+                if (res.IsSuccessStatusCode)
+                {
+                    return res.Content.ReadAsStreamAsync();
+                }
+            }
+            catch (RestEndpointException)
+            {
+                _logger.Error("There was an exception with the clientservice");
+            }
+            catch (Exception ex)
+            {
+                _logger.Error("Couldn't download image", ex.Message);
+            }
+            return Task.Run(() => Stream.Null);
         }
 
         public string UploadFile(Stream stream)

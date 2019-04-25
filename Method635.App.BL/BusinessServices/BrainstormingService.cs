@@ -1,4 +1,5 @@
-﻿using Method635.App.BL.BusinessServices;
+﻿using AutoMapper;
+using Method635.App.BL.BusinessServices;
 using Method635.App.BL.BusinessServices.BrainstormingStateMachine;
 using Method635.App.BL.Context;
 using Method635.App.BL.Interfaces;
@@ -10,6 +11,8 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace Method635.App.BL
@@ -17,6 +20,7 @@ namespace Method635.App.BL
     public class BrainstormingService : PropertyChangedBase, IBrainstormingService
     {
         private readonly BrainstormingContext _context;
+        private readonly IMapper _mapper;
         private readonly IBrainstormingDalService _brainstormingDalService;
         private readonly ITeamDalService _teamDalService;
         private readonly IFileDalService _fileDalService;
@@ -28,10 +32,12 @@ namespace Method635.App.BL
 
         public BrainstormingService(
             IDalService iDalService,
+            IMapper mapper,
             BrainstormingContext brainstormingContext,
             BrainstormingModel brainstormingModel)
         {
             _context = brainstormingContext;
+            _mapper = mapper;
             _brainstormingDalService = iDalService.BrainstormingDalService;
             _teamDalService = iDalService.TeamDalService;
             _fileDalService = iDalService.FileDalService;
@@ -41,7 +47,19 @@ namespace Method635.App.BL
             _brainstormingModel = brainstormingModel;
             _brainstormingModel.PropertyChanged += _brainstormingModel_PropertyChanged;
 
-            
+            PrepareIdeas();
+        }
+
+        private void PrepareIdeas()
+        {
+            //_context.CurrentFinding.BrainSheets.ForEach(sheet => sheet.BrainWaves.ForEach(bw =>
+            //{
+            //    foreach(var sketch in bw.Ideas.Where(i=>i is SketchIdea))
+            //    {
+            //        bw.Ideas[ = _mapper.Map<SketchIdeaModel>(sketch);
+            //    }
+            //    _mapper.Map<SketchIdeaModel>(bw.Ideas.rep)
+            //}
         }
 
         private void _brainstormingModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -117,26 +135,32 @@ namespace Method635.App.BL
             }
         }
 
-        public void UploadSketchIdea(SketchIdeaModel sketchIdea)
+        public void UploadSketchIdea(SketchIdea sketchIdea)
         {
             var fileId = _fileDalService.UploadFile(sketchIdea.ImageStream);
             sketchIdea.PictureId = fileId;
             SetSketchIdea(sketchIdea);
         }
 
-        private void SetSketchIdea(SketchIdeaModel sketchIdea)
+        private void SetSketchIdea(SketchIdea sketchIdea)
         {
             try
             {
-
+                sketchIdea.ImageSource = ImageSource.FromStream(()=>sketchIdea.ImageStream);
                 _context.CurrentFinding.BrainSheets[CurrentSheetIndex].BrainWaves[_context.CurrentFinding.CurrentRound - 1].Ideas[commitIdeaIndex % _context.CurrentFinding.NrOfIdeas] = sketchIdea;
-                _brainstormingModel.BrainWaves[_context.CurrentFinding.CurrentRound - 1].Ideas[commitIdeaIndex % _context.CurrentFinding.NrOfIdeas] = sketchIdea;
+                //_brainstormingModel.BrainWaves[_context.CurrentFinding.CurrentRound - 1].Ideas[commitIdeaIndex % _context.CurrentFinding.NrOfIdeas] = sketchIdea;
                 commitIdeaIndex++;
             }
             catch (ArgumentOutOfRangeException ex)
             {
                 _logger.Error("Invalid index access!", ex);
             }
+        }
+
+        public async Task DownloadPictureIdea(SketchIdea sketchIdea)
+        {
+            var stream = await Task.Run(() => _fileDalService.Download(sketchIdea.PictureId));
+            sketchIdea.ImageSource = ImageSource.FromStream(() => stream);
         }
 
         private bool _isWaiting;

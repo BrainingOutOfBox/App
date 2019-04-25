@@ -1,7 +1,6 @@
 ﻿using Method635.App.Models;
 using Prism.Commands;
 using Prism.Mvvm;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Method635.App.Forms.Resources;
 using Method635.App.Forms.Services;
@@ -9,6 +8,7 @@ using Method635.App.BL.Interfaces;
 using System.ComponentModel;
 using Method635.App.BL.Context;
 using Prism.Navigation;
+using System;
 
 namespace Method635.App.Forms.ViewModels
 {
@@ -25,6 +25,7 @@ namespace Method635.App.Forms.ViewModels
         public DelegateCommand RefreshCommand { get; }
         public DelegateCommand TapCommand { get; }
         public DelegateCommand InsertSpecialCommand { get; }
+        public DelegateCommand<SketchIdea> DownloadImageCommand { get; }
 
         public BrainstormingPageViewModel(
             IUiNavigationService navigationService, 
@@ -43,8 +44,13 @@ namespace Method635.App.Forms.ViewModels
             RefreshCommand = new DelegateCommand(RefreshPage);
             TapCommand = new DelegateCommand(StartBrainstorming);
             InsertSpecialCommand = new DelegateCommand(InsertSpecial);
-
+            DownloadImageCommand = new DelegateCommand<SketchIdea>(DownloadImage);
             CommitEnabled = true;
+        }
+
+        private void DownloadImage(SketchIdea idea)
+        {
+            _brainstormingService.DownloadPictureIdea(idea);
         }
 
         private void InsertSpecial()

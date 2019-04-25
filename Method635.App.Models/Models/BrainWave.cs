@@ -7,7 +7,7 @@ namespace Method635.App.Models
     {
         public int NrOfBrainWave { get; set; }
 
-        private ObservableCollection<Idea> _ideas;
-        public ObservableCollection<Idea> Ideas { get=>_ideas; set=>SetProperty(ref _ideas, value); }
+        private List<Idea> _ideas;
+        public List<Idea> Ideas { get=>_ideas; set=>SetProperty(ref _ideas, value); }
     }
 }

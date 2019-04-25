@@ -76,6 +76,7 @@ namespace Method635.App.Forms
                     cfg.AddProfile(new BrainstormingMappingProfile());
                     cfg.AddProfile(new ParticipantMappingProfile());
                     cfg.AddProfile(new TeamMappingProfile());
+                    //cfg.AddProfile(new PictureIdeaMappingProfile());
                 }
             );
             config.AssertConfigurationIsValid();
