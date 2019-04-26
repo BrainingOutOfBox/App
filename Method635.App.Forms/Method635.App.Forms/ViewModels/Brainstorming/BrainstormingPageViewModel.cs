@@ -9,6 +9,7 @@ using System.ComponentModel;
 using Method635.App.BL.Context;
 using Prism.Navigation;
 using System;
+using System.Threading.Tasks;
 
 namespace Method635.App.Forms.ViewModels
 {
@@ -44,13 +45,13 @@ namespace Method635.App.Forms.ViewModels
             RefreshCommand = new DelegateCommand(RefreshPage);
             TapCommand = new DelegateCommand(StartBrainstorming);
             InsertSpecialCommand = new DelegateCommand(InsertSpecial);
-            DownloadImageCommand = new DelegateCommand<SketchIdea>(DownloadImage);
+            DownloadImageCommand = new DelegateCommand<SketchIdea>(async (si) => await DownloadImage(si));
             CommitEnabled = true;
         }
 
-        private void DownloadImage(SketchIdea idea)
+        private async Task DownloadImage(SketchIdea idea)
         {
-            _brainstormingService.DownloadPictureIdea(idea);
+            await _brainstormingService.DownloadPictureIdea(idea);
         }
 
         private void InsertSpecial()

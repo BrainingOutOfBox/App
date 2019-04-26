@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -147,8 +148,7 @@ namespace Method635.App.BL
             try
             {
                 sketchIdea.ImageSource = ImageSource.FromStream(()=>sketchIdea.ImageStream);
-                _context.CurrentFinding.BrainSheets[CurrentSheetIndex].BrainWaves[_context.CurrentFinding.CurrentRound - 1].Ideas[commitIdeaIndex % _context.CurrentFinding.NrOfIdeas] = sketchIdea;
-                //_brainstormingModel.BrainWaves[_context.CurrentFinding.CurrentRound - 1].Ideas[commitIdeaIndex % _context.CurrentFinding.NrOfIdeas] = sketchIdea;
+                _brainstormingModel.BrainWaves[_context.CurrentFinding.CurrentRound - 1].Ideas[commitIdeaIndex % _context.CurrentFinding.NrOfIdeas] = sketchIdea;
                 commitIdeaIndex++;
             }
             catch (ArgumentOutOfRangeException ex)
@@ -160,7 +160,13 @@ namespace Method635.App.BL
         public async Task DownloadPictureIdea(SketchIdea sketchIdea)
         {
             var stream = await Task.Run(() => _fileDalService.Download(sketchIdea.PictureId));
-            sketchIdea.ImageSource = ImageSource.FromStream(() => stream);
+            string fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), $"{sketchIdea.PictureId}.png");
+            using (var fs = File.Create(fileName))
+            {
+                stream.CopyTo(fs);
+                stream.Dispose();
+            }
+            sketchIdea.ImageSource = ImageSource.FromFile(fileName);
         }
 
         private bool _isWaiting;
