@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Method635.App.BL.BusinessServices;
 using Method635.App.BL.BusinessServices.BrainstormingStateMachine;
 using Method635.App.BL.Context;
 using Method635.App.BL.Interfaces;
@@ -12,7 +11,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -47,20 +45,6 @@ namespace Method635.App.BL
 
             _brainstormingModel = brainstormingModel;
             _brainstormingModel.PropertyChanged += _brainstormingModel_PropertyChanged;
-
-            PrepareIdeas();
-        }
-
-        private void PrepareIdeas()
-        {
-            //_context.CurrentFinding.BrainSheets.ForEach(sheet => sheet.BrainWaves.ForEach(bw =>
-            //{
-            //    foreach(var sketch in bw.Ideas.Where(i=>i is SketchIdea))
-            //    {
-            //        bw.Ideas[ = _mapper.Map<SketchIdeaModel>(sketch);
-            //    }
-            //    _mapper.Map<SketchIdeaModel>(bw.Ideas.rep)
-            //}
         }
 
         private void _brainstormingModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -136,18 +120,20 @@ namespace Method635.App.BL
             }
         }
 
-        public void UploadSketchIdea(SketchIdea sketchIdea)
+        public void UploadSketchIdea(SketchIdea sketchIdea, byte[] imageBytes)
         {
-            var fileId = _fileDalService.UploadFile(sketchIdea.ImageStream);
+            var stream = new MemoryStream(imageBytes);
+            var fileId = _fileDalService.UploadFile(stream);
+            stream.Dispose();
             sketchIdea.PictureId = fileId;
-            SetSketchIdea(sketchIdea);
+            SetSketchIdea(sketchIdea, imageBytes);
         }
 
-        private void SetSketchIdea(SketchIdea sketchIdea)
+        private void SetSketchIdea(SketchIdea sketchIdea, byte[] imageBytes)
         {
             try
             {
-                sketchIdea.ImageSource = ImageSource.FromStream(()=>sketchIdea.ImageStream);
+                sketchIdea.ImageSource = ImageSource.FromFile(CacheImageStreamToFile(imageBytes, sketchIdea.PictureId));
                 _brainstormingModel.BrainWaves[_context.CurrentFinding.CurrentRound - 1].Ideas[commitIdeaIndex % _context.CurrentFinding.NrOfIdeas] = sketchIdea;
                 commitIdeaIndex++;
             }
@@ -157,16 +143,30 @@ namespace Method635.App.BL
             }
         }
 
-        public async Task DownloadPictureIdea(SketchIdea sketchIdea)
+        public async Task DownloadPictureIdea(Idea idea)
         {
+            if (!(idea is SketchIdea sketchIdea))
+                return;
+
             var stream = await Task.Run(() => _fileDalService.Download(sketchIdea.PictureId));
-            string fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), $"{sketchIdea.PictureId}.png");
+            var memStream = new MemoryStream();
+            stream.CopyTo(memStream);
+            byte[] bytes = memStream.ToArray();
+            memStream.Dispose();
+            stream.Dispose();
+            sketchIdea.ImageSource = ImageSource.FromFile(CacheImageStreamToFile(bytes, sketchIdea.PictureId));
+        }
+
+        private string CacheImageStreamToFile(byte[] imageBytes, string pictureId)
+        {
+            string fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), $"{pictureId}.png");
+            var imageStream = new MemoryStream(imageBytes);
             using (var fs = File.Create(fileName))
             {
-                stream.CopyTo(fs);
-                stream.Dispose();
+                imageStream.CopyTo(fs);
+                imageStream.Dispose();
             }
-            sketchIdea.ImageSource = ImageSource.FromFile(fileName);
+            return fileName;
         }
 
         private bool _isWaiting;

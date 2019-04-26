@@ -158,12 +158,14 @@ namespace Method635.App.Forms.Views.Brainstorming.SpecialContent
             {
                 ImageStream = new MemoryStream()
             };
+            byte[] bytes;
             using (var data = snap.Encode(SKEncodedImageFormat.Png, 80))
             {
-                data.AsStream().CopyTo(sketchIdea.ImageStream);
+                sketchIdea.ImageStream = data.AsStream();
+                bytes = data.ToArray();
             }
-            sketchIdea.ImageStream.Position = 0;
-            _brainstormingService.UploadSketchIdea(sketchIdea);
+            _brainstormingService.UploadSketchIdea(sketchIdea, bytes);
+
         }
     }
 }

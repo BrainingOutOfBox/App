@@ -26,7 +26,7 @@ namespace Method635.App.Forms.ViewModels
         public DelegateCommand RefreshCommand { get; }
         public DelegateCommand TapCommand { get; }
         public DelegateCommand InsertSpecialCommand { get; }
-        public DelegateCommand<SketchIdea> DownloadImageCommand { get; }
+        public DelegateCommand<Idea> DownloadImageCommand { get; }
 
         public BrainstormingPageViewModel(
             IUiNavigationService navigationService, 
@@ -45,11 +45,11 @@ namespace Method635.App.Forms.ViewModels
             RefreshCommand = new DelegateCommand(RefreshPage);
             TapCommand = new DelegateCommand(StartBrainstorming);
             InsertSpecialCommand = new DelegateCommand(InsertSpecial);
-            DownloadImageCommand = new DelegateCommand<SketchIdea>(async (si) => await DownloadImage(si));
+            DownloadImageCommand = new DelegateCommand<Idea>(async (si) => await DownloadImage(si));
             CommitEnabled = true;
         }
 
-        private async Task DownloadImage(SketchIdea idea)
+        private async Task DownloadImage(Idea idea)
         {
             await _brainstormingService.DownloadPictureIdea(idea);
         }
