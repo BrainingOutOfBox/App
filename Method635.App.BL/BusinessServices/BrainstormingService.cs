@@ -218,18 +218,5 @@ namespace Method635.App.BL
             get => _currentSheetNr;
             set => SetProperty(ref _currentSheetNr, value);
         }
-
-        private Idea _currentIdea;
-        public Idea CurrentIdea
-        {
-            get => _currentIdea;
-            set
-            {
-                _context.CurrentFinding.BrainSheets[CurrentSheetIndex].BrainWaves[_context.CurrentFinding.CurrentRound - 1].Ideas[commitIdeaIndex % _context.CurrentFinding.NrOfIdeas] = value;
-                _brainstormingModel.BrainWaves[_context.CurrentFinding.CurrentRound - 1].Ideas[commitIdeaIndex % _context.CurrentFinding.NrOfIdeas] = value;
-                commitIdeaIndex++;
-                SetProperty(ref _currentIdea, value);
-            }
-        }
     }
 }
