@@ -16,7 +16,6 @@ namespace Method635.App.BL.Interfaces
         bool IsEnded { get; }
         bool BrainWaveSent { get; set; }
         ObservableCollection<BrainSheet> BrainSheets { get; set; }
-        Idea CurrentIdea { get; set; }
         TimeSpan RemainingTime { get; }
         bool? IsModerator { get; }
         int CurrentSheetIndex { get; }

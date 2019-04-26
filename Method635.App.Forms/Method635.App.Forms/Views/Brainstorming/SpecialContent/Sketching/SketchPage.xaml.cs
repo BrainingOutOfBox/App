@@ -154,10 +154,7 @@ namespace Method635.App.Forms.Views.Brainstorming.SpecialContent
             canvas.Flush();
 
             var snap = surface.Snapshot();
-            SketchIdea sketchIdea = new SketchIdea()
-            {
-                ImageStream = new MemoryStream()
-            };
+            SketchIdea sketchIdea = new SketchIdea();
             byte[] bytes;
             using (var data = snap.Encode(SKEncodedImageFormat.Png, 80))
             {
