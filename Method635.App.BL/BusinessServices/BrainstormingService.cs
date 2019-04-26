@@ -133,7 +133,7 @@ namespace Method635.App.BL
         {
             try
             {
-                sketchIdea.ImageSource = ImageSource.FromFile(CacheImageStreamToFile(imageBytes, sketchIdea.PictureId));
+                sketchIdea.ImageSource = ImageSource.FromFile(CacheImageBytesToFile(imageBytes, sketchIdea.PictureId));
                 _brainstormingModel.BrainWaves[_context.CurrentFinding.CurrentRound - 1].Ideas[commitIdeaIndex % _context.CurrentFinding.NrOfIdeas] = sketchIdea;
                 commitIdeaIndex++;
             }
@@ -154,10 +154,10 @@ namespace Method635.App.BL
             byte[] bytes = memStream.ToArray();
             memStream.Dispose();
             stream.Dispose();
-            sketchIdea.ImageSource = ImageSource.FromFile(CacheImageStreamToFile(bytes, sketchIdea.PictureId));
+            sketchIdea.ImageSource = ImageSource.FromFile(CacheImageBytesToFile(bytes, sketchIdea.PictureId));
         }
 
-        private string CacheImageStreamToFile(byte[] imageBytes, string pictureId)
+        private string CacheImageBytesToFile(byte[] imageBytes, string pictureId)
         {
             string fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), $"{pictureId}.png");
             var imageStream = new MemoryStream(imageBytes);
