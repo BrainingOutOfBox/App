@@ -317,4 +317,13 @@ Join or add a team below</value>
   <data name="SketchPage" xml:space="preserve">
     <value>Sketching Page</value>
   </data>
+  <data name="SketchSavedTitle" xml:space="preserve">
+    <value>Sketch Saved</value>
+  </data>
+  <data name="SketchSavedMessage" xml:space="preserve">
+    <value>Your sketch has been saved! Navigate back to the brainstorming to see it.</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
 </root>

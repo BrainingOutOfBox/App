@@ -115,6 +115,15 @@ namespace Method635.App.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        internal static string Cancel {
+            get {
+                return ResourceManager.GetString("Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Click on the icon to start Brainstorming..
         /// </summary>
         internal static string ClickToStartBrainstorming {
@@ -554,6 +563,24 @@ namespace Method635.App.Forms.Resources {
         internal static string SketchPage {
             get {
                 return ResourceManager.GetString("SketchPage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your sketch has been saved! Navigate back to the brainstorming to see it..
+        /// </summary>
+        internal static string SketchSavedMessage {
+            get {
+                return ResourceManager.GetString("SketchSavedMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sketch Saved.
+        /// </summary>
+        internal static string SketchSavedTitle {
+            get {
+                return ResourceManager.GetString("SketchSavedTitle", resourceCulture);
             }
         }
         

@@ -106,6 +106,7 @@ namespace Method635.App.BL
         }
 
         public void CommitIdea(string ideaText)
+
         {
             try
             {

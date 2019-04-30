@@ -31,7 +31,7 @@
                                                         <DataTemplate>
                                                             <ViewCell>
                                                                 <StackLayout Orientation="Vertical">
-                                                                    <Image Source="{Binding ImageSource}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Aspect="AspectFit" HeightRequest="190">
+                                                                    <Image Source="{Binding ImageSource}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Aspect="Fill" HeightRequest="190">
                                                                         <Image.GestureRecognizers>
                                                                             <TapGestureRecognizer Command="{Binding Path=BindingContext.DownloadImageCommand, Source={x:Reference BrainstormingContentPage}}" CommandParameter="{Binding .}" />
                                                                         </Image.GestureRecognizers>
