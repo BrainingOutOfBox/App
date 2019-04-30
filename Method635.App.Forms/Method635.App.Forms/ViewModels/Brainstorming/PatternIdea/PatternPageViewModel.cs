@@ -3,6 +3,7 @@ using Method635.App.Forms.Models;
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Method635.App.Forms.ViewModels
@@ -22,7 +23,15 @@ namespace Method635.App.Forms.ViewModels
         {
             IsDownloading = true;
             var patterns = await _brainstormingService.DownloadPatternIdeas();
-            
+            var groupedPatterns = patterns.GroupBy(p => p.Category);
+            foreach(var patternGroup in groupedPatterns)
+            {
+                GroupedPatterns.Add(new PatternIdeaModel()
+                {
+                    Category = patternGroup.Key,
+                    Patterns = patternGroup.ToList()
+                });
+            }
         }
         private bool _isDownloading;
         public bool IsDownloading { get => _isDownloading; set => SetProperty(ref _isDownloading, value); }
