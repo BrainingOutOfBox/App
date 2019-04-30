@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Method635.App.Dal.Config.JsonDto;
+using Newtonsoft.Json;
 
 namespace Method635.App.Dal.Config
 {
@@ -12,6 +13,8 @@ namespace Method635.App.Dal.Config
         public ParticipantEndpoints ParticipantEndpoints { get; set; }
         [JsonProperty("team-endpoints")]
         public TeamEndpoints TeamEndpoints { get; set; }
+        [JsonProperty("files-endpoints")]
+        public FileEndpoints FileEndpoints {get;set;}
 
     }
     public class Server

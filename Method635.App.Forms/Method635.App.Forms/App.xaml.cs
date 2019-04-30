@@ -29,6 +29,8 @@ using Method635.App.Models.Models;
 using AutoMapper;
 using Method635.App.Dal.Mapping.Mappers;
 using System;
+using Method635.App.Forms.Views.Brainstorming.SpecialContent;
+using Method635.App.Dal.Resolver;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace Method635.App.Forms
@@ -67,12 +69,14 @@ namespace Method635.App.Forms
             containerRegistry.Register<IBrainstormingDalService, BrainstormingFindingRestResolver>();
             containerRegistry.Register<IParticipantDalService, ParticipantRestResolver>();
             containerRegistry.Register<ITeamDalService, TeamRestResolver>();
+            containerRegistry.Register<IFileDalService, FileRestResolver>();
 
             var config = new MapperConfiguration(cfg =>
                 {
                     cfg.AddProfile(new BrainstormingMappingProfile());
                     cfg.AddProfile(new ParticipantMappingProfile());
                     cfg.AddProfile(new TeamMappingProfile());
+                    //cfg.AddProfile(new PictureIdeaMappingProfile());
                 }
             );
             config.AssertConfigurationIsValid();
@@ -81,12 +85,12 @@ namespace Method635.App.Forms
 
 
 
-            containerRegistry.Register<IBrainstormingService, BrainstormingService>();
+            containerRegistry.RegisterSingleton<IBrainstormingService, BrainstormingService>();
             containerRegistry.Register<IParticipantService, ParticipantService>();
             containerRegistry.Register<ITeamService, TeamService>();
-
+                
             containerRegistry.RegisterSingleton<BrainstormingContext>();
-            containerRegistry.Register<BrainstormingModel>();
+            containerRegistry.RegisterSingleton<BrainstormingModel>();
 
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
 
@@ -101,8 +105,10 @@ namespace Method635.App.Forms
             containerRegistry.RegisterForNavigation<NewTeamPage, NewTeamPageViewModel>();
             containerRegistry.RegisterForNavigation<InviteTeamPage, InviteTeamPageViewModel>();
             containerRegistry.RegisterForNavigation<JoinTeamPage, JoinTeamPageViewModel>();
+            containerRegistry.RegisterForNavigation<InsertSpecialPage, InsertSpecialPageViewModel>();
+            containerRegistry.RegisterForNavigation<SketchPage>();
 
-
+            containerRegistry.RegisterForNavigation<SketchPage, SketchPageViewModel>();
         }
 
         protected override void OnStart()

@@ -1,4 +1,5 @@
-﻿using Method635.App.BL.BusinessServices.BrainstormingStateMachine;
+﻿using AutoMapper;
+using Method635.App.BL.BusinessServices.BrainstormingStateMachine;
 using Method635.App.BL.Context;
 using Method635.App.BL.Interfaces;
 using Method635.App.Dal.Interfaces;
@@ -9,6 +10,8 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace Method635.App.BL
@@ -16,8 +19,10 @@ namespace Method635.App.BL
     public class BrainstormingService : PropertyChangedBase, IBrainstormingService
     {
         private readonly BrainstormingContext _context;
+        private readonly IMapper _mapper;
         private readonly IBrainstormingDalService _brainstormingDalService;
         private readonly ITeamDalService _teamDalService;
+        private readonly IFileDalService _fileDalService;
         private readonly StateMachine _stateMachine;
         private int commitIdeaIndex = 0;
         private readonly BrainstormingModel _brainstormingModel;
@@ -26,18 +31,20 @@ namespace Method635.App.BL
 
         public BrainstormingService(
             IDalService iDalService,
+            IMapper mapper,
             BrainstormingContext brainstormingContext,
             BrainstormingModel brainstormingModel)
         {
             _context = brainstormingContext;
+            _mapper = mapper;
             _brainstormingDalService = iDalService.BrainstormingDalService;
             _teamDalService = iDalService.TeamDalService;
+            _fileDalService = iDalService.FileDalService;
             _stateMachine = new StateMachine(_brainstormingDalService, _context, brainstormingModel);
             _stateMachine.PropertyChanged += StateMachine_PropertyChanged;
 
             _brainstormingModel = brainstormingModel;
             _brainstormingModel.PropertyChanged += _brainstormingModel_PropertyChanged;
-            
         }
 
         private void _brainstormingModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -99,6 +106,7 @@ namespace Method635.App.BL
         }
 
         public void CommitIdea(string ideaText)
+
         {
             try
             {
@@ -113,6 +121,54 @@ namespace Method635.App.BL
             }
         }
 
+        public void UploadSketchIdea(SketchIdea sketchIdea, byte[] imageBytes)
+        {
+            var stream = new MemoryStream(imageBytes);
+            var fileId = _fileDalService.UploadFile(stream);
+            stream.Dispose();
+            sketchIdea.PictureId = fileId;
+            SetSketchIdea(sketchIdea, imageBytes);
+        }
+
+        private void SetSketchIdea(SketchIdea sketchIdea, byte[] imageBytes)
+        {
+            try
+            {
+                sketchIdea.ImageSource = ImageSource.FromFile(CacheImageBytesToFile(imageBytes, sketchIdea.PictureId));
+                _brainstormingModel.BrainWaves[_context.CurrentFinding.CurrentRound - 1].Ideas[commitIdeaIndex % _context.CurrentFinding.NrOfIdeas] = sketchIdea;
+                commitIdeaIndex++;
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                _logger.Error("Invalid index access!", ex);
+            }
+        }
+
+        public async Task DownloadPictureIdea(Idea idea)
+        {
+            if (!(idea is SketchIdea sketchIdea))
+                return;
+
+            var stream = await Task.Run(() => _fileDalService.Download(sketchIdea.PictureId));
+            var memStream = new MemoryStream();
+            stream.CopyTo(memStream);
+            byte[] bytes = memStream.ToArray();
+            memStream.Dispose();
+            stream.Dispose();
+            sketchIdea.ImageSource = ImageSource.FromFile(CacheImageBytesToFile(bytes, sketchIdea.PictureId));
+        }
+
+        private string CacheImageBytesToFile(byte[] imageBytes, string pictureId)
+        {
+            string fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), $"{pictureId}.png");
+            var imageStream = new MemoryStream(imageBytes);
+            using (var fs = File.Create(fileName))
+            {
+                imageStream.CopyTo(fs);
+                imageStream.Dispose();
+            }
+            return fileName;
+        }
 
         private bool _isWaiting;
         public bool IsWaiting
@@ -157,11 +213,11 @@ namespace Method635.App.BL
         private List<Participant> _teamParticipants => _context.CurrentBrainstormingTeam.Participants;
 
         private int _currentSheetNr;
+
         public int CurrentSheetIndex
         {
             get => _currentSheetNr;
             set => SetProperty(ref _currentSheetNr, value);
         }
-
     }
 }

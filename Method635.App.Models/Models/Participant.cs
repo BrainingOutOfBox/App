@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-
-namespace Method635.App.Models
+﻿namespace Method635.App.Models
 {
     public class Participant
     {

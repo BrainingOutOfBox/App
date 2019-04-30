@@ -1,7 +1,9 @@
-﻿using Method635.App.Models;
+﻿using Method635.App.BL.BusinessServices;
+using Method635.App.Models;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Threading.Tasks;
 
 namespace Method635.App.BL.Interfaces
 {
@@ -20,7 +22,9 @@ namespace Method635.App.BL.Interfaces
         void CommitIdea(string ideaText);
         void SendBrainWave();
         void StartBrainstorming();
+        void UploadSketchIdea(SketchIdea sketchIdea, byte[] imageBytes);
         event PropertyChangedEventHandler PropertyChanged;
 
+        Task DownloadPictureIdea(Idea idea);
     }
 }

@@ -44,10 +44,16 @@ namespace Method635.App.BL
 
         public void CleanUp()
         {
-            _nextCheckRoundTimer.Elapsed -= NextCheckRoundTimerElapsed;
-            _nextCheckRoundTimer.Dispose();
-            _updateRoundTimer.Elapsed -= UpdateRoundTime;
-            _updateRoundTimer.Dispose();
+            if (_nextCheckRoundTimer != null)
+            {
+                _nextCheckRoundTimer.Elapsed -= NextCheckRoundTimerElapsed;
+                _nextCheckRoundTimer.Dispose();
+            }
+            if (_updateRoundTimer != null)
+            {
+                _updateRoundTimer.Elapsed -= UpdateRoundTime;
+                _updateRoundTimer.Dispose();
+            }
         }
 
         public void Init()

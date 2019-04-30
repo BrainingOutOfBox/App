@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Method635.App.Dal.Config
+namespace Method635.App.Dal.Config.JsonDto
 {
     public class BrainstormingEndpoints
     {

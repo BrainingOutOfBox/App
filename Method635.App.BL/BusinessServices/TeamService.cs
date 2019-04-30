@@ -11,7 +11,7 @@ namespace Method635.App.BL.BusinessServices
     public class TeamService : ITeamService
     {
         private readonly ITeamDalService _teamDalService;
-        private BrainstormingContext _context;
+        private readonly BrainstormingContext _context;
         private readonly ILogger _logger = DependencyService.Get<ILogManager>().GetLog();
 
         public TeamService(IDalService dalService, BrainstormingContext context)

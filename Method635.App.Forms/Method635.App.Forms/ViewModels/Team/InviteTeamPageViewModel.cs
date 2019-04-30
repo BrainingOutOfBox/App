@@ -6,6 +6,7 @@ using Method635.App.Forms.Services;
 using Prism.Events;
 using Prism.Mvvm;
 using Prism.Navigation;
+using System.Threading.Tasks;
 using System.Timers;
 
 namespace Method635.App.Forms.ViewModels.Team
@@ -41,13 +42,12 @@ namespace Method635.App.Forms.ViewModels.Team
 
         private async void UpdateMemberCount(object sender, ElapsedEventArgs e)
         {
-            var newestTeam = _teamService.GetCurrentTeam();
+            var newestTeam = await Task.Run(() => _teamService.GetCurrentTeam());
             _memberCount = newestTeam.CurrentNrOfParticipants;
             if (newestTeam.CurrentNrOfParticipants == _teamCapacity)
             {
                 _context.CurrentBrainstormingTeam = newestTeam;
                 _eventAggregator.GetEvent<RenderBrainstormingListEvent>().Publish();
-                //await _navigationService.NavigateToBrainstormingListTab();
             }
         }
 

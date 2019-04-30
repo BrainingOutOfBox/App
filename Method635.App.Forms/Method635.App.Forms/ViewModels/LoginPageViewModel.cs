@@ -7,6 +7,7 @@ using Xamarin.Forms;
 using Method635.App.Forms.Services;
 using Method635.App.Dal.Interfaces;
 using Method635.App.BL.Context;
+using System.Threading.Tasks;
 
 namespace Method635.App.Forms.ViewModels
 {
@@ -38,9 +39,12 @@ namespace Method635.App.Forms.ViewModels
 
         private async void Login()
         {
+            IsRunning = true;
             if (!CheckInput())
             {
                 _logger.Error("Input invalid for login");
+
+                IsRunning = false;
                 return;
             }
             var loginParticipant = new Participant()
@@ -48,7 +52,7 @@ namespace Method635.App.Forms.ViewModels
                 UserName = UserName,
                 Password = Password
             };
-            var participant = _participantDalService.Login(loginParticipant);
+            var participant = await Task.Run(() => _participantDalService.Login(loginParticipant));
             if(participant != null)
             {
                 _context.CurrentParticipant = participant;
@@ -57,6 +61,7 @@ namespace Method635.App.Forms.ViewModels
             }
             ErrorText = AppResources.LoginError;
             HasError = true;
+            IsRunning = false;
         }
 
         private bool CheckInput()
@@ -99,5 +104,7 @@ namespace Method635.App.Forms.ViewModels
 
         public DelegateCommand LoginCommand { get; }
         public DelegateCommand ShowRegisterCommand { get; }
+        private bool _isRunning;
+        public bool IsRunning { get=>_isRunning; private set=>SetProperty(ref _isRunning, value); }
     }
 }

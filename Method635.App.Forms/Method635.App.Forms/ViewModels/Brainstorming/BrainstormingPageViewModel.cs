@@ -1,15 +1,15 @@
 ﻿using Method635.App.Models;
 using Prism.Commands;
 using Prism.Mvvm;
-using Prism.Navigation;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Method635.App.Forms.Resources;
 using Method635.App.Forms.Services;
 using Method635.App.BL.Interfaces;
 using System.ComponentModel;
 using Method635.App.BL.Context;
+using Prism.Navigation;
 using System;
+using System.Threading.Tasks;
 
 namespace Method635.App.Forms.ViewModels
 {
@@ -25,6 +25,8 @@ namespace Method635.App.Forms.ViewModels
         public DelegateCommand SendBrainwaveCommand { get; }
         public DelegateCommand RefreshCommand { get; }
         public DelegateCommand TapCommand { get; }
+        public DelegateCommand InsertSpecialCommand { get; }
+        public DelegateCommand<Idea> DownloadImageCommand { get; }
 
         public BrainstormingPageViewModel(
             IUiNavigationService navigationService, 
@@ -42,8 +44,25 @@ namespace Method635.App.Forms.ViewModels
             SendBrainwaveCommand = new DelegateCommand(SendBrainWave);
             RefreshCommand = new DelegateCommand(RefreshPage);
             TapCommand = new DelegateCommand(StartBrainstorming);
+            InsertSpecialCommand = new DelegateCommand(InsertSpecial);
+            DownloadImageCommand = new DelegateCommand<Idea>(async (si) => await DownloadImage(si));
             CommitEnabled = true;
         }
+
+        private async Task DownloadImage(Idea idea)
+        {
+            await _brainstormingService.DownloadPictureIdea(idea);
+        }
+
+        private void InsertSpecial()
+        {
+            var navParam = new NavigationParameters
+            {
+                { "brainstormingService", _brainstormingService }
+            };
+            _navigationService.NavigateToInsertSpecial(navParam);
+        }
+
         private void StartBrainstorming()
         {
             _brainstormingService.StartBrainstorming();
@@ -105,8 +124,8 @@ namespace Method635.App.Forms.ViewModels
 
         public void Destroy()
         {
-            _brainstormingService.StopBusinessService();
-            _brainstormingService.PropertyChanged -= _brainstormingService_PropertyChanged;
+            //_brainstormingService.StopBusinessService();
+            //_brainstormingService.PropertyChanged -= _brainstormingService_PropertyChanged;
         }
 
         private ObservableCollection<BrainSheet> _brainSheets;
@@ -114,13 +133,6 @@ namespace Method635.App.Forms.ViewModels
         {
             get => _brainSheets;
             private set => SetProperty(ref _brainSheets, value);
-        }
-
-        private List<BrainWave> _brainWaves;
-        public List<BrainWave> BrainWaves
-        {
-            get => _brainWaves;
-            private set => SetProperty(ref _brainWaves, value);
         }
 
         private int _currentSheetIndex;
@@ -191,7 +203,6 @@ namespace Method635.App.Forms.ViewModels
             get => _isBrainstormingFinished;
             set => SetProperty(ref _isBrainstormingFinished, value);
         }
-
         private bool _brainWaveSent;
         public bool BrainWaveSent
         {

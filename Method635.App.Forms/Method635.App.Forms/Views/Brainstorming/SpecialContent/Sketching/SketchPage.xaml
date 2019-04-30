@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             xmlns:skia="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms"
+             xmlns:tt="clr-namespace:Method635.App.Forms.Views.Brainstorming.SpecialContent.Sketching.TouchEffect"
+             xmlns:i18n="clr-namespace:Method635.App.Forms.Resources"
+             Title="{i18n:Translate SketchPage}"
+             x:Class="Method635.App.Forms.Views.Brainstorming.SpecialContent.SketchPage">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Picker x:Name="colorPicker"
+                Title="Color"
+                Grid.Row="0"
+                Grid.Column="0">
+            <Picker.Items>
+                <x:String>Red</x:String>
+                <x:String>Green</x:String>
+                <x:String>Blue</x:String>
+                <x:String>Aqua</x:String>
+                <x:String>Fuchsia</x:String>
+                <x:String>Yellow</x:String>
+                <x:String>Black</x:String>
+                <x:String>Gray</x:String>
+                <x:String>White</x:String>
+            </Picker.Items>
+
+            <Picker.SelectedIndex>
+                0
+            </Picker.SelectedIndex>
+        </Picker>
+
+        <Picker x:Name="widthPicker"
+                Title="Width"
+                Grid.Row="0"
+                Grid.Column="1">
+            <Picker.Items>
+                <x:String>Thin</x:String>
+                <x:String>Thinish</x:String>
+                <x:String>Medium</x:String>
+                <x:String>Thickish</x:String>
+                <x:String>Thick</x:String>
+            </Picker.Items>
+
+            <Picker.SelectedIndex>
+                0
+            </Picker.SelectedIndex>
+        </Picker>
+        <Button Text="Clear"
+                Grid.Row="0"
+                Grid.Column="2"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                Clicked="OnClearButtonClicked" />
+
+        <Button Text="Save Drawing" Grid.Row="0" Grid.Column="3" HorizontalOptions="End" VerticalOptions="Center" Clicked="Save_Clicked" />
+
+        <!-- Enclose SKCanvasView in single-cell Grid. 
+                Otherwise, iOS won't get the touch events. -->
+
+        <Grid Grid.Row="1"
+              Grid.Column="0"
+              Grid.ColumnSpan="4"
+              BackgroundColor="White">
+
+            <skia:SKCanvasView x:Name="canvasView"
+                               PaintSurface="OnCanvasViewPaintSurface" />
+            <Grid.Effects>
+                <tt:TouchEffect Capture="True"
+                                TouchAction="OnTouchEffectAction" />
+            </Grid.Effects>
+        </Grid>
+        <!--<Button Text="View Uploaded Image" Clicked="ViewUploadedImage_Clicked" Grid.Row="2" Grid.ColumnSpan="2" Grid.Column="0" />-->
+    </Grid>
+</ContentPage>

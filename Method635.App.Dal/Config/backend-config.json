@@ -23,5 +23,10 @@
     "getTeam": "getBrainstormingTeam",
     "getTeams": "getMyBrainstormingTeams",
     "join": "joinTeam"
+  },
+  "files-endpoints": {
+    "file": "Files",
+    "upload": "upload",
+    "download":  "download"
   }
 }

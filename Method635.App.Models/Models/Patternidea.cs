@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Method635.App.Models.Models
+﻿namespace Method635.App.Models
 {
     public class PatternIdea : Idea
     {

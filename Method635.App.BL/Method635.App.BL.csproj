@@ -9,4 +9,8 @@
     <ProjectReference Include="..\Method635.App.Models\Method635.App.Models.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="BusinessServices\Models\" />
+  </ItemGroup>
+
 </Project>

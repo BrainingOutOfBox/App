@@ -44,7 +44,7 @@ namespace Method635.App.Dal.Mapping.DTO
                 case "":
                     return JsonConvert.DeserializeObject<NoteIdeaDto>(jo.ToString(), SpecifiedSubclassConversion);
                 default:
-                    throw new Exception($"Unknown type '{jo["type"].Value<string>()}'");
+                    throw new ArgumentException($"Unknown type '{jo["type"].Value<string>()}'");
             }
             throw new NotImplementedException();
         }

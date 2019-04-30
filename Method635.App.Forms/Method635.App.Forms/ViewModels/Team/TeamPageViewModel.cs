@@ -63,7 +63,6 @@ namespace Method635.App.Forms.ViewModels.Team
         {
             _context.CurrentBrainstormingTeam = _selectedTeam;
             _navigationService.NavigateToBrainstormingListTab();
-            //_eventAggregator.GetEvent<RenderBrainstormingListEvent>().Publish();
         }
 
         private List<BrainstormingTeam> FillTeamList()
