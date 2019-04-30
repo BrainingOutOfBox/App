@@ -1,6 +1,7 @@
 ﻿using Method635.App.BL.BusinessServices;
 using Method635.App.Models;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
@@ -24,7 +25,7 @@ namespace Method635.App.BL.Interfaces
         void StartBrainstorming();
         void UploadSketchIdea(SketchIdea sketchIdea, byte[] imageBytes);
         event PropertyChangedEventHandler PropertyChanged;
-
+        Task<List<PatternIdea>> DownloadPatternIdeas();
         Task DownloadPictureIdea(Idea idea);
     }
 }

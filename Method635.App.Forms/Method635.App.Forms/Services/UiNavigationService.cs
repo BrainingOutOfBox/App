@@ -96,5 +96,10 @@ namespace Method635.App.Forms.Services
         {
             var res = await _navigationService.GoBackToRootAsync();
         }
+
+        public async Task NavigateToInsertPattern()
+        {
+            var res = await _navigationService.NavigateAsync("/NavigationPage/MainPage?selectedTab=BrainstormingPage/InsertSpecialPage/PatternPage");
+        }
     }
 }
