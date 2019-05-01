@@ -21,10 +21,10 @@ namespace Method635.App.Forms.Services
 
         private void SubscribeToEvents()
         {
-            _eventAggregator.GetEvent<RenderBrainstormingListEvent>().Subscribe(async () =>
-            {
-                await NavigateToBrainstormingListTab();
-            });
+            //_eventAggregator.GetEvent<RenderBrainstormingListEvent>().Subscribe(async () =>
+            //{
+            //    await NavigateToBrainstormingListTab();
+            //});
         }
 
         public async Task NavigateToMainPage()

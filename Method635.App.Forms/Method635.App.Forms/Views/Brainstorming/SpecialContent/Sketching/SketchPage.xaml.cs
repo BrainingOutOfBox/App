@@ -1,18 +1,14 @@
-﻿using Method635.App.BL.BusinessServices;
-using Method635.App.BL.Interfaces;
-using Method635.App.Forms.PrismEvents;
+﻿using Method635.App.BL.Interfaces;
 using Method635.App.Forms.Resources;
 using Method635.App.Forms.Services;
 using Method635.App.Forms.Views.Brainstorming.SpecialContent.Sketching;
 using Method635.App.Forms.Views.Brainstorming.SpecialContent.Sketching.TouchEffect;
 using Method635.App.Models;
-using Method635.App.Models.Models;
 using Prism.Events;
 using SkiaSharp;
 using SkiaSharp.Views.Forms;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Reflection;
 using Xamarin.Forms;
 
@@ -163,7 +159,7 @@ namespace Method635.App.Forms.Views.Brainstorming.SpecialContent
                 bytes = data.ToArray();
             }
             _brainstormingService.UploadSketchIdea(sketchIdea, bytes);
-            DisplayAlert(AppResources.SketchSavedTitle, AppResources.SketchSavedMessage, AppResources.Cancel);
+            DisplayAlert(AppResources.SketchSavedTitle, AppResources.SketchSavedMessage, AppResources.Ok);
         }
     }
 }
