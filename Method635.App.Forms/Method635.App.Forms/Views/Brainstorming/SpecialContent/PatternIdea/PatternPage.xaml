@@ -8,9 +8,8 @@
         <StackLayout Orientation="Vertical">
             <ActivityIndicator IsRunning="{Binding IsDownloading}" IsVisible="{Binding IsDownloading}" Color="LightBlue" />
             <ListView  x:Name="GroupedView"
-            GroupDisplayBinding="{Binding Category}"
             ItemsSource="{Binding GroupedPatterns}"
-            IsVisible="{Binding IsDownloading, Converter={StaticResource Key=InvertBooleanConverter}}"
+            IsVisible="{Binding IsDownloading, Converter={StaticResource InvertBooleanConverter}}"
             IsGroupingEnabled="true">
                 <ListView.ItemTemplate>
                     <DataTemplate>
@@ -24,9 +23,14 @@
                                     <RowDefinition Height="20" />
                                     <RowDefinition Height="20" />
                                 </Grid.RowDefinitions>
-                                <Image Source="{Binding ImageSource}" Grid.RowSpan="2" Grid.Row="0" Grid.Column="0" />
-                                <Label Text="Here's the problem description of the pattern" Grid.Column="1" Grid.Row="0"/>
-                                <Label Text="Here's the problem solution of the pattern" Grid.Column="1" Grid.Row="1"/>
+                                <Image Source="start_brainstorming.PNG" Grid.RowSpan="2" Grid.Row="0" Grid.Column="0" />
+                                <Label Text="{Binding Problem}" Grid.Column="1" Grid.Row="0"/>
+                                <Label Text="{Binding Solution}" Grid.Column="1" Grid.Row="1"/>
+                                <Label Text="{Binding Url}" TextColor="Blue" TextDecorations="Underline">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding ClickUrlCommand}" CommandParameter="{Binding Url}" />
+                                    </Label.GestureRecognizers>
+                                </Label>
                             </Grid>
                         </ViewCell>
                     </DataTemplate>
