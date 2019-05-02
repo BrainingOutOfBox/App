@@ -25,12 +25,13 @@ namespace Tests
         [Test]
         public void WaitingStateTest()
         {
-            var restMock = new Mock<IBrainstormingDalService>();
-            restMock.SetupSequence(request => request.GetFinding(It.IsAny<string>())).
-                Returns(BrainstormingModelFactory.CreateFinding(0));
+            Mock<IBrainstormingDalService> brainstormingDalMock = BrainstormingDalMock(0);
+
+            Mock<ITeamDalService> teamDalMock = TeamDalMock();
 
             var dalMock = new Mock<IDalService>();
-            dalMock.Setup(serv => serv.BrainstormingDalService).Returns(restMock.Object);
+            dalMock.Setup(serv => serv.BrainstormingDalService).Returns(brainstormingDalMock.Object);
+            dalMock.Setup(serv => serv.TeamDalService).Returns(teamDalMock.Object);
 
             var brainstormingService = new BrainstormingService(
                 dalMock.Object,
@@ -43,15 +44,31 @@ namespace Tests
             Assert.IsFalse(brainstormingService.IsEnded);
         }
 
+        private static Mock<ITeamDalService> TeamDalMock()
+        {
+            var teamDalMock = new Mock<ITeamDalService>();
+            teamDalMock.Setup(req => req.GetModeratorByTeamId(It.IsAny<string>()))
+                .Returns(BrainstormingModelFactory.CreateModerator());
+            return teamDalMock;
+        }
+
+        private static Mock<IBrainstormingDalService> BrainstormingDalMock(int initRound)
+        {
+            var brainstormingDalMock = new Mock<IBrainstormingDalService>();
+            brainstormingDalMock.SetupSequence(request => request.GetFinding(It.IsAny<string>())).
+                Returns(BrainstormingModelFactory.CreateFinding(initRound));
+            return brainstormingDalMock;
+        }
+
         [Test]
         public void RunningStateTest()
         {
-            var restMock = new Mock<IBrainstormingDalService>();
-            restMock.SetupSequence(request => request.GetFinding(It.IsAny<string>())).
-                Returns(BrainstormingModelFactory.CreateFinding(3));
+            var brainstormingDalMock = BrainstormingDalMock(3);
+            var teamDalMock = TeamDalMock();
 
             var dalMock = new Mock<IDalService>();
-            dalMock.Setup(serv => serv.BrainstormingDalService).Returns(restMock.Object);
+            dalMock.Setup(serv => serv.BrainstormingDalService).Returns(brainstormingDalMock.Object);
+            dalMock.Setup(serv => serv.TeamDalService).Returns(teamDalMock.Object);
 
             var brainstormingService = new BrainstormingService(
                 dalMock.Object,
@@ -67,12 +84,12 @@ namespace Tests
         [Test]
         public void EndedStateTest()
         {
-            var restMock = new Mock<IBrainstormingDalService>();
-            restMock.SetupSequence(request => request.GetFinding(It.IsAny<string>())).
-                Returns(BrainstormingModelFactory.CreateFinding(-1));
+            var brainstormingDalMock = BrainstormingDalMock(-1);
+            var teamDalMock = TeamDalMock();
 
             var dalMock = new Mock<IDalService>();
-            dalMock.Setup(serv => serv.BrainstormingDalService).Returns(restMock.Object);
+            dalMock.Setup(serv => serv.BrainstormingDalService).Returns(brainstormingDalMock.Object);
+            dalMock.Setup(serv => serv.TeamDalService).Returns(teamDalMock.Object);
 
             var brainstormingService = new BrainstormingService(
                 dalMock.Object,
@@ -88,12 +105,12 @@ namespace Tests
         [Test]
         public void StartRoundTest()
         {
-            var restMock = new Mock<IBrainstormingDalService>();
-            restMock.Setup(request => request.GetFinding(It.IsAny<string>())).
-                Returns(BrainstormingModelFactory.CreateFinding(1));
+            var brainstormingDalMock = BrainstormingDalMock(1);
+            var teamDalMock = TeamDalMock();
 
             var dalMock = new Mock<IDalService>();
-            dalMock.Setup(serv => serv.BrainstormingDalService).Returns(restMock.Object);
+            dalMock.Setup(serv => serv.BrainstormingDalService).Returns(brainstormingDalMock.Object);
+            dalMock.Setup(serv => serv.TeamDalService).Returns(teamDalMock.Object);
 
             var brainstormingService = new BrainstormingService(
                 dalMock.Object,
@@ -121,15 +138,15 @@ namespace Tests
         [Test]
         public void RemainingTimeTest()
         {
-            var restMock = new Mock<IBrainstormingDalService>();
-            restMock.SetupSequence(req => req.GetRemainingTime(It.IsAny<string>(), It.IsAny<string>()))
+            var brainstormingDalMock = BrainstormingDalMock(1);
+            brainstormingDalMock.SetupSequence(req => req.GetRemainingTime(It.IsAny<string>(), It.IsAny<string>()))
                 .Returns(TimeSpan.FromSeconds(10))
                 .Returns(TimeSpan.FromSeconds(5));
-            restMock.Setup(req => req.GetFinding(It.IsAny<string>()))
-                .Returns(BrainstormingModelFactory.CreateFinding(1));
+            var teamDalMock = TeamDalMock();
 
             var dalMock = new Mock<IDalService>();
-            dalMock.Setup(serv => serv.BrainstormingDalService).Returns(restMock.Object);
+            dalMock.Setup(serv => serv.BrainstormingDalService).Returns(brainstormingDalMock.Object);
+            dalMock.Setup(serv => serv.TeamDalService).Returns(teamDalMock.Object);
 
             var brainstormingService = new BrainstormingService(
                 dalMock.Object,
@@ -168,7 +185,7 @@ namespace Tests
                 .Returns(true);
 
             var participantDalMock = new Mock<IParticipantDalService>();
-            var teamDalMock = new Mock<ITeamDalService>();
+            var teamDalMock = TeamDalMock();
 
             var model = new BrainstormingModel()
             {

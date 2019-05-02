@@ -19,7 +19,6 @@ namespace Method635.App.BL
     public class BrainstormingService : PropertyChangedBase, IBrainstormingService
     {
         private readonly BrainstormingContext _context;
-        private readonly IMapper _mapper;
         private readonly IBrainstormingDalService _brainstormingDalService;
         private readonly ITeamDalService _teamDalService;
         private readonly IFileDalService _fileDalService;
@@ -31,12 +30,10 @@ namespace Method635.App.BL
 
         public BrainstormingService(
             IDalService iDalService,
-            IMapper mapper,
             BrainstormingContext brainstormingContext,
             BrainstormingModel brainstormingModel)
         {
             _context = brainstormingContext;
-            _mapper = mapper;
             _brainstormingDalService = iDalService.BrainstormingDalService;
             _teamDalService = iDalService.TeamDalService;
             _fileDalService = iDalService.FileDalService;
