@@ -17,7 +17,7 @@
         <local:StartBrainstormingView IsVisible="{Binding ShowStartBrainstorming}" VerticalOptions="CenterAndExpand" />
 
         <StackLayout Orientation="Vertical" VerticalOptions="CenterAndExpand" IsVisible="{Binding IsWaiting, Converter={StaticResource InvertBooleanConverter}}">
-            <controls:CarouselViewControl ItemsSource="{Binding BrainSheets}" HeightRequest="{Binding IdeaHeight}" InterPageSpacing="50" Margin="15" Position="{Binding CurrentSheetNr}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+            <controls:CarouselViewControl ItemsSource="{Binding BrainSheets}" HeightRequest="{Binding IdeaHeight}" InterPageSpacing="50" Margin="15" Position="{Binding CurrentSheetIndex, Mode=TwoWay}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                 <controls:CarouselViewControl.ItemTemplate>
                     <DataTemplate>
                         <Frame BorderColor="LightGray">
@@ -41,7 +41,7 @@
 
 
         <!-- FOOTER -->
-        <StackLayout Orientation="Vertical" VerticalOptions="End" HorizontalOptions="Fill" Margin="10" IsVisible="{Binding IsRunning}">
+        <StackLayout Orientation="Vertical" VerticalOptions="EndAndExpand" HorizontalOptions="Fill" Margin="10" IsVisible="{Binding IsRunning}">
             <StackLayout Orientation="Horizontal" VerticalOptions="Start">
                 <Label Text="{i18n:Translate Text=IdeaDescription}" />
             </StackLayout>
@@ -77,7 +77,6 @@
                                 <TapGestureRecognizer Command="{Binding Path=BindingContext.DownloadImageCommand, Source={x:Reference BrainstormingContentPage}}" CommandParameter="{Binding .}" />
                             </Image.GestureRecognizers>
                         </Image>
-                        <Label Text="{Binding Description}" Margin="5" VerticalTextAlignment="Start" HorizontalTextAlignment="Start" HeightRequest="50"/>
                     </StackLayout>
                 </ViewCell>
             </DataTemplate>
@@ -90,14 +89,18 @@
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="25" />
-                            <RowDefinition Height="45" />
-                            <RowDefinition Height="45" />
+                            <RowDefinition Height="55" />
+                            <RowDefinition Height="65" />
                             <RowDefinition Height="30" />
                         </Grid.RowDefinitions>
-                        <Image Source="{Binding ImageSource}" HeightRequest="50" WidthRequest="50" Grid.RowSpan="2" Grid.Row="0" Grid.Column="0" HorizontalOptions="Start"/>
+                        <Image Source="{Binding ImageSource}" HeightRequest="50" WidthRequest="50" Grid.RowSpan="2" Grid.Row="0" Grid.Column="0" HorizontalOptions="Start" Margin="5" >
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Path=BindingContext.DownloadImageCommand, Source={x:Reference BrainstormingContentPage}}" CommandParameter="{Binding .}" />
+                            </Image.GestureRecognizers>
+                        </Image>
                         <Label Text="{Binding Description}" FontAttributes="Bold" FontSize="16" Grid.Column="1" Grid.Row="0"/>
                         <Label Text="{Binding Problem}" FontSize="12" Grid.Column="1" Grid.Row="1"/>
-                        <Label Text="{Binding Solution}" FontSize="12" Grid.Column="1" Grid.Row="2"/>
+                        <Label Text="{Binding Solution}" FontSize="12" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2" Margin="5"/>
                         <Label Text="{i18n:Translate Text=ReadMoreOnline}" TextColor="Blue" Margin="5" TextDecorations="Underline" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" VerticalOptions="CenterAndExpand">
                             <Label.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding Path=BindingContext.ClickUrlCommand, Source={x:Reference BrainstormingContentPage}}" CommandParameter="{Binding Url}" />

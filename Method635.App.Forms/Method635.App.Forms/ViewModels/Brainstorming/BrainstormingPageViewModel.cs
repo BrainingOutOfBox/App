@@ -10,6 +10,7 @@ using Method635.App.BL.Context;
 using Prism.Navigation;
 using System;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace Method635.App.Forms.ViewModels
 {
@@ -27,6 +28,7 @@ namespace Method635.App.Forms.ViewModels
         public DelegateCommand TapCommand { get; }
         public DelegateCommand InsertSpecialCommand { get; }
         public DelegateCommand<Idea> DownloadImageCommand { get; }
+        public DelegateCommand<string> ClickUrlCommand { get; }
 
         public BrainstormingPageViewModel(
             IUiNavigationService navigationService, 
@@ -46,7 +48,13 @@ namespace Method635.App.Forms.ViewModels
             TapCommand = new DelegateCommand(StartBrainstorming);
             InsertSpecialCommand = new DelegateCommand(InsertSpecial);
             DownloadImageCommand = new DelegateCommand<Idea>(async (si) => await DownloadImage(si));
+            ClickUrlCommand = new DelegateCommand<string>(ClickUrl);
             CommitEnabled = true;
+        }
+
+        private void ClickUrl(string url)
+        {
+            Device.OpenUri(new Uri(url));
         }
 
         private async Task DownloadImage(Idea idea)
@@ -142,9 +150,11 @@ namespace Method635.App.Forms.ViewModels
             set
             {
                 SetProperty(ref _currentSheetIndex, value);
-                CurrentSheetText = string.Format(AppResources.SheetNrOfNr, _brainstormingService.CurrentSheetIndex + 1, _brainstormingService.BrainSheets?.Count);
+                CurrentSheetText = string.Format(AppResources.SheetNrOfNr, _currentSheetIndex+1, _brainstormingService.BrainSheets?.Count);
             }
         }
+        //private int _currentSheetNr;
+        //public int CurrentSheetNr { get => _currentSheetNr; set => SetProperty(ref _currentSheetNr, value); }
 
         private string _remainingTime;
         public string RemainingTime

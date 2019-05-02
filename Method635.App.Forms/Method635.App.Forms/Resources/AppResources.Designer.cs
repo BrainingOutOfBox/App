@@ -468,6 +468,24 @@ namespace Method635.App.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The pattern has been added to the current wave. Navigate back to see it..
+        /// </summary>
+        internal static string PatternAddedMessage {
+            get {
+                return ResourceManager.GetString("PatternAddedMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pattern added.
+        /// </summary>
+        internal static string PatternAddedTitle {
+            get {
+                return ResourceManager.GetString("PatternAddedTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Place the code inside the area.
         /// </summary>
         internal static string PlaceQrInArea {

@@ -335,4 +335,10 @@ Join or add a team below</value>
   <data name="ChoosePatternTitle" xml:space="preserve">
     <value>Choose a pattern from a category</value>
   </data>
+  <data name="PatternAddedMessage" xml:space="preserve">
+    <value>The pattern has been added to the current wave. Navigate back to see it.</value>
+  </data>
+  <data name="PatternAddedTitle" xml:space="preserve">
+    <value>Pattern added</value>
+  </data>
 </root>

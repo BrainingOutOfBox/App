@@ -1,6 +1,8 @@
 ﻿using Method635.App.BL.Interfaces;
 using Method635.App.Forms.Models;
+using Method635.App.Forms.PrismEvents;
 using Prism.Commands;
+using Prism.Events;
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
@@ -13,10 +15,12 @@ namespace Method635.App.Forms.ViewModels
     public class PatternPageViewModel : BindableBase
 	{
         private readonly IBrainstormingService _brainstormingService;
+        private readonly IEventAggregator _eventAggregator;
 
-        public PatternPageViewModel(IBrainstormingService brainstormingService)
+        public PatternPageViewModel(IBrainstormingService brainstormingService, IEventAggregator eventAggregator)
         {
             _brainstormingService = brainstormingService;
+            _eventAggregator = eventAggregator;
             GroupedPatterns = new List<GroupedPatternList>();
             SetPatternList();
 
@@ -27,6 +31,7 @@ namespace Method635.App.Forms.ViewModels
         private void ClickPattern(PatternIdeaModel patternIdea)
         {
             _brainstormingService.CommitIdea(patternIdea);
+            _eventAggregator.GetEvent<PatternAddedEvent>().Publish();
         }
 
         private void ClickUrl(string url)
