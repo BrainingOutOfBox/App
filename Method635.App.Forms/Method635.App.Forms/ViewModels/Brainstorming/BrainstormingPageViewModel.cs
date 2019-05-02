@@ -40,7 +40,7 @@ namespace Method635.App.Forms.ViewModels
             _brainstormingService = brainstormingService;
             UpdateProperties();
 
-            CommitCommand = new DelegateCommand(CommitIdea);
+            CommitCommand = new DelegateCommand(async()=>await CommitIdea());
             SendBrainwaveCommand = new DelegateCommand(SendBrainWave);
             RefreshCommand = new DelegateCommand(RefreshPage);
             TapCommand = new DelegateCommand(StartBrainstorming);
@@ -51,7 +51,7 @@ namespace Method635.App.Forms.ViewModels
 
         private async Task DownloadImage(Idea idea)
         {
-            await _brainstormingService.DownloadPictureIdea(idea);
+            await _brainstormingService.SetPictureImageSource(idea);
         }
 
         private void InsertSpecial()
@@ -98,9 +98,9 @@ namespace Method635.App.Forms.ViewModels
             _brainstormingService.SendBrainWave();
         }
 
-        private void CommitIdea()
+        private async Task CommitIdea()
         {
-            _brainstormingService.CommitIdea(IdeaText);
+            await _brainstormingService.CommitIdea(new NoteIdea() { Description = IdeaText });
             IdeaText = string.Empty;
         }
 

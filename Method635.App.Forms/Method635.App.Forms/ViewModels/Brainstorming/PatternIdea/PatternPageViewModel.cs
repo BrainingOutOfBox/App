@@ -21,6 +21,12 @@ namespace Method635.App.Forms.ViewModels
             SetPatternList();
 
             ClickUrlCommand = new DelegateCommand<string>(ClickUrl);
+            ClickPatternCommand = new DelegateCommand<PatternIdeaModel>(ClickPattern);
+        }
+
+        private void ClickPattern(PatternIdeaModel patternIdea)
+        {
+            _brainstormingService.CommitIdea(patternIdea);
         }
 
         private void ClickUrl(string url)
@@ -39,14 +45,12 @@ namespace Method635.App.Forms.ViewModels
                 var patternIdeaModels = group.Select(p => new PatternIdeaModel(p)).ToList();
                 patternIdeaModels.ForEach((p)=>
                 {
-                    _brainstormingService.DownloadPictureIdea(p);
+                    _brainstormingService.SetPictureImageSource(p);
                 });
                 patternList.AddRange(patternIdeaModels);
                 patternList.Category = group.Key;
                 GroupedPatterns.Add(patternList);
-
             }
-
             IsDownloading = false;
         }
         private bool _isDownloading;
@@ -54,5 +58,6 @@ namespace Method635.App.Forms.ViewModels
         private List<GroupedPatternList> _groupedPatterns;
         public List<GroupedPatternList> GroupedPatterns { get => _groupedPatterns; set => SetProperty(ref _groupedPatterns, value); }
         public DelegateCommand<string> ClickUrlCommand { get; }
+        public DelegateCommand<PatternIdeaModel> ClickPatternCommand { get; }
     }
 }

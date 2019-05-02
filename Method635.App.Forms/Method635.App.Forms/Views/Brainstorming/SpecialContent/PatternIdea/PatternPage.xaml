@@ -37,6 +37,9 @@
                                         <TapGestureRecognizer Command="{Binding Path=BindingContext.ClickUrlCommand, Source={x:Reference patternPage}}" CommandParameter="{Binding Url}" />
                                     </Label.GestureRecognizers>
                                 </Label>
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding BindingContext.ClickPatternCommand, Source={x:Reference patternPage}}" CommandParameter="{Binding .}" />
+                                </Grid.GestureRecognizers>
                             </Grid>
                         </ViewCell>
                     </DataTemplate>

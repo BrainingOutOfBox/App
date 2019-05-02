@@ -163,6 +163,7 @@ namespace Method635.App.Forms.Views.Brainstorming.SpecialContent
                 bytes = data.ToArray();
             }
             _brainstormingService.UploadSketchIdea(sketchIdea, bytes);
+            _brainstormingService.CommitIdea(sketchIdea);
             DisplayAlert(AppResources.SketchSavedTitle, AppResources.SketchSavedMessage, AppResources.Ok);
         }
     }

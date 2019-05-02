@@ -1,5 +1,6 @@
 ﻿using Method635.App.BL.BusinessServices;
 using Method635.App.Models;
+using Method635.App.Models.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -20,12 +21,12 @@ namespace Method635.App.BL.Interfaces
         TimeSpan RemainingTime { get; }
         bool? IsModerator { get; }
         int CurrentSheetIndex { get; }
-        void CommitIdea(string ideaText);
+        Task CommitIdea(Idea idea);
         void SendBrainWave();
         void StartBrainstorming();
         void UploadSketchIdea(SketchIdea sketchIdea, byte[] imageBytes);
         event PropertyChangedEventHandler PropertyChanged;
         List<PatternIdea> DownloadPatternIdeas();
-        Task DownloadPictureIdea(Idea idea);
+        Task SetPictureImageSource(Idea idea);
     }
 }
