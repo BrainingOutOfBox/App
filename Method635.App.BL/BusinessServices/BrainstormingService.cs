@@ -161,8 +161,7 @@ namespace Method635.App.BL
             byte[] bytes = memStream.ToArray();
             memStream.Dispose();
             stream.Dispose();
-            Device.BeginInvokeOnMainThread(() =>
-                pictureIdea.ImageSource = ImageSource.FromFile(CacheImageBytesToFile(bytes, pictureIdea.PictureId)));
+            pictureIdea.ImageSource = ImageSource.FromFile(CacheImageBytesToFile(bytes, pictureIdea.PictureId));
         }
 
         private string CacheImageBytesToFile(byte[] imageBytes, string pictureId)

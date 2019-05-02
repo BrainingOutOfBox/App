@@ -1,8 +1,8 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
 
 namespace Method635.App.Forms.Models
 {
-    public class GroupedPatternList : ObservableCollection<PatternIdeaModel>
+    public class GroupedPatternList : List<PatternIdeaModel>
     {
         private string _category;
         public string Category {
