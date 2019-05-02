@@ -17,14 +17,17 @@ namespace Method635.App.Tests.Factories
             };
         }
 
-        private static Participant CreateParticipant()
+        public static Participant CreateParticipant()
         {
             return new Participant()
             {
                 UserName = "dummy"
             };
         }
-
+        public static Moderator CreateModerator()
+        {
+            return new Moderator(CreateParticipant());
+        }
         private static BrainstormingTeam CreateTeam()
         {
             return new BrainstormingTeam()
