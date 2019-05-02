@@ -17,9 +17,9 @@ namespace Method635.App.Forms.ViewModels
         public PatternPageViewModel(IBrainstormingService brainstormingService)
         {
             _brainstormingService = brainstormingService;
-            GroupedPatterns = new List<PatternIdeaModel>();
+            GroupedPatterns = new List<GroupedPatternList>();
+            SetPatternList();
 
-            Task.Run(() => SetPatternList());
             ClickUrlCommand = new DelegateCommand<string>(ClickUrl);
         }
 
@@ -28,17 +28,31 @@ namespace Method635.App.Forms.ViewModels
             Device.OpenUri(new Uri(url));
         }
 
-        private async Task SetPatternList()
+        private void SetPatternList()
         {
             IsDownloading = true;
-            var patterns = await _brainstormingService.DownloadPatternIdeas();
-            GroupedPatterns.AddRange(patterns.Select(p => new PatternIdeaModel(p)));
+            var patterns = _brainstormingService.DownloadPatternIdeas();
+            var groupedPatterns = patterns.GroupBy(p => p.Category);
+            foreach(var group in groupedPatterns)
+            {
+                var patternList = new GroupedPatternList();
+                var patternIdeaModels = group.Select(p => new PatternIdeaModel(p)).ToList();
+                patternIdeaModels.ForEach((p)=>
+                {
+                    _brainstormingService.DownloadPictureIdea(p);
+                });
+                patternList.AddRange(patternIdeaModels);
+                patternList.Category = group.Key;
+                GroupedPatterns.Add(patternList);
+
+            }
+
             IsDownloading = false;
         }
         private bool _isDownloading;
         public bool IsDownloading { get => _isDownloading; set => SetProperty(ref _isDownloading, value); }
-        private List<PatternIdeaModel> _groupedPatterns;
-        public List<PatternIdeaModel> GroupedPatterns { get => _groupedPatterns; set => SetProperty(ref _groupedPatterns, value); }
+        private List<GroupedPatternList> _groupedPatterns;
+        public List<GroupedPatternList> GroupedPatterns { get => _groupedPatterns; set => SetProperty(ref _groupedPatterns, value); }
         public DelegateCommand<string> ClickUrlCommand { get; }
     }
 }

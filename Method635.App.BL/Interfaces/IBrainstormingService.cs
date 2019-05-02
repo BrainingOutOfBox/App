@@ -25,7 +25,7 @@ namespace Method635.App.BL.Interfaces
         void StartBrainstorming();
         void UploadSketchIdea(SketchIdea sketchIdea, byte[] imageBytes);
         event PropertyChangedEventHandler PropertyChanged;
-        Task<List<PatternIdea>> DownloadPatternIdeas();
+        List<PatternIdea> DownloadPatternIdeas();
         Task DownloadPictureIdea(Idea idea);
     }
 }

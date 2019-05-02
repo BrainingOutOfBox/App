@@ -144,23 +144,25 @@ namespace Method635.App.BL
                 _logger.Error("Invalid index access!", ex);
             }
         }
-        public async Task<List<PatternIdea>> DownloadPatternIdeas()
+        public List<PatternIdea> DownloadPatternIdeas()
         {
-            return await Task.Run(() => _patternDalService.GetAllPatterns());
+            return _patternDalService.GetAllPatterns();
         }
 
         public async Task DownloadPictureIdea(Idea idea)
         {
-            if (!(idea is SketchIdea sketchIdea))
+            var pictureIdea = idea as PictureIdea;
+            if (pictureIdea == null)
                 return;
 
-            var stream = await Task.Run(() => _fileDalService.Download(sketchIdea.PictureId));
+            var stream = await Task.Run(() => _fileDalService.Download(pictureIdea.PictureId));
             var memStream = new MemoryStream();
             stream.CopyTo(memStream);
             byte[] bytes = memStream.ToArray();
             memStream.Dispose();
             stream.Dispose();
-            sketchIdea.ImageSource = ImageSource.FromFile(CacheImageBytesToFile(bytes, sketchIdea.PictureId));
+            Device.BeginInvokeOnMainThread(() =>
+                pictureIdea.ImageSource = ImageSource.FromFile(CacheImageBytesToFile(bytes, pictureIdea.PictureId)));
         }
 
         private string CacheImageBytesToFile(byte[] imageBytes, string pictureId)
