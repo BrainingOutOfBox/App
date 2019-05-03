@@ -153,8 +153,6 @@ namespace Method635.App.Forms.ViewModels
                 CurrentSheetText = string.Format(AppResources.SheetNrOfNr, _currentSheetIndex+1, _brainstormingService.BrainSheets?.Count);
             }
         }
-        //private int _currentSheetNr;
-        //public int CurrentSheetNr { get => _currentSheetNr; set => SetProperty(ref _currentSheetNr, value); }
 
         private string _remainingTime;
         public string RemainingTime

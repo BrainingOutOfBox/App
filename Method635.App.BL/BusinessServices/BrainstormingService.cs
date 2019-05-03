@@ -78,6 +78,8 @@ namespace Method635.App.BL
 
         public void SendBrainWave()
         {
+            if (_context.CurrentFinding == null) return;
+
             if (_context.CurrentFinding.BrainSheets == null)
             {
                 _logger.Error("Brainsheets were null, can't send brainwave!");
@@ -108,11 +110,10 @@ namespace Method635.App.BL
         {
             try
             {
-                _brainstormingModel.BrainWaves[_context.CurrentFinding.CurrentRound - 1]
-                    .Ideas[commitIdeaIndex % _context.CurrentFinding.NrOfIdeas] = idea;
+                SetIdea(idea);
                 commitIdeaIndex++;
 
-                if(idea is PictureIdea pictureIdea)
+                if (idea is PictureIdea pictureIdea)
                 {
                     await SetPictureImageSource(pictureIdea);
                 }
@@ -121,6 +122,17 @@ namespace Method635.App.BL
             {
                 _logger.Error("Invalid index access!", ex);
             }
+        }
+
+        private void SetIdea(Idea idea)
+        {
+
+            int ideaIndex = commitIdeaIndex % _context.CurrentFinding.NrOfIdeas;
+            int brainWaveIndex = _context.CurrentFinding.CurrentRound - 1;
+
+            _brainstormingModel.BrainWaves[brainWaveIndex].Ideas[ideaIndex] = idea;
+
+            _context.CurrentFinding.BrainSheets[_brainstormingModel.CurrentSheetIndex].BrainWaves = _brainstormingModel.BrainWaves;
         }
 
         public async Task SetPictureImageSource(Idea idea)

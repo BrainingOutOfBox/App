@@ -43,7 +43,7 @@ namespace Method635.App.BL
             var nrOfBrainsheets = _brainstormingModel.BrainSheets.Count;
             _brainstormingModel.CurrentSheetIndex = (currentRound + _positionInTeam - 1) % nrOfBrainsheets;
             var currentBrainSheet = _context.CurrentFinding.BrainSheets[_brainstormingModel.CurrentSheetIndex];
-            _brainstormingModel.BrainWaves = new ObservableCollection<BrainWave>(currentBrainSheet.BrainWaves);
+            _brainstormingModel.BrainWaves = currentBrainSheet.BrainWaves;
         }
 
         private int _positionInTeam => _teamParticipants.IndexOf(_teamParticipants.Find(p => p.UserName.Equals(_context.CurrentParticipant.UserName)));

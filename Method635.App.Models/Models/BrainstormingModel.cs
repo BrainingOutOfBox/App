@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace Method635.App.Models.Models
@@ -7,8 +8,8 @@ namespace Method635.App.Models.Models
     {
         private ObservableCollection<BrainSheet> _brainSheets;
         public ObservableCollection<BrainSheet> BrainSheets { get=>_brainSheets; set=>SetProperty(ref _brainSheets, value); }
-        private ObservableCollection<BrainWave> _brainWaves;
-        public ObservableCollection<BrainWave> BrainWaves { get => _brainWaves; set => SetProperty(ref _brainWaves, value); }
+        private List<BrainWave> _brainWaves;
+        public List<BrainWave> BrainWaves { get => _brainWaves; set => SetProperty(ref _brainWaves, value); }
         private bool _brainWaveSent;
         public bool BrainWaveSent
         {

@@ -9,7 +9,7 @@
              Title="{Binding Title}" >
 
     <StackLayout>
-        <ListView ItemsSource="{Binding TeamList}" SelectedItem="{Binding SelectedTeam}" IsVisible="{Binding HasTeam}">
+        <ListView ItemsSource="{Binding TeamList}" SelectedItem="{Binding SelectedTeam}" IsVisible="{Binding HasTeam}" IsPullToRefreshEnabled="True" RefreshCommand="{Binding RefreshCommand}" IsRefreshing="{Binding IsRefreshing}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>

@@ -291,7 +291,7 @@ Join or add a team below</value>
     <value>Method 635</value>
   </data>
   <data name="InvalidRoundTime" xml:space="preserve">
-    <value>Please choose a round time greater than 0.</value>
+    <value>Please choose a round time greater than 0 and less than 100.</value>
   </data>
   <data name="InvalidNrOfIdeas" xml:space="preserve">
     <value>Please choose a number of ideas greater than 0.</value>
