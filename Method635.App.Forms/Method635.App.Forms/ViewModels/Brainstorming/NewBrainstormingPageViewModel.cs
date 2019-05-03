@@ -95,7 +95,7 @@ namespace Method635.App.Forms.ViewModels.Brainstorming
                 HasError = true;
                 return false;
             }
-            if (nrOfIdeas < 1 || nrOfIdeas > 100)
+            if (nrOfIdeas < 1 || nrOfIdeas > 99)
             {
                 ErrorText = AppResources.InvalidNrOfIdeas;
                 HasError = true;
