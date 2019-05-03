@@ -78,6 +78,8 @@ namespace Method635.App.BL
 
         public void SendBrainWave()
         {
+            if (_context.CurrentFinding == null) return;
+
             if (_context.CurrentFinding.BrainSheets == null)
             {
                 _logger.Error("Brainsheets were null, can't send brainwave!");
