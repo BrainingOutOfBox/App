@@ -9,12 +9,14 @@ namespace Method635.App.Dal
             IBrainstormingDalService brainstormingService,
             IParticipantDalService participantDalService,
             ITeamDalService teamDalService,
-            IFileDalService fileDalService)
+            IFileDalService fileDalService,
+            IPatternDalService patternDalService)
         {
             BrainstormingDalService = brainstormingService;
             ParticipantDalService = participantDalService;
             TeamDalService = teamDalService;
             FileDalService = fileDalService;
+            PatternDalService = patternDalService;
         }
 
         public IBrainstormingDalService BrainstormingDalService { get; }
@@ -24,5 +26,7 @@ namespace Method635.App.Dal
         public ITeamDalService TeamDalService { get; }
 
         public IFileDalService FileDalService { get; }
+
+        public IPatternDalService PatternDalService { get; }
     }
 }

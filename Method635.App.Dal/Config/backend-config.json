@@ -24,6 +24,10 @@
     "getTeams": "getMyBrainstormingTeams",
     "join": "joinTeam"
   },
+  "pattern-endpoints": {
+    "patterns": "Patterns",
+    "getPatterns": "getPatternIdeas"
+  },
   "files-endpoints": {
     "file": "Files",
     "upload": "upload",

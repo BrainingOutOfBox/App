@@ -124,6 +124,15 @@ namespace Method635.App.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Choose a pattern from a category.
+        /// </summary>
+        internal static string ChoosePatternTitle {
+            get {
+                return ResourceManager.GetString("ChoosePatternTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Click on the icon to start Brainstorming..
         /// </summary>
         internal static string ClickToStartBrainstorming {
@@ -423,6 +432,15 @@ namespace Method635.App.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ok.
+        /// </summary>
+        internal static string Ok {
+            get {
+                return ResourceManager.GetString("Ok", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Password.
         /// </summary>
         internal static string Password {
@@ -446,6 +464,24 @@ namespace Method635.App.Forms.Resources {
         internal static string Pattern {
             get {
                 return ResourceManager.GetString("Pattern", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The pattern has been added to the current wave. Navigate back to see it..
+        /// </summary>
+        internal static string PatternAddedMessage {
+            get {
+                return ResourceManager.GetString("PatternAddedMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pattern added.
+        /// </summary>
+        internal static string PatternAddedTitle {
+            get {
+                return ResourceManager.GetString("PatternAddedTitle", resourceCulture);
             }
         }
         
@@ -482,6 +518,15 @@ namespace Method635.App.Forms.Resources {
         internal static string PurposeText {
             get {
                 return ResourceManager.GetString("PurposeText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Read more online....
+        /// </summary>
+        internal static string ReadMoreOnline {
+            get {
+                return ResourceManager.GetString("ReadMoreOnline", resourceCulture);
             }
         }
         

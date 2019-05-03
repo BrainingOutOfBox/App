@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Name="patternPage"
+             x:Class="Method635.App.Forms.Views.Brainstorming.SpecialContent.PatternIdea.PatternPage"
+             xmlns:i18n="clr-namespace:Method635.App.Forms.Resources"
+             Title="{i18n:Translate ChoosePatternTitle}">
+    <ContentPage.Content>
+        <StackLayout Orientation="Vertical">
+            <ActivityIndicator IsRunning="{Binding IsDownloading}" IsVisible="{Binding IsDownloading}" Color="LightBlue" />
+            <ListView   x:Name="GroupedView"
+                        GroupDisplayBinding="{Binding Category}"
+                        ItemsSource="{Binding GroupedPatterns}"
+                        IsVisible="{Binding IsDownloading, Converter={StaticResource InvertBooleanConverter}}"
+                        IsGroupingEnabled="true" Margin="8"
+                        HasUnevenRows="true">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1*" />
+                                    <ColumnDefinition Width="3*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="25" />
+                                    <RowDefinition Height="45" />
+                                    <RowDefinition Height="30" />
+                                </Grid.RowDefinitions>
+                                <Image Source="{Binding ImageSource}" HeightRequest="50" WidthRequest="50" Grid.RowSpan="2" Grid.Row="0" Grid.Column="0" HorizontalOptions="Start"/>
+                                <Label Text="{Binding Description}" FontAttributes="Bold" FontSize="16" Grid.Column="1" Grid.Row="0"/>
+                                <Label Text="{Binding Problem}" FontSize="12" Grid.Column="1" Grid.Row="1"/>
+                                <Label Text="{i18n:Translate Text=ReadMoreOnline}" TextColor="Blue" Margin="5" TextDecorations="Underline" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" VerticalOptions="CenterAndExpand">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Path=BindingContext.ClickUrlCommand, Source={x:Reference patternPage}}" CommandParameter="{Binding Url}" />
+                                    </Label.GestureRecognizers>
+                                </Label>
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding BindingContext.ClickPatternCommand, Source={x:Reference patternPage}}" CommandParameter="{Binding .}" />
+                                </Grid.GestureRecognizers>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+                <ListView.GroupHeaderTemplate>
+                    <DataTemplate>
+                        <ViewCell Height="30">
+                            <Label Text="{Binding Category}" FontSize="Medium" FontAttributes="Bold" HorizontalOptions="CenterAndExpand" />
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.GroupHeaderTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

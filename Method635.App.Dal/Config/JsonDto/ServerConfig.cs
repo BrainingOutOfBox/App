@@ -15,6 +15,8 @@ namespace Method635.App.Dal.Config
         public TeamEndpoints TeamEndpoints { get; set; }
         [JsonProperty("files-endpoints")]
         public FileEndpoints FileEndpoints {get;set;}
+        [JsonProperty("pattern-endpoints")]
+        public PatternEndpoints PatternEndpoints { get; set; }
 
     }
     public class Server
