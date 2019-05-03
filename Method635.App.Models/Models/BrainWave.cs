@@ -9,5 +9,6 @@ namespace Method635.App.Models
 
         private ObservableCollection<Idea> _ideas;
         public ObservableCollection<Idea> Ideas { get=>_ideas; set=>SetProperty(ref _ideas, value); }
+        
     }
 }

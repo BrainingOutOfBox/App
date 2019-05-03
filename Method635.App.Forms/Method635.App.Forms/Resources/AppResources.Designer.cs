@@ -277,7 +277,7 @@ namespace Method635.App.Forms.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please choose a round time greater than 0..
+        ///   Looks up a localized string similar to Please choose a round time greater than 0 and less than 100..
         /// </summary>
         internal static string InvalidRoundTime {
             get {

@@ -58,21 +58,8 @@ namespace Method635.App.BL
 
         public void Init()
         {
-            RetrieveFinding();
-            RemainingTimeTimerSetup();
-        }
-
-        private void RetrieveFinding()
-        {
-            var retrievedFinding = _brainstormingDalService.GetFinding(_context.CurrentFinding.Id);
-            if (retrievedFinding == null)
-            {
-                _logger.Error($"Finding retrieved from backend was null ({_context.CurrentFinding.Id})");
-                throw new ArgumentException("Finding retrieved from backend can't be null.");
-            }
-            _context.CurrentFinding = retrievedFinding;
-
             EvaluateBrainWaves();
+            RemainingTimeTimerSetup();
         }
 
         private void RemainingTimeTimerSetup()
@@ -181,7 +168,7 @@ namespace Method635.App.BL
             var nrOfBrainsheets = _brainstormingModel.BrainSheets.Count;
             _brainstormingModel.CurrentSheetIndex = (currentRound + _positionInTeam - 1) % nrOfBrainsheets;
             var currentBrainSheet = _context.CurrentFinding.BrainSheets[_brainstormingModel.CurrentSheetIndex];
-            _brainstormingModel.BrainWaves = new ObservableCollection<BrainWave>(currentBrainSheet.BrainWaves);
+            _brainstormingModel.BrainWaves = currentBrainSheet.BrainWaves;
         }
     }
 }
