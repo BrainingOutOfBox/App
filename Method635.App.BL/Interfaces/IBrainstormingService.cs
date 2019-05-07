@@ -28,5 +28,6 @@ namespace Method635.App.BL.Interfaces
         event PropertyChangedEventHandler PropertyChanged;
         List<PatternIdea> DownloadPatternIdeas();
         Task SetPictureImageSource(Idea idea);
+        string GetExport();
     }
 }

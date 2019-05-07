@@ -209,5 +209,34 @@ namespace Method635.App.Forms.RestAccess
             return false;
 
         }
+
+        public string GetExport(string findingId)
+        {
+            try
+            {
+                _logger.Info($"Getting export for finding {findingId}..");
+                var res = _clientService.GetCall($"{_findingsEndpoints.FindingsEndpoint}/{findingId}/{_findingsEndpoints.ExportEndpoint}");
+                var markdownExport = res.Content.ReadAsStringAsync().Result;
+                _logger.Info($"Got markdown export from backend: {Environment.NewLine}{markdownExport}");
+                if (res.IsSuccessStatusCode)
+                {
+                    return markdownExport;
+                }
+                else
+                {
+                    _logger.Error($"Couldn't get export for finding {findingId}.");
+                }
+            }
+            catch (RestEndpointException ex)
+            {
+                _logger.Error($"There was an error getting the export for finding {findingId}", ex);
+            }
+            catch (Exception ex)
+            {
+                _logger.Error("There was an error getting the export for finding", ex);
+            }
+            return string.Empty;
+
+        }
     }
 }

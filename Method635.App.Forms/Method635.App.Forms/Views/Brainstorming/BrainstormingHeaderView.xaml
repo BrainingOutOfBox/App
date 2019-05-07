@@ -10,8 +10,7 @@
                     <TapGestureRecognizer Command="{Binding RefreshCommand}" />
                 </Image.GestureRecognizers>
             </Image>
-            <StackLayout Orientation="Vertical" HorizontalOptions="CenterAndExpand"
-                       Margin="-50,0,0,0">
+            <StackLayout Orientation="Vertical" HorizontalOptions="CenterAndExpand">
                 <Label Text="{Binding RemainingTime}" 
                VerticalOptions="Center" IsVisible="{Binding IsEnded, Converter={StaticResource InvertBooleanConverter}}">
                     <!-- TODO animate with attached behaviors as soon as remainingTime < 10s  -->
@@ -27,6 +26,9 @@
             <Button Text="{i18n:Translate Text=Send}" Command="{Binding SendBrainwaveCommand}"
                     IsVisible="{Binding IsEnded, Converter={StaticResource InvertBooleanConverter}}"
                     IsEnabled="{Binding BrainWaveSent, Converter={StaticResource InvertBooleanConverter}}" 
+                    HorizontalOptions="End" />
+            <Button Text="{i18n:Translate Text=Export}" Command="{Binding ExportCommand}"
+                    IsVisible="{Binding IsEnded}" 
                     HorizontalOptions="End" />
         </StackLayout>
     </ContentView.Content>

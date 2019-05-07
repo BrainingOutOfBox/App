@@ -18,6 +18,8 @@ namespace Method635.App.Dal.Config.JsonDto
         public string RemainingTimeEndpoint { get; set; }
         [JsonProperty("updateBrainsheet")]
         public string UpdateBrainsheetEndpoint { get; set; }
+        [JsonProperty("exportFinding")]
+        public string ExportEndpoint { get; set; }
 
     }
 }

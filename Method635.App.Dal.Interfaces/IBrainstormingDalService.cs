@@ -12,5 +12,6 @@ namespace Method635.App.Dal.Interfaces
         bool UpdateSheet(string findingId, BrainSheet brainSheet);
         TimeSpan GetRemainingTime(string findingId, string teamId);
         bool StartBrainstormingFinding(string findingId);
+        string GetExport(string findingId);
     }
 }

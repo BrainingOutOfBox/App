@@ -191,6 +191,11 @@ namespace Method635.App.BL
             return fileName;
         }
 
+        public string GetExport()
+        {
+            return _brainstormingDalService.GetExport(_context.CurrentFinding.Id);
+        }
+
         private bool _isWaiting;
         public bool IsWaiting
         {

@@ -13,7 +13,7 @@ using System.Threading;
 
 namespace Tests
 {
-    //Making the tests run in parallel sometimes throws exceptions within the mockplatformservices
+    // Making the tests run in parallel sometimes throws exceptions within the mockplatformservices
     //[Parallelizable(ParallelScope.All)]
     public class BrainstormingServiceTest
     {
