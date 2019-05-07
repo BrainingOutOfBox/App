@@ -83,10 +83,10 @@ namespace Method635.App.BL
                     _updateRoundTimer.Start();
                     return;
                 }
+                _brainstormingModel.RemainingTime = remainingTime;
+                _updateRoundTimer.Start();
             }
 
-            _brainstormingModel.RemainingTime = remainingTime;
-            _updateRoundTimer.Start();
         }
 
         private void SendBrainWave()

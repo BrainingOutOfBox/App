@@ -13,7 +13,8 @@ using System.Threading;
 
 namespace Tests
 {
-    [Parallelizable(ParallelScope.All)]
+    //Making the tests run in parallel sometimes throws exceptions within the mockplatformservices
+    //[Parallelizable(ParallelScope.All)]
     public class BrainstormingServiceTest
     {
         [SetUp]
@@ -131,7 +132,7 @@ namespace Tests
 
 
             Assert.IsTrue(brainstormingService.IsRunning);
-            Thread.Sleep(4000);
+            Thread.Sleep(7500);
             Assert.IsTrue(brainstormingService.IsEnded);
         }
 
@@ -170,7 +171,7 @@ namespace Tests
             brainstormingService.SendBrainWave();
             Assert.IsTrue(brainstormingService.BrainWaveSent);
             Assert.IsTrue(brainstormingService.IsRunning);
-            Thread.Sleep(2600);
+            Thread.Sleep(7000);
             Assert.IsTrue(brainstormingService.IsEnded);
         }
 
