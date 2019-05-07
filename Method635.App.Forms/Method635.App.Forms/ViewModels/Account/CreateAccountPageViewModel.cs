@@ -14,12 +14,13 @@ namespace Method635.App.Forms.ViewModels.Account
         private readonly IUiNavigationService _navigationService;
         private readonly IParticipantService _participantService;
 
-        private readonly ILogger _logger = DependencyService.Get<ILogManager>().GetLog();
+        private readonly ILogger _logger;
 
         public DelegateCommand RegisterCommand { get; }
 
-        public CreateAccountPageViewModel(IUiNavigationService navigationService, IParticipantService participantService)
+        public CreateAccountPageViewModel(ILogger logger, IUiNavigationService navigationService, IParticipantService participantService)
         {
+            _logger = logger;
             _navigationService = navigationService;
             _participantService = participantService;
             RegisterCommand = new DelegateCommand(Register);

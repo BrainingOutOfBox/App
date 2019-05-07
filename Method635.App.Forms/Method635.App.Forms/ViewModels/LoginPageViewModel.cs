@@ -17,13 +17,15 @@ namespace Method635.App.Forms.ViewModels
         private readonly IParticipantDalService _participantDalService;
         private readonly BrainstormingContext _context;
 
-        // Platform independent logger necessary, thus resolving from xf dependency service.
-        private readonly ILogger _logger = DependencyService.Get<ILogManager>().GetLog();
+        private readonly ILogger _logger;
 
-        public LoginPageViewModel(IUiNavigationService navigationService,
+        public LoginPageViewModel(
+            ILogger logger,
+            IUiNavigationService navigationService,
             IDalService dalService,
             BrainstormingContext context)
         {
+            _logger = logger;
             _navigationService = navigationService;
             _participantDalService = dalService.ParticipantDalService;
             _context = context;

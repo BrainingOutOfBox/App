@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Method635.App.BL.BusinessServices.BrainstormingStateMachine;
+﻿using Method635.App.BL.BusinessServices.BrainstormingStateMachine;
 using Method635.App.BL.Context;
 using Method635.App.BL.Interfaces;
 using Method635.App.Dal.Interfaces;
@@ -18,28 +17,30 @@ namespace Method635.App.BL
 {
     public class BrainstormingService : PropertyChangedBase, IBrainstormingService
     {
+        private readonly ILogger _logger;
         private readonly BrainstormingContext _context;
         private readonly IBrainstormingDalService _brainstormingDalService;
         private readonly ITeamDalService _teamDalService;
         private readonly IFileDalService _fileDalService;
         private readonly IPatternDalService _patternDalService;
         private readonly StateMachine _stateMachine;
-        private int commitIdeaIndex = 0;
         private readonly BrainstormingModel _brainstormingModel;
 
-        private readonly ILogger _logger = DependencyService.Get<ILogManager>().GetLog();
+        private int commitIdeaIndex = 0;
 
         public BrainstormingService(
+            ILogger logger, 
             IDalService iDalService,
             BrainstormingContext brainstormingContext,
             BrainstormingModel brainstormingModel)
         {
+            _logger = logger;
             _context = brainstormingContext;
             _brainstormingDalService = iDalService.BrainstormingDalService;
             _teamDalService = iDalService.TeamDalService;
             _fileDalService = iDalService.FileDalService;
             _patternDalService = iDalService.PatternDalService;
-            _stateMachine = new StateMachine(_brainstormingDalService, _context, brainstormingModel);
+            _stateMachine = new StateMachine(_logger, _brainstormingDalService, _context, brainstormingModel);
             _stateMachine.PropertyChanged += StateMachine_PropertyChanged;
 
             _brainstormingModel = brainstormingModel;

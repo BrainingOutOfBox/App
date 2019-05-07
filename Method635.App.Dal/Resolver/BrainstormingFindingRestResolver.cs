@@ -16,14 +16,19 @@ namespace Method635.App.Forms.RestAccess
 {
     public class BrainstormingFindingRestResolver : IBrainstormingDalService
     {
-        private readonly ILogger _logger = DependencyService.Get<ILogManager>().GetLog();
+        private readonly ILogger _logger;
 
         private readonly BrainstormingEndpoints _findingsEndpoints;
         private readonly IHttpClientService _clientService;
         private readonly IMapper _brainstormingMapper;
 
-        public BrainstormingFindingRestResolver(IConfigurationService configurationService, IHttpClientService httpClientService, IMapper brainstormingMapper)
+        public BrainstormingFindingRestResolver(
+            ILogger logger,
+            IConfigurationService configurationService, 
+            IHttpClientService httpClientService, 
+            IMapper brainstormingMapper)
         {
+            _logger = logger;
             _findingsEndpoints = configurationService.ServerConfig.BrainstormingEndpoints;
             _clientService = httpClientService;
             _brainstormingMapper = brainstormingMapper;
@@ -138,7 +143,7 @@ namespace Method635.App.Forms.RestAccess
             }
             catch(RestEndpointException ex)
             {
-                _logger.Error($"There was an error getting the finding {findingId}");
+                _logger.Error($"There was an error getting the finding {findingId}", ex);
             }
             catch (Exception ex)
             {

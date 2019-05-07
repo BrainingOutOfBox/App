@@ -20,10 +20,11 @@ namespace Method635.App.Dal.Resolver
         private readonly PatternEndpoints _patternConfig;
         private readonly IHttpClientService _clientService;
         private readonly IMapper _patternMapper;
-        private readonly ILogger _logger = DependencyService.Get<ILogManager>().GetLog();
+        private readonly ILogger _logger;
 
-        public PatternRestResolver(IConfigurationService configurationService, IHttpClientService httpClientService, IMapper mapper)
+        public PatternRestResolver(ILogger logger, IConfigurationService configurationService, IHttpClientService httpClientService, IMapper mapper)
         {
+            _logger = logger;
             _patternConfig = configurationService.ServerConfig.PatternEndpoints;
             _clientService = httpClientService;
             _patternMapper = mapper;

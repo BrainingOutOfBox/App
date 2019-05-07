@@ -12,10 +12,11 @@ namespace Method635.App.BL.BusinessServices
     {
         private readonly ITeamDalService _teamDalService;
         private readonly BrainstormingContext _context;
-        private readonly ILogger _logger = DependencyService.Get<ILogManager>().GetLog();
+        private readonly ILogger _logger;
 
-        public TeamService(IDalService dalService, BrainstormingContext context)
+        public TeamService(ILogger logger, IDalService dalService, BrainstormingContext context)
         {
+            _logger = logger;
             _teamDalService = dalService.TeamDalService;
             _context = context;
         }

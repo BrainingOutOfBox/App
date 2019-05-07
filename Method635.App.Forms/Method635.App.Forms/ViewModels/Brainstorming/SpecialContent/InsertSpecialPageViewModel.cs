@@ -27,7 +27,7 @@ namespace Method635.App.Forms.ViewModels
 
         private void ChooseSketchIdea()
         {
-            _navigationService.NavigateToInsertSketch(_navigationParameters);
+            _navigationService.NavigateToInsertSketch();
         }
 
         public void OnNavigatedFrom(INavigationParameters parameters)

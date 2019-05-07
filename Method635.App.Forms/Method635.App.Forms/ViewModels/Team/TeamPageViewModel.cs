@@ -22,13 +22,16 @@ namespace Method635.App.Forms.ViewModels.Team
         private readonly ITeamService _teamService;
         private readonly BrainstormingContext _context;
 
-        private readonly ILogger _logger = DependencyService.Get<ILogManager>().GetLog();
+        private readonly ILogger _logger;
 
-        public TeamPageViewModel(IUiNavigationService navigationService, 
+        public TeamPageViewModel(
+            ILogger logger,
+            IUiNavigationService navigationService, 
             IEventAggregator eventAggregator, 
             ITeamService teamService,
             BrainstormingContext context)
         {
+            _logger = logger;
             _navigationService = navigationService;
             _eventAggregator = eventAggregator;
             _teamService = teamService;

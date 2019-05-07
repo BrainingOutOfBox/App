@@ -14,12 +14,14 @@ namespace Method635.App.BL
         private Timer _timer;
         private readonly IBrainstormingDalService _brainstromingDalService;
         private readonly BrainstormingContext _context;
-        private readonly ILogger _logger = DependencyService.Get<ILogManager>().GetLog();
+        private readonly ILogger _logger;
 
         public WaitingState(
+            ILogger logger, 
             IBrainstormingDalService brainstromingDalService,
             BrainstormingContext context)
         {
+            _logger = logger;
             _brainstromingDalService = brainstromingDalService;
             _context = context;
         }
@@ -43,7 +45,7 @@ namespace Method635.App.BL
             {
                 _context.CurrentFinding = backendFinding;
                 _logger.Info("Brainstorming has started, changing state to running");
-                ChangeStateEvent?.Invoke(new RunningState(_brainstromingDalService, _context, new BrainstormingModel()));
+                ChangeStateEvent?.Invoke(new RunningState(_logger, _brainstromingDalService, _context, new BrainstormingModel()));
             }
         }
     }

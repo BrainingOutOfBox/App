@@ -11,7 +11,6 @@ using Prism.Navigation;
 using System;
 using System.Threading.Tasks;
 using Xamarin.Forms;
-using Prism.Events;
 
 namespace Method635.App.Forms.ViewModels
 {
@@ -78,11 +77,7 @@ namespace Method635.App.Forms.ViewModels
 
         private void InsertSpecial()
         {
-            var navParam = new NavigationParameters
-            {
-                { "brainstormingService", _brainstormingService }
-            };
-            _navigationService.NavigateToInsertSpecial(navParam);
+            _navigationService.NavigateToInsertSpecial();
         }
 
         private void StartBrainstorming()
