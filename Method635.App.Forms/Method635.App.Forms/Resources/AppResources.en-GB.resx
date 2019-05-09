@@ -341,4 +341,13 @@ Join or add a team below</value>
   <data name="PatternAddedTitle" xml:space="preserve">
     <value>Pattern added</value>
   </data>
+  <data name="Export" xml:space="preserve">
+    <value>Export</value>
+  </data>
+  <data name="CopiedToClipboardTitle" xml:space="preserve">
+    <value>Exported to Clipboard</value>
+  </data>
+  <data name="CopiedToClipboardMessage" xml:space="preserve">
+    <value>The export has been copied to your clipboard as markdown.</value>
+  </data>
 </root>

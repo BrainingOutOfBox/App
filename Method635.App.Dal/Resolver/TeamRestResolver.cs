@@ -16,13 +16,14 @@ namespace Method635.App.Forms.RestAccess
 {
     public class TeamRestResolver : ITeamDalService
     {
-        private readonly ILogger _logger = DependencyService.Get<ILogManager>().GetLog();
+        private readonly ILogger _logger;
         private readonly TeamEndpoints _teamConfig;
         private readonly IHttpClientService _clientService;
         private readonly IMapper _teamMapper;
 
-        public TeamRestResolver(IConfigurationService configurationService, IHttpClientService httpClientService, IMapper mapper)
+        public TeamRestResolver(ILogger logger, IConfigurationService configurationService, IHttpClientService httpClientService, IMapper mapper)
         {
+            _logger = logger;
             _teamConfig = configurationService.ServerConfig.TeamEndpoints;
             _clientService = httpClientService;
             _teamMapper = mapper;

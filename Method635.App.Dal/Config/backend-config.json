@@ -10,7 +10,8 @@
     "getFindings": "getBrainstormingFindings",
     "startFinding": "startBrainstorming",
     "remainingTime": "getRemainingTime",
-    "updateBrainsheet": "putBrainsheet"
+    "updateBrainsheet": "putBrainsheet",
+    "exportFinding": "export"
   },
   "participant-endpoints": {
     "participant": "Participant",

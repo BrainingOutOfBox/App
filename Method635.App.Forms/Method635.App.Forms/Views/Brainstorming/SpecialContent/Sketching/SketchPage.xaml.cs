@@ -1,18 +1,12 @@
-﻿using Method635.App.BL.BusinessServices;
-using Method635.App.BL.Interfaces;
-using Method635.App.Forms.PrismEvents;
+﻿using Method635.App.BL.Interfaces;
 using Method635.App.Forms.Resources;
-using Method635.App.Forms.Services;
 using Method635.App.Forms.Views.Brainstorming.SpecialContent.Sketching;
 using Method635.App.Forms.Views.Brainstorming.SpecialContent.Sketching.TouchEffect;
 using Method635.App.Models;
-using Method635.App.Models.Models;
-using Prism.Events;
 using SkiaSharp;
 using SkiaSharp.Views.Forms;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Reflection;
 using Xamarin.Forms;
 
@@ -21,19 +15,17 @@ namespace Method635.App.Forms.Views.Brainstorming.SpecialContent
 {
     public partial class SketchPage : ContentPage
     {
-        private readonly IUiNavigationService _navigationService;
-        private readonly IEventAggregator _eventAggregator;
+        Dictionary<long, FingerPaintPolyline> inProgressPolylines = new Dictionary<long, FingerPaintPolyline>();
+        List<FingerPaintPolyline> completedPolylines = new List<FingerPaintPolyline>();
+
+
         private readonly IBrainstormingService _brainstormingService;
 
-        public SketchPage(IUiNavigationService navigationService, IEventAggregator eventAggregator, IBrainstormingService brainstormingService)
+        public SketchPage(IBrainstormingService brainstormingService)
         {
-            _navigationService = navigationService;
-            _eventAggregator = eventAggregator;
             _brainstormingService = brainstormingService;
             InitializeComponent();
         }
-        Dictionary<long, FingerPaintPolyline> inProgressPolylines = new Dictionary<long, FingerPaintPolyline>();
-        List<FingerPaintPolyline> completedPolylines = new List<FingerPaintPolyline>();
 
         SKPaint paint = new SKPaint
         {
@@ -41,6 +33,7 @@ namespace Method635.App.Forms.Views.Brainstorming.SpecialContent
             StrokeCap = SKStrokeCap.Round,
             StrokeJoin = SKStrokeJoin.Round
         };
+
         void OnClearButtonClicked(object sender, EventArgs args)
         {
             completedPolylines.Clear();

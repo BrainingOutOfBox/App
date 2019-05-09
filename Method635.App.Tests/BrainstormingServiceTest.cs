@@ -1,5 +1,6 @@
 using Method635.App.BL;
 using Method635.App.Dal.Interfaces;
+using Method635.App.Logging;
 using Method635.App.Models;
 using Method635.App.Models.Models;
 using Method635.App.Tests.Factories;
@@ -10,16 +11,21 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading;
+using Xamarin.Forms;
 
 namespace Tests
 {
-    [Parallelizable(ParallelScope.All)]
+    // Making the tests run in parallel sometimes throws exceptions within the mockplatformservices
+    //[Parallelizable(ParallelScope.All)]
     public class BrainstormingServiceTest
     {
+        private ILogger _logMock;
+
         [SetUp]
         public void SetUp()
         {
             MockPlatformServices.Init();
+            _logMock = DependencyService.Get<ILogManager>().GetLog();
         }
 
         [Test]
@@ -34,6 +40,7 @@ namespace Tests
             dalMock.Setup(serv => serv.TeamDalService).Returns(teamDalMock.Object);
 
             var brainstormingService = new BrainstormingService(
+                _logMock,
                 dalMock.Object,
                 BrainstormingModelFactory.CreateContext(0),
                 new BrainstormingModel());
@@ -71,6 +78,7 @@ namespace Tests
             dalMock.Setup(serv => serv.TeamDalService).Returns(teamDalMock.Object);
 
             var brainstormingService = new BrainstormingService(
+                _logMock,
                 dalMock.Object,
                 BrainstormingModelFactory.CreateContext(3),
                 new BrainstormingModel());
@@ -92,6 +100,7 @@ namespace Tests
             dalMock.Setup(serv => serv.TeamDalService).Returns(teamDalMock.Object);
 
             var brainstormingService = new BrainstormingService(
+                _logMock,
                 dalMock.Object,
                 BrainstormingModelFactory.CreateContext(-1),
                 new BrainstormingModel());
@@ -113,13 +122,14 @@ namespace Tests
             dalMock.Setup(serv => serv.TeamDalService).Returns(teamDalMock.Object);
 
             var brainstormingService = new BrainstormingService(
+                _logMock,
                 dalMock.Object,
                 BrainstormingModelFactory.CreateContext(0),
                 new BrainstormingModel());
 
             brainstormingService.StartBusinessService();
             Assert.IsTrue(brainstormingService.IsWaiting);
-            Thread.Sleep(2600);
+            Thread.Sleep(4500);
             Assert.IsTrue(brainstormingService.IsRunning);
         }
 
@@ -131,7 +141,7 @@ namespace Tests
 
 
             Assert.IsTrue(brainstormingService.IsRunning);
-            Thread.Sleep(4000);
+            Thread.Sleep(7500);
             Assert.IsTrue(brainstormingService.IsEnded);
         }
 
@@ -149,6 +159,7 @@ namespace Tests
             dalMock.Setup(serv => serv.TeamDalService).Returns(teamDalMock.Object);
 
             var brainstormingService = new BrainstormingService(
+                _logMock,
                 dalMock.Object,
                 BrainstormingModelFactory.CreateContext(1),
                 new BrainstormingModel());
@@ -170,11 +181,11 @@ namespace Tests
             brainstormingService.SendBrainWave();
             Assert.IsTrue(brainstormingService.BrainWaveSent);
             Assert.IsTrue(brainstormingService.IsRunning);
-            Thread.Sleep(2600);
+            Thread.Sleep(7000);
             Assert.IsTrue(brainstormingService.IsEnded);
         }
 
-        private static BrainstormingService BasicServiceSetup()
+        private BrainstormingService BasicServiceSetup()
         {
             var brainstormingDalMock = new Mock<IBrainstormingDalService>();
             brainstormingDalMock.SetupSequence(request => request.GetFinding(It.IsAny<string>()))
@@ -203,6 +214,7 @@ namespace Tests
             dalMock.Setup(s => s.TeamDalService).Returns(teamDalMock.Object);
 
             var brainstormingService = new BrainstormingService(
+                _logMock,
                 dalMock.Object,
                 context,
                 model

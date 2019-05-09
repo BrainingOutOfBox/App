@@ -6,18 +6,17 @@ using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
-using System.Threading.Tasks;
-using Xamarin.Forms;
 
 namespace Method635.App.Forms.RestAccess
 {
     public class RestClientService : IHttpClientService
     {
-        private static readonly ILogger _logger = DependencyService.Get<ILogManager>().GetLog();
+        private readonly ILogger _logger;
         private readonly Server _serverConfig;
 
-        public RestClientService(IConfigurationService configurationService)
+        public RestClientService(ILogger logger, IConfigurationService configurationService)
         {
+            _logger = logger;
             _serverConfig = configurationService.ServerConfig.Server;
         }
 

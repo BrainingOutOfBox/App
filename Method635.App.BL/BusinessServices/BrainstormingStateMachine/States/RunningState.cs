@@ -9,7 +9,6 @@ using Method635.App.Dal.Interfaces;
 using Method635.App.Logging;
 using Method635.App.Models;
 using Method635.App.Models.Models;
-using Xamarin.Forms;
 
 namespace Method635.App.BL
 {
@@ -17,17 +16,22 @@ namespace Method635.App.BL
     {
         private Timer _nextCheckRoundTimer;
         private Timer _updateRoundTimer;
-        private object lockObj = new object();
+        private readonly object lockObj = new object();
         private readonly IBrainstormingDalService _brainstormingDalService;
         private readonly BrainstormingContext _context;
         private readonly BrainstormingModel _brainstormingModel;
 
         public event ChangeStateHandler ChangeStateEvent;
 
-        private readonly ILogger _logger = DependencyService.Get<ILogManager>().GetLog();
+        private readonly ILogger _logger;
 
-        public RunningState(IBrainstormingDalService brainstormingDalService, BrainstormingContext context, BrainstormingModel brainstormingModel)
+        public RunningState(
+            ILogger logger,
+            IBrainstormingDalService brainstormingDalService, 
+            BrainstormingContext context, 
+            BrainstormingModel brainstormingModel)
         {
+            _logger = logger;
             _brainstormingDalService = brainstormingDalService;
             _context = context;
             _brainstormingModel = brainstormingModel;
@@ -83,10 +87,10 @@ namespace Method635.App.BL
                     _updateRoundTimer.Start();
                     return;
                 }
+                _brainstormingModel.RemainingTime = remainingTime;
+                _updateRoundTimer.Start();
             }
 
-            _brainstormingModel.RemainingTime = remainingTime;
-            _updateRoundTimer.Start();
         }
 
         private void SendBrainWave()

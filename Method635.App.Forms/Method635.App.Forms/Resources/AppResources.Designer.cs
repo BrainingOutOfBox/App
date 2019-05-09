@@ -160,6 +160,24 @@ namespace Method635.App.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The export has been copied to your clipboard as markdown..
+        /// </summary>
+        internal static string CopiedToClipboardMessage {
+            get {
+                return ResourceManager.GetString("CopiedToClipboardMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exported to Clipboard.
+        /// </summary>
+        internal static string CopiedToClipboardTitle {
+            get {
+                return ResourceManager.GetString("CopiedToClipboardTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create Account.
         /// </summary>
         internal static string CreateAccount {
@@ -210,6 +228,15 @@ namespace Method635.App.Forms.Resources {
         internal static string ErrorRegisteringUser {
             get {
                 return ResourceManager.GetString("ErrorRegisteringUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Export.
+        /// </summary>
+        internal static string Export {
+            get {
+                return ResourceManager.GetString("Export", resourceCulture);
             }
         }
         

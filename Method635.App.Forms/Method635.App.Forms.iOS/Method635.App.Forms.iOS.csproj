@@ -92,10 +92,12 @@
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Clipboard\ClipboardService.cs" />
     <Compile Include="Logging\NLogManager.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <Compile Include="Resources\Localize.cs" />
+    <Compile Include="ToastMessagingService\ToastMessenger.cs" />
     <Compile Include="TouchEffect.cs" />
     <Compile Include="TouchRecognizer.cs" />
     <None Include="Entitlements.plist" />
@@ -198,6 +200,10 @@
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
+    <ProjectReference Include="..\..\Method635.App.BL\Method635.App.BL.csproj">
+      <Project>{e5ef0ba9-f627-4d2a-82b7-7988294e438c}</Project>
+      <Name>Method635.App.BL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Method635.App.Logging\Method635.App.Logging.csproj">
       <Project>{cb6fcf3f-9588-468a-8a1d-789f9f274cc2}</Project>
       <Name>Method635.App.Logging</Name>

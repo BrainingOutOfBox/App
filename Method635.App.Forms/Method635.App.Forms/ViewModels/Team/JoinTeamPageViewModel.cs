@@ -8,7 +8,6 @@ using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
 using System.Collections.Generic;
-using Xamarin.Forms;
 using ZXing;
 using ZXing.Mobile;
 
@@ -16,19 +15,20 @@ namespace Method635.App.Forms.ViewModels.Team
 {
     public class JoinTeamPageViewModel : BindableBase
 	{
+        private readonly ILogger _logger;
         private readonly IUiNavigationService _navigationService;
         private readonly IEventAggregator _eventAggregator;
         private readonly ITeamService _teamService;
         private readonly BrainstormingContext _context;
 
-        private readonly ILogger _logger = DependencyService.Get<ILogManager>().GetLog();
-
         public JoinTeamPageViewModel(
+            ILogger logger,
             IUiNavigationService navigationService, 
             IEventAggregator eventAggregator, 
             ITeamService teamService,
             BrainstormingContext context)
         {
+            _logger = logger;
             _navigationService = navigationService;
             _eventAggregator = eventAggregator;
             _teamService = teamService;

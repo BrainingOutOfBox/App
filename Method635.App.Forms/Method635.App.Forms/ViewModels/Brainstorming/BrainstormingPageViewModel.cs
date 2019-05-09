@@ -14,11 +14,12 @@ using Xamarin.Forms;
 
 namespace Method635.App.Forms.ViewModels
 {
-    public class BrainstormingPageViewModel : BindableBase, INavigatedAware, IDestructible
+    public class BrainstormingPageViewModel : BindableBase, INavigatedAware
     {
         private readonly IUiNavigationService _navigationService;
-        private readonly BrainstormingContext _context;
         private readonly IBrainstormingService _brainstormingService;
+        private readonly IClipboardService _clipboardService;
+        private readonly IToastMessageService _toastMessageService;
         private bool _serviceStarted;
 
 
@@ -29,17 +30,20 @@ namespace Method635.App.Forms.ViewModels
         public DelegateCommand InsertSpecialCommand { get; }
         public DelegateCommand<Idea> DownloadImageCommand { get; }
         public DelegateCommand<string> ClickUrlCommand { get; }
+        public DelegateCommand ExportCommand { get; }
 
         public BrainstormingPageViewModel(
             IUiNavigationService navigationService, 
             BrainstormingContext brainstormingContext,
-            IBrainstormingService brainstormingService)
+            IBrainstormingService brainstormingService, 
+            IToastMessageService toastMessageService,
+            IClipboardService clipboardService)
         {
             _navigationService = navigationService;
-            _context = brainstormingContext;
-            _findingTitle = _context.CurrentFinding?.Name;
-
+            _findingTitle = brainstormingContext.CurrentFinding?.Name;
+            _toastMessageService = toastMessageService;
             _brainstormingService = brainstormingService;
+            _clipboardService = clipboardService;
             UpdateProperties();
 
             CommitCommand = new DelegateCommand(async()=>await CommitIdea());
@@ -49,7 +53,16 @@ namespace Method635.App.Forms.ViewModels
             InsertSpecialCommand = new DelegateCommand(InsertSpecial);
             DownloadImageCommand = new DelegateCommand<Idea>(async (si) => await DownloadImage(si));
             ClickUrlCommand = new DelegateCommand<string>(ClickUrl);
+            ExportCommand = new DelegateCommand(async()=>await Export());
             CommitEnabled = true;
+        }
+
+        private async Task Export()
+        {
+            var exportContent = await Task.Run(()=>_brainstormingService.GetExport());
+
+            _clipboardService.CopyToClipboard(exportContent);
+            _toastMessageService.LongAlert(AppResources.CopiedToClipboardMessage);
         }
 
         private void ClickUrl(string url)
@@ -64,11 +77,7 @@ namespace Method635.App.Forms.ViewModels
 
         private void InsertSpecial()
         {
-            var navParam = new NavigationParameters
-            {
-                { "brainstormingService", _brainstormingService }
-            };
-            _navigationService.NavigateToInsertSpecial(navParam);
+            _navigationService.NavigateToInsertSpecial();
         }
 
         private void StartBrainstorming()
@@ -130,12 +139,6 @@ namespace Method635.App.Forms.ViewModels
             }
         }
 
-        public void Destroy()
-        {
-            //_brainstormingService.StopBusinessService();
-            //_brainstormingService.PropertyChanged -= _brainstormingService_PropertyChanged;
-        }
-
         private ObservableCollection<BrainSheet> _brainSheets;
         public ObservableCollection<BrainSheet> BrainSheets
         {
@@ -190,6 +193,7 @@ namespace Method635.App.Forms.ViewModels
         public string Title => AppResources.Brainstorming;
 
         private string _findingTitle;
+
         public string FindingTitle
         {
             get => _findingTitle;

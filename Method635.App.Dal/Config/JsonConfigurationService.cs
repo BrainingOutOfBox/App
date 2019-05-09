@@ -3,17 +3,17 @@ using Newtonsoft.Json;
 using System;
 using System.IO;
 using System.Reflection;
-using Xamarin.Forms;
 
 namespace Method635.App.Dal.Config
 {
     public class JsonConfigurationService : IConfigurationService
     {
         private const string BackendConfigurationJson = "Method635.App.Dal.Config.backend-config.json";
-        private readonly ILogger _logger = DependencyService.Get<ILogManager>().GetLog();
+        private readonly ILogger _logger;
 
-        public JsonConfigurationService()
+        public JsonConfigurationService(ILogger logger)
         {
+            _logger = logger;
             Setup();
         }
 

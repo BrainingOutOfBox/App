@@ -16,14 +16,19 @@ namespace Method635.App.Forms.RestAccess
 {
     public class BrainstormingFindingRestResolver : IBrainstormingDalService
     {
-        private readonly ILogger _logger = DependencyService.Get<ILogManager>().GetLog();
+        private readonly ILogger _logger;
 
         private readonly BrainstormingEndpoints _findingsEndpoints;
         private readonly IHttpClientService _clientService;
         private readonly IMapper _brainstormingMapper;
 
-        public BrainstormingFindingRestResolver(IConfigurationService configurationService, IHttpClientService httpClientService, IMapper brainstormingMapper)
+        public BrainstormingFindingRestResolver(
+            ILogger logger,
+            IConfigurationService configurationService, 
+            IHttpClientService httpClientService, 
+            IMapper brainstormingMapper)
         {
+            _logger = logger;
             _findingsEndpoints = configurationService.ServerConfig.BrainstormingEndpoints;
             _clientService = httpClientService;
             _brainstormingMapper = brainstormingMapper;
@@ -138,7 +143,7 @@ namespace Method635.App.Forms.RestAccess
             }
             catch(RestEndpointException ex)
             {
-                _logger.Error($"There was an error getting the finding {findingId}");
+                _logger.Error($"There was an error getting the finding {findingId}", ex);
             }
             catch (Exception ex)
             {
@@ -207,6 +212,35 @@ namespace Method635.App.Forms.RestAccess
                 _logger.Error("There was an error starting the finding", ex);
             }
             return false;
+
+        }
+
+        public string GetExport(string findingId)
+        {
+            try
+            {
+                _logger.Info($"Getting export for finding {findingId}..");
+                var res = _clientService.GetCall($"{_findingsEndpoints.FindingsEndpoint}/{findingId}/{_findingsEndpoints.ExportEndpoint}");
+                var markdownExport = res.Content.ReadAsStringAsync().Result;
+                _logger.Info($"Got markdown export from backend: {Environment.NewLine}{markdownExport}");
+                if (res.IsSuccessStatusCode)
+                {
+                    return markdownExport;
+                }
+                else
+                {
+                    _logger.Error($"Couldn't get export for finding {findingId}.");
+                }
+            }
+            catch (RestEndpointException ex)
+            {
+                _logger.Error($"There was an error getting the export for finding {findingId}", ex);
+            }
+            catch (Exception ex)
+            {
+                _logger.Error("There was an error getting the export for finding", ex);
+            }
+            return string.Empty;
 
         }
     }
