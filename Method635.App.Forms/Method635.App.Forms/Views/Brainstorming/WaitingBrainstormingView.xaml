@@ -6,6 +6,7 @@
     <ContentView.Content>
         <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" Margin="15">
             <Label Text="{i18n:Translate Text=WaitingForBrainstormingToStartTitle}" HorizontalOptions="Center" FontSize="Large" VerticalOptions="Start" />
+            <Image Source="waiting_brainstorming.png" HorizontalOptions="Center" HeightRequest="75" WidthRequest="75" Opacity="0.5"/>
             <Label Text="{i18n:Translate Text=WaitingForBrainstormingToStartMessage}" HorizontalOptions="CenterAndExpand" VerticalOptions="Start" Margin="5"/>
             <Grid HorizontalOptions="CenterAndExpand" Margin="5">
                 <Grid.ColumnDefinitions>
