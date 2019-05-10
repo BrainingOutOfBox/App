@@ -15,9 +15,24 @@
         <local:BrainstormingHeaderView IsVisible="{Binding IsWaiting, Converter={StaticResource InvertBooleanConverter}}"/>
         <!-- CENTER -->
         <local:StartBrainstormingView IsVisible="{Binding ShowStartBrainstorming}" VerticalOptions="CenterAndExpand" />
-
-        <StackLayout Orientation="Vertical" VerticalOptions="CenterAndExpand" IsVisible="{Binding IsWaiting, Converter={StaticResource InvertBooleanConverter}}">
-            <controls:CarouselViewControl ItemsSource="{Binding BrainSheets}" HeightRequest="{Binding IdeaHeight}" InterPageSpacing="50" Margin="15" Position="{Binding CurrentSheetIndex, Mode=TwoWay}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+        <local:WaitingBrainstormingView IsVisible="{Binding ShowWaitingBrainstorming}" />
+        
+        <Grid VerticalOptions="CenterAndExpand" IsVisible="{Binding IsWaiting, Converter={StaticResource InvertBooleanConverter}}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <controls:CarouselViewControl Grid.Row="0" 
+                                          Grid.Column="0"
+                                          ItemsSource="{Binding BrainSheets}" 
+                                          HeightRequest="{Binding IdeaHeight}"
+                                          InterPageSpacing="50" 
+                                          Margin="15" 
+                                          Position="{Binding CurrentSheetIndex, Mode=TwoWay}" 
+                                          HorizontalOptions="FillAndExpand" 
+                                          VerticalOptions="FillAndExpand">
                 <controls:CarouselViewControl.ItemTemplate>
                     <DataTemplate>
                         <Frame BorderColor="LightGray">
@@ -37,7 +52,7 @@
                     </DataTemplate>
                 </controls:CarouselViewControl.ItemTemplate>
             </controls:CarouselViewControl>
-        </StackLayout>
+        </Grid>
 
 
         <!-- FOOTER -->
@@ -72,7 +87,7 @@
             <DataTemplate x:Key="SketchIdeaTemplate">
                 <ViewCell>
                     <StackLayout Orientation="Vertical">
-                        <Image Source="{Binding ImageSource}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Aspect="Fill" HeightRequest="190">
+                        <Image Source="{Binding ImageSource}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Aspect="Fill" Margin="5" HeightRequest="190">
                             <Image.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding Path=BindingContext.DownloadImageCommand, Source={x:Reference BrainstormingContentPage}}" CommandParameter="{Binding .}" />
                             </Image.GestureRecognizers>
