@@ -115,6 +115,15 @@ namespace Method635.App.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Brainstorming Title.
+        /// </summary>
+        internal static string BrainstormingTitle {
+            get {
+                return ResourceManager.GetString("BrainstormingTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         internal static string Cancel {
@@ -752,6 +761,24 @@ namespace Method635.App.Forms.Resources {
         internal static string UserName {
             get {
                 return ResourceManager.GetString("UserName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to We&apos;re waiting for the brainstorming to get kicked off by the moderator. Here&apos;s some information about the brainstorming you&apos;re about to take part:.
+        /// </summary>
+        internal static string WaitingForBrainstormingToStartMessage {
+            get {
+                return ResourceManager.GetString("WaitingForBrainstormingToStartMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Waiting for Brainstorming to Start.
+        /// </summary>
+        internal static string WaitingForBrainstormingToStartTitle {
+            get {
+                return ResourceManager.GetString("WaitingForBrainstormingToStartTitle", resourceCulture);
             }
         }
     }

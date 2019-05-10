@@ -52,6 +52,9 @@
     <Compile Update="Views\Brainstorming\NewBrainstormingPage.xaml.cs">
       <DependentUpon>NewBrainstormingPage.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\Brainstorming\WaitingBrainstormingView.xaml.cs">
+      <DependentUpon>WaitingBrainstormingView.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\Navigation\BrainstormingFindingListPage.xaml.cs">
       <DependentUpon>BrainstormingFindingListPage.xaml</DependentUpon>
     </Compile>

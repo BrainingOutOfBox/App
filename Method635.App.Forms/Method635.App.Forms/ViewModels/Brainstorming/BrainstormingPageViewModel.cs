@@ -40,7 +40,8 @@ namespace Method635.App.Forms.ViewModels
             IClipboardService clipboardService)
         {
             _navigationService = navigationService;
-            _findingTitle = brainstormingContext.CurrentFinding?.Name;
+            FindingTitle = brainstormingContext.CurrentFinding?.Name;
+            FindingDescription = brainstormingContext.CurrentFinding?.ProblemDescription;
             _toastMessageService = toastMessageService;
             _brainstormingService = brainstormingService;
             _clipboardService = clipboardService;
@@ -54,6 +55,7 @@ namespace Method635.App.Forms.ViewModels
             DownloadImageCommand = new DelegateCommand<Idea>(async (si) => await DownloadImage(si));
             ClickUrlCommand = new DelegateCommand<string>(ClickUrl);
             ExportCommand = new DelegateCommand(async()=>await Export());
+
             CommitEnabled = true;
         }
 
@@ -100,8 +102,9 @@ namespace Method635.App.Forms.ViewModels
             IsEnded = _brainstormingService.IsEnded;
             RemainingTime = $"{_brainstormingService.RemainingTime.Minutes:D2}m:{_brainstormingService.RemainingTime.Seconds:D2}s";
             ShowStartBrainstorming = IsWaiting && _brainstormingService.IsModerator.HasValue && _brainstormingService.IsModerator.Value;
+            ShowWaitingBrainstorming = IsWaiting && !(_brainstormingService.IsModerator.HasValue && _brainstormingService.IsModerator.Value);
             CurrentSheetIndex = _brainstormingService.CurrentSheetIndex;
-            IdeaHeight = IsEnded ? 450 : 300;
+            IdeaHeight = IsEnded ? 400 : 200;
         }
 
         private void RefreshPage()
@@ -173,6 +176,13 @@ namespace Method635.App.Forms.ViewModels
             get => _showStartBrainstorming;
             private set=>SetProperty(ref _showStartBrainstorming, value);
         }
+        private bool _showWaitingBrainstorming;
+        public bool ShowWaitingBrainstorming
+        {
+            get=>_showWaitingBrainstorming;
+            private set=>SetProperty(ref _showWaitingBrainstorming, value);
+        }
+
         private int _ideaHeight;
         public int IdeaHeight { get => _ideaHeight; private set=>SetProperty(ref _ideaHeight, value); }
 
@@ -193,7 +203,6 @@ namespace Method635.App.Forms.ViewModels
         public string Title => AppResources.Brainstorming;
 
         private string _findingTitle;
-
         public string FindingTitle
         {
             get => _findingTitle;
@@ -202,6 +211,13 @@ namespace Method635.App.Forms.ViewModels
                 SetProperty(ref _findingTitle, value);
             }
         }
+        private string _findingDescription;
+        public string FindingDescription
+        {
+            get => _findingDescription;
+            set => SetProperty(ref _findingDescription, value);
+        }
+
         private string _currentSheetText;
         public string CurrentSheetText
         {
@@ -231,6 +247,5 @@ namespace Method635.App.Forms.ViewModels
 
         private bool _isRunning;
         public bool IsRunning { get => _isRunning; private set => SetProperty(ref _isRunning, value); }
-               
     }
 }

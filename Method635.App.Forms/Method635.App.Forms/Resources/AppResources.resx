@@ -350,4 +350,13 @@ Join or add a team below</value>
   <data name="CopiedToClipboardMessage" xml:space="preserve">
     <value>The export has been copied to your clipboard as markdown.</value>
   </data>
+  <data name="WaitingForBrainstormingToStartMessage" xml:space="preserve">
+    <value>We're waiting for the brainstorming to get kicked off by the moderator. Here's some information about the brainstorming you're about to take part:</value>
+  </data>
+  <data name="WaitingForBrainstormingToStartTitle" xml:space="preserve">
+    <value>Waiting for Brainstorming to Start</value>
+  </data>
+  <data name="BrainstormingTitle" xml:space="preserve">
+    <value>Brainstorming Title</value>
+  </data>
 </root>
