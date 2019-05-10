@@ -36,7 +36,7 @@ namespace Method635.App.BL.BusinessServices.BrainstormingStateMachine
             }
             else if (currentRound == 0)
             {
-                evaluatedState = new WaitingState(_logger, _brainstormingDalService, _context);
+                evaluatedState = new WaitingState(_logger, _brainstormingDalService, _context, _brainstormingModel);
             }
             else if (currentRound > 0)
             {
