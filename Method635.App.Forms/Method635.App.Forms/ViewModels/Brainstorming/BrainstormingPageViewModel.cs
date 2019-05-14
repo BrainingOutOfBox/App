@@ -135,7 +135,7 @@ namespace Method635.App.Forms.ViewModels
         {
             _brainstormingService.PropertyChanged += _brainstormingService_PropertyChanged;
 
-            if (!_serviceStarted)
+            if (!_serviceStarted && !_brainstormingService.IsServiceRunning)
             {
                 _brainstormingService.StartBusinessService();
                 _serviceStarted = true;
