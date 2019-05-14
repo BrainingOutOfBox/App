@@ -48,6 +48,7 @@ namespace Method635.App.BL
 
         public void CleanUp()
         {
+            _brainstormingModel.PropertyChanged -= _brainstormingModel_PropertyChanged;
             if (_nextCheckRoundTimer != null)
             {
                 _nextCheckRoundTimer.Elapsed -= NextCheckRoundTimerElapsed;

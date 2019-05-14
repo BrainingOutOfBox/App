@@ -17,7 +17,7 @@ namespace Method635.App.Forms.ViewModels
     public class BrainstormingPageViewModel : BindableBase, INavigatedAware
     {
         private readonly IUiNavigationService _navigationService;
-        private readonly IBrainstormingService _brainstormingService;
+        private IBrainstormingService _brainstormingService;
         private readonly IClipboardService _clipboardService;
         private readonly IToastMessageService _toastMessageService;
         private bool _serviceStarted;
@@ -85,7 +85,9 @@ namespace Method635.App.Forms.ViewModels
         private void StartBrainstorming()
         {
             _brainstormingService.StartBrainstorming();
-            _navigationService.NavigateToBrainstormingTab();
+            var parameters = new NavigationParameters();
+            parameters.Add("brainstormingService", _brainstormingService);
+            _navigationService.NavigateToBrainstormingTab(parameters);
         }
 
         private void _brainstormingService_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -109,7 +111,9 @@ namespace Method635.App.Forms.ViewModels
 
         private void RefreshPage()
         {
-            _navigationService.NavigateToBrainstormingTab();
+            var parameters = new NavigationParameters();
+            parameters.Add("brainstormingService", _brainstormingService);
+            _navigationService.NavigateToBrainstormingTab(parameters);
         }
 
         private void SendBrainWave()
@@ -127,15 +131,23 @@ namespace Method635.App.Forms.ViewModels
         
         public void OnNavigatedFrom(INavigationParameters parameters)
         {
+            parameters.TryGetValue("brainstormingService", out IBrainstormingService brainstormingService);
+            if (brainstormingService != null)
+                _brainstormingService = brainstormingService;
+
             _brainstormingService.StopBusinessService();
             _brainstormingService.PropertyChanged -= _brainstormingService_PropertyChanged;
         }
 
         public void OnNavigatedTo(INavigationParameters parameters)
         {
+            parameters.TryGetValue("brainstormingService", out IBrainstormingService brainstormingService);
+            if (brainstormingService != null)
+                _brainstormingService = brainstormingService;
+
             _brainstormingService.PropertyChanged += _brainstormingService_PropertyChanged;
 
-            if (!_serviceStarted && !_brainstormingService.IsServiceRunning)
+            if (!_serviceStarted)
             {
                 _brainstormingService.StartBusinessService();
                 _serviceStarted = true;

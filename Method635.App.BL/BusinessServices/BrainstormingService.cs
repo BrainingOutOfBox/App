@@ -60,7 +60,6 @@ namespace Method635.App.BL
             IsModerator = _teamDalService.GetModeratorByTeamId(_context.CurrentBrainstormingTeam?.Id)?.UserName.Equals(_context.CurrentParticipant?.UserName);
 
             _stateMachine.Start();
-            IsServiceRunning = true;
         }
 
         public void StopBusinessService()
@@ -68,7 +67,6 @@ namespace Method635.App.BL
             _stateMachine.Stop();
             _stateMachine.PropertyChanged -= StateMachine_PropertyChanged;
             _brainstormingModel.PropertyChanged -= _brainstormingModel_PropertyChanged;
-            IsServiceRunning = false;
         }
 
         private void StateMachine_PropertyChanged(object sender, PropertyChangedEventArgs e)

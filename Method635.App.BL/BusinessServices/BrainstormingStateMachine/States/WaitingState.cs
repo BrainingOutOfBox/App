@@ -39,6 +39,7 @@ namespace Method635.App.BL
             _timer = new Timer(2500);
             _timer.Elapsed += Timer_Elapsed;
             _timer.Start();
+            _brainstormingModel.BrainWaveSent = false;
         }
 
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)

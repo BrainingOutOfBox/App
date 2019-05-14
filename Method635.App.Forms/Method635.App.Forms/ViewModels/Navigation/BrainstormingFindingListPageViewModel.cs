@@ -82,7 +82,7 @@ namespace Method635.App.Forms.ViewModels
         private void SelectFinding()
         {
             _brainstormingContext.CurrentFinding = SelectedFinding.Finding;
-            _navigationService.NavigateToBrainstormingTab();
+            _navigationService.NavigateToBrainstormingTab(new NavigationParameters());
         }
 
         public void OnNavigatedTo(INavigationParameters parameters)

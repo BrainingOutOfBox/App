@@ -51,9 +51,9 @@ namespace Method635.App.Forms.Services
             var res = await _navigationService.NavigateAsync("/NavigationPage/MainPage?selectedTab=BrainstormingFindingListPage/");
         }
 
-        public async Task NavigateToBrainstormingTab()
+        public async Task NavigateToBrainstormingTab(INavigationParameters parameters)
         {
-            var res = await _navigationService.NavigateAsync("/NavigationPage/MainPage?selectedTab=BrainstormingPage/");
+            var res = await _navigationService.NavigateAsync("/NavigationPage/MainPage?selectedTab=BrainstormingPage/", parameters);
         }
 
         public async Task NavigateToCreateBrainstorming()

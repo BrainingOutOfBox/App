@@ -9,6 +9,7 @@ using Method635.App.Forms.Resources;
 using Method635.App.Forms.Services;
 using Method635.App.Dal.Interfaces;
 using Method635.App.BL.Context;
+using Prism.Navigation;
 
 namespace Method635.App.Forms.ViewModels.Brainstorming
 {
@@ -60,7 +61,7 @@ namespace Method635.App.Forms.ViewModels.Brainstorming
                 };
                 finding = _brainstormingDalService.CreateFinding(finding);
                 _context.CurrentFinding = finding;
-                _navigationService.NavigateToBrainstormingTab();
+                _navigationService.NavigateToBrainstormingTab(new NavigationParameters());
             }
             catch (Exception ex)
             {

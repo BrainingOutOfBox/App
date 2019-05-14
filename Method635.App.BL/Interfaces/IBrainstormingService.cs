@@ -21,7 +21,6 @@ namespace Method635.App.BL.Interfaces
         TimeSpan RemainingTime { get; }
         bool? IsModerator { get; }
         int CurrentSheetIndex { get; }
-        bool IsServiceRunning { get; }
         Task CommitIdea(Idea idea);
         void SendBrainWave();
         void StartBrainstorming();
