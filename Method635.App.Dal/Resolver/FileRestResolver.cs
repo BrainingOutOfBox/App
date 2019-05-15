@@ -52,7 +52,7 @@ namespace Method635.App.Dal.Resolver
         {
             if (stream == null)
             {
-                _logger.Error("Can't upload empty stream.");
+                _logger.Error("Can't upload null stream.");
                 return string.Empty;
             }
             try

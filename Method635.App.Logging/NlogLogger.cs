@@ -1,5 +1,4 @@
-﻿using System;
-using NLog;
+﻿using NLog;
 
 namespace Method635.App.Logging
 {

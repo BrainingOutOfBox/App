@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Method635.App.Logging
+﻿namespace Method635.App.Logging
 {
     public interface ILogger
     {

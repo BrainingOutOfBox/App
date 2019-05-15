@@ -25,8 +25,10 @@ namespace Method635.App.BL
         private readonly IPatternDalService _patternDalService;
         private readonly StateMachine _stateMachine;
         private readonly BrainstormingModel _brainstormingModel;
-
         private int commitIdeaIndex = 0;
+
+        private int _positionInTeam => _teamParticipants.IndexOf(_teamParticipants.Find(p => p.UserName.Equals(_context.CurrentParticipant.UserName)));
+        private List<Participant> _teamParticipants => _context.CurrentBrainstormingTeam.Participants;
 
         public BrainstormingService(
             ILogger logger, 
@@ -54,6 +56,12 @@ namespace Method635.App.BL
             RemainingTime = _brainstormingModel.RemainingTime;
             CurrentSheetIndex = _brainstormingModel.CurrentSheetIndex;
         }
+        private void StateMachine_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            IsWaiting = _stateMachine.CurrentState is WaitingState;
+            IsRunning = _stateMachine.CurrentState is RunningState;
+            IsEnded = _stateMachine.CurrentState is EndedState;
+        }
 
         public void StartBusinessService()
         {
@@ -68,14 +76,6 @@ namespace Method635.App.BL
             _stateMachine.PropertyChanged -= StateMachine_PropertyChanged;
             _brainstormingModel.PropertyChanged -= _brainstormingModel_PropertyChanged;
         }
-
-        private void StateMachine_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            IsWaiting = _stateMachine.CurrentState is WaitingState;
-            IsRunning = _stateMachine.CurrentState is RunningState;
-            IsEnded = _stateMachine.CurrentState is EndedState;
-        }
-
 
         public void SendBrainWave()
         {
@@ -228,7 +228,12 @@ namespace Method635.App.BL
         }
 
         private ObservableCollection<BrainSheet> _brainSheets;
-        public ObservableCollection<BrainSheet> BrainSheets { get => _brainSheets; set => SetProperty(ref _brainSheets, value); }
+        public ObservableCollection<BrainSheet> BrainSheets
+        {
+            get => _brainSheets;
+            set => SetProperty(ref _brainSheets, value);
+        }
+
         private TimeSpan _remainingTime;
         public TimeSpan RemainingTime
         {
@@ -238,16 +243,11 @@ namespace Method635.App.BL
 
         public bool? IsModerator { get; private set; }
 
-        private int _positionInTeam => _teamParticipants.IndexOf(_teamParticipants.Find(p => p.UserName.Equals(_context.CurrentParticipant.UserName)));
-        private List<Participant> _teamParticipants => _context.CurrentBrainstormingTeam.Participants;
-
-        private int _currentSheetNr;
-
+        private int _currentSheetIndex;
         public int CurrentSheetIndex
         {
-            get => _currentSheetNr;
-            set => SetProperty(ref _currentSheetNr, value);
+            get => _currentSheetIndex;
+            set => SetProperty(ref _currentSheetIndex, value);
         }
-        public bool IsServiceRunning { get; private set; }
     }
 }

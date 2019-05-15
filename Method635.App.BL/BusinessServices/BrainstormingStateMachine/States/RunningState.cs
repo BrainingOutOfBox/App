@@ -20,10 +20,11 @@ namespace Method635.App.BL
         private readonly IBrainstormingDalService _brainstormingDalService;
         private readonly BrainstormingContext _context;
         private readonly BrainstormingModel _brainstormingModel;
-
+        private readonly ILogger _logger;
         public event ChangeStateHandler ChangeStateEvent;
 
-        private readonly ILogger _logger;
+        private int _positionInTeam => _teamParticipants.IndexOf(_teamParticipants.Find(p => p.UserName.Equals(_context.CurrentParticipant.UserName)));
+        private List<Participant> _teamParticipants => _context.CurrentBrainstormingTeam.Participants;
 
         public RunningState(
             ILogger logger,
@@ -91,7 +92,6 @@ namespace Method635.App.BL
                 _brainstormingModel.RemainingTime = remainingTime;
                 _updateRoundTimer.Start();
             }
-
         }
 
         private void SendBrainWave()
@@ -117,9 +117,6 @@ namespace Method635.App.BL
             }
         }
 
-        private int _positionInTeam => _teamParticipants.IndexOf(_teamParticipants.Find(p => p.UserName.Equals(_context.CurrentParticipant.UserName)));
-        private List<Participant> _teamParticipants => _context.CurrentBrainstormingTeam.Participants;
-
 
         private void RoundStartedTimerSetup()
         {
@@ -132,6 +129,7 @@ namespace Method635.App.BL
         {
             UpdateRound();
         }
+
         private void UpdateRound()
         {
             _nextCheckRoundTimer.Stop();
@@ -160,6 +158,7 @@ namespace Method635.App.BL
 
             EvaluateBrainWaves();
         }
+
         private void EvaluateBrainWaves()
         {
             if (_context.CurrentBrainstormingTeam == null || _context.CurrentFinding == null)

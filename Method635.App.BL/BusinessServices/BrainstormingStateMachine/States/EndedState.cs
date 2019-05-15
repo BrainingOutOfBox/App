@@ -23,6 +23,7 @@ namespace Method635.App.BL
 
         public void CleanUp()
         {
+            // No resources to clean here
         }
 
         public void Init()
@@ -45,7 +46,6 @@ namespace Method635.App.BL
             _brainstormingModel.BrainWaves = currentBrainSheet.BrainWaves;
         }
 
-        private int _positionInTeam => _teamParticipants.IndexOf(_teamParticipants.Find(p => p.UserName.Equals(_context.CurrentParticipant.UserName)));
         private List<Participant> _teamParticipants => _context.CurrentBrainstormingTeam.Participants;
     }
 }
