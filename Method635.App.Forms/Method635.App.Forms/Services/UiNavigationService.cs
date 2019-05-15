@@ -1,7 +1,6 @@
 ﻿using Method635.App.Forms.PrismEvents;
 using Prism.Events;
 using Prism.Navigation;
-using System;
 using System.Threading.Tasks;
 
 
@@ -82,19 +81,24 @@ namespace Method635.App.Forms.Services
             await _navigationService.NavigateAsync("/NavigationPage/MainPage/StartBrainstormingPage/");
         }
 
-        public async Task NavigateToInsertSpecial(INavigationParameters parameters)
+        public async Task NavigateToInsertSpecial()
         {
-            var res = await _navigationService.NavigateAsync("/NavigationPage/MainPage?selectedTab=BrainstormingPage/InsertSpecialPage", parameters);
+            var res = await _navigationService.NavigateAsync("/NavigationPage/MainPage?selectedTab=BrainstormingPage/InsertSpecialPage");
         }
 
-        public async Task NavigateToInsertSketch(INavigationParameters parameters)
+        public async Task NavigateToInsertSketch()
         {
-            var res = await _navigationService.NavigateAsync("/NavigationPage/MainPage?selectedTab=BrainstormingPage/InsertSpecialPage/SketchPage", parameters);
+            var res = await _navigationService.NavigateAsync("/NavigationPage/MainPage?selectedTab=BrainstormingPage/InsertSpecialPage/SketchPage");
         }
 
         public async void NavigateBackToBrainstormingTab()
         {
             var res = await _navigationService.GoBackToRootAsync();
+        }
+
+        public async Task NavigateToInsertPattern()
+        {
+            var res = await _navigationService.NavigateAsync("/NavigationPage/MainPage?selectedTab=BrainstormingPage/InsertSpecialPage/PatternPage");
         }
     }
 }

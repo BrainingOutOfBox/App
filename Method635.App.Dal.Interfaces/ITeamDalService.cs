@@ -1,7 +1,5 @@
 ﻿using Method635.App.Models;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Method635.App.Dal.Interfaces
 {

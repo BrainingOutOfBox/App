@@ -10,6 +10,8 @@ using Method635.App.Forms.Services;
 using Method635.App.Forms.Resources;
 using Method635.App.BL.Context;
 using Method635.App.BL.Interfaces;
+using System;
+using System.Threading.Tasks;
 
 namespace Method635.App.Forms.ViewModels.Team
 {
@@ -20,13 +22,16 @@ namespace Method635.App.Forms.ViewModels.Team
         private readonly ITeamService _teamService;
         private readonly BrainstormingContext _context;
 
-        private readonly ILogger _logger = DependencyService.Get<ILogManager>().GetLog();
+        private readonly ILogger _logger;
 
-        public TeamPageViewModel(IUiNavigationService navigationService, 
+        public TeamPageViewModel(
+            ILogger logger,
+            IUiNavigationService navigationService, 
             IEventAggregator eventAggregator, 
             ITeamService teamService,
             BrainstormingContext context)
         {
+            _logger = logger;
             _navigationService = navigationService;
             _eventAggregator = eventAggregator;
             _teamService = teamService;
@@ -42,6 +47,14 @@ namespace Method635.App.Forms.ViewModels.Team
             CreateTeamCommand = new DelegateCommand(CreateTeam);
             JoinTeamCommand = new DelegateCommand(JoinTeam);
             LeaveTeamCommand = new DelegateCommand<BrainstormingTeam>(LeaveTeam);
+            RefreshCommand = new DelegateCommand(async()=>await Task.Run(RefreshTeamList));
+        }
+
+        private async Task RefreshTeamList()
+        {
+            IsRefreshing = true;
+            TeamList = await Task.Run(() => FillTeamList());
+            IsRefreshing = false;
         }
 
         private void LeaveTeam(BrainstormingTeam team)
@@ -84,6 +97,7 @@ namespace Method635.App.Forms.ViewModels.Team
         public DelegateCommand CreateTeamCommand { get; }
         public DelegateCommand JoinTeamCommand { get; }
         public DelegateCommand<BrainstormingTeam> LeaveTeamCommand { get; }
+        public DelegateCommand RefreshCommand { get; }
 
         private BrainstormingTeam _selectedTeam;
         public BrainstormingTeam SelectedTeam {
@@ -100,7 +114,8 @@ namespace Method635.App.Forms.ViewModels.Team
             get => _hasTeam;
             set => SetProperty(ref _hasTeam, value);
         }
-
+        private bool _isRefreshing;
+        public bool IsRefreshing { get => _isRefreshing; set => SetProperty(ref _isRefreshing, value); }
         public string Title => AppResources.MyTeams;
 	}
 }

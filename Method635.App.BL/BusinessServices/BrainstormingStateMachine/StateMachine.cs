@@ -1,5 +1,6 @@
 ﻿using Method635.App.BL.Context;
 using Method635.App.Dal.Interfaces;
+using Method635.App.Logging;
 using Method635.App.Models;
 using Method635.App.Models.Models;
 using System;
@@ -8,15 +9,18 @@ namespace Method635.App.BL.BusinessServices.BrainstormingStateMachine
 {
     internal class StateMachine : PropertyChangedBase
     {
+        private readonly ILogger _logger;
         private readonly IBrainstormingDalService _brainstormingDalService;
         private readonly BrainstormingContext _context;
         private readonly BrainstormingModel _brainstormingModel;
 
         public StateMachine(
+            ILogger logger,
             IBrainstormingDalService brainstormingDalService, 
             BrainstormingContext context,
             BrainstormingModel brainstormingModel)
         {
+            _logger = logger;
             _brainstormingDalService = brainstormingDalService;
             _context = context;
             _brainstormingModel = brainstormingModel;
@@ -32,11 +36,11 @@ namespace Method635.App.BL.BusinessServices.BrainstormingStateMachine
             }
             else if (currentRound == 0)
             {
-                evaluatedState = new WaitingState(_brainstormingDalService, _context);
+                evaluatedState = new WaitingState(_logger, _brainstormingDalService, _context, _brainstormingModel);
             }
             else if (currentRound > 0)
             {
-                evaluatedState = new RunningState(_brainstormingDalService, _context, _brainstormingModel);
+                evaluatedState = new RunningState(_logger, _brainstormingDalService, _context, _brainstormingModel);
             }
             if(currentRound < -1 || evaluatedState == null)
             {

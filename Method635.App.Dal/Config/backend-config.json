@@ -10,7 +10,8 @@
     "getFindings": "getBrainstormingFindings",
     "startFinding": "startBrainstorming",
     "remainingTime": "getRemainingTime",
-    "updateBrainsheet": "putBrainsheet"
+    "updateBrainsheet": "putBrainsheet",
+    "exportFinding": "export"
   },
   "participant-endpoints": {
     "participant": "Participant",
@@ -23,6 +24,10 @@
     "getTeam": "getBrainstormingTeam",
     "getTeams": "getMyBrainstormingTeams",
     "join": "joinTeam"
+  },
+  "pattern-endpoints": {
+    "patterns": "Patterns",
+    "getPatterns": "getPatternIdeas"
   },
   "files-endpoints": {
     "file": "Files",

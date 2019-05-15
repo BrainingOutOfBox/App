@@ -15,13 +15,14 @@ namespace Method635.App.Forms.RestAccess
 {
     public class ParticipantRestResolver : IParticipantDalService
     {
-        private readonly ILogger _logger = DependencyService.Get<ILogManager>().GetLog();
+        private readonly ILogger _logger;
         private readonly ParticipantEndpoints _participantConfig;
         private readonly IHttpClientService _clientService;
         private readonly IMapper _participantMapper;
 
-        public ParticipantRestResolver(IConfigurationService configurationService, IHttpClientService httpClientService, IMapper mapper)
+        public ParticipantRestResolver(ILogger logger, IConfigurationService configurationService, IHttpClientService httpClientService, IMapper mapper)
         {
+            _logger = logger;
             _participantConfig = configurationService.ServerConfig.ParticipantEndpoints;
             _clientService = httpClientService;
             _participantMapper = mapper;

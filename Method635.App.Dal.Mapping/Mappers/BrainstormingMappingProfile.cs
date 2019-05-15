@@ -32,10 +32,11 @@ namespace Method635.App.Dal.Mapping.Mappers
                 .Include<PatternIdeaDto, PatternIdea>();
 
             CreateMap<NoteIdeaDto, NoteIdea>();
-            CreateMap<SketchIdeaDto, SketchIdea>().
-                ForMember(x => x.ImageStream, opt => opt.Ignore()).
-                ForMember(x => x.ImageSource, opt => opt.Ignore());
-            CreateMap<PatternIdeaDto, PatternIdea>();
+            CreateMap<SketchIdeaDto, SketchIdea>()
+                .ForMember(x => x.ImageStream, opt => opt.Ignore())
+                .ForMember(x => x.ImageSource, opt => opt.Ignore());
+            CreateMap<PatternIdeaDto, PatternIdea>()
+                .ForMember(x => x.ImageSource, opt => opt.Ignore());
         }
 
         private void MapBrainWaves()

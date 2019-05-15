@@ -11,6 +11,6 @@
         <TabbedPage.Children>
             <localTeam:TeamPage />
             <local:BrainstormingFindingListPage />
-            <local1:BrainstormingPage />
+          <local1:BrainstormingPage />
     </TabbedPage.Children>
 </TabbedPage>

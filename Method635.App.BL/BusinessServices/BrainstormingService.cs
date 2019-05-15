@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Method635.App.BL.BusinessServices.BrainstormingStateMachine;
+﻿using Method635.App.BL.BusinessServices.BrainstormingStateMachine;
 using Method635.App.BL.Context;
 using Method635.App.BL.Interfaces;
 using Method635.App.Dal.Interfaces;
@@ -18,29 +17,30 @@ namespace Method635.App.BL
 {
     public class BrainstormingService : PropertyChangedBase, IBrainstormingService
     {
+        private readonly ILogger _logger;
         private readonly BrainstormingContext _context;
-        private readonly IMapper _mapper;
         private readonly IBrainstormingDalService _brainstormingDalService;
         private readonly ITeamDalService _teamDalService;
         private readonly IFileDalService _fileDalService;
+        private readonly IPatternDalService _patternDalService;
         private readonly StateMachine _stateMachine;
-        private int commitIdeaIndex = 0;
         private readonly BrainstormingModel _brainstormingModel;
 
-        private readonly ILogger _logger = DependencyService.Get<ILogManager>().GetLog();
+        private int commitIdeaIndex = 0;
 
         public BrainstormingService(
+            ILogger logger, 
             IDalService iDalService,
-            IMapper mapper,
             BrainstormingContext brainstormingContext,
             BrainstormingModel brainstormingModel)
         {
+            _logger = logger;
             _context = brainstormingContext;
-            _mapper = mapper;
             _brainstormingDalService = iDalService.BrainstormingDalService;
             _teamDalService = iDalService.TeamDalService;
             _fileDalService = iDalService.FileDalService;
-            _stateMachine = new StateMachine(_brainstormingDalService, _context, brainstormingModel);
+            _patternDalService = iDalService.PatternDalService;
+            _stateMachine = new StateMachine(_logger, _brainstormingDalService, _context, brainstormingModel);
             _stateMachine.PropertyChanged += StateMachine_PropertyChanged;
 
             _brainstormingModel = brainstormingModel;
@@ -79,6 +79,8 @@ namespace Method635.App.BL
 
         public void SendBrainWave()
         {
+            if (_context.CurrentFinding == null) return;
+
             if (_context.CurrentFinding.BrainSheets == null)
             {
                 _logger.Error("Brainsheets were null, can't send brainwave!");
@@ -105,20 +107,54 @@ namespace Method635.App.BL
             _context.CurrentFinding = _brainstormingDalService.GetFinding(_context.CurrentFinding.Id);
         }
 
-        public void CommitIdea(string ideaText)
-
+        public async Task CommitIdea(Idea idea)
         {
             try
             {
-                _brainstormingModel.BrainWaves[_context.CurrentFinding.CurrentRound - 1]
-                    .Ideas[commitIdeaIndex % _context.CurrentFinding.NrOfIdeas]
-                    .Description = ideaText;
+                SetIdea(idea);
                 commitIdeaIndex++;
+
+                if (idea is PictureIdea pictureIdea)
+                {
+                    await SetPictureImageSource(pictureIdea);
+                }
             }
             catch (ArgumentOutOfRangeException ex)
             {
                 _logger.Error("Invalid index access!", ex);
             }
+        }
+
+        private void SetIdea(Idea idea)
+        {
+
+            int ideaIndex = commitIdeaIndex % _context.CurrentFinding.NrOfIdeas;
+            int brainWaveIndex = _context.CurrentFinding.CurrentRound - 1;
+
+            _brainstormingModel.BrainWaves[brainWaveIndex].Ideas[ideaIndex] = idea;
+
+            _context.CurrentFinding.BrainSheets[_brainstormingModel.CurrentSheetIndex].BrainWaves = _brainstormingModel.BrainWaves;
+        }
+
+        public async Task SetPictureImageSource(Idea idea)
+        {
+            if (!(idea is PictureIdea pictureIdea))
+                return;
+
+            var stream = await DownloadPictureIdea(pictureIdea);
+            if (stream == null) return;
+            var bytes = ConvertToBytes(stream);
+            pictureIdea.ImageSource = ImageSource.FromFile(CacheImageBytesToFile(bytes, pictureIdea.PictureId));
+        }
+
+        private byte[] ConvertToBytes(Stream stream)
+        {
+            var memStream = new MemoryStream();
+            stream.CopyTo(memStream);
+            byte[] bytes = memStream.ToArray();
+            memStream.Dispose();
+            stream.Dispose();
+            return bytes;
         }
 
         public void UploadSketchIdea(SketchIdea sketchIdea, byte[] imageBytes)
@@ -127,40 +163,26 @@ namespace Method635.App.BL
             var fileId = _fileDalService.UploadFile(stream);
             stream.Dispose();
             sketchIdea.PictureId = fileId;
-            SetSketchIdea(sketchIdea, imageBytes);
+            sketchIdea.ImageSource = ImageSource.FromFile(CacheImageBytesToFile(imageBytes, sketchIdea.PictureId));
         }
 
-        private void SetSketchIdea(SketchIdea sketchIdea, byte[] imageBytes)
+        public List<PatternIdea> DownloadPatternIdeas()
         {
-            try
-            {
-                sketchIdea.ImageSource = ImageSource.FromFile(CacheImageBytesToFile(imageBytes, sketchIdea.PictureId));
-                _brainstormingModel.BrainWaves[_context.CurrentFinding.CurrentRound - 1].Ideas[commitIdeaIndex % _context.CurrentFinding.NrOfIdeas] = sketchIdea;
-                commitIdeaIndex++;
-            }
-            catch (ArgumentOutOfRangeException ex)
-            {
-                _logger.Error("Invalid index access!", ex);
-            }
+            return _patternDalService.GetAllPatterns();
         }
 
-        public async Task DownloadPictureIdea(Idea idea)
+        private async Task<Stream> DownloadPictureIdea(PictureIdea pictureIdea)
         {
-            if (!(idea is SketchIdea sketchIdea))
-                return;
-
-            var stream = await Task.Run(() => _fileDalService.Download(sketchIdea.PictureId));
-            var memStream = new MemoryStream();
-            stream.CopyTo(memStream);
-            byte[] bytes = memStream.ToArray();
-            memStream.Dispose();
-            stream.Dispose();
-            sketchIdea.ImageSource = ImageSource.FromFile(CacheImageBytesToFile(bytes, sketchIdea.PictureId));
+            return await Task.Run(() => _fileDalService.Download(pictureIdea.PictureId));
         }
 
         private string CacheImageBytesToFile(byte[] imageBytes, string pictureId)
         {
             string fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), $"{pictureId}.png");
+
+            if (File.Exists(fileName))
+                return fileName;
+
             var imageStream = new MemoryStream(imageBytes);
             using (var fs = File.Create(fileName))
             {
@@ -168,6 +190,11 @@ namespace Method635.App.BL
                 imageStream.Dispose();
             }
             return fileName;
+        }
+
+        public string GetExport()
+        {
+            return _brainstormingDalService.GetExport(_context.CurrentFinding.Id);
         }
 
         private bool _isWaiting;

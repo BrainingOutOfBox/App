@@ -14,6 +14,7 @@ namespace Method635.App.Forms.ViewModels.Brainstorming
 {
     public class NewBrainstormingPageViewModel : BindableBase
     {
+        private readonly ILogger _logger;
         private readonly IUiNavigationService _navigationService;
         private readonly IBrainstormingDalService _brainstormingDalService;
         private readonly BrainstormingContext _context;
@@ -22,14 +23,16 @@ namespace Method635.App.Forms.ViewModels.Brainstorming
 
         private readonly List<char> disallowedChars = new List<char> { '\\', ' ' };
 
-        private readonly ILogger _logger = DependencyService.Get<ILogManager>().GetLog();
 
         public DelegateCommand CreateFindingCommand { get; }
 
-        public NewBrainstormingPageViewModel(IUiNavigationService navigationService,
+        public NewBrainstormingPageViewModel(
+            ILogger logger,
+            IUiNavigationService navigationService,
             IDalService dalService,
             BrainstormingContext brainstormingContext)
         {
+            _logger = logger;
             _navigationService = navigationService;
             _brainstormingDalService = dalService.BrainstormingDalService;
             _context = brainstormingContext;
@@ -95,7 +98,7 @@ namespace Method635.App.Forms.ViewModels.Brainstorming
                 HasError = true;
                 return false;
             }
-            if (nrOfIdeas < 1 || nrOfIdeas > 100)
+            if (nrOfIdeas < 1 || nrOfIdeas > 99)
             {
                 ErrorText = AppResources.InvalidNrOfIdeas;
                 HasError = true;

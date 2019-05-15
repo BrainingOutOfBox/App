@@ -19,10 +19,11 @@ namespace Method635.App.Dal.Resolver
     {
         private readonly FileEndpoints _fileEndpoints;
         private readonly IHttpClientService _clientService;
-        private readonly ILogger _logger = DependencyService.Get<ILogManager>().GetLog();
+        private readonly ILogger _logger;
 
-        public FileRestResolver(IConfigurationService configurationService, IHttpClientService httpClientService)
+        public FileRestResolver(ILogger logger, IConfigurationService configurationService, IHttpClientService httpClientService)
         {
+            _logger = logger;
             _fileEndpoints = configurationService.ServerConfig.FileEndpoints;
             _clientService = httpClientService;
         }

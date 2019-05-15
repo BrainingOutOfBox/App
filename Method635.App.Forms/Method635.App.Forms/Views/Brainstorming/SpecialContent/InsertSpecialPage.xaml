@@ -18,11 +18,10 @@
                     </Frame.GestureRecognizers>
                 </Frame>
                 <Frame WidthRequest="250" HeightRequest="100" BackgroundColor="Orange">
-                    <Label Text="{i18n:Translate Text=Pattern}" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" >
-                        <Label.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding PatternIdeaCommand}" />
-                        </Label.GestureRecognizers>
-                    </Label>
+                    <Label Text="{i18n:Translate Text=Pattern}" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" />
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding PatternIdeaCommand}" />
+                    </Frame.GestureRecognizers>
                 </Frame>
             </FlexLayout>
         </ScrollView>

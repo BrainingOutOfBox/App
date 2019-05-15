@@ -10,14 +10,16 @@ using Method635.App.BL.Context;
 using Prism.Navigation;
 using System;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace Method635.App.Forms.ViewModels
 {
-    public class BrainstormingPageViewModel : BindableBase, INavigatedAware, IDestructible
+    public class BrainstormingPageViewModel : BindableBase, INavigatedAware
     {
         private readonly IUiNavigationService _navigationService;
-        private readonly BrainstormingContext _context;
         private readonly IBrainstormingService _brainstormingService;
+        private readonly IClipboardService _clipboardService;
+        private readonly IToastMessageService _toastMessageService;
         private bool _serviceStarted;
 
 
@@ -27,40 +29,57 @@ namespace Method635.App.Forms.ViewModels
         public DelegateCommand TapCommand { get; }
         public DelegateCommand InsertSpecialCommand { get; }
         public DelegateCommand<Idea> DownloadImageCommand { get; }
+        public DelegateCommand<string> ClickUrlCommand { get; }
+        public DelegateCommand ExportCommand { get; }
 
         public BrainstormingPageViewModel(
             IUiNavigationService navigationService, 
             BrainstormingContext brainstormingContext,
-            IBrainstormingService brainstormingService)
+            IBrainstormingService brainstormingService, 
+            IToastMessageService toastMessageService,
+            IClipboardService clipboardService)
         {
             _navigationService = navigationService;
-            _context = brainstormingContext;
-            _findingTitle = _context.CurrentFinding?.Name;
-
+            FindingTitle = brainstormingContext.CurrentFinding?.Name;
+            FindingDescription = brainstormingContext.CurrentFinding?.ProblemDescription;
+            _toastMessageService = toastMessageService;
             _brainstormingService = brainstormingService;
+            _clipboardService = clipboardService;
             UpdateProperties();
 
-            CommitCommand = new DelegateCommand(CommitIdea);
+            CommitCommand = new DelegateCommand(async()=>await CommitIdea());
             SendBrainwaveCommand = new DelegateCommand(SendBrainWave);
             RefreshCommand = new DelegateCommand(RefreshPage);
             TapCommand = new DelegateCommand(StartBrainstorming);
             InsertSpecialCommand = new DelegateCommand(InsertSpecial);
             DownloadImageCommand = new DelegateCommand<Idea>(async (si) => await DownloadImage(si));
+            ClickUrlCommand = new DelegateCommand<string>(ClickUrl);
+            ExportCommand = new DelegateCommand(async()=>await Export());
+
             CommitEnabled = true;
+        }
+
+        private async Task Export()
+        {
+            var exportContent = await Task.Run(()=>_brainstormingService.GetExport());
+
+            _clipboardService.CopyToClipboard(exportContent);
+            _toastMessageService.LongAlert(AppResources.CopiedToClipboardMessage);
+        }
+
+        private void ClickUrl(string url)
+        {
+            Device.OpenUri(new Uri(url));
         }
 
         private async Task DownloadImage(Idea idea)
         {
-            await _brainstormingService.DownloadPictureIdea(idea);
+            await _brainstormingService.SetPictureImageSource(idea);
         }
 
         private void InsertSpecial()
         {
-            var navParam = new NavigationParameters
-            {
-                { "brainstormingService", _brainstormingService }
-            };
-            _navigationService.NavigateToInsertSpecial(navParam);
+            _navigationService.NavigateToInsertSpecial();
         }
 
         private void StartBrainstorming()
@@ -83,8 +102,9 @@ namespace Method635.App.Forms.ViewModels
             IsEnded = _brainstormingService.IsEnded;
             RemainingTime = $"{_brainstormingService.RemainingTime.Minutes:D2}m:{_brainstormingService.RemainingTime.Seconds:D2}s";
             ShowStartBrainstorming = IsWaiting && _brainstormingService.IsModerator.HasValue && _brainstormingService.IsModerator.Value;
+            ShowWaitingBrainstorming = IsWaiting && !(_brainstormingService.IsModerator.HasValue && _brainstormingService.IsModerator.Value);
             CurrentSheetIndex = _brainstormingService.CurrentSheetIndex;
-            IdeaHeight = IsEnded ? 450 : 300;
+            IdeaHeight = IsEnded ? 400 : 200;
         }
 
         private void RefreshPage()
@@ -98,9 +118,9 @@ namespace Method635.App.Forms.ViewModels
             _brainstormingService.SendBrainWave();
         }
 
-        private void CommitIdea()
+        private async Task CommitIdea()
         {
-            _brainstormingService.CommitIdea(IdeaText);
+            await _brainstormingService.CommitIdea(new NoteIdea() { Description = IdeaText });
             IdeaText = string.Empty;
         }
 
@@ -122,12 +142,6 @@ namespace Method635.App.Forms.ViewModels
             }
         }
 
-        public void Destroy()
-        {
-            //_brainstormingService.StopBusinessService();
-            //_brainstormingService.PropertyChanged -= _brainstormingService_PropertyChanged;
-        }
-
         private ObservableCollection<BrainSheet> _brainSheets;
         public ObservableCollection<BrainSheet> BrainSheets
         {
@@ -142,7 +156,7 @@ namespace Method635.App.Forms.ViewModels
             set
             {
                 SetProperty(ref _currentSheetIndex, value);
-                CurrentSheetText = string.Format(AppResources.SheetNrOfNr, _brainstormingService.CurrentSheetIndex + 1, _brainstormingService.BrainSheets?.Count);
+                CurrentSheetText = string.Format(AppResources.SheetNrOfNr, _currentSheetIndex+1, _brainstormingService.BrainSheets?.Count);
             }
         }
 
@@ -162,6 +176,13 @@ namespace Method635.App.Forms.ViewModels
             get => _showStartBrainstorming;
             private set=>SetProperty(ref _showStartBrainstorming, value);
         }
+        private bool _showWaitingBrainstorming;
+        public bool ShowWaitingBrainstorming
+        {
+            get=>_showWaitingBrainstorming;
+            private set=>SetProperty(ref _showWaitingBrainstorming, value);
+        }
+
         private int _ideaHeight;
         public int IdeaHeight { get => _ideaHeight; private set=>SetProperty(ref _ideaHeight, value); }
 
@@ -190,6 +211,13 @@ namespace Method635.App.Forms.ViewModels
                 SetProperty(ref _findingTitle, value);
             }
         }
+        private string _findingDescription;
+        public string FindingDescription
+        {
+            get => _findingDescription;
+            set => SetProperty(ref _findingDescription, value);
+        }
+
         private string _currentSheetText;
         public string CurrentSheetText
         {
@@ -219,6 +247,5 @@ namespace Method635.App.Forms.ViewModels
 
         private bool _isRunning;
         public bool IsRunning { get => _isRunning; private set => SetProperty(ref _isRunning, value); }
-               
     }
 }

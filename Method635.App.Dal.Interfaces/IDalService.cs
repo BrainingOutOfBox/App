@@ -6,5 +6,6 @@
         IParticipantDalService ParticipantDalService { get; }
         ITeamDalService TeamDalService { get; }
         IFileDalService FileDalService { get; }
+        IPatternDalService PatternDalService { get; }
     }
 }

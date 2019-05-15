@@ -9,5 +9,6 @@ namespace Method635.App.Dal.Config
         ParticipantEndpoints ParticipantEndpoints { get; set; }
         TeamEndpoints TeamEndpoints { get; set; }
         FileEndpoints FileEndpoints { get; set; }
+        PatternEndpoints PatternEndpoints { get; set; }
     }
 }

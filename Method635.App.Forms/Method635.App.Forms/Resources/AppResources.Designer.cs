@@ -115,11 +115,29 @@ namespace Method635.App.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Brainstorming Title.
+        /// </summary>
+        internal static string BrainstormingTitle {
+            get {
+                return ResourceManager.GetString("BrainstormingTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         internal static string Cancel {
             get {
                 return ResourceManager.GetString("Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Choose a pattern from a category.
+        /// </summary>
+        internal static string ChoosePatternTitle {
+            get {
+                return ResourceManager.GetString("ChoosePatternTitle", resourceCulture);
             }
         }
         
@@ -147,6 +165,24 @@ namespace Method635.App.Forms.Resources {
         internal static string Completed {
             get {
                 return ResourceManager.GetString("Completed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The export has been copied to your clipboard as markdown..
+        /// </summary>
+        internal static string CopiedToClipboardMessage {
+            get {
+                return ResourceManager.GetString("CopiedToClipboardMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exported to Clipboard.
+        /// </summary>
+        internal static string CopiedToClipboardTitle {
+            get {
+                return ResourceManager.GetString("CopiedToClipboardTitle", resourceCulture);
             }
         }
         
@@ -201,6 +237,15 @@ namespace Method635.App.Forms.Resources {
         internal static string ErrorRegisteringUser {
             get {
                 return ResourceManager.GetString("ErrorRegisteringUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Export.
+        /// </summary>
+        internal static string Export {
+            get {
+                return ResourceManager.GetString("Export", resourceCulture);
             }
         }
         
@@ -268,7 +313,7 @@ namespace Method635.App.Forms.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please choose a round time greater than 0..
+        ///   Looks up a localized string similar to Please choose a round time greater than 0 and less than 100..
         /// </summary>
         internal static string InvalidRoundTime {
             get {
@@ -477,6 +522,24 @@ namespace Method635.App.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The pattern has been added to the current wave. Navigate back to see it..
+        /// </summary>
+        internal static string PatternAddedMessage {
+            get {
+                return ResourceManager.GetString("PatternAddedMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pattern added.
+        /// </summary>
+        internal static string PatternAddedTitle {
+            get {
+                return ResourceManager.GetString("PatternAddedTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Place the code inside the area.
         /// </summary>
         internal static string PlaceQrInArea {
@@ -509,6 +572,15 @@ namespace Method635.App.Forms.Resources {
         internal static string PurposeText {
             get {
                 return ResourceManager.GetString("PurposeText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Read more online....
+        /// </summary>
+        internal static string ReadMoreOnline {
+            get {
+                return ResourceManager.GetString("ReadMoreOnline", resourceCulture);
             }
         }
         
@@ -707,6 +779,24 @@ namespace Method635.App.Forms.Resources {
         internal static string UserName {
             get {
                 return ResourceManager.GetString("UserName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to We&apos;re waiting for the brainstorming to get kicked off by the moderator. Here&apos;s some information about the brainstorming you&apos;re about to take part:.
+        /// </summary>
+        internal static string WaitingForBrainstormingToStartMessage {
+            get {
+                return ResourceManager.GetString("WaitingForBrainstormingToStartMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Waiting for Brainstorming to Start.
+        /// </summary>
+        internal static string WaitingForBrainstormingToStartTitle {
+            get {
+                return ResourceManager.GetString("WaitingForBrainstormingToStartTitle", resourceCulture);
             }
         }
     }

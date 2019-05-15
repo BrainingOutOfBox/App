@@ -2,13 +2,10 @@
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Method635.App.Forms.ViewModels
 {
-	public class InsertSpecialPageViewModel : BindableBase, INavigationAware
+    public class InsertSpecialPageViewModel : BindableBase, INavigationAware
     {
 
         private readonly IUiNavigationService _navigationService;
@@ -25,11 +22,12 @@ namespace Method635.App.Forms.ViewModels
 
         private void ChoosePatternIdea()
         {
+            _navigationService.NavigateToInsertPattern();
         }
 
         private void ChooseSketchIdea()
         {
-            _navigationService.NavigateToInsertSketch(_navigationParameters);
+            _navigationService.NavigateToInsertSketch();
         }
 
         public void OnNavigatedFrom(INavigationParameters parameters)
