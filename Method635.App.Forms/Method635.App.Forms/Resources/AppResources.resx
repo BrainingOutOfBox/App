@@ -359,4 +359,7 @@ Join or add a team below</value>
   <data name="BrainstormingTitle" xml:space="preserve">
     <value>Brainstorming Title</value>
   </data>
+  <data name="Category" xml:space="preserve">
+    <value>Category</value>
+  </data>
 </root>

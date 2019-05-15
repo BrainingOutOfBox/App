@@ -7,7 +7,6 @@ using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace Method635.App.Forms.ViewModels
@@ -58,10 +57,21 @@ namespace Method635.App.Forms.ViewModels
             }
             IsDownloading = false;
         }
+
         private bool _isDownloading;
-        public bool IsDownloading { get => _isDownloading; set => SetProperty(ref _isDownloading, value); }
+        public bool IsDownloading
+        {
+            get => _isDownloading;
+            set => SetProperty(ref _isDownloading, value);
+        }
+
         private List<GroupedPatternList> _groupedPatterns;
-        public List<GroupedPatternList> GroupedPatterns { get => _groupedPatterns; set => SetProperty(ref _groupedPatterns, value); }
+        public List<GroupedPatternList> GroupedPatterns
+        {
+            get => _groupedPatterns;
+            set => SetProperty(ref _groupedPatterns, value);
+        }
+
         public DelegateCommand<string> ClickUrlCommand { get; }
         public DelegateCommand<PatternIdeaModel> ClickPatternCommand { get; }
     }

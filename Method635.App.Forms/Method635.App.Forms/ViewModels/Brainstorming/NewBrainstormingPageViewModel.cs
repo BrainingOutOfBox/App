@@ -4,7 +4,6 @@ using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using Method635.App.Logging;
-using Xamarin.Forms;
 using Method635.App.Forms.Resources;
 using Method635.App.Forms.Services;
 using Method635.App.Dal.Interfaces;
@@ -23,7 +22,6 @@ namespace Method635.App.Forms.ViewModels.Brainstorming
         private int _baseRoundTime;
 
         private readonly List<char> disallowedChars = new List<char> { '\\', ' ' };
-
 
         public DelegateCommand CreateFindingCommand { get; }
 
@@ -57,7 +55,8 @@ namespace Method635.App.Forms.ViewModels.Brainstorming
                     Name = FindingName,
                     NrOfIdeas = _nrOfIdeas,
                     BaseRoundTime = _baseRoundTime,
-                    ProblemDescription = Description
+                    ProblemDescription = Description,
+                    Category = Category
                 };
                 finding = _brainstormingDalService.CreateFinding(finding);
                 _context.CurrentFinding = finding;
@@ -121,7 +120,7 @@ namespace Method635.App.Forms.ViewModels.Brainstorming
         public string NrOfIdeasText { get; set; }
         public string BaseRoundTimeText { get; set; }
         public string Description { get; set; } = string.Empty;
-
+        public string Category { get; set; }
         private string _errorText;
         public string ErrorText
         {

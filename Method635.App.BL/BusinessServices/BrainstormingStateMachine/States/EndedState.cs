@@ -9,8 +9,8 @@ namespace Method635.App.BL
 {
     internal class EndedState : IState
     {
-        private BrainstormingContext _context;
-        private BrainstormingModel _brainstormingModel;
+        private readonly BrainstormingContext _context;
+        private readonly BrainstormingModel _brainstormingModel;
 
         public event ChangeStateHandler ChangeStateEvent;
 

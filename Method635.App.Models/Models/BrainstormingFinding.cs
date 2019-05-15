@@ -15,7 +15,7 @@ namespace Method635.App.Models
         public int NrOfIdeas { get; set; }
 
         public int BaseRoundTime { get; set; }
-        public string Type { get; set; } = "software"; //TODO Configurable by user
+        public string Category { get; set; } = "software";
 
         private int _currentRound;
         public int CurrentRound { get=>_currentRound; set=>SetProperty(ref _currentRound, value); }

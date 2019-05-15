@@ -3,7 +3,6 @@ using Prism.Events;
 using Prism.Navigation;
 using System.Threading.Tasks;
 
-
 namespace Method635.App.Forms.Services
 {
     public class UiNavigationService : IUiNavigationService
@@ -48,12 +47,12 @@ namespace Method635.App.Forms.Services
 
         public async Task NavigateToBrainstormingListTab()
         {
-            var res = await _navigationService.NavigateAsync("/NavigationPage/MainPage?selectedTab=BrainstormingFindingListPage/");
+            await _navigationService.NavigateAsync("/NavigationPage/MainPage?selectedTab=BrainstormingFindingListPage/");
         }
 
         public async Task NavigateToBrainstormingTab(INavigationParameters parameters)
         {
-            var res = await _navigationService.NavigateAsync("/NavigationPage/MainPage?selectedTab=BrainstormingPage/", parameters);
+            await _navigationService.NavigateAsync("/NavigationPage/MainPage?selectedTab=BrainstormingPage/", parameters);
         }
 
         public async Task NavigateToCreateBrainstorming()
@@ -63,7 +62,7 @@ namespace Method635.App.Forms.Services
 
         public async Task NavigateToJoinTeam()
         {
-            var res = await _navigationService.NavigateAsync("/NavigationPage/MainPage/JoinTeamPage/");
+            await _navigationService.NavigateAsync("/NavigationPage/MainPage/JoinTeamPage/");
         }
 
         public async Task NavigateToCreateTeam()
@@ -83,22 +82,22 @@ namespace Method635.App.Forms.Services
 
         public async Task NavigateToInsertSpecial()
         {
-            var res = await _navigationService.NavigateAsync("/NavigationPage/MainPage?selectedTab=BrainstormingPage/InsertSpecialPage");
+            await _navigationService.NavigateAsync("/NavigationPage/MainPage?selectedTab=BrainstormingPage/InsertSpecialPage");
         }
 
         public async Task NavigateToInsertSketch()
         {
-            var res = await _navigationService.NavigateAsync("/NavigationPage/MainPage?selectedTab=BrainstormingPage/InsertSpecialPage/SketchPage");
+            await _navigationService.NavigateAsync("/NavigationPage/MainPage?selectedTab=BrainstormingPage/InsertSpecialPage/SketchPage");
         }
 
         public async void NavigateBackToBrainstormingTab()
         {
-            var res = await _navigationService.GoBackToRootAsync();
+            await _navigationService.GoBackToRootAsync();
         }
 
         public async Task NavigateToInsertPattern()
         {
-            var res = await _navigationService.NavigateAsync("/NavigationPage/MainPage?selectedTab=BrainstormingPage/InsertSpecialPage/PatternPage");
+            await _navigationService.NavigateAsync("/NavigationPage/MainPage?selectedTab=BrainstormingPage/InsertSpecialPage/PatternPage");
         }
     }
 }

@@ -42,6 +42,7 @@ namespace Method635.App.Forms.ViewModels
             _navigationService = navigationService;
             FindingTitle = brainstormingContext.CurrentFinding?.Name;
             FindingDescription = brainstormingContext.CurrentFinding?.ProblemDescription;
+            FindingCategory = brainstormingContext.CurrentFinding?.Category;
             _toastMessageService = toastMessageService;
             _brainstormingService = brainstormingService;
             _clipboardService = clipboardService;
@@ -85,8 +86,10 @@ namespace Method635.App.Forms.ViewModels
         private void StartBrainstorming()
         {
             _brainstormingService.StartBrainstorming();
-            var parameters = new NavigationParameters();
-            parameters.Add("brainstormingService", _brainstormingService);
+            var parameters = new NavigationParameters
+            {
+                { "brainstormingService", _brainstormingService }
+            };
             _navigationService.NavigateToBrainstormingTab(parameters);
         }
 
@@ -111,8 +114,10 @@ namespace Method635.App.Forms.ViewModels
 
         private void RefreshPage()
         {
-            var parameters = new NavigationParameters();
-            parameters.Add("brainstormingService", _brainstormingService);
+            var parameters = new NavigationParameters
+            {
+                { "brainstormingService", _brainstormingService }
+            };
             _navigationService.NavigateToBrainstormingTab(parameters);
         }
 
@@ -227,6 +232,13 @@ namespace Method635.App.Forms.ViewModels
         {
             get => _findingDescription;
             set => SetProperty(ref _findingDescription, value);
+        }
+
+        private string _findingCategory;
+        public string FindingCategory
+        {
+            get=> _findingCategory;
+            set => SetProperty(ref _findingCategory, value);
         }
 
         private string _currentSheetText;

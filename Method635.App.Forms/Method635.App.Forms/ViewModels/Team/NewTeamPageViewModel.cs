@@ -53,7 +53,6 @@ namespace Method635.App.Forms.ViewModels.Team
         public int TeamSize { get; set; }
         public string Purpose { get; set; } = string.Empty;
 
-
         public DelegateCommand CreateTeamCommand { get; }
     }
 }
