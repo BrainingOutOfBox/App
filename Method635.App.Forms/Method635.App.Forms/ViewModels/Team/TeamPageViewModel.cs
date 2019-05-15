@@ -12,10 +12,11 @@ using Method635.App.BL.Context;
 using Method635.App.BL.Interfaces;
 using System;
 using System.Threading.Tasks;
+using Prism.Navigation;
 
 namespace Method635.App.Forms.ViewModels.Team
 {
-    public class TeamPageViewModel : BindableBase
+    public class TeamPageViewModel : BindableBase, INavigatedAware
 	{
         private readonly IUiNavigationService _navigationService;
         private readonly IEventAggregator _eventAggregator;
@@ -83,6 +84,16 @@ namespace Method635.App.Forms.ViewModels.Team
             var teamList = _teamService.GetTeamsByUserName(_context.CurrentParticipant.UserName);
             HasTeam = teamList.Any();
             return teamList;
+        }
+
+        public void OnNavigatedFrom(INavigationParameters parameters)
+        {
+            //
+        }
+
+        public void OnNavigatedTo(INavigationParameters parameters)
+        {
+            TeamList = FillTeamList();
         }
 
         private List<BrainstormingTeam> _teamList;

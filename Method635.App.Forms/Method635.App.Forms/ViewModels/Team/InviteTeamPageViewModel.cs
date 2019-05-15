@@ -47,8 +47,8 @@ namespace Method635.App.Forms.ViewModels.Team
             if (newestTeam.CurrentNrOfParticipants == _teamCapacity)
             {
                 _context.CurrentBrainstormingTeam = newestTeam;
-                await _navigationService.NavigateToBrainstormingTab();
-                //_eventAggregator.GetEvent<RenderBrainstormingListEvent>().Publish();
+                //await _navigationService.NavigateToBrainstormingTab();
+                _eventAggregator.GetEvent<RenderBrainstormingListEvent>().Publish();
             }
         }
 

@@ -55,8 +55,8 @@ namespace Method635.App.Forms.ViewModels.Team
 
                 BottomOverlayText += AppResources.Success;
                 _context.CurrentBrainstormingTeam = _teamService.GetTeam(result.Text);
-
-                _eventAggregator.GetEvent<RenderBrainstormingListEvent>().Publish();
+                JoinedTeam = true;
+                //_eventAggregator.GetEvent<RenderBrainstormingListEvent>().Publish();
             }
         }
 
@@ -92,5 +92,7 @@ namespace Method635.App.Forms.ViewModels.Team
         }
         public DelegateCommand<Result> FoundTeamIdCommand { get; private set; }
         public MobileBarcodeScanningOptions BarcodeOptions { get; private set; }
-	}
+        private bool _joinedTeam;
+        public bool JoinedTeam { get=>_joinedTeam; private set=>SetProperty(ref _joinedTeam, value); }
+    }
 }

@@ -14,16 +14,7 @@ namespace Method635.App.Forms.Views.Team
         {
             InitializeComponent();
             _eventAggregator = eventAggregator;
-            SubscribeToEvents();
         }
-
-        private void SubscribeToEvents()
-        {
-            _eventAggregator.GetEvent<RenderBrainstormingListEvent>().Subscribe(async () =>
-                {
-                    await DisplayAlert(AppResources.JoinedTeamTitle, AppResources.JoinedTeamMessage, AppResources.Ok);
-                }
-            );
-        }
+        
     }
 }
