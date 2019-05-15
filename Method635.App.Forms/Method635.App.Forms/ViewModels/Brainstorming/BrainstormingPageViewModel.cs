@@ -118,7 +118,6 @@ namespace Method635.App.Forms.ViewModels
 
         private void SendBrainWave()
         {
-            _brainstormingService.BrainWaveSent = true;
             _brainstormingService.SendBrainWave();
         }
 
