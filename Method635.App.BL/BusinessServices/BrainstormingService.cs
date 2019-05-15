@@ -105,6 +105,8 @@ namespace Method635.App.BL
         {
             _brainstormingDalService.StartBrainstormingFinding(_context.CurrentFinding.Id);
             _context.CurrentFinding = _brainstormingDalService.GetFinding(_context.CurrentFinding.Id);
+            commitIdeaIndex = 0;
+            _brainstormingModel.BrainWaveSent = false;
         }
 
         public async Task CommitIdea(Idea idea)
