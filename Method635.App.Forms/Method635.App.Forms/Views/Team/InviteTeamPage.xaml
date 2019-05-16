@@ -24,7 +24,7 @@
              AbsoluteLayout.LayoutFlags="All"
              AbsoluteLayout.LayoutBounds="0,0,1,1"
              IsVisible="{Binding TeamFull}" >
-            <Label x:Name="label" Margin="10" Opacity="0" Scale="0" Text="{i18n:Translate Text=TeamFullMessage}" FontSize="Large" TextColor="White" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" />
+            <Label x:Name="label" Margin="10" Opacity="0" Scale="0" Text="{i18n:Translate Text=TeamFullMessage}" FontSize="Large" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center" />
         </ContentView>
     </AbsoluteLayout>
 </ContentPage>

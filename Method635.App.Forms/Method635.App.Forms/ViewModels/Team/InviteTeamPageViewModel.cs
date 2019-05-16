@@ -10,7 +10,7 @@ using System.Timers;
 
 namespace Method635.App.Forms.ViewModels.Team
 {
-    public class InviteTeamPageViewModel : BindableBase, IDestructible
+    public class InviteTeamPageViewModel : BindableBase, IDestructible, INavigatedAware
     {
         private readonly IEventAggregator _eventAggregator;
         private readonly ITeamService _teamService;
@@ -26,13 +26,12 @@ namespace Method635.App.Forms.ViewModels.Team
             _eventAggregator = eventAggregator;
             _teamService = teamService;
             _context = context;
-            TeamId = _context.CurrentBrainstormingTeam.Id;
             InitiateMemberCountTimer();
         }
 
         private void InitiateMemberCountTimer()
         {
-            _timer = new Timer(5000);
+            _timer = new Timer(4000);
             _timer.Elapsed += UpdateMemberCount;
             _timer.Start();
         }
@@ -54,6 +53,16 @@ namespace Method635.App.Forms.ViewModels.Team
             _timer.Stop();
             _timer.Elapsed -= UpdateMemberCount;
             _timer.Dispose();
+        }
+
+        public void OnNavigatedFrom(INavigationParameters parameters)
+        {
+            //
+        }
+
+        public void OnNavigatedTo(INavigationParameters parameters)
+        {
+            TeamId = _context.CurrentBrainstormingTeam.Id;
         }
 
         private string _teamId;

@@ -6,7 +6,8 @@
              xmlns:b="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="Method635.App.Forms.Views.Team.TeamPage"
-             Title="{Binding Title}" >
+             Title="{Binding Title}" 
+             x:Name="teamPage">
 
     <StackLayout>
         <ListView ItemsSource="{Binding TeamList}" SelectedItem="{Binding SelectedTeam}" IsVisible="{Binding HasTeam}" IsPullToRefreshEnabled="True" RefreshCommand="{Binding RefreshCommand}" IsRefreshing="{Binding IsRefreshing}">
@@ -14,7 +15,8 @@
                 <DataTemplate>
                     <ViewCell>
                         <ViewCell.ContextActions>
-                            <MenuItem Command="{Binding LeaveTeamCommand}" Text="{i18n:Translate Text=LeaveTeam}" CommandParameter="{Binding .}" />
+                            <MenuItem Command="{Binding BindingContext.ShowQrCodeCommand, Source={x:Reference teamPage}}" Text="{i18n:Translate Text=ShowTeamQrCode}" CommandParameter="{Binding .}" IsEnabled="{Binding IsModerator}"/>
+                            <MenuItem Command="{Binding BindingContext.LeaveTeamCommand, Source={x:Reference teamPage}}" Text="{i18n:Translate Text=LeaveTeam}" CommandParameter="{Binding .}" />
                         </ViewCell.ContextActions>
                         <Grid Padding="5,10">
                             <Grid.ColumnDefinitions>

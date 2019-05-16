@@ -657,6 +657,15 @@ namespace Method635.App.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Show Team-QR Code.
+        /// </summary>
+        internal static string ShowTeamQrCode {
+            get {
+                return ResourceManager.GetString("ShowTeamQrCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sketch Idea.
         /// </summary>
         internal static string Sketch {

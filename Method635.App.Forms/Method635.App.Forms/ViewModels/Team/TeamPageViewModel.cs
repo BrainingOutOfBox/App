@@ -1,5 +1,4 @@
-﻿using Method635.App.Models;
-using Prism.Commands;
+﻿using Prism.Commands;
 using Prism.Mvvm;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +9,7 @@ using Method635.App.BL.Context;
 using Method635.App.BL.Interfaces;
 using System.Threading.Tasks;
 using Prism.Navigation;
+using Method635.App.Forms.Models;
 
 namespace Method635.App.Forms.ViewModels.Team
 {
@@ -31,7 +31,7 @@ namespace Method635.App.Forms.ViewModels.Team
             _navigationService = navigationService;
             _teamService = teamService;
             _context = context;
-
+            
             TeamList = FillTeamList();
             if (TeamList.Any() && _context.CurrentBrainstormingTeam == null)
             {
@@ -41,8 +41,15 @@ namespace Method635.App.Forms.ViewModels.Team
             SelectTeamCommand = new DelegateCommand(SelectTeam);
             CreateTeamCommand = new DelegateCommand(async ()=> await CreateTeam());
             JoinTeamCommand = new DelegateCommand(async ()=> await JoinTeam());
-            LeaveTeamCommand = new DelegateCommand<BrainstormingTeam>(LeaveTeam);
+            ShowQrCodeCommand = new DelegateCommand<BrainstormingTeamModel>(ShowQrCode);
+            LeaveTeamCommand = new DelegateCommand<BrainstormingTeamModel>(LeaveTeam);
             RefreshCommand = new DelegateCommand(async()=>await Task.Run(RefreshTeamList));
+        }
+
+        private void ShowQrCode(BrainstormingTeamModel team)
+        {
+            _context.CurrentBrainstormingTeam = team;
+            _navigationService.NavigateToInviteTeam();
         }
 
         private async Task RefreshTeamList()
@@ -52,7 +59,7 @@ namespace Method635.App.Forms.ViewModels.Team
             IsRefreshing = false;
         }
 
-        private void LeaveTeam(BrainstormingTeam team)
+        private void LeaveTeam(BrainstormingTeamModel team)
         {
             _logger.Info("Leaving team...");
         }
@@ -73,11 +80,15 @@ namespace Method635.App.Forms.ViewModels.Team
             _navigationService.NavigateToBrainstormingListTab();
         }
 
-        private List<BrainstormingTeam> FillTeamList()
+        private List<BrainstormingTeamModel> FillTeamList()
         {
-            var teamList = _teamService.GetTeamsByUserName(_context.CurrentParticipant.UserName);
+            var teamList = _teamService.GetTeamsByUserName(_context.CurrentParticipant.UserName)
+                .Select((t) => new BrainstormingTeamModel(t)
+            {
+                IsModerator = _context.CurrentParticipant.UserName.Equals(t.Moderator.UserName)
+            });
             HasTeam = teamList.Any();
-            return teamList;
+            return teamList.ToList();
         }
 
         public void OnNavigatedFrom(INavigationParameters parameters)
@@ -90,8 +101,8 @@ namespace Method635.App.Forms.ViewModels.Team
             TeamList = FillTeamList();
         }
 
-        private List<BrainstormingTeam> _teamList;
-        public List<BrainstormingTeam> TeamList
+        private List<BrainstormingTeamModel> _teamList;
+        public List<BrainstormingTeamModel> TeamList
         {
             get => _teamList; private set
             {
@@ -101,11 +112,12 @@ namespace Method635.App.Forms.ViewModels.Team
         public DelegateCommand SelectTeamCommand { get; }
         public DelegateCommand CreateTeamCommand { get; }
         public DelegateCommand JoinTeamCommand { get; }
-        public DelegateCommand<BrainstormingTeam> LeaveTeamCommand { get; }
+        public DelegateCommand<BrainstormingTeamModel> ShowQrCodeCommand { get; }
+        public DelegateCommand<BrainstormingTeamModel> LeaveTeamCommand { get; }
         public DelegateCommand RefreshCommand { get; }
 
-        private BrainstormingTeam _selectedTeam;
-        public BrainstormingTeam SelectedTeam {
+        private BrainstormingTeamModel _selectedTeam;
+        public BrainstormingTeamModel SelectedTeam {
             get =>_selectedTeam;
             set
             {
@@ -119,6 +131,9 @@ namespace Method635.App.Forms.ViewModels.Team
             get => _hasTeam;
             set => SetProperty(ref _hasTeam, value);
         }
+        private bool _isModerator;
+        public bool IsModerator { get => _isModerator; set => SetProperty(ref _isModerator, value); }
+
         private bool _isRefreshing;
         public bool IsRefreshing { get => _isRefreshing; set => SetProperty(ref _isRefreshing, value); }
         public string Title => AppResources.MyTeams;
