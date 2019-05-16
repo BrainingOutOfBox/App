@@ -365,4 +365,7 @@ Join or add a team below</value>
   <data name="BrainstormingTitle" xml:space="preserve">
     <value>Brainstorming Title</value>
   </data>
+  <data name="TeamFullMessage" xml:space="preserve">
+    <value>All the participants have joined. Navigate back to see the team.</value>
+  </data>
 </root>

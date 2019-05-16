@@ -16,20 +16,17 @@ namespace Method635.App.Forms.ViewModels.Team
     public class JoinTeamPageViewModel : BindableBase
 	{
         private readonly ILogger _logger;
-        private readonly IUiNavigationService _navigationService;
         private readonly IEventAggregator _eventAggregator;
         private readonly ITeamService _teamService;
         private readonly BrainstormingContext _context;
 
         public JoinTeamPageViewModel(
             ILogger logger,
-            IUiNavigationService navigationService, 
             IEventAggregator eventAggregator, 
             ITeamService teamService,
             BrainstormingContext context)
         {
             _logger = logger;
-            _navigationService = navigationService;
             _eventAggregator = eventAggregator;
             _teamService = teamService;
             _context = context;
@@ -56,7 +53,7 @@ namespace Method635.App.Forms.ViewModels.Team
                 BottomOverlayText += AppResources.Success;
                 _context.CurrentBrainstormingTeam = _teamService.GetTeam(result.Text);
                 JoinedTeam = true;
-                //_eventAggregator.GetEvent<RenderBrainstormingListEvent>().Publish();
+                _eventAggregator.GetEvent<JoinTeamCompleteEvent>().Publish();
             }
         }
 
@@ -73,7 +70,8 @@ namespace Method635.App.Forms.ViewModels.Team
         }
 
         private string _bottomOverlayText;
-        public string BottomOverlayText {
+        public string BottomOverlayText
+        {
             get => _bottomOverlayText;
             set
             {

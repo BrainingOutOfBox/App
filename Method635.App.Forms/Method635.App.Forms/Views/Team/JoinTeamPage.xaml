@@ -18,11 +18,11 @@
                                 WidthRequest="200" HeightRequest="200" ScanResultCommand="{Binding FoundTeamIdCommand}" />
             <zxing:ZXingDefaultOverlay Grid.Row="0" TopText="{i18n:Translate Text=PlaceQrInArea}" Opacity="0.9" BottomText="{Binding BottomOverlayText}" />
         </Grid>
-        <ContentView BackgroundColor="#222222" Opacity="0.8"
+        <ContentView BackgroundColor="#222222" Opacity="0.8" x:Name="contentView"
              AbsoluteLayout.LayoutFlags="All"
              AbsoluteLayout.LayoutBounds="0,0,1,1"
-             IsVisible="{Binding JoinedTeam}" >
-            <Label Margin="10" Text="You have been added to the team! Navigate back to team overview to see it." FontSize="Large" TextColor="White" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" />
+             IsVisible="{Binding JoinedTeam}">
+            <Label x:Name="label" Margin="10" Text="{i18n:Translate Text=JoinedTeamMessage}" FontSize="Large" TextColor="White" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" />
         </ContentView>
     </AbsoluteLayout>
 </ContentPage>

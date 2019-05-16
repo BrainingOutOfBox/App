@@ -720,6 +720,15 @@ namespace Method635.App.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All the participants have joined. Navigate back to see the team..
+        /// </summary>
+        internal static string TeamFullMessage {
+            get {
+                return ResourceManager.GetString("TeamFullMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Team Name.
         /// </summary>
         internal static string TeamName {
