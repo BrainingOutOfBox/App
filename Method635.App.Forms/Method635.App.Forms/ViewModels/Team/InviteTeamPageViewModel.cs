@@ -2,7 +2,6 @@
 using Method635.App.BL.Interfaces;
 using Method635.App.Forms.PrismEvents;
 using Method635.App.Forms.Resources;
-using Method635.App.Forms.Services;
 using Prism.Events;
 using Prism.Mvvm;
 using Prism.Navigation;
@@ -13,19 +12,17 @@ namespace Method635.App.Forms.ViewModels.Team
 {
     public class InviteTeamPageViewModel : BindableBase, IDestructible
     {
-        private readonly IUiNavigationService _navigationService;
         private readonly IEventAggregator _eventAggregator;
         private readonly ITeamService _teamService;
         private readonly BrainstormingContext _context;
         private Timer _timer;
+        private int _teamCapacity => _context.CurrentBrainstormingTeam.NrOfParticipants;
 
         public InviteTeamPageViewModel(
-            IUiNavigationService navigationService,
             IEventAggregator eventAggregator,
             ITeamService teamService,
             BrainstormingContext context)
         {
-            _navigationService = navigationService;
             _eventAggregator = eventAggregator;
             _teamService = teamService;
             _context = context;
@@ -88,6 +85,5 @@ namespace Method635.App.Forms.ViewModels.Team
                 MemberCountString = string.Format(AppResources.MemberCountString, _memberCount,_teamCapacity);
             }
         }
-        private int _teamCapacity => _context.CurrentBrainstormingTeam.NrOfParticipants;
     }
 }

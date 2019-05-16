@@ -19,7 +19,7 @@ namespace Method635.App.Dal.Mapping.DTO
         private const string NoteIdeaTypeString = "noteIdea";
         private const string SketchIdeaTypeString = "sketchIdea";
         private const string PatternIdeaTypeString = "patternIdea";
-        static JsonSerializerSettings SpecifiedSubclassConversion = new JsonSerializerSettings() { ContractResolver = new BaseSpecifiedConcreteClassConverter() };
+        static readonly JsonSerializerSettings SpecifiedSubclassConversion = new JsonSerializerSettings() { ContractResolver = new BaseSpecifiedConcreteClassConverter() };
 
         public override bool CanConvert(Type objectType)
         {

@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using Prism.Navigation;
+using System.Threading.Tasks;
 
 namespace Method635.App.Forms.Services
 {
@@ -12,7 +13,7 @@ namespace Method635.App.Forms.Services
         Task NavigateToInviteTeam();
         Task NavigateToJoinTeam();
         Task NavigateToBrainstormingListTab();
-        Task NavigateToBrainstormingTab();
+        Task NavigateToBrainstormingTab(INavigationParameters parameters);
         Task NavigateToCreateBrainstorming();
         Task NavigateToStartBrainstorming();
         Task NavigateToInsertSpecial();

@@ -4,9 +4,7 @@ using Method635.App.Dal.Mapping.Mappers;
 using Method635.App.Models;
 using Method635.App.Tests.Factories;
 using NUnit.Framework;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Method635.App.Tests.MappingTests
 {

@@ -1,9 +1,6 @@
 ﻿using Method635.App.BL.Interfaces;
 using Method635.App.Dal.Interfaces;
 using Method635.App.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Method635.App.BL.BusinessServices
 {

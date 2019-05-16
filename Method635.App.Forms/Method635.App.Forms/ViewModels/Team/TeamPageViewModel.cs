@@ -1,16 +1,13 @@
 ﻿using Method635.App.Models;
 using Prism.Commands;
-using Prism.Events;
 using Prism.Mvvm;
 using System.Collections.Generic;
 using System.Linq;
 using Method635.App.Logging;
-using Xamarin.Forms;
 using Method635.App.Forms.Services;
 using Method635.App.Forms.Resources;
 using Method635.App.BL.Context;
 using Method635.App.BL.Interfaces;
-using System;
 using System.Threading.Tasks;
 
 namespace Method635.App.Forms.ViewModels.Team
@@ -18,7 +15,6 @@ namespace Method635.App.Forms.ViewModels.Team
     public class TeamPageViewModel : BindableBase
 	{
         private readonly IUiNavigationService _navigationService;
-        private readonly IEventAggregator _eventAggregator;
         private readonly ITeamService _teamService;
         private readonly BrainstormingContext _context;
 
@@ -27,13 +23,11 @@ namespace Method635.App.Forms.ViewModels.Team
         public TeamPageViewModel(
             ILogger logger,
             IUiNavigationService navigationService, 
-            IEventAggregator eventAggregator, 
             ITeamService teamService,
             BrainstormingContext context)
         {
             _logger = logger;
             _navigationService = navigationService;
-            _eventAggregator = eventAggregator;
             _teamService = teamService;
             _context = context;
 
@@ -44,8 +38,8 @@ namespace Method635.App.Forms.ViewModels.Team
                 _context.CurrentBrainstormingTeam = SelectedTeam;
             }
             SelectTeamCommand = new DelegateCommand(SelectTeam);
-            CreateTeamCommand = new DelegateCommand(CreateTeam);
-            JoinTeamCommand = new DelegateCommand(JoinTeam);
+            CreateTeamCommand = new DelegateCommand(async ()=> await CreateTeam());
+            JoinTeamCommand = new DelegateCommand(async ()=> await JoinTeam());
             LeaveTeamCommand = new DelegateCommand<BrainstormingTeam>(LeaveTeam);
             RefreshCommand = new DelegateCommand(async()=>await Task.Run(RefreshTeamList));
         }
@@ -62,12 +56,12 @@ namespace Method635.App.Forms.ViewModels.Team
             _logger.Info("Leaving team...");
         }
 
-        private async void JoinTeam()
+        private async Task JoinTeam()
         {
             await _navigationService.NavigateToJoinTeam();
         }
 
-        private async void CreateTeam()
+        private async Task CreateTeam()
         {
             await _navigationService.NavigateToCreateTeam();
         }

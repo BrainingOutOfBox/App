@@ -4,7 +4,6 @@ using Method635.App.BL.Interfaces;
 using Method635.App.Dal.Interfaces;
 using Method635.App.Logging;
 using Method635.App.Models;
-using Xamarin.Forms;
 
 namespace Method635.App.BL.BusinessServices
 {

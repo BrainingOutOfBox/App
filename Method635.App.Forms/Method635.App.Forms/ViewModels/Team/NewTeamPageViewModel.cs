@@ -1,4 +1,4 @@
-﻿using Method635.App.Models;
+using Method635.App.Models;
 using Method635.App.Forms.RestAccess;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -72,7 +72,6 @@ namespace Method635.App.Forms.ViewModels.Team
         private int _teamSize;
         public string TeamSizeString { get; set; }
         public string Purpose { get; set; } = string.Empty;
-
         private string _errorText;
         public string ErrorText
         {
@@ -86,6 +85,7 @@ namespace Method635.App.Forms.ViewModels.Team
             get => _hasError;
             set => SetProperty(ref _hasError, value);
         }
+        
         public DelegateCommand CreateTeamCommand { get; }
     }
 }

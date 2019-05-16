@@ -9,8 +9,8 @@ namespace Method635.App.BL
 {
     internal class EndedState : IState
     {
-        private BrainstormingContext _context;
-        private BrainstormingModel _brainstormingModel;
+        private readonly BrainstormingContext _context;
+        private readonly BrainstormingModel _brainstormingModel;
 
         public event ChangeStateHandler ChangeStateEvent;
 
@@ -23,6 +23,7 @@ namespace Method635.App.BL
 
         public void CleanUp()
         {
+            // No resources to clean here
         }
 
         public void Init()
@@ -38,15 +39,13 @@ namespace Method635.App.BL
             }
             _brainstormingModel.BrainSheets = new ObservableCollection<BrainSheet>(_context.CurrentFinding.BrainSheets);
 
-            var currentRound = _context.CurrentFinding.CurrentRound;
-
-            var nrOfBrainsheets = _brainstormingModel.BrainSheets.Count;
-            _brainstormingModel.CurrentSheetIndex = (currentRound + _positionInTeam - 1) % nrOfBrainsheets;
+            // Round has ended, simply display the first brainsheet
+            _brainstormingModel.CurrentSheetIndex = 0;
             var currentBrainSheet = _context.CurrentFinding.BrainSheets[_brainstormingModel.CurrentSheetIndex];
+
             _brainstormingModel.BrainWaves = currentBrainSheet.BrainWaves;
         }
 
-        private int _positionInTeam => _teamParticipants.IndexOf(_teamParticipants.Find(p => p.UserName.Equals(_context.CurrentParticipant.UserName)));
         private List<Participant> _teamParticipants => _context.CurrentBrainstormingTeam.Participants;
     }
 }

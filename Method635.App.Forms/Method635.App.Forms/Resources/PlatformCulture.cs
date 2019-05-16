@@ -6,9 +6,9 @@ namespace Method635.App.Forms.Resources
     {
         public PlatformCulture(string platformCultureString)
         {
-            if (String.IsNullOrEmpty(platformCultureString))
+            if (string.IsNullOrEmpty(platformCultureString))
             {
-                throw new ArgumentException("Expected culture identifier", "platformCultureString"); // in C# 6 use nameof(platformCultureString)
+                throw new ArgumentException("Expected culture identifier", nameof(platformCultureString)); 
             }
             PlatformString = platformCultureString.Replace("_", "-"); // .NET expects dash, not underscore
             var dashIndex = PlatformString.IndexOf("-", StringComparison.Ordinal);

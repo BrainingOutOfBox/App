@@ -28,6 +28,7 @@ namespace Method635.App.Tests.Factories
         {
             return new Moderator(CreateParticipant());
         }
+
         private static BrainstormingTeam CreateTeam()
         {
             return new BrainstormingTeam()

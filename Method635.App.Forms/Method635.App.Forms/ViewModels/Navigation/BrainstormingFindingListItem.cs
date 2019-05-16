@@ -11,6 +11,5 @@ namespace Method635.App.Forms.ViewModels.Navigation
         }
 
         public string Title { get => Finding.Name; }
-        
     }
 }
