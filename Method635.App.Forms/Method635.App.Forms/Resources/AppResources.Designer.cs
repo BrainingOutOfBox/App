@@ -340,6 +340,24 @@ namespace Method635.App.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You have joined the team! Navigate back to the teamlist to see it..
+        /// </summary>
+        internal static string JoinedTeamMessage {
+            get {
+                return ResourceManager.GetString("JoinedTeamMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Joined Team.
+        /// </summary>
+        internal static string JoinedTeamTitle {
+            get {
+                return ResourceManager.GetString("JoinedTeamTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Join Team.
         /// </summary>
         internal static string JoinTeam {
@@ -707,6 +725,15 @@ namespace Method635.App.Forms.Resources {
         internal static string Team {
             get {
                 return ResourceManager.GetString("Team", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All the participants have joined. Navigate back to see the team..
+        /// </summary>
+        internal static string TeamFullMessage {
+            get {
+                return ResourceManager.GetString("TeamFullMessage", resourceCulture);
             }
         }
         

@@ -44,7 +44,8 @@ namespace Method635.App.Forms.ViewModels.Team
             if (newestTeam.CurrentNrOfParticipants == _teamCapacity)
             {
                 _context.CurrentBrainstormingTeam = newestTeam;
-                _eventAggregator.GetEvent<RenderBrainstormingListEvent>().Publish();
+                TeamFull = true;
+                _eventAggregator.GetEvent<InviteTeamCompleteEvent>().Publish();
             }
         }
 
@@ -85,5 +86,8 @@ namespace Method635.App.Forms.ViewModels.Team
                 MemberCountString = string.Format(AppResources.MemberCountString, _memberCount,_teamCapacity);
             }
         }
+
+        private bool _teamFull;
+        public bool TeamFull { get=>_teamFull; private set=>SetProperty(ref _teamFull, value)   ; }
     }
 }

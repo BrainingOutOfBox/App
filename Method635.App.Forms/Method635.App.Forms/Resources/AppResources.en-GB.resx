@@ -326,6 +326,12 @@ Join or add a team below</value>
   <data name="Cancel" xml:space="preserve">
     <value>Cancel</value>
   </data>
+  <data name="JoinedTeamTitle" xml:space="preserve">
+    <value>Joined Team</value>
+  </data>
+  <data name="JoinedTeamMessage" xml:space="preserve">
+    <value>You have joined the team! Navigate back to the teamlist to see it.</value>
+  </data>
   <data name="Ok" xml:space="preserve">
     <value>Ok</value>
   </data>
@@ -358,6 +364,9 @@ Join or add a team below</value>
   </data>
   <data name="BrainstormingTitle" xml:space="preserve">
     <value>Brainstorming Title</value>
+  </data>
+  <data name="TeamFullMessage" xml:space="preserve">
+    <value>All the participants have joined. Navigate back to see the team.</value>
   </data>
   <data name="Category" xml:space="preserve">
     <value>Category</value>

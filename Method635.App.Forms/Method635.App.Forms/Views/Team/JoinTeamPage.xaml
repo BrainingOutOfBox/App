@@ -7,12 +7,22 @@
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="Method635.App.Forms.Views.Team.JoinTeamPage"
              Title="{i18n:Translate Text=JoinTeam}">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition />
-        </Grid.RowDefinitions>
-        <zxing:ZXingScannerView Grid.Row="0" IsScanning="{Binding ScanForResults}" Options="{Binding BarcodeOptions}" 
+  
+    <AbsoluteLayout>
+        <Grid AbsoluteLayout.LayoutFlags="All"
+             AbsoluteLayout.LayoutBounds="0,0,1,1">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <zxing:ZXingScannerView Grid.Row="0" IsScanning="{Binding ScanForResults}" Options="{Binding BarcodeOptions}" 
                                 WidthRequest="200" HeightRequest="200" ScanResultCommand="{Binding FoundTeamIdCommand}" />
-        <zxing:ZXingDefaultOverlay Grid.Row="0" TopText="{i18n:Translate Text=PlaceQrInArea}" Opacity="0.9" BottomText="{Binding BottomOverlayText}" />
-    </Grid>
+            <zxing:ZXingDefaultOverlay Grid.Row="0" TopText="{i18n:Translate Text=PlaceQrInArea}" Opacity="0.9" BottomText="{Binding BottomOverlayText}" />
+        </Grid>
+        <ContentView BackgroundColor="#222222" Opacity="0.8" x:Name="contentView"
+             AbsoluteLayout.LayoutFlags="All"
+             AbsoluteLayout.LayoutBounds="0,0,1,1"
+             IsVisible="{Binding JoinedTeam}">
+            <Label x:Name="label" Margin="10" Text="{i18n:Translate Text=JoinedTeamMessage}" FontSize="Large" TextColor="White" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" />
+        </ContentView>
+    </AbsoluteLayout>
 </ContentPage>
