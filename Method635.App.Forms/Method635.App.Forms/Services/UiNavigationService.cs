@@ -1,6 +1,4 @@
-﻿using Method635.App.Forms.PrismEvents;
-using Prism.Events;
-using Prism.Navigation;
+﻿using Prism.Navigation;
 using System.Threading.Tasks;
 
 namespace Method635.App.Forms.Services
@@ -8,21 +6,10 @@ namespace Method635.App.Forms.Services
     public class UiNavigationService : IUiNavigationService
     {
         private readonly INavigationService _navigationService;
-        private readonly IEventAggregator _eventAggregator;
 
-        public UiNavigationService(INavigationService navigationService, IEventAggregator eventAggregator)
+        public UiNavigationService(INavigationService navigationService)
         {
             _navigationService = navigationService;
-            _eventAggregator = eventAggregator;
-            SubscribeToEvents();
-        }
-
-        private void SubscribeToEvents()
-        {
-            //_eventAggregator.GetEvent<RenderBrainstormingListEvent>().Subscribe(async () =>
-            //{
-            //    await NavigateToBrainstormingListTab();
-            //});
         }
 
         public async Task NavigateToMainPage()
@@ -88,11 +75,6 @@ namespace Method635.App.Forms.Services
         public async Task NavigateToInsertSketch()
         {
             await _navigationService.NavigateAsync("/NavigationPage/MainPage?selectedTab=BrainstormingPage/InsertSpecialPage/SketchPage");
-        }
-
-        public async void NavigateBackToBrainstormingTab()
-        {
-            await _navigationService.GoBackToRootAsync();
         }
 
         public async Task NavigateToInsertPattern()
