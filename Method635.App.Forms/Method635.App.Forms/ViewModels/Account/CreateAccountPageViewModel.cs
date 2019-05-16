@@ -2,10 +2,10 @@
 using Prism.Commands;
 using Prism.Mvvm;
 using Method635.App.Logging;
-using Xamarin.Forms;
 using Method635.App.Forms.Services;
 using Method635.App.Forms.Resources;
 using Method635.App.BL.Interfaces;
+using System.Threading.Tasks;
 
 namespace Method635.App.Forms.ViewModels.Account
 {
@@ -23,10 +23,10 @@ namespace Method635.App.Forms.ViewModels.Account
             _logger = logger;
             _navigationService = navigationService;
             _participantService = participantService;
-            RegisterCommand = new DelegateCommand(Register);
+            RegisterCommand = new DelegateCommand(async ()=> await Register());
         }
 
-        private async void Register()
+        private async Task Register()
         {
             if (!CheckInput())
             {
@@ -107,6 +107,5 @@ namespace Method635.App.Forms.ViewModels.Account
             get => _registerFailed;
             set => SetProperty(ref _registerFailed, value);
         }
-
     }
 }

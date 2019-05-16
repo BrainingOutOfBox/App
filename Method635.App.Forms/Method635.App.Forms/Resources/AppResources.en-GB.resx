@@ -368,4 +368,7 @@ Join or add a team below</value>
   <data name="TeamFullMessage" xml:space="preserve">
     <value>All the participants have joined. Navigate back to see the team.</value>
   </data>
+  <data name="Category" xml:space="preserve">
+    <value>Category</value>
+  </data>
 </root>

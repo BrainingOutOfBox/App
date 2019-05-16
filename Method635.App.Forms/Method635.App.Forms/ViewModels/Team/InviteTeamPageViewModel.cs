@@ -16,6 +16,7 @@ namespace Method635.App.Forms.ViewModels.Team
         private readonly ITeamService _teamService;
         private readonly BrainstormingContext _context;
         private Timer _timer;
+        private int _teamCapacity => _context.CurrentBrainstormingTeam.NrOfParticipants;
 
         public InviteTeamPageViewModel(
             IEventAggregator eventAggregator,
@@ -85,7 +86,6 @@ namespace Method635.App.Forms.ViewModels.Team
                 MemberCountString = string.Format(AppResources.MemberCountString, _memberCount,_teamCapacity);
             }
         }
-        private int _teamCapacity => _context.CurrentBrainstormingTeam.NrOfParticipants;
 
         private bool _teamFull;
         public bool TeamFull { get=>_teamFull; private set=>SetProperty(ref _teamFull, value)   ; }

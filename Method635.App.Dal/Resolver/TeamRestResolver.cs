@@ -86,7 +86,7 @@ namespace Method635.App.Forms.RestAccess
             }
             catch(Exception ex)
             {
-
+                _logger.Error($"Couldn't get brainstorming teams for user {userName}", ex);
             }
             return new List<BrainstormingTeam>();
         }

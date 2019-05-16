@@ -16,11 +16,14 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="50" />
                     <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <Label Text="{i18n:Translate Text=BrainstormingTitle}" Grid.Row="0" Grid.Column="0" />
                 <Label Text="{Binding FindingTitle}" Grid.Row="0" Grid.Column="1" FontAttributes="Bold"/>
                 <Label Text="{i18n:Translate Text=Description}" Grid.Row="1" Grid.Column="0" />
                 <Label Text="{Binding FindingDescription}" Grid.Row="1" Grid.Column="1" FontAttributes="Bold"/>
+                <Label Text="{i18n:Translate Text=Category}" Grid.Row="2" Grid.Column="0" />
+                <Label Text="{Binding FindingCategory}" Grid.Row="2" Grid.Column="1" FontAttributes="Bold"/>
             </Grid>
         </StackLayout>
     </ContentView.Content>

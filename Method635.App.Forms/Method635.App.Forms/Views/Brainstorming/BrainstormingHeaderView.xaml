@@ -12,9 +12,7 @@
             </Image>
             <StackLayout Orientation="Vertical" HorizontalOptions="CenterAndExpand">
                 <Label Text="{Binding RemainingTime}" 
-               VerticalOptions="Center" IsVisible="{Binding IsEnded, Converter={StaticResource InvertBooleanConverter}}">
-                    <!-- TODO animate with attached behaviors as soon as remainingTime < 10s  -->
-                </Label>
+               VerticalOptions="Center" IsVisible="{Binding IsEnded, Converter={StaticResource InvertBooleanConverter}}" />
                 <Label Text="{i18n:Translate Text=Completed}" 
                        TextColor="Green"
                        IsVisible="{Binding IsEnded}"

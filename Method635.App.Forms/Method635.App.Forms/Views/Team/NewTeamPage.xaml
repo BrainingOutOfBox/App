@@ -12,12 +12,12 @@
         <Label Text="{i18n:Translate Text=NameConstraints}" FontSize="Micro" />
 
         <Label Text="{i18n:Translate Text=TeamSize}" />
-        <Entry Placeholder="{i18n:Translate Text=TeamSizeText}" Text="{Binding TeamSize}" />
+        <Entry Placeholder="{i18n:Translate Text=TeamSizeText}" Text="{Binding TeamSizeString}" />
         <Label Text="{i18n:Translate Text=TeamSizeDescription}" FontSize="Micro"/>
 
         <Label Text="{i18n:Translate Text=Purpose}" />
         <Editor Placeholder="{i18n:Translate Text=PurposeText}" MinimumWidthRequest="100" Text="{Binding Purpose}"/>
-
+        <Label Text="{Binding ErrorText}" IsVisible="{Binding HasError}" TextColor="Red" />
         <Button Text="{i18n:Translate Text=CreateTeam}" Command="{Binding CreateTeamCommand}" />
     </StackLayout>
   

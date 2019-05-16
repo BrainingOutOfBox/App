@@ -3,7 +3,6 @@ using Method635.App.Forms.Resources;
 using Prism.Commands;
 using Prism.Mvvm;
 using Method635.App.Logging;
-using Xamarin.Forms;
 using Method635.App.Forms.Services;
 using Method635.App.Dal.Interfaces;
 using Method635.App.BL.Context;
@@ -16,6 +15,7 @@ namespace Method635.App.Forms.ViewModels
         private readonly IUiNavigationService _navigationService;
         private readonly IParticipantDalService _participantDalService;
         private readonly BrainstormingContext _context;
+        private bool _isRunning;
 
         private readonly ILogger _logger;
 
@@ -30,7 +30,7 @@ namespace Method635.App.Forms.ViewModels
             _participantDalService = dalService.ParticipantDalService;
             _context = context;
 
-            LoginCommand = new DelegateCommand(Login);
+            LoginCommand = new DelegateCommand(async ()=> await Login());
             ShowRegisterCommand = new DelegateCommand(ShowRegister);
         }
 
@@ -39,7 +39,7 @@ namespace Method635.App.Forms.ViewModels
             _navigationService.NavigateToRegister();
         }
 
-        private async void Login()
+        private async Task Login()
         {
             IsRunning = true;
             if (!CheckInput())
@@ -106,7 +106,6 @@ namespace Method635.App.Forms.ViewModels
 
         public DelegateCommand LoginCommand { get; }
         public DelegateCommand ShowRegisterCommand { get; }
-        private bool _isRunning;
         public bool IsRunning { get=>_isRunning; private set=>SetProperty(ref _isRunning, value); }
     }
 }

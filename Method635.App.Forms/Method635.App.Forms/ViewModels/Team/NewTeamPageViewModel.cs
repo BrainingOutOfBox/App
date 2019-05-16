@@ -1,4 +1,4 @@
-﻿using Method635.App.Models;
+using Method635.App.Models;
 using Method635.App.Forms.RestAccess;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -7,6 +7,8 @@ using Xamarin.Forms;
 using Method635.App.Forms.Services;
 using Method635.App.BL.Context;
 using Method635.App.BL.Interfaces;
+using Method635.App.Forms.Resources;
+using System;
 
 namespace Method635.App.Forms.ViewModels.Team
 {
@@ -33,10 +35,15 @@ namespace Method635.App.Forms.ViewModels.Team
 
         private void AddTeam()
         {
+            if (!CheckInput())
+            {
+                _logger.Error($"Invalid input to create team");
+                return;
+            }
             var newTeam = new BrainstormingTeam()
             {
                 Name = TeamName,
-                NrOfParticipants = TeamSize,
+                NrOfParticipants = _teamSize,
                 Purpose = Purpose,
                 Moderator = new Moderator(_context.CurrentParticipant)
             };
@@ -49,11 +56,36 @@ namespace Method635.App.Forms.ViewModels.Team
             _navigationService.NavigateToInviteTeam();
         }
 
+        private bool CheckInput()
+        {
+            if (!int.TryParse(TeamSizeString, out int teamSize))
+            {
+                ErrorText = AppResources.UseNumbersInFields;
+                HasError = true;
+                return false;
+            }
+            _teamSize = teamSize;
+            return true;
+        }
+
         public string TeamName { get; set; } = string.Empty;
-        public int TeamSize { get; set; }
+        private int _teamSize;
+        public string TeamSizeString { get; set; }
         public string Purpose { get; set; } = string.Empty;
+        private string _errorText;
+        public string ErrorText
+        {
+            get => _errorText;
+            set => SetProperty(ref _errorText, value);
+        }
 
-
+        private bool _hasError;
+        public bool HasError
+        {
+            get => _hasError;
+            set => SetProperty(ref _hasError, value);
+        }
+        
         public DelegateCommand CreateTeamCommand { get; }
     }
 }

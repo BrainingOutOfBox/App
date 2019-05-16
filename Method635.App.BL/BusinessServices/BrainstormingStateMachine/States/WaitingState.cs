@@ -4,7 +4,6 @@ using Method635.App.Dal.Interfaces;
 using Method635.App.Logging;
 using Method635.App.Models.Models;
 using System.Timers;
-using Xamarin.Forms;
 
 namespace Method635.App.BL
 {

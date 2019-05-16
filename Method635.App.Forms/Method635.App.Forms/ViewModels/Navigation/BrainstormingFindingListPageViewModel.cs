@@ -33,7 +33,7 @@ namespace Method635.App.Forms.ViewModels
             FillFindingListItems();
 
             SelectFindingCommand = new DelegateCommand(SelectFinding);
-            CreateFindingCommand = new DelegateCommand(CreateBrainstormingFinding);
+            CreateFindingCommand = new DelegateCommand(async ()=> await CreateBrainstormingFinding());
         }
 
         private async Task<bool> RefreshFindingList()
@@ -42,7 +42,7 @@ namespace Method635.App.Forms.ViewModels
             return true;
         }
 
-        private async void CreateBrainstormingFinding()
+        private async Task CreateBrainstormingFinding()
         {
             await _navigationService.NavigateToCreateBrainstorming();
         }
@@ -54,6 +54,25 @@ namespace Method635.App.Forms.ViewModels
             // Encapsulate findings from model into findings to be displayed in listview
             FindingList = findingItems.Select(finding => new BrainstormingFindingListItem(finding)).ToList();
         }
+
+        private void SelectFinding()
+        {
+            _brainstormingContext.CurrentFinding = SelectedFinding.Finding;
+            _navigationService.NavigateToBrainstormingTab(new NavigationParameters());
+        }
+
+        public void OnNavigatedTo(INavigationParameters parameters)
+        {
+            FillFindingListItems();
+        }
+
+        public void OnNavigatedFrom(INavigationParameters parameters)
+        {
+            //
+        }
+
+        public BrainstormingFindingListItem SelectedFinding { get; set; }
+
 
         public DelegateCommand SelectFindingCommand { get; set; }
         public DelegateCommand CreateFindingCommand { get; }
@@ -79,24 +98,6 @@ namespace Method635.App.Forms.ViewModels
             get => _isRefreshing;
             set => SetProperty(ref _isRefreshing, value);
         }
-        private void SelectFinding()
-        {
-            _brainstormingContext.CurrentFinding = SelectedFinding.Finding;
-            _navigationService.NavigateToBrainstormingTab();
-        }
-
-        public void OnNavigatedTo(INavigationParameters parameters)
-        {
-            FillFindingListItems();
-        }
-
-        public void OnNavigatedFrom(INavigationParameters parameters)
-        {
-        }
-
-        public BrainstormingFindingListItem SelectedFinding { get; set; }
-
-
         public string Title { get; set; }
 
         private List<BrainstormingFindingListItem> _findingList;
