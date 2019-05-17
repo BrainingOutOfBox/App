@@ -3,6 +3,7 @@ using Method635.App.Dal.Interfaces;
 using Method635.App.Forms.Services;
 using Method635.App.Forms.ViewModels.Navigation;
 using Method635.App.Logging;
+using Method635.App.Models;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
@@ -14,7 +15,7 @@ using Xamarin.Forms;
 
 namespace Method635.App.Forms.ViewModels
 {
-    public class BrainstormingFindingListPageViewModel : BindableBase, INavigatedAware
+    public class BrainstormingFindingListPageViewModel : BindableBase, INavigatedAware, IDestructible
     {
         private readonly IUiNavigationService _navigationService;
         private readonly IBrainstormingDalService _brainstormingDalService;
@@ -30,10 +31,24 @@ namespace Method635.App.Forms.ViewModels
             _brainstormingDalService = iDalService.BrainstormingDalService;
             _brainstormingContext = brainstormingContext;
             _logger = logger;
+
             FillFindingListItems();
+
+            _brainstormingContext.PropertyChanged += Context_PropertyChanged;
 
             SelectFindingCommand = new DelegateCommand(SelectFinding);
             CreateFindingCommand = new DelegateCommand(async ()=> await CreateBrainstormingFinding());
+        }
+
+        private void Context_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName != nameof(_brainstormingContext.CurrentFinding) || !(sender is BrainstormingContext changedContext))
+                return;
+            var idx = FindingList.FindIndex(f => f.Finding.Id.Equals(changedContext.CurrentFinding.Id));
+            if (idx < 0 || idx > FindingList.Count - 1)
+                return;
+
+            FindingList[idx] = new BrainstormingFindingListItem(changedContext.CurrentFinding);
         }
 
         private async Task<bool> RefreshFindingList()
@@ -69,6 +84,11 @@ namespace Method635.App.Forms.ViewModels
         public void OnNavigatedFrom(INavigationParameters parameters)
         {
             //
+        }
+
+        public void Destroy()
+        {
+            _brainstormingContext.PropertyChanged -= Context_PropertyChanged;
         }
 
         public BrainstormingFindingListItem SelectedFinding { get; set; }
