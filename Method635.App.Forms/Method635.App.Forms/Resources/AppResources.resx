@@ -371,4 +371,7 @@ Join or add a team below</value>
   <data name="Category" xml:space="preserve">
     <value>Category</value>
   </data>
+  <data name="ShowTeamQrCode" xml:space="preserve">
+    <value>Show Team-QR Code</value>
+  </data>
 </root>

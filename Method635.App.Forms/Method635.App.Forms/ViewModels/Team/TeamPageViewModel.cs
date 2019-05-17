@@ -1,5 +1,4 @@
-﻿using Method635.App.Models;
-using Prism.Commands;
+﻿using Prism.Commands;
 using Prism.Mvvm;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +9,7 @@ using Method635.App.BL.Context;
 using Method635.App.BL.Interfaces;
 using System.Threading.Tasks;
 using Prism.Navigation;
+using Method635.App.Models;
 
 namespace Method635.App.Forms.ViewModels.Team
 {
@@ -31,25 +31,35 @@ namespace Method635.App.Forms.ViewModels.Team
             _navigationService = navigationService;
             _teamService = teamService;
             _context = context;
+            
+            SelectTeamCommand = new DelegateCommand(SelectTeam);
+            CreateTeamCommand = new DelegateCommand(async ()=> await CreateTeam());
+            JoinTeamCommand = new DelegateCommand(async ()=> await JoinTeam());
+            ShowQrCodeCommand = new DelegateCommand<BrainstormingTeam>(ShowQrCode, CanExecuteShowTeamQr);
+            LeaveTeamCommand = new DelegateCommand<BrainstormingTeam>(LeaveTeam);
+            RefreshCommand = new DelegateCommand(async()=>await Task.Run(RefreshTeamList));
 
-            TeamList = FillTeamList();
+            FillTeamList();
             if (TeamList.Any() && _context.CurrentBrainstormingTeam == null)
             {
                 SelectedTeam = TeamList[0];
                 _context.CurrentBrainstormingTeam = SelectedTeam;
             }
-            SelectTeamCommand = new DelegateCommand(SelectTeam);
-            CreateTeamCommand = new DelegateCommand(async ()=> await CreateTeam());
-            JoinTeamCommand = new DelegateCommand(async ()=> await JoinTeam());
-            LeaveTeamCommand = new DelegateCommand<BrainstormingTeam>(LeaveTeam);
-            RefreshCommand = new DelegateCommand(async()=>await Task.Run(RefreshTeamList));
+        }
+
+        private void ShowQrCode(BrainstormingTeam team)
+        {
+            _context.CurrentBrainstormingTeam = team;
+            _navigationService.NavigateToInviteTeam();
         }
 
         private async Task RefreshTeamList()
         {
             IsRefreshing = true;
-            TeamList = await Task.Run(() => FillTeamList());
+            await Task.Run(() => FillTeamList());
             IsRefreshing = false;
+
+            ShowQrCodeCommand.RaiseCanExecuteChanged();
         }
 
         private void LeaveTeam(BrainstormingTeam team)
@@ -73,11 +83,19 @@ namespace Method635.App.Forms.ViewModels.Team
             _navigationService.NavigateToBrainstormingListTab();
         }
 
-        private List<BrainstormingTeam> FillTeamList()
+        private void FillTeamList()
         {
             var teamList = _teamService.GetTeamsByUserName(_context.CurrentParticipant.UserName);
             HasTeam = teamList.Any();
-            return teamList;
+
+            TeamList = teamList.ToList();
+            ShowQrCodeCommand.RaiseCanExecuteChanged();
+        }
+        public bool CanExecuteShowTeamQr(BrainstormingTeam team)
+        {
+            if (team == null)
+                return false;
+            return _context.CurrentParticipant.UserName.Equals(team.Moderator.UserName);
         }
 
         public void OnNavigatedFrom(INavigationParameters parameters)
@@ -87,7 +105,7 @@ namespace Method635.App.Forms.ViewModels.Team
 
         public void OnNavigatedTo(INavigationParameters parameters)
         {
-            TeamList = FillTeamList();
+            FillTeamList();
         }
 
         private List<BrainstormingTeam> _teamList;
@@ -101,11 +119,13 @@ namespace Method635.App.Forms.ViewModels.Team
         public DelegateCommand SelectTeamCommand { get; }
         public DelegateCommand CreateTeamCommand { get; }
         public DelegateCommand JoinTeamCommand { get; }
+        public DelegateCommand<BrainstormingTeam> ShowQrCodeCommand { get; }
         public DelegateCommand<BrainstormingTeam> LeaveTeamCommand { get; }
         public DelegateCommand RefreshCommand { get; }
 
         private BrainstormingTeam _selectedTeam;
-        public BrainstormingTeam SelectedTeam {
+        public BrainstormingTeam SelectedTeam
+        {
             get =>_selectedTeam;
             set
             {
@@ -119,6 +139,7 @@ namespace Method635.App.Forms.ViewModels.Team
             get => _hasTeam;
             set => SetProperty(ref _hasTeam, value);
         }
+
         private bool _isRefreshing;
         public bool IsRefreshing { get => _isRefreshing; set => SetProperty(ref _isRefreshing, value); }
         public string Title => AppResources.MyTeams;

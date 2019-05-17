@@ -2,7 +2,7 @@
 
 namespace Method635.App.Models
 {
-    public class BrainstormingTeam
+    public class BrainstormingTeam : PropertyChangedBase
     {
         public string Id { get; set; } = string.Empty;
         public string Name { get; set; } = string.Empty;
