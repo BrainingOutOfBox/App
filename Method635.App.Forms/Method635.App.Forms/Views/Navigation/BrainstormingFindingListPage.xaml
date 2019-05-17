@@ -5,10 +5,16 @@
              prism:ViewModelLocator.AutowireViewModel="True"
              xmlns:i18n="clr-namespace:Method635.App.Forms.Resources"
              xmlns:b="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
+             Style="{StaticResource DefaultPageStyle}"
              x:Class="Method635.App.Forms.Views.Navigation.BrainstormingFindingListPage"
              Title="{i18n:Translate Text=BrainstormingFindings}">
     <StackLayout>
-        <ListView ItemsSource="{Binding FindingList}" SelectedItem="{Binding SelectedFinding}"  IsPullToRefreshEnabled="True" RefreshCommand="{Binding RefreshFindingListCommand}" IsRefreshing="{Binding IsRefreshing}">
+        <ListView ItemsSource="{Binding FindingList}" 
+                  SelectedItem="{Binding SelectedFinding}"  
+                  IsPullToRefreshEnabled="True" 
+                  RefreshCommand="{Binding RefreshFindingListCommand}" 
+                  IsRefreshing="{Binding IsRefreshing}"
+                  Style="{StaticResource DefaultListViewStyle}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
@@ -29,7 +35,7 @@
         </ListView>
         <Label IsEnabled="False" IsVisible="{Binding HasNoFindings}" HorizontalTextAlignment="Center"
                VerticalTextAlignment="Center" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Text="{i18n:Translate Text=NoFindingsYet}" />
-        
-        <Button Command="{Binding CreateFindingCommand}" Text="{i18n:Translate Text=AddFinding}"/>
+
+      <Button Command="{Binding CreateFindingCommand}" Margin="10,0,10,5"  Text="{i18n:Translate Text=AddFinding}" Style="{StaticResource DefaultButtonStyle}" />
     </StackLayout>
 </ContentPage>

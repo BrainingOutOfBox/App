@@ -639,6 +639,15 @@ namespace Method635.App.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Save Sketch.
+        /// </summary>
+        internal static string SaveSketch {
+            get {
+                return ResourceManager.GetString("SaveSketch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Send.
         /// </summary>
         internal static string Send {

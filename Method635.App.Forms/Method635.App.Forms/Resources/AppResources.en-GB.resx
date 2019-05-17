@@ -371,4 +371,7 @@ Join or add a team below</value>
   <data name="Category" xml:space="preserve">
     <value>Category</value>
   </data>
+  <data name="SaveSketch" xml:space="preserve">
+    <value>Save Sketch</value>
+  </data>
 </root>

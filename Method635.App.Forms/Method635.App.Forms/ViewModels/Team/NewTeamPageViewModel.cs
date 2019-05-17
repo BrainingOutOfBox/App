@@ -64,6 +64,12 @@ namespace Method635.App.Forms.ViewModels.Team
                 HasError = true;
                 return false;
             }
+            if (string.IsNullOrEmpty(TeamName))
+            {
+                ErrorText = AppResources.FillNecessaryFields;
+                HasError = true;
+                return false;
+            }
             _teamSize = teamSize;
             return true;
         }
