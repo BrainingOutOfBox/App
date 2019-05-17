@@ -5,11 +5,18 @@
              xmlns:i18n="clr-namespace:Method635.App.Forms.Resources"
              xmlns:b="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
              prism:ViewModelLocator.AutowireViewModel="True"
+             Style="{StaticResource DefaultPageStyle}"
              x:Class="Method635.App.Forms.Views.Team.TeamPage"
              Title="{Binding Title}" >
 
     <StackLayout>
-        <ListView ItemsSource="{Binding TeamList}" SelectedItem="{Binding SelectedTeam}" IsVisible="{Binding HasTeam}" IsPullToRefreshEnabled="True" RefreshCommand="{Binding RefreshCommand}" IsRefreshing="{Binding IsRefreshing}">
+        <ListView ItemsSource="{Binding TeamList}" 
+                  SelectedItem="{Binding SelectedTeam}" 
+                  IsVisible="{Binding HasTeam}" 
+                  IsPullToRefreshEnabled="True" 
+                  RefreshCommand="{Binding RefreshCommand}" 
+                  IsRefreshing="{Binding IsRefreshing}"
+                  Style="{StaticResource DefaultListViewStyle}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
@@ -33,9 +40,9 @@
         </ListView>
         <Label IsEnabled="False" IsVisible="{Binding HasTeam,Converter={StaticResource InvertBooleanConverter}}" HorizontalTextAlignment="Center"
                VerticalTextAlignment="Center" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Text="{i18n:Translate Text=NoTeamYet}" />
-        <Button Command="{Binding JoinTeamCommand}" Text="{i18n:Translate Text=JoinTeam}"/>
+        <Button Command="{Binding JoinTeamCommand}" Margin="10,0" Text="{i18n:Translate Text=JoinTeam}" Style="{StaticResource DefaultButtonStyle}"/>
 
-        <Button Command="{Binding CreateTeamCommand}" Text="{i18n:Translate Text=AddTeam}"/>
+        <Button Command="{Binding CreateTeamCommand}" Margin="10,0,10,5" Text="{i18n:Translate Text=AddTeam}" Style="{StaticResource DefaultButtonStyle}"/>
     </StackLayout>
 
 </ContentPage>

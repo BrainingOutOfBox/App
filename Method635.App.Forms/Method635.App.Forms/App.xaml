@@ -6,5 +6,16 @@
              x:Class="Method635.App.Forms.App">
     <Application.Resources>
         <local:InvertBooleanConverter x:Key="InvertBooleanConverter" />
+        <Color x:Key="PrimaryColor">#2196F3</Color>
+        <Style x:Key="DefaultButtonStyle" TargetType="Button">
+            <Setter Property="BackgroundColor" Value="#2196F3" />
+            <Setter Property="TextColor" Value="White"/>
+        </Style>
+        <Style x:Key="DefaultPageStyle" TargetType="Page">
+            <Setter Property="BackgroundColor" Value="#ECF7FF" />
+        </Style>
+        <Style x:Key="DefaultListViewStyle" TargetType="ListView">
+            <Setter Property="BackgroundColor" Value="#ECF7FF" />
+        </Style>
     </Application.Resources>
 </prism:PrismApplication>
