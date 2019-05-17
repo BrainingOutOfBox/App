@@ -79,7 +79,8 @@ namespace Method635.App.Forms.ViewModels.Brainstorming
             }
             if (string.IsNullOrEmpty(FindingName) ||
                 string.IsNullOrEmpty(NrOfIdeasText) ||
-                string.IsNullOrEmpty(BaseRoundTimeText))
+                string.IsNullOrEmpty(BaseRoundTimeText) ||
+                string.IsNullOrEmpty(Category))
             {
                 ErrorText = AppResources.FillNecessaryFields;
                 HasError = true;
