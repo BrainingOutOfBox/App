@@ -380,4 +380,10 @@ Join or add a team below</value>
   <data name="CreateAccount" xml:space="preserve">
     <value>Create Account</value>
   </data>
+  <data name="IdeaCommited" xml:space="preserve">
+    <value>Your Idea was added to sheet, don't forget to scroll to see it</value>
+  </data>
+  <data name="IdeasSent" xml:space="preserve">
+    <value>Sent your ideas to the server, we're waiting for everybody else to finish this round</value>
+  </data>
 </root>

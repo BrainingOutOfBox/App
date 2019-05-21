@@ -304,6 +304,15 @@ namespace Method635.App.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Your Idea was added to sheet, don&apos;t forget to scroll to see it.
+        /// </summary>
+        internal static string IdeaCommited {
+            get {
+                return ResourceManager.GetString("IdeaCommited", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Idea Description:.
         /// </summary>
         internal static string IdeaDescription {
@@ -318,6 +327,15 @@ namespace Method635.App.Forms.Resources {
         internal static string IdeasDescription {
             get {
                 return ResourceManager.GetString("IdeasDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sent your ideas to the server, we&apos;re waiting for everybody else to finish this round.
+        /// </summary>
+        internal static string IdeasSent {
+            get {
+                return ResourceManager.GetString("IdeasSent", resourceCulture);
             }
         }
         

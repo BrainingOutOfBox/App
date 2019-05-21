@@ -124,12 +124,14 @@ namespace Method635.App.Forms.ViewModels
         private void SendBrainWave()
         {
             _brainstormingService.SendBrainWave();
+            _toastMessageService.LongAlert(AppResources.IdeasSent);
         }
 
         private async Task CommitIdea()
         {
             await _brainstormingService.CommitIdea(new NoteIdea() { Description = IdeaText });
             IdeaText = string.Empty;
+            _toastMessageService.LongAlert(AppResources.IdeaCommited);
         }
 
         
