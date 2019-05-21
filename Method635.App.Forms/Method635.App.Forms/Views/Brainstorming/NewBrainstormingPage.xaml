@@ -4,9 +4,10 @@
              prism:ViewModelLocator.AutowireViewModel="True"
              xmlns:i18n="clr-namespace:Method635.App.Forms.Resources"
              x:Class="Method635.App.Forms.Views.Brainstorming.NewBrainstormingPage"
+             Style="{StaticResource DefaultPageStyle}"
              Title="{i18n:Translate Text=CreateFinding}">
     <ScrollView>
-        <StackLayout Orientation="Vertical">
+        <StackLayout Orientation="Vertical" Margin="5">
             <Label Text="{i18n:Translate Text=FindingName}" />
             <Entry Placeholder="{i18n:Translate Text=Name}" Text="{Binding FindingName}" />
             <Label Text="{i18n:Translate Text=NrOfIdeas}" />
@@ -28,7 +29,7 @@
 
             <Label Text="{Binding ErrorText}" IsEnabled="{Binding HasError}" TextColor="Red" HorizontalTextAlignment="Center"/>
             <Label Text="{Binding ProhibitedChars}" IsEnabled="{Binding HasInvalidChars}" HorizontalTextAlignment="Center"/>
-            <Button Text="{i18n:Translate Text=CreateFinding}" Command="{Binding CreateFindingCommand}" />
+            <Button Text="{i18n:Translate Text=CreateFinding}" Command="{Binding CreateFindingCommand}" Style="{StaticResource DefaultButtonStyle}" Margin="0,0,0,5"/>
         </StackLayout>
     </ScrollView>
 </ContentPage>

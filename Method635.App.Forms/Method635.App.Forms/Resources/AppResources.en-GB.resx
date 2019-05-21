@@ -386,4 +386,7 @@ Join or add a team below</value>
   <data name="IdeasSent" xml:space="preserve">
     <value>Sent your ideas to the server, we're waiting for everybody else to finish this round</value>
   </data>
+  <data name="SaveSketch" xml:space="preserve">
+    <value>Save Sketch</value>
+  </data>
 </root>

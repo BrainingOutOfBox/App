@@ -8,7 +8,7 @@
              xmlns:i18n="clr-namespace:Method635.App.Forms.Resources"
              Title="{i18n:Translate SketchPage}"
              x:Class="Method635.App.Forms.Views.Brainstorming.SpecialContent.SketchPage">
-    <Grid>
+    <Grid Margin="5">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
@@ -64,9 +64,9 @@
                 Grid.Column="2"
                 HorizontalOptions="Center"
                 VerticalOptions="Center"
-                Clicked="OnClearButtonClicked" />
+                Clicked="OnClearButtonClicked" Style="{StaticResource DefaultButtonStyle}"/>
 
-        <Button Text="Save Drawing" Grid.Row="0" Grid.Column="3" HorizontalOptions="End" VerticalOptions="Center" Clicked="Save_Clicked" />
+        <Button Text="{i18n:Translate SaveSketch}" Grid.Row="0" Grid.Column="3" HorizontalOptions="End" VerticalOptions="Center" Clicked="Save_Clicked" Style="{StaticResource DefaultButtonStyle}"/>
 
         <!-- Enclose SKCanvasView in single-cell Grid. 
                 Otherwise, iOS won't get the touch events. -->
@@ -83,6 +83,5 @@
                                 TouchAction="OnTouchEffectAction" />
             </Grid.Effects>
         </Grid>
-        <!--<Button Text="View Uploaded Image" Clicked="ViewUploadedImage_Clicked" Grid.Row="2" Grid.ColumnSpan="2" Grid.Column="0" />-->
     </Grid>
 </ContentPage>
