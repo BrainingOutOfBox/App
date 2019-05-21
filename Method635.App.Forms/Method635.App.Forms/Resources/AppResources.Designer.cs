@@ -79,6 +79,15 @@ namespace Method635.App.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add to Sheet.
+        /// </summary>
+        internal static string AddToSheet {
+            get {
+                return ResourceManager.GetString("AddToSheet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Found Team, placing call to join it...
         /// </summary>
         internal static string BottomOverlayText {
@@ -214,6 +223,15 @@ namespace Method635.App.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create a new Account.
+        /// </summary>
+        internal static string CreateNewAccount {
+            get {
+                return ResourceManager.GetString("CreateNewAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create a new Team.
         /// </summary>
         internal static string CreateTeam {
@@ -313,7 +331,7 @@ namespace Method635.App.Forms.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please choose a number of ideas greater than 0..
+        ///   Looks up a localized string similar to Please choose a number of ideas between 0 and 100..
         /// </summary>
         internal static string InvalidNrOfIdeas {
             get {
@@ -322,7 +340,7 @@ namespace Method635.App.Forms.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please choose a round time greater than 0 and less than 100..
+        ///   Looks up a localized string similar to Please choose a round time between 0 and 100 minutes..
         /// </summary>
         internal static string InvalidRoundTime {
             get {
@@ -430,6 +448,15 @@ namespace Method635.App.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to More Ideas.
+        /// </summary>
+        internal static string MoreIdeas {
+            get {
+                return ResourceManager.GetString("MoreIdeas", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to My Teams.
         /// </summary>
         internal static string MyTeams {
@@ -458,7 +485,7 @@ namespace Method635.App.Forms.Resources {
         
         /// <summary>
         ///   Looks up a localized string similar to There are no brainstorming findings for this team yet.. 
-        ///Add a brainstorming finding below or wait till another team member creates one..
+        ///Add a brainstorming finding below or wait until another team member creates one..
         /// </summary>
         internal static string NoFindingsYet {
             get {
@@ -486,7 +513,7 @@ namespace Method635.App.Forms.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to # Ideas.
+        ///   Looks up a localized string similar to # Ideas, e.g. 3.
         /// </summary>
         internal static string NrOfIdeasPlaceholder {
             get {
@@ -801,7 +828,7 @@ namespace Method635.App.Forms.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to We&apos;re waiting for the brainstorming to get kicked off by the moderator. Here&apos;s some information about the brainstorming you&apos;re about to take part:.
+        ///   Looks up a localized string similar to We&apos;re waiting for the brainstorming to get kicked off by the moderator. Here&apos;s some information about the brainstorming you&apos;re about to take part in:.
         /// </summary>
         internal static string WaitingForBrainstormingToStartMessage {
             get {

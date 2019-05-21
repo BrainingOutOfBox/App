@@ -165,8 +165,8 @@
   <data name="LoginError" xml:space="preserve">
     <value>There was an error with your login, please try again.</value>
   </data>
-  <data name="CreateAccount" xml:space="preserve">
-    <value>Create Account</value>
+  <data name="CreateNewAccount" xml:space="preserve">
+    <value>Create a new Account</value>
   </data>
   <data name="Register" xml:space="preserve">
     <value>Register</value>
@@ -202,7 +202,7 @@
     <value>Name</value>
   </data>
   <data name="NrOfIdeasPlaceholder" xml:space="preserve">
-    <value># Ideas</value>
+    <value># Ideas, e.g. 3</value>
   </data>
   <data name="IdeasDescription" xml:space="preserve">
     <value>Choose how many ideas you want to have in one round</value>
@@ -233,7 +233,7 @@
   </data>
   <data name="NoFindingsYet" xml:space="preserve">
     <value>There are no brainstorming findings for this team yet.. 
-Add a brainstorming finding below or wait till another team member creates one.</value>
+Add a brainstorming finding below or wait until another team member creates one.</value>
   </data>
   <data name="InviteMembers" xml:space="preserve">
     <value>Invite Team Members</value>
@@ -291,10 +291,10 @@ Join or add a team below</value>
     <value>Method 635</value>
   </data>
   <data name="InvalidRoundTime" xml:space="preserve">
-    <value>Please choose a round time greater than 0 and less than 100.</value>
+    <value>Please choose a round time between 0 and 100 minutes.</value>
   </data>
   <data name="InvalidNrOfIdeas" xml:space="preserve">
-    <value>Please choose a number of ideas greater than 0.</value>
+    <value>Please choose a number of ideas between 0 and 100.</value>
   </data>
   <data name="Team" xml:space="preserve">
     <value>Team</value>
@@ -357,7 +357,7 @@ Join or add a team below</value>
     <value>The export has been copied to your clipboard as markdown.</value>
   </data>
   <data name="WaitingForBrainstormingToStartMessage" xml:space="preserve">
-    <value>We're waiting for the brainstorming to get kicked off by the moderator. Here's some information about the brainstorming you're about to take part:</value>
+    <value>We're waiting for the brainstorming to get kicked off by the moderator. Here's some information about the brainstorming you're about to take part in:</value>
   </data>
   <data name="WaitingForBrainstormingToStartTitle" xml:space="preserve">
     <value>Waiting for Brainstorming to Start</value>
@@ -370,5 +370,14 @@ Join or add a team below</value>
   </data>
   <data name="Category" xml:space="preserve">
     <value>Category</value>
+  </data>
+  <data name="MoreIdeas" xml:space="preserve">
+    <value>More Ideas</value>
+  </data>
+  <data name="AddToSheet" xml:space="preserve">
+    <value>Add to Sheet</value>
+  </data>
+  <data name="CreateAccount" xml:space="preserve">
+    <value>Create Account</value>
   </data>
 </root>

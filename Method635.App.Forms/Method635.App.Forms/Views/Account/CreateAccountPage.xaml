@@ -5,7 +5,7 @@
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="Method635.App.Forms.Views.Account.CreateAccountPage"
              xmlns:i18n="clr-namespace:Method635.App.Forms.Resources"
-             Title="{i18n:Translate Text=CreateAccount}">
+             Title="{i18n:Translate Text=CreateNewAccount}">
     <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
 
         <ScrollView>
@@ -28,7 +28,7 @@
         </ScrollView>
         
         <Label Text="{Binding ErrorMessage}" TextColor="Red" IsVisible="{Binding RegisterFailed}" />
-        <Button Text="{i18n:Translate Text=Register}" Command="{Binding RegisterCommand}" />
+        <Button Text="{i18n:Translate Text=CreateAccount}" Command="{Binding RegisterCommand}" />
     </StackLayout>
 </ContentPage>
     

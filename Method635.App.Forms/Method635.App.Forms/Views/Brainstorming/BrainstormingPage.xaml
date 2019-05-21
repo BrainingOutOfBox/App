@@ -69,8 +69,8 @@
                     <Editor Grid.Column="0" HeightRequest="100" Text="{Binding IdeaText}" />
                 </Frame>
                 <StackLayout Orientation="Vertical" Grid.Column="1" VerticalOptions="CenterAndExpand">
-                    <Button Text="+" Command="{Binding InsertSpecialCommand}" IsEnabled="{Binding BrainWaveSent, Converter={StaticResource InvertBooleanConverter}}"/>
-                    <Button Text="{i18n:Translate Text=Commit}" Command="{Binding CommitCommand}" IsEnabled="{Binding BrainWaveSent, Converter={StaticResource InvertBooleanConverter}}"/>
+                    <Button Text="{i18n:Translate Text=MoreIdeas}" Command="{Binding InsertSpecialCommand}" IsEnabled="{Binding BrainWaveSent, Converter={StaticResource InvertBooleanConverter}}"/>
+                    <Button Text="{i18n:Translate Text=AddToSheet}" Command="{Binding CommitCommand}" IsEnabled="{Binding BrainWaveSent, Converter={StaticResource InvertBooleanConverter}}"/>
                 </StackLayout>
             </Grid>
         </StackLayout>
