@@ -5,6 +5,7 @@
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Name="patternPage"
              x:Class="Method635.App.Forms.Views.Brainstorming.SpecialContent.PatternIdea.PatternPage"
+             Style="{StaticResource DefaultPageStyle}"
              xmlns:i18n="clr-namespace:Method635.App.Forms.Resources"
              Title="{i18n:Translate ChoosePatternTitle}">
     <ContentPage.Content>
