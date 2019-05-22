@@ -309,7 +309,7 @@ Join or add a team below</value>
     <value>Sketch Idea</value>
   </data>
   <data name="InsertSpecialTitle" xml:space="preserve">
-    <value>Choose your insertion type</value>
+    <value>Choose your idea type</value>
   </data>
   <data name="Pattern" xml:space="preserve">
     <value>Pattern Idea</value>
@@ -384,9 +384,15 @@ Join or add a team below</value>
     <value>Your Idea was added to sheet, don't forget to scroll to see it</value>
   </data>
   <data name="IdeasSent" xml:space="preserve">
-    <value>Sent your ideas to the server, we're waiting for everybody else to finish this round</value>
+    <value>Sent your ideas to the server. We're waiting for everybody else to finish this round</value>
   </data>
   <data name="SaveSketch" xml:space="preserve">
     <value>Save Sketch</value>
+  </data>
+  <data name="CurrentRoundCounter" xml:space="preserve">
+    <value>Round {0} of {1}</value>
+  </data>
+  <data name="SheetNr" xml:space="preserve">
+    <value>Sheet {0}</value>
   </data>
 </root>

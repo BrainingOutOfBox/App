@@ -17,7 +17,10 @@
         <!-- CENTER -->
         <local:StartBrainstormingView IsVisible="{Binding ShowStartBrainstorming}" VerticalOptions="CenterAndExpand" />
         <local:WaitingBrainstormingView IsVisible="{Binding ShowWaitingBrainstorming}" />
-        
+
+
+        <Label Text="{Binding CurrentSheetText}" HorizontalOptions="Start" Margin="15,0"
+                       IsVisible="{Binding IsWaiting, Converter={StaticResource InvertBooleanConverter}}" FontAttributes="Italic"/>
         <Grid VerticalOptions="CenterAndExpand" IsVisible="{Binding IsWaiting, Converter={StaticResource InvertBooleanConverter}}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
@@ -30,7 +33,7 @@
                                           ItemsSource="{Binding BrainSheets}" 
                                           HeightRequest="{Binding IdeaHeight}"
                                           InterPageSpacing="50" 
-                                          Margin="15" 
+                                          Margin="15,0" 
                                           Position="{Binding CurrentSheetIndex, Mode=TwoWay}" 
                                           HorizontalOptions="FillAndExpand" 
                                           VerticalOptions="FillAndExpand">

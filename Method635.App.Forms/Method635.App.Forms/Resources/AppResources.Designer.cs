@@ -241,6 +241,15 @@ namespace Method635.App.Forms.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Round {0} of {1}.
+        /// </summary>
+        internal static string CurrentRoundCounter {
+            get {
+                return ResourceManager.GetString("CurrentRoundCounter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Description.
         /// </summary>
         internal static string Description {
@@ -331,7 +340,7 @@ namespace Method635.App.Forms.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sent your ideas to the server, we&apos;re waiting for everybody else to finish this round.
+        ///   Looks up a localized string similar to Sent your ideas to the server. We&apos;re waiting for everybody else to finish this round.
         /// </summary>
         internal static string IdeasSent {
             get {
@@ -340,7 +349,7 @@ namespace Method635.App.Forms.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Choose your insertion type.
+        ///   Looks up a localized string similar to Choose your idea type.
         /// </summary>
         internal static string InsertSpecialTitle {
             get {
@@ -698,6 +707,15 @@ namespace Method635.App.Forms.Resources {
         internal static string Send {
             get {
                 return ResourceManager.GetString("Send", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sheet {0}.
+        /// </summary>
+        internal static string SheetNr {
+            get {
+                return ResourceManager.GetString("SheetNr", resourceCulture);
             }
         }
         
