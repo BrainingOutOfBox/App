@@ -17,7 +17,10 @@
         <!-- CENTER -->
         <local:StartBrainstormingView IsVisible="{Binding ShowStartBrainstorming}" VerticalOptions="CenterAndExpand" />
         <local:WaitingBrainstormingView IsVisible="{Binding ShowWaitingBrainstorming}" />
-        
+
+
+        <Label Text="{Binding CurrentSheetText}" HorizontalOptions="Start" Margin="15,0"
+                       IsVisible="{Binding IsWaiting, Converter={StaticResource InvertBooleanConverter}}" FontAttributes="Italic"/>
         <Grid VerticalOptions="CenterAndExpand" IsVisible="{Binding IsWaiting, Converter={StaticResource InvertBooleanConverter}}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
@@ -30,7 +33,7 @@
                                           ItemsSource="{Binding BrainSheets}" 
                                           HeightRequest="{Binding IdeaHeight}"
                                           InterPageSpacing="50" 
-                                          Margin="15" 
+                                          Margin="15,0" 
                                           Position="{Binding CurrentSheetIndex, Mode=TwoWay}" 
                                           HorizontalOptions="FillAndExpand" 
                                           VerticalOptions="FillAndExpand">
@@ -70,8 +73,8 @@
                     <Editor Grid.Column="0" HeightRequest="100" Text="{Binding IdeaText}" />
                 </Frame>
                 <StackLayout Orientation="Vertical" Grid.Column="1" VerticalOptions="CenterAndExpand">
-                    <Button Text="+" Command="{Binding InsertSpecialCommand}" IsEnabled="{Binding BrainWaveSent, Converter={StaticResource InvertBooleanConverter}}" Style="{StaticResource DefaultButtonStyle}" />
-                    <Button Text="{i18n:Translate Text=Commit}" Command="{Binding CommitCommand}" IsEnabled="{Binding BrainWaveSent, Converter={StaticResource InvertBooleanConverter}}" Style="{StaticResource DefaultButtonStyle}"/>
+                    <Button Text="{i18n:Translate Text=MoreIdeas}" Command="{Binding InsertSpecialCommand}" IsEnabled="{Binding BrainWaveSent, Converter={StaticResource InvertBooleanConverter}}" Style="{StaticResource DefaultButtonStyle}"/>
+                    <Button Text="{i18n:Translate Text=AddToSheet}" Command="{Binding CommitCommand}" IsEnabled="{Binding BrainWaveSent, Converter={StaticResource InvertBooleanConverter}}" Style="{StaticResource DefaultButtonStyle}"/>
                 </StackLayout>
             </Grid>
         </StackLayout>

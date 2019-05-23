@@ -17,6 +17,7 @@ namespace Method635.App.Forms.ViewModels
     public class BrainstormingPageViewModel : BindableBase, INavigatedAware
     {
         private readonly IUiNavigationService _navigationService;
+        private readonly BrainstormingContext _context;
         private IBrainstormingService _brainstormingService;
         private readonly IClipboardService _clipboardService;
         private readonly IToastMessageService _toastMessageService;
@@ -40,6 +41,7 @@ namespace Method635.App.Forms.ViewModels
             IClipboardService clipboardService)
         {
             _navigationService = navigationService;
+            _context = brainstormingContext;
             FindingTitle = brainstormingContext.CurrentFinding?.Name;
             FindingDescription = brainstormingContext.CurrentFinding?.ProblemDescription;
             FindingCategory = brainstormingContext.CurrentFinding?.Category;
@@ -105,6 +107,7 @@ namespace Method635.App.Forms.ViewModels
             IsWaiting = _brainstormingService.IsWaiting;
             IsRunning = _brainstormingService.IsRunning;
             IsEnded = _brainstormingService.IsEnded;
+            CurrentRoundText = string.Format(AppResources.CurrentRoundCounter, _context.CurrentFinding?.CurrentRound, _brainstormingService.BrainSheets?.Count);
             RemainingTime = $"{_brainstormingService.RemainingTime.Minutes:D2}m:{_brainstormingService.RemainingTime.Seconds:D2}s";
             ShowStartBrainstorming = IsWaiting && _brainstormingService.IsModerator.HasValue && _brainstormingService.IsModerator.Value;
             ShowWaitingBrainstorming = IsWaiting && !(_brainstormingService.IsModerator.HasValue && _brainstormingService.IsModerator.Value);
@@ -124,12 +127,14 @@ namespace Method635.App.Forms.ViewModels
         private void SendBrainWave()
         {
             _brainstormingService.SendBrainWave();
+            _toastMessageService.LongAlert(AppResources.IdeasSent);
         }
 
         private async Task CommitIdea()
         {
             await _brainstormingService.CommitIdea(new NoteIdea() { Description = IdeaText });
             IdeaText = string.Empty;
+            _toastMessageService.LongAlert(AppResources.IdeaCommited);
         }
 
         
@@ -172,7 +177,7 @@ namespace Method635.App.Forms.ViewModels
             set
             {
                 SetProperty(ref _currentSheetIndex, value);
-                CurrentSheetText = string.Format(AppResources.SheetNrOfNr, _currentSheetIndex+1, _brainstormingService.BrainSheets?.Count);
+                CurrentSheetText = string.Format(AppResources.SheetNr, _currentSheetIndex+1);
             }
         }
 
@@ -184,6 +189,12 @@ namespace Method635.App.Forms.ViewModels
             {
                 SetProperty(ref _remainingTime, value);
             }
+        }
+        private string _currentRoundText;
+        public string CurrentRoundText
+        {
+            get =>_currentRoundText;
+            private set=>SetProperty(ref _currentRoundText, value);
         }
 
         private bool _showStartBrainstorming;
@@ -266,7 +277,6 @@ namespace Method635.App.Forms.ViewModels
 
         private bool _isEnded;
         public bool IsEnded { get => _isEnded; private set => SetProperty(ref _isEnded, value); }
-
 
         private bool _isRunning;
         public bool IsRunning { get => _isRunning; private set => SetProperty(ref _isRunning, value); }

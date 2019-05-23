@@ -15,9 +15,9 @@
 
             <Label Text="{Binding ErrorText}" TextColor="Red" IsEnabled="{Binding HasError}" />
             <Button Command="{Binding LoginCommand}" Text="{i18n:Translate Text=Login}" TabIndex="2" Style="{StaticResource DefaultButtonStyle}"/>
-            <Button Command="{Binding ShowRegisterCommand}" Text="{i18n:Translate Text=Register}" TabIndex="3" Style="{StaticResource DefaultButtonStyle}"/>
-            <ActivityIndicator IsRunning="{Binding IsRunning}" IsVisible="{Binding IsRunning}" IsEnabled="{Binding IsRunning}" Color="{StaticResource PrimaryColor}"
-                           VerticalOptions="Center" />
+                <Button Command="{Binding ShowRegisterCommand}" Text="{i18n:Translate Text=CreateNewAccount}" TabIndex="3" Style="{StaticResource DefaultButtonStyle}"/>
+                <ActivityIndicator IsRunning="{Binding IsRunning}" IsVisible="{Binding IsRunning}" IsEnabled="{Binding IsRunning}" Color="{StaticResource PrimaryColor}"
+                   VerticalOptions="Center" />
         </StackLayout>
 
     </ScrollView>
